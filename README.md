@@ -1,8 +1,8 @@
 # E2E Fashion Transformation Portal
 
-A lightweight, self-contained web portal for tracking the Walmart Fashion E2E Transformation program — covering **Strategy**, **Design**, **Buying**, and **Allocation** workstreams.
+> Track and communicate all work being done within the Walmart Fashion space — covering Strategy, Design, Buying, and Allocation workstreams across the E2E Fashion Transformation program.
 
-No build step. No server. Open `index.html` in a browser.
+A lightweight, self-contained web portal. No build step. No server. No dependencies to install. Open `index.html` in a browser and it just works.
 
 ---
 

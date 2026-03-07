@@ -1,0 +1,128 @@
+/* ============================================================
+   E2E Fashion Transformation Portal — Global Styles
+   Extracted from index.html to keep files under 600 lines.
+   ============================================================ */
+
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f4fb; }
+
+/* ---- Pillar header gradients ---- */
+.pillar-dark { background: linear-gradient(135deg, #212121, #37474f); color: white; }
+.pillar-blue { background: linear-gradient(135deg, #0053e2, #1a6fff); color: white; }
+.pillar-gold { background: linear-gradient(135deg, #b86000, #d98c00); color: white; }
+.pillar-navy { background: linear-gradient(135deg, #1a1a6e, #3b3ba3); color: white; }
+.umbrella-header { background: linear-gradient(135deg, #212121, #37474f); color: white; }
+
+/* ---- Cards ---- */
+.card { background: white; border-radius: 10px; border: 1px solid #e5e7eb;
+        cursor: pointer; transition: all 0.18s ease; }
+.card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,83,226,0.14); border-color: #0053e2; }
+.card-dark { background: #37474f; border-color: #546e7a; }
+.card-dark:hover { border-color: #FFC220; box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+
+/* ---- Badges ---- */
+.badge { display:inline-block; padding:2px 8px; border-radius:99px; font-size:0.67rem;
+         font-weight:700; letter-spacing:0.03em; white-space:nowrap; }
+.badge-completed { background:#0053e2; color:white; }
+.badge-green     { background:#2a8703; color:white; }
+.badge-yellow    { background:#FFC220; color:#4a3000; }
+.badge-roadmap   { background:#e8f0fe; color:#0053e2; border:1px solid #0053e2; }
+.badge-red       { background:#ea1100; color:white; }
+
+/* ---- Tags ---- */
+.tag { font-size:0.58rem; font-weight:800; letter-spacing:0.06em; text-transform:uppercase;
+       padding:1px 6px; border-radius:4px; background:#fff8e1; color:#8a5000;
+       border:1px solid #FFC220; white-space:nowrap; }
+.tag-win { background:#e8f5e9; color:#1b5e20; border-color:#2a8703; }
+
+/* ---- Quarter timeline strip ---- */
+.q-section { border-left: 3px solid #e2e8f0; margin-left: 14px; padding-left: 14px; padding-bottom: 4px; }
+.q-label { display:inline-flex; align-items:center; gap:6px; font-size:0.7rem;
+           font-weight:800; letter-spacing:0.07em; text-transform:uppercase;
+           padding:3px 10px; border-radius:99px; margin-bottom:8px; margin-left:-23px; }
+.q-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0;
+          border:2px solid white; box-shadow:0 0 0 2px currentColor; }
+
+/* ---- Layout sections ---- */
+.pillar-section   { border-radius:14px; overflow:hidden; border:1px solid #e2e8f0;
+                    box-shadow:0 2px 8px rgba(0,0,0,0.06); }
+.umbrella-section { border-radius:14px; overflow:hidden; border:2px solid #455a64;
+                    box-shadow:0 4px 20px rgba(0,0,0,0.14); }
+.int-chip { background:white; border:1.5px dashed #f87171; border-radius:8px;
+            padding:5px 11px; font-size:0.73rem; font-weight:600; color:#7f1d1d; }
+
+/* ---- Pillar header — clickable for summary modal ---- */
+.ph-clickable { cursor:pointer; transition:filter 0.18s; }
+.ph-clickable:hover { filter:brightness(1.1); }
+
+/* ---- Roadmap launch button ---- */
+.roadmap-btn { display:flex; align-items:center; justify-content:center; gap:6px;
+  width:100%; padding:6px 0; font-size:0.72rem; font-weight:700;
+  letter-spacing:0.04em; text-transform:uppercase; cursor:pointer; border-radius:8px;
+  border:1.5px dashed #d1d5db; color:#6b7280; background:transparent; transition:all 0.15s; }
+.roadmap-btn:hover { border-color:#0053e2; color:#0053e2; background:#f0f5ff; }
+
+/* ---- Inquiry tab ---- */
+.inquiry-owner-row { display:flex; align-items:center; justify-content:space-between;
+                     padding:8px 0; border-bottom:1px solid #f3f4f6; }
+.inquiry-owner-row:last-child { border-bottom: none; }
+
+/* ====================================================
+   MODAL SHARED BASE
+   All three modals share these overlay/scrollbar patterns.
+   z-index stack: card-detail=100, roadmap=98, summary=96
+   ==================================================== */
+.modal-overlay { display:none; position:fixed; inset:0;
+                 background:rgba(0,0,0,0.55); backdrop-filter:blur(3px);
+                 align-items:center; justify-content:center; }
+.modal-overlay.open { display:flex; }
+
+/* ---- Card-detail modal (z:100) ---- */
+#modal-overlay { z-index:100; }
+#modal-box { background:white; border-radius:16px; width:min(640px,95vw);
+             max-height:92vh; overflow-y:auto; box-shadow:0 24px 60px rgba(0,0,0,0.3); }
+#modal-box::-webkit-scrollbar { width:5px; }
+#modal-box::-webkit-scrollbar-thumb { background:#0053e2; border-radius:3px; }
+
+.tab-btn { padding:7px 15px; border-radius:99px; font-size:0.8rem; font-weight:600;
+           cursor:pointer; transition:all 0.15s; color:#6b7280; }
+.tab-btn.active { background:#0053e2; color:white; }
+.tab-btn:hover:not(.active) { background:#f0f5ff; color:#0053e2; }
+.tab-panel { display:none; }
+.tab-panel.active { display:block; }
+
+/* ---- Roadmap popout modal (z:98) ---- */
+#rm-overlay { z-index:98; }
+#rm-box { background:white; border-radius:16px; width:min(900px,95vw);
+          max-height:92vh; overflow:hidden; display:flex; flex-direction:column;
+          box-shadow:0 24px 60px rgba(0,0,0,0.35); }
+#rm-header { flex-shrink:0; padding:20px 24px 16px; border-radius:16px 16px 0 0; }
+#rm-body { overflow-y:auto; padding:20px 24px 28px; }
+#rm-body::-webkit-scrollbar { width:5px; }
+#rm-body::-webkit-scrollbar-thumb { background:#0053e2; border-radius:3px; }
+.rm-q-section { border-left:3px solid #e2e8f0; margin-left:14px;
+                padding-left:14px; padding-bottom:4px; margin-bottom:20px; }
+.rm-q-label { display:inline-flex; align-items:center; gap:6px; font-size:0.7rem;
+              font-weight:800; letter-spacing:0.07em; text-transform:uppercase;
+              padding:3px 10px; border-radius:99px; margin-bottom:10px;
+              margin-left:-23px; border:1.5px solid; }
+.rm-filter-btn { padding:5px 14px; border-radius:99px; font-size:0.76rem; font-weight:700;
+                 cursor:pointer; border:2px solid rgba(255,255,255,0.35);
+                 background:rgba(255,255,255,0.15); color:white; transition:all 0.15s; white-space:nowrap; }
+.rm-filter-btn.active { background:white; color:#0053e2; border-color:white; }
+.rm-filter-btn:hover:not(.active) { background:rgba(255,255,255,0.28); border-color:rgba(255,255,255,0.65); }
+.rm-card { background:white; border-radius:10px; border:1px solid #e5e7eb;
+           cursor:pointer; transition:all 0.18s; padding:12px; }
+.rm-card:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,83,226,.14); border-color:#0053e2; }
+
+/* ---- Summary modal (z:96) ---- */
+#sm-overlay { z-index:96; }
+#sm-box { background:white; border-radius:16px; width:min(600px,95vw);
+          max-height:88vh; overflow:hidden; display:flex; flex-direction:column;
+          box-shadow:0 24px 60px rgba(0,0,0,0.3); }
+#sm-header { flex-shrink:0; padding:20px 24px 18px; border-radius:16px 16px 0 0; }
+#sm-body { overflow-y:auto; }
+#sm-body::-webkit-scrollbar { width:5px; }
+#sm-body::-webkit-scrollbar-thumb { background:#0053e2; border-radius:3px; }
+.sm-card-row { display:flex; align-items:center; gap:10px; padding:9px 0;
+               border-bottom:1px solid #f8fafc; }
+.sm-card-row:last-child { border-bottom:none; }

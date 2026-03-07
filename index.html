@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E2E Fashion Transformation Portal</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="portal.css">
+</head>
+<body>
+
+<header style="background:#0053e2" class="text-white px-6 py-4 flex items-center justify-between shadow-lg">
+  <div class="flex items-center gap-3">
+    <span style="color:#FFC220;font-size:1.8rem;font-weight:900;">&#9733;</span>
+    <div>
+      <h1 class="text-xl font-bold tracking-wide">E2E Fashion Transformation</h1>
+      <p style="color:#a8c4ff" class="text-xs">PLM &amp; Technology Portal &mdash; Fashion Leadership</p>
+    </div>
+  </div>
+  <div style="color:#a8c4ff" class="text-xs">March 2026 &bull; Confidential</div>
+</header>
+
+<div style="background:linear-gradient(90deg,#1b5e20,#2e7d32,#00695c)" class="text-white px-6 py-2 text-center text-sm font-semibold flex items-center justify-center gap-3">
+  <span>&#129302;</span>
+  <span><strong>AI &amp; Automation:</strong>&nbsp;Automated workflows, intelligent forecasting, and system-driven execution across the Fashion E2E lifecycle</span>
+  <span>&#129302;</span>
+</div>
+
+<!-- phase bar removed from navbar — now lives inside main -->
+
+<main class="p-5 max-w-screen-2xl mx-auto">
+
+  <!-- E2E PHASE FLOW — centered, color-coded by workstream -->
+  <div class="bg-white rounded-2xl border border-gray-200 shadow-sm px-6 pt-5 pb-4 mb-4">
+    <p class="text-center text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">End-to-End Fashion Process Flow</p>
+    <div id="phase-bar" class="flex flex-wrap items-center justify-center gap-y-3 gap-x-0"></div>
+    <!-- legend -->
+    <div class="flex flex-wrap items-center justify-center gap-4 mt-4 pt-3 border-t border-gray-100">
+      <span class="flex items-center gap-1.5 text-xs font-semibold" style="color:#37474f;">
+        <span style="width:10px;height:10px;border-radius:3px;background:#37474f;display:inline-block;"></span>Strategy
+      </span>
+      <span class="flex items-center gap-1.5 text-xs font-semibold" style="color:#0053e2;">
+        <span style="width:10px;height:10px;border-radius:3px;background:#0053e2;display:inline-block;"></span>Design
+      </span>
+      <span class="flex items-center gap-1.5 text-xs font-semibold" style="color:#b86000;">
+        <span style="width:10px;height:10px;border-radius:3px;background:#d98c00;display:inline-block;"></span>Buying
+      </span>
+      <span class="flex items-center gap-1.5 text-xs font-semibold" style="color:#1a1a6e;">
+        <span style="width:10px;height:10px;border-radius:3px;background:#3b3ba3;display:inline-block;"></span>Allocation
+      </span>
+    </div>
+  </div>
+
+  <!-- STRATEGY UMBRELLA — visual banner only, same dark color as Strategy pillar -->
+  <div class="umbrella-section mb-3" id="strategy-umbrella-section">
+    <div class="umbrella-header px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span style="font-size:1.8rem;">&#127960;&#65039;</span>
+        <div>
+          <h2 class="font-bold text-lg" id="umbrella-title"></h2>
+          <p class="text-xs mt-0.5 opacity-60" id="umbrella-subtitle"></p>
+        </div>
+      </div>
+      <span class="text-xs opacity-40 uppercase tracking-widest font-bold">Umbrella Framework</span>
+    </div>
+  </div>
+
+  <!-- FOUR WORKSTREAM PILLARS -->
+  <div id="pillars" class="grid gap-4 mb-4" style="grid-template-columns:repeat(4,1fr);"></div>
+
+  <!-- INTEGRATION ROW -->
+  <div class="bg-red-50 border border-red-200 rounded-2xl p-4">
+    <p class="text-xs font-bold text-red-800 uppercase tracking-wider mb-3">&#8597; Integration &amp; Connection Services &mdash; Across All Workstreams</p>
+    <div id="integration-row" class="flex flex-wrap gap-2"></div>
+    <p class="text-xs text-red-600 mt-3 italic">All workstreams connect via integration &amp; connection services &mdash; ERP, PIM, DAM, CAD, supplier systems, store systems, e-commerce, compliance tools, and beyond.</p>
+  </div>
+</main>
+
+<!-- CARD DETAIL MODAL -->
+<div id="modal-overlay" class="modal-overlay">
+  <div id="modal-box">
+    <div id="modal-header" class="px-6 py-5 rounded-t-2xl" style="background:#0053e2">
+      <div class="flex justify-between items-start">
+        <div class="flex items-center gap-3">
+          <span id="modal-icon" class="text-3xl"></span>
+          <div>
+            <h2 id="modal-title" class="text-white font-bold text-lg leading-tight"></h2>
+            <p id="modal-tool" class="text-blue-200 text-xs mt-0.5"></p>
+          </div>
+        </div>
+        <button onclick="closeModal()" class="text-white opacity-60 hover:opacity-100 text-2xl leading-none ml-4">&times;</button>
+      </div>
+      <div class="mt-3 flex items-center gap-2 flex-wrap">
+        <span id="modal-badge" class="badge"></span>
+        <span id="modal-tag" class="tag"></span>
+        <span id="modal-date" class="text-blue-200 text-xs"></span>
+      </div>
+    </div>
+    <div class="px-6 pt-4 border-b border-gray-100 flex gap-2 flex-wrap">
+      <button class="tab-btn active" onclick="switchTab('overview')">&#128196; Overview</button>
+      <button class="tab-btn" onclick="switchTab('status')">&#128200; Status</button>
+      <button class="tab-btn" onclick="switchTab('resources')">&#128279; Resources</button>
+      <button class="tab-btn" onclick="switchTab('inquiry')" style="color:#7c3aed;">&#9993;&#65039; Inquiry</button>
+    </div>
+    <div id="tab-overview"  class="tab-panel active"></div>
+    <div id="tab-status"    class="tab-panel"></div>
+    <div id="tab-resources" class="tab-panel"></div>
+    <div id="tab-inquiry"   class="tab-panel"></div>
+  </div>
+</div>
+
+<!-- ROADMAP POPOUT MODAL -->
+<div id="rm-overlay" class="modal-overlay">
+  <div id="rm-box">
+    <div id="rm-header">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div>
+          <h2 id="rm-title" style="color:white;font-weight:800;font-size:1.1rem;margin:0;"></h2>
+          <p  id="rm-subtitle" style="color:rgba(255,255,255,0.65);font-size:0.78rem;margin:5px 0 0;"></p>
+        </div>
+        <button onclick="closeRoadmapModal()" style="color:white;opacity:0.6;font-size:1.9rem;line-height:1;cursor:pointer;background:none;border:none;padding:0;margin-left:16px;">&times;</button>
+      </div>
+      <div id="rm-filters" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;align-items:center;"></div>
+    </div>
+    <div id="rm-body"></div>
+  </div>
+</div>
+
+
+<!-- SUMMARY MODAL (z:96) -->
+<div id="sm-overlay" class="modal-overlay">
+  <div id="sm-box">
+    <div id="sm-header">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div>
+          <h2 id="sm-title" style="color:white;font-weight:800;font-size:1.05rem;margin:0;"></h2>
+          <p  id="sm-subtitle" style="color:rgba(255,255,255,0.65);font-size:0.76rem;margin:5px 0 0;"></p>
+        </div>
+        <button onclick="closeSummaryModal()" style="color:white;opacity:0.6;font-size:1.9rem;line-height:1;cursor:pointer;background:none;border:none;padding:0;margin-left:16px;">&times;</button>
+      </div>
+    </div>
+    <div id="sm-body"></div>
+  </div>
+</div>
+<script src="data.js"></script>
+<script src="data-strategy.js"></script>
+<script src="data-design.js"></script>
+<script src="data-buying.js"></script>
+<script src="data-allocation.js"></script>
+<script src="roadmap-window.js"></script>
+<script src="summary-modal.js"></script>
+<script>
+
+// ============================================================
+// ACTIVE QUARTER DETECTION (Walmart FY: Q1=Feb-Apr, Q2=May-Jul, Q3=Aug-Oct, Q4=Nov-Jan)
+// Show completed + any quarter whose window overlaps the next 90 days
+// ============================================================
+function getActiveQuarters() {
+  const now = new Date();
+  const yr  = now.getFullYear();
+  const windows = {
+    Q1: [new Date(yr, 1, 1),  new Date(yr, 3, 30)],
+    Q2: [new Date(yr, 4, 1),  new Date(yr, 6, 31)],
+    Q3: [new Date(yr, 7, 1),  new Date(yr, 9, 31)],
+    Q4: [new Date(yr, 10, 1), new Date(yr + 1, 0, 31)],
+  };
+  const horizon = new Date(now.getTime() + 90 * 24 * 60 * 60 * 1000);
+  const active  = new Set(['completed']);
+  for (const [q, [start, end]] of Object.entries(windows)) {
+    if (start <= horizon && end >= now) active.add(q);
+  }
+  return active;
+}
+const ACTIVE_QUARTERS = getActiveQuarters();
+
+// Returns active-quarter cards for a pillar (in quarter order)
+function getActiveCards(pillar) {
+  return QUARTER_ORDER
+    .filter(q => ACTIVE_QUARTERS.has(q))
+    .flatMap(q => pillar.cards.filter(c => c.quarter === q));
+}
+
+// Cap all pillars at the same card count so columns stay equal height
+const CARD_LIMIT = Math.min(...PILLARS.map(p => getActiveCards(p).length));
+
+// ---- STRATEGY UMBRELLA BANNER ----
+function renderUmbrella() {
+  document.getElementById('umbrella-title').textContent    = STRATEGY_UMBRELLA.title;
+  document.getElementById('umbrella-subtitle').textContent = STRATEGY_UMBRELLA.subtitle;
+}
+
+// ---- WORKSTREAM PHASE COLORS ----
+const PHASE_STYLES = {
+  strategy:   { bg: '#37474f', text: '#ffffff', arrow: '#546e7a' },
+  design:     { bg: '#0053e2', text: '#ffffff', arrow: '#4080ff' },
+  buying:     { bg: '#d98c00', text: '#ffffff', arrow: '#e8a020' },
+  allocation: { bg: '#1a1a6e', text: '#ffffff', arrow: '#3b3ba3' },
+};
+
+// ---- E2E PHASE FLOW BAR ----
+function renderPhases() {
+  const bar = document.getElementById('phase-bar');
+  bar.innerHTML = PHASES.map((p, i) => {
+    const s = PHASE_STYLES[p.workstream] || PHASE_STYLES.strategy;
+    const isLast = i === PHASES.length - 1;
+    return `
+      <div class="flex items-center">
+        <div style="
+          background:${s.bg};
+          color:${s.text};
+          padding:5px 13px;
+          border-radius:99px;
+          font-size:0.72rem;
+          font-weight:700;
+          white-space:nowrap;
+          letter-spacing:0.02em;
+          box-shadow:0 1px 4px rgba(0,0,0,0.15);
+        ">${p.label}</div>
+        ${!isLast ? `<span style="color:#d1d5db;font-size:0.85rem;padding:0 2px;font-weight:300;">&rsaquo;</span>` : ''}
+      </div>`;
+  }).join('');
+}
+
+// ---- SINGLE CARD — includes a small quarter chip for context ----
+function cardHTML(card, workstream, tool) {
+  const badgeCls = BADGE_CLASS[card.status] || 'badge-roadmap';
+  const qMeta    = QUARTER_META[card.quarter];
+  const tagHTML  = card.tag
+    ? `<span class="tag ${card.tag.includes('Win') ? 'tag-win' : ''}">${card.tag}</span>` : '';
+  const qChip    = qMeta
+    ? `<span style="font-size:0.62rem;font-weight:700;padding:1px 7px;border-radius:99px;
+        background:${qMeta.bg};color:${qMeta.color};border:1px solid ${qMeta.border};
+        white-space:nowrap;">${qMeta.label}</span>` : '';
+  return `
+    <div class="card p-3" onclick="openModal('${card.id}','${workstream}','${tool}')">
+      <div class="flex items-start justify-between gap-2 mb-2">
+        <div class="flex items-start gap-2 min-w-0">
+          <span class="text-lg flex-shrink-0">${card.icon}</span>
+          <span class="font-semibold text-sm leading-snug" style="color:#1e293b;">${card.title}</span>
+        </div>
+        ${tagHTML}
+      </div>
+      <div class="flex items-center gap-2 flex-wrap">
+        <span class="badge ${badgeCls}">${card.statusLabel}</span>
+        ${qChip}
+      </div>
+    </div>`;
+}
+
+// ---- FOUR PILLARS — fixed CARD_LIMIT cards, equal height across all columns ----
+function renderPillars() {
+  document.getElementById('pillars').innerHTML = PILLARS.map(p => {
+    const cards = getActiveCards(p).slice(0, CARD_LIMIT);
+    const total = p.cards.length;
+    return `
+      <div class="pillar-section">
+        <div class="${p.headerClass} px-5 py-4 ph-clickable" style="min-height:118px;display:flex;flex-direction:column;justify-content:space-between;" onclick="openSummaryModal('${p.id}')" title="Click for status summary">
+          <h3 class="font-bold text-base">${p.title}</h3>
+          <p class="text-xs mt-0.5 opacity-80">${p.subtitle}</p>
+          <div class="flex items-center justify-between mt-2">
+            <span class="text-xs opacity-70">&#128736; ${p.tool}</span>
+            <span class="text-xs opacity-60">${p.phases.join(' &rarr; ')}</span>
+          </div>
+        </div>
+        <div class="bg-white px-4 pt-4 pb-2 flex flex-col gap-2">
+          ${cards.map(c => cardHTML(c, p.title, p.tool)).join('')}
+        </div>
+        <div class="bg-white px-4 pb-3">
+          <button class="roadmap-btn" onclick="openRoadmapWindow('${p.id}')">
+            &#128203; View Full Roadmap &nbsp;<span style="opacity:.5;font-size:.9em;">(${total} deliverables)</span>
+          </button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ---- INTEGRATION ROW ----
+function renderIntegration() {
+  document.getElementById('integration-row').innerHTML =
+    INTEGRATION_ROW.map(t => `<div class="int-chip">&#8597; ${t}</div>`).join('');
+}
+
+// ---- CARD INDEX for modal lookup ----
+const allCards = [];
+function buildCardIndex() {
+  PILLARS.forEach(p =>
+    p.cards.forEach(c => allCards.push({ ...c, workstream: p.title, tool: p.tool })));
+}
+
+// ---- MODAL ----
+function openModal(cardId, workstream, tool) {
+  const card = allCards.find(c => c.id === cardId);
+  if (!card) return;
+
+  const qMeta   = QUARTER_META[card.quarter] || QUARTER_META['Future'];
+  const isAtRisk = ['yellow', 'red'].includes(card.status);
+  const owners   = card.owners || {};
+  const res      = card.resources || {};
+
+  // --- header ---
+  document.getElementById('modal-icon').textContent  = card.icon;
+  document.getElementById('modal-title').textContent = card.title;
+  document.getElementById('modal-tool').textContent  = `${workstream} \u00b7 ${tool}`;
+  document.getElementById('modal-date').textContent  = card.targetDate ? `\uD83D\uDCC5 ${card.targetDate}` : '';
+
+  const badgeEl = document.getElementById('modal-badge');
+  badgeEl.textContent = card.statusLabel;
+  badgeEl.className   = 'badge ' + (BADGE_CLASS[card.status] || 'badge-roadmap');
+
+  const tagEl = document.getElementById('modal-tag');
+  tagEl.textContent   = card.tag || '';
+  tagEl.style.display = card.tag ? 'inline-block' : 'none';
+  tagEl.className     = 'tag ' + (card.tag && card.tag.includes('Win') ? 'tag-win' : '');
+
+  // --- overview tab ---
+  document.getElementById('tab-overview').innerHTML = `
+    <div class="space-y-5 py-5 px-6">
+      <div>
+        <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">&#128196; Description</p>
+        <p class="text-sm text-gray-700 leading-relaxed">${card.description || '\u2014'}</p>
+      </div>
+      <div class="border-t border-gray-100 pt-4">
+        <p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:#0053e2">&#128188; Business Benefit / Capability</p>
+        <p class="text-sm text-gray-700 leading-relaxed">${card.businessBenefit || 'TBD'}</p>
+      </div>
+      <div class="border-t border-gray-100 pt-4">
+        <p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:#2a8703">&#9881;&#65039; Product / Tech Integration &amp; Execution</p>
+        <p class="text-sm text-gray-700 leading-relaxed">${card.techIntegration || 'TBD'}</p>
+      </div>
+      <div class="border-t border-gray-100 pt-4">
+        <p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:#8a5000">&#127937; How Do We Know We Are Successful?</p>
+        <p class="text-sm text-gray-700 leading-relaxed">${card.successMetrics || 'TBD'}</p>
+      </div>
+    </div>`;
+
+  // --- status tab ---
+  const ownerRows = [
+    { role: 'Business Partner',    key: 'businessPartner' },
+    { role: 'Transformation Lead', key: 'transformationLead' },
+    { role: 'Product Lead',        key: 'productLead' },
+    { role: 'UX Lead',             key: 'uxLead' },
+    { role: 'Software Lead',       key: 'softwareLead' },
+  ].map(r => {
+    const o = owners[r.key] || {};
+    return `
+    <div class="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
+      <span class="text-xs font-semibold text-gray-500 w-40 flex-shrink-0">${r.role}</span>
+      <div class="text-right">
+        <p class="text-sm text-gray-800">${o.name || 'TBD'}</p>
+        ${o.email ? `<p class="text-xs" style="color:#0053e2">${o.email}</p>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('tab-status').innerHTML = `
+    <div class="space-y-4 py-5 px-6">
+      <div class="flex items-center gap-3 p-3 rounded-xl" style="background:${qMeta.bg};border:1px solid ${qMeta.border};">
+        <span class="text-xs font-bold uppercase tracking-wider" style="color:${qMeta.color};">${qMeta.label}</span>
+        <span class="badge ${BADGE_CLASS[card.status] || 'badge-roadmap'}">${card.statusLabel}</span>
+        <span class="text-sm text-gray-500 ml-auto">${card.targetDate || 'TBD'}</span>
+      </div>
+
+      ${isAtRisk ? `
+      <div class="p-4 rounded-xl" style="background:#fffbeb;border:1.5px solid #f59e0b;">
+        <p class="text-xs font-bold uppercase tracking-wider mb-2" style="color:#92400e;">&#128993; Path to Green</p>
+        <p class="text-sm leading-relaxed" style="color:#78350f;">${card.pathToGreen || 'Path to green details TBD — please update.'}</p>
+      </div>` : ''}
+
+      <div class="rounded-xl border border-gray-100 overflow-hidden">
+        <div class="px-4 py-2" style="background:#f8fafc;">
+          <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">&#128101; Team &amp; Owners</p>
+        </div>
+        <div class="px-4 pb-2 pt-1">${ownerRows}</div>
+      </div>
+    </div>`;
+
+  // --- resources tab ---
+  function resLink(icon, label, sublabel, url) {
+    const isPlaceholder = !url || url === '#';
+    return `
+      <a href="${url || '#'}" ${!isPlaceholder ? 'target="_blank"' : 'onclick="return false;"'}
+         class="flex items-center gap-3 p-3 rounded-xl border transition-all group
+                ${isPlaceholder ? 'border-dashed border-gray-200 opacity-50 cursor-default'
+                                : 'border-gray-200 hover:border-blue-400 hover:bg-blue-50 cursor-pointer'}">
+        <span class="text-xl">${icon}</span>
+        <div class="min-w-0">
+          <p class="text-sm font-semibold text-gray-800 group-hover:text-blue-700 truncate">${label}</p>
+          <p class="text-xs text-gray-400">${sublabel}${isPlaceholder ? ' \u2014 link TBD' : ''}</p>
+        </div>
+        ${!isPlaceholder ? '<span class="ml-auto text-gray-300 group-hover:text-blue-400 flex-shrink-0">&rarr;</span>' : ''}
+      </a>`;
+  }
+
+  const otherLinks = (res.other || []).map(o =>
+    resLink('\uD83D\uDD17', o.label, 'Additional resource', o.url)).join('');
+
+  document.getElementById('tab-resources').innerHTML = `
+    <div class="space-y-2 py-5 px-6">
+      ${resLink('\uD83D\uDCCB', 'OPIF', 'Opportunity / Initiative Framework', res.opif)}
+      ${resLink('\uD83D\uDCDD', 'BRD', 'Business Requirements Document', res.brd)}
+      ${resLink('\uD83D\uDCE6', 'PRD', 'Product Requirements Document', res.prd)}
+      ${resLink('\uD83C\uDFA8', 'UX Demo / Prototype', 'Design & UX walkthrough', res.uxDemo)}
+      ${otherLinks}
+    </div>`;
+
+  // --- inquiry tab ---
+  const ownerList = [
+    { role: 'Business Partner',    key: 'businessPartner'    },
+    { role: 'Transformation Lead', key: 'transformationLead' },
+    { role: 'Product Lead',        key: 'productLead'        },
+    { role: 'UX Lead',             key: 'uxLead'             },
+    { role: 'Software Lead',       key: 'softwareLead'       },
+  ];
+
+  document.getElementById('tab-inquiry').innerHTML = `
+    <div class="space-y-4 py-5 px-6">
+      <div class="p-3 rounded-xl" style="background:#f5f3ff;border:1px solid #ddd6fe;">
+        <p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:#6d28d9;">&#9993;&#65039; Send Inquiry to Owners</p>
+        <p class="text-xs" style="color:#6d28d9;">Clicking <strong>Open Email Draft</strong> opens a pre-filled email addressed to all owners of this deliverable.</p>
+      </div>
+      <div class="rounded-xl border border-gray-100 overflow-hidden">
+        <div class="px-4 py-2" style="background:#f8fafc;">
+          <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">&#128101; Recipients</p>
+        </div>
+        <div class="px-4 pb-2 pt-1">
+          ${ownerList.map(r => {
+            const o = owners[r.key] || {};
+            return '<div class="inquiry-owner-row">'
+              + '<span class="text-xs font-semibold text-gray-500 w-36 flex-shrink-0">' + r.role + '</span>'
+              + '<div class="text-right">'
+              + '<p class="text-sm text-gray-800">' + (o.name || 'TBD') + '</p>'
+              + (o.email ? '<p class="text-xs" style="color:#7c3aed;">' + o.email + '</p>'
+                         : '<p class="text-xs text-gray-300 italic">email TBD</p>')
+              + '</div></div>';
+          }).join('')}
+        </div>
+      </div>
+      <div>
+        <label class="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-2">Your Question or Feedback</label>
+        <textarea id="inquiry-text" rows="5"
+          class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm text-gray-700 resize-none focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100"
+          placeholder="Type your question or feedback here..."></textarea>
+      </div>
+      <button onclick="sendInquiry('${card.id}','${workstream}','${tool}')"
+        class="w-full py-3 rounded-xl font-bold text-sm text-white"
+        style="background:linear-gradient(135deg,#6d28d9,#7c3aed);cursor:pointer;border:none;"
+        onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+        &#9993;&#65039; &nbsp;Open Email Draft
+      </button>
+      <p class="text-xs text-center text-gray-400">Opens your default mail client with a pre-filled draft.</p>
+    </div>`;
+
+  switchTab('overview');
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function sendInquiry(cardId, workstream, tool) {
+  const card    = allCards.find(c => c.id === cardId);
+  if (!card) return;
+  const owners  = card.owners || {};
+  const qMeta   = QUARTER_META[card.quarter] || QUARTER_META['Future'];
+  const ownerList = [
+    { key: 'businessPartner'    },
+    { key: 'transformationLead' },
+    { key: 'productLead'        },
+    { key: 'uxLead'             },
+    { key: 'softwareLead'       },
+  ];
+  const emailAddresses = ownerList
+    .map(r => owners[r.key]?.email)
+    .filter(e => e && e.trim() !== '')
+    .join(',') || 'fashion-transformation@walmart.com';
+
+  const userText = (document.getElementById('inquiry-text')?.value || '').trim()
+    || '[No message entered]';
+
+  const subject = encodeURIComponent(`[Fashion Portal] Question about: ${card.title}`);
+  const body    = encodeURIComponent(
+`Deliverable: ${card.title}
+Workstream:  ${workstream}
+Tool:        ${tool}
+Quarter:     ${qMeta.label}
+Status:      ${card.statusLabel}
+Target Date: ${card.targetDate || 'TBD'}
+
+---
+My question / feedback:
+
+${userText}
+`);
+  window.location.href = `mailto:${emailAddresses}?subject=${subject}&body=${body}`;
+}
+
+function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
+
+function switchTab(name) {
+  const names = ['overview','status','resources','inquiry'];
+  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', names[i] === name));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+document.getElementById('modal-overlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+});
+
+// ---- INIT ----
+renderPhases();
+renderUmbrella();
+renderPillars();
+renderIntegration();
+buildCardIndex();
+
+</script>
+</body>
+</html>

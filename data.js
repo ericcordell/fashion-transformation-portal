@@ -56,10 +56,10 @@ const QUARTER_ORDER = ['completed', 'Q1', 'Q2', 'Q3', 'Q4', 'Future'];
 
 const QUARTER_META = {
   completed: { label: '\u2705 Completed',              color: '#0053e2', bg: '#eef2ff', border: '#0053e2' },
-  Q1:        { label: 'Q1 FY26 \u00b7 Feb\u2013Apr',  color: '#2a8703', bg: '#f0faf0', border: '#2a8703' },
-  Q2:        { label: 'Q2 FY26 \u00b7 May\u2013Jul',  color: '#8a5000', bg: '#fffbf0', border: '#d97706' },
-  Q3:        { label: 'Q3 FY26 \u00b7 Aug\u2013Oct',  color: '#37474f', bg: '#f8fafc', border: '#90a4ae' },
-  Q4:        { label: 'Q4 FY26 \u00b7 Nov\u2013Jan',  color: '#546e7a', bg: '#f8fafc', border: '#b0bec5' },
+  Q1:        { label: 'Q1 FY27 \u00b7 Feb\u2013Apr',  color: '#2a8703', bg: '#f0faf0', border: '#2a8703' },
+  Q2:        { label: 'Q2 FY27 \u00b7 May\u2013Jul',  color: '#8a5000', bg: '#fffbf0', border: '#d97706' },
+  Q3:        { label: 'Q3 FY27 \u00b7 Aug\u2013Oct',  color: '#37474f', bg: '#f8fafc', border: '#90a4ae' },
+  Q4:        { label: 'Q4 FY27 \u00b7 Nov\u2013Jan',  color: '#546e7a', bg: '#f8fafc', border: '#b0bec5' },
   Future:    { label: '\uD83D\uDD2E Future Roadmap',   color: '#9e9e9e', bg: '#fafafa', border: '#e0e0e0' },
 };
 

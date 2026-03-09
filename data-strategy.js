@@ -1,4 +1,6 @@
 // data-strategy.js — Strategy pillar card definitions
+// Source: Confluence LLTT Work Management Dashboard (APREC space)
+// Live Jira data: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
 // Depends on: data.js (own, res, TBD_OWNERS, pptOwners)
 
 const CARDS_STRATEGY = [
@@ -22,7 +24,7 @@ const CARDS_STRATEGY = [
   },
   {
     id: 'trend-api-longlead', title: 'Trend API — Long Lead & In-Season', icon: '\uD83D\uDCC8',
-    status: 'green', statusLabel: 'Active', quarter: 'Q1', targetDate: 'Q1 FY26',
+    status: 'green', statusLabel: 'Active', quarter: 'Q1', targetDate: 'Q1 FY27',
     description: 'Trend API providing macro-level insights to enable faster planning and product development for both long-lead and in-season use cases across Fashion.',
     businessBenefit: 'Merchants and designers get automated trend signals fed directly into planning tools, eliminating manual trend research and accelerating line plan decisions.',
     techIntegration: 'API integrates with Centric (design intent), AEX (assortment weighting), and the Strategy Hub for trend-to-plan alignment.',
@@ -31,7 +33,7 @@ const CARDS_STRATEGY = [
   },
   {
     id: 'trend-packaging-redesign', title: 'V1 Trend-to-Packaging Redesign', icon: '\uD83C\uDFA8',
-    status: 'green', statusLabel: 'In Production', quarter: 'Q1', targetDate: 'Q1 FY26',
+    status: 'green', statusLabel: 'In Production', quarter: 'Q1', targetDate: 'Q1 FY27',
     description: 'First version of the Trend-to-Packaging redesign workflow — enabling design and product teams to take trend signals through to packaging decisions in an integrated flow.',
     businessBenefit: 'Reduces cycle time from trend identification to packaging specification, with traceability of why packaging decisions were made.',
     techIntegration: 'Trend API output feeds into Centric PLM for product and packaging spec creation. Integrated event layer connects trend source to design execution.',
@@ -40,12 +42,32 @@ const CARDS_STRATEGY = [
   },
   {
     id: 'synthetic-panel', title: 'V1 Synthetic Panel (WMT Data Ventures)', icon: '\uD83E\uDD16',
-    status: 'green', statusLabel: 'In Production', quarter: 'Q1', targetDate: 'Q1 FY26',
+    status: 'green', statusLabel: 'In Production', quarter: 'Q1', targetDate: 'Q1 FY27',
     description: 'V1 of the Synthetic Consumer Panel, built with Walmart Data Ventures, providing simulated customer response data to inform design and assortment decisions before production.',
     businessBenefit: 'Reduces risk of product misses by simulating customer reactions to designs before commitment — lowering markdown rates on new product introductions.',
     techIntegration: 'Synthetic panel integrates with Centric for design feedback loops and with the Trend API for combined trend + synthetic-consumer signal.',
     successMetrics: 'V1 synthetic panel in production with WMT Data Ventures. Fashion teams actively consuming synthetic panel outputs in line plan decisions.',
     owners: pptOwners('Bill Chiodetti', '', ''), resources: res(),
+  },
+  {
+    id: 'forecast-enterprise-service', title: 'Forecast as Enterprise Service', icon: '\uD83E\uDDE0',
+    status: 'roadmap', statusLabel: 'Roadmap \u2014 Recommend & Optimize Phase',
+    quarter: 'Q2', targetDate: 'May\u2013Oct 2026',
+    description: 'National forecasting capability delivered as a shared enterprise service — providing channel-level and placement-split forecast outputs consumed by Buying, Allocation, and Planning teams without each workstream running independent forecast models. Includes model explainability and automated training pipelines.',
+    businessBenefit: 'Single, trusted forecast signal across all Fashion workstreams eliminates conflicting demand signals between Buying and Allocation. Forecast as a service reduces duplicative DS investment and accelerates new-department onboarding.',
+    techIntegration: 'Jira: OPIF-325188. DS microservice architecture with batch inference pipeline. Forecast consumed by AEX (BQ), BPE (allocation planning), and DBP (distribution). Channel and placement split enables eComm vs. store differentiation in every forecast output.',
+    successMetrics: 'Forecast service adopted by all target Buying and Allocation workstreams. Conflicting forecast signals between workstreams eliminated. DS model training fully automated with no manual intervention required.',
+    owners: pptOwners('Bill Chiodetti', '', ''), resources: res('https://jira.walmart.com/browse/OPIF-325188'),
+  },
+  {
+    id: 'shared-merch-strategy', title: 'Shared Merch Strategy & Scenario Planning', icon: '\uD83C\uDFAF',
+    status: 'roadmap', statusLabel: 'Roadmap \u2014 Automate Phase',
+    quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
+    description: 'Shared merchandise strategy repository capturing goals and priorities that power automated conceptual line plan creation and scenario generation. Strategy inputs from TTP cascade into AEX and Centric without manual re-entry — enabling full scenario evaluation before seasonal commitment. Part of the Automate phase of the LLTT roadmap.',
+    businessBenefit: 'Merchants shift from encoding decisions manually to encoding strategy and goals — the system generates and evaluates scenarios. Dramatically reduces planning cycle time and enables what-if evaluation before financial commitment.',
+    techIntegration: 'Jira: OPIF-325203. Strategy repository connects TTP inputs to AEX line plan generation and Centric conceptual plan. Scenario engine evaluates financial and space implications of strategy choices automatically.',
+    successMetrics: 'Strategy-based conceptual line plans generated automatically for target departments. Scenario generation and selection adopted by merchant planning teams. Manual strategy-to-plan translation steps eliminated.',
+    owners: pptOwners('Bill Chiodetti', '', ''), resources: res('https://jira.walmart.com/browse/OPIF-325203'),
   },
   {
     id: 'growth-budget-signals', title: 'Growth & Budget IBG Signal Integration', icon: '\uD83D\uDCB9',

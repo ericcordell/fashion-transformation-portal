@@ -1,20 +1,34 @@
 // data-design.js — Design pillar card definitions
+// Source: Confluence LLTT Work Management Dashboard (APREC space)
+// Live Jira data: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
 // Depends on: data.js (own, res, TBD_OWNERS, pptOwners)
 
 const CARDS_DESIGN = [
   {
     id: 'design-hub-centric', title: 'Launch Design Hub (Centric PLM)', icon: '\uD83C\uDFD7\uFE0F',
-    status: 'green', statusLabel: 'On Track', quarter: 'Q1', targetDate: 'Q1 FY26',
+    status: 'green', statusLabel: 'On Track', quarter: 'Q1', targetDate: 'Q1 FY27',
     tag: 'Critical Program',
-    description: 'Full launch of Centric PLM as the centralized Design Hub — replacing fragmented design tools with a single system of record for all Fashion product design and development.',
+    description: 'Full launch of Centric PLM as the centralized Design Hub — replacing fragmented design tools with a single system of record for all Fashion product design and development. Includes milestone review of high-level Centric capabilities and ownership proposal for which workflows live in Centric vs. AP Tool vs. OneSource.',
     businessBenefit: 'Design teams work in one system connected to buying and sourcing — eliminating handoff delays and duplicate data entry between disconnected tools.',
-    techIntegration: 'Centric PLM is system of record for design. Contracts being finalized; integration plan covering AEX, Supplier One, and event layer in scope.',
+    techIntegration: 'Jira: OPIF-325565. Centric PLM is system of record for design. Contracts being finalized; integration plan covering AEX, Supplier One, and shared event layer in scope. Milestone: Full review of verticals and ownership with proposal.',
     successMetrics: 'Contract signed and integration plan finalized. All target design teams onboarded. Design-to-buying handoff cycle time reduced.',
-    owners: pptOwners('Chris Chiodo', '', ''), resources: res(),
+    owners: pptOwners('Chris Chiodo', '', ''), resources: res('https://jira.walmart.com/browse/OPIF-325565'),
+  },
+  {
+    id: 'aex-lineplan-migration', title: 'AEX Line Plan Migration to AP Tool', icon: '\uD83D\uDD04',
+    status: 'green', statusLabel: 'Green \u2014 In Progress',
+    quarter: 'Q1', targetDate: 'Q1\u2013Q2 FY27',
+    tag: 'Critical Program',
+    description: 'Migration of the AEX Fashion Line Planning experience to the AP Tool Assortment List — replacing the legacy line plan module with the Assortment Planning Assortment List. Includes enabling fashion-specific metrics, attributes, Excel upload, and potential item population via Item Repository and OneItem workflow. Merchants get out of Excel permanently.',
+    businessBenefit: 'Eliminates dual-system line planning (Excel + AEX). Merchants plan in one connected environment from line intent through to buy execution. Fashion attribute and metric enablement accelerates downstream buying decisions.',
+    techIntegration: 'Jira: OPIF-325568 (AEX Fashion LP replacement), OPIF-325218 (fashion metrics enablement), OPIF-325221 (fashion attribute enablement). AP Tool Assortment List becomes Fashion line plan system of record. Auto-populate from Supplier Catalog via Item Repository/OneItem.',
+    successMetrics: 'Fashion Line Planning 100% migrated to AP Tool Assortment List. Excel-based line plan workarounds eliminated. Fashion metrics and attributes fully enabled in Assortment List. Item auto-population from Item Repository live.',
+    owners: pptOwners('Chris Chiodo', 'TBD', 'TBD'),
+    resources: res('https://jira.walmart.com/browse/OPIF-325568'),
   },
   {
     id: 'sample-mgmt-fit-eval', title: 'Sample Management & Fit Evaluation', icon: '\uD83D\uDCCB',
-    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q1', targetDate: 'Q1\u2013Q2 FY26',
+    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q1', targetDate: 'Q1\u2013Q2 FY27',
     tag: 'Critical Program',
     description: 'Streamlined sample management and fit evaluation workflow within Centric, eliminating manual tracking of physical samples and enabling structured fit feedback connected to design records.',
     businessBenefit: 'Sample review cycles are tracked, time-stamped, and linked to the product record — reducing duplicate sampling, missed fit issues, and approval delays.',

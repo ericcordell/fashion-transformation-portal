@@ -1,4 +1,6 @@
 // data-allocation.js — Allocation pillar card definitions + PILLARS assembly
+// Source: Confluence LLTT Work Management Dashboard (APREC space)
+// Live Jira: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
 // Depends on: data.js, data-strategy.js, data-design.js, data-buying.js
 
 const CARDS_ALLOCATION = [
@@ -21,14 +23,15 @@ const CARDS_ALLOCATION = [
     owners: TBD_OWNERS(), resources: res(),
   },
   {
-    id: 'tagging-pilot', title: 'Tagging Pilot — Identify Assortment Gaps', icon: '\uD83C\uDFF7\uFE0F',
+    id: 'tagging-pilot', title: 'Tagging & Affinity Graph — Assortment Gaps Pilot', icon: '\uD83C\uDFF7\uFE0F',
     status: 'green', statusLabel: 'Green \u2014 In Discovery',
     quarter: 'Q2', targetDate: 'Jul 31, 2026',
-    description: 'Pilot program using product tagging and affinity graphs to identify relevant assortment gaps in Fashion. Pilot data science model expected ready by March 13.',
-    businessBenefit: 'Allocation teams can proactively identify where assortment coverage is insufficient before in-season sell-out signals surface — reducing missed sales opportunities.',
-    techIntegration: 'Tagging system integrates with AEX assortment data and affinity graph (OPIF-325602). Data science model built on BQ with CSA and DS sizing in progress.',
-    successMetrics: 'Pilot data science model live by Mar 13. Tagging pilot assortment gap identification validated with merchant team. Gap identification accuracy measurably above baseline.',
-    owners: pptOwners('Michael Allen', '', ''), resources: res(),
+    description: 'Pilot program using product tagging and affinity graphs to identify assortment gaps in Fashion. Builds the tagging taxonomy and affinity model that powers all downstream tag-based capabilities (fixture allocation, line recommendations, in-season swaps). Pilot DS model expected ready by March 13. Foundation of the LLTT Recommend & Optimize phase.',
+    businessBenefit: 'Allocation teams proactively identify assortment coverage gaps before in-season sell-out signals surface. Tagging foundation enables automated recommendations and dynamic allocation across all future phases.',
+    techIntegration: 'Jira: OPIF-325602 (Tagging & Affinity Graph). DS model built on BigQuery. Tagging taxonomy integrates with AEX assortment data and Centric product records. CSA and DS sizing in progress. Affinity graph powers downstream recommendation engine.',
+    successMetrics: 'Tagging pilot DS model live by Mar 13. Assortment gap identification validated with merchant team. Tagging taxonomy covers all target Fashion categories. Affinity graph accuracy confirmed.',
+    owners: pptOwners('Michael Allen', '', ''),
+    resources: res('https://jira.walmart.com/browse/OPIF-325602'),
   },
   {
     id: 'distrib-optimization', title: 'Distribution Planning Optimization', icon: '\uD83D\uDCE6',
@@ -49,13 +52,36 @@ const CARDS_ALLOCATION = [
     owners: pptOwners('Bill Chiodetti', '', ''), resources: res(),
   },
   {
+    id: 'tag-based-recommendations', title: 'Tag-Based Line & In-Season Recommendations', icon: '\uD83E\uDD16',
+    status: 'roadmap', statusLabel: 'Roadmap \u2014 Recommend & Optimize Phase',
+    quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
+    description: 'Leverage the tagging taxonomy and affinity graph from the Q2 pilot to power automated in-season assortment recommendations and dynamic store-level swaps. Replaces manual in-season allocation decisions with system-generated tag-based recommendations. Includes dynamic PO re-distribution as part of the LLTT Recommend & Optimize phase.',
+    businessBenefit: 'Allocation teams receive proactive, data-driven swap recommendations instead of reacting to sell-out events. Dynamic PO re-distribution reduces trapped inventory and improves in-stock rates across the season.',
+    techIntegration: 'Jira: OPIF-325373 (Tag-based In-Season Swaps), OPIF-325374 (Dynamic PO Re-Distribution). Builds on Tagging Pilot (OPIF-325602). Recommendation engine consumes affinity graph, in-season velocity, and inventory position from DBP and AEX.',
+    successMetrics: 'Tag-based swap recommendations adopted by target allocation teams. Dynamic PO re-distribution covering >90% of eligible POs by end of Q3. Trapped inventory rate measurably reduced vs. prior season.',
+    owners: pptOwners('Michael Allen', 'TBD', 'TBD'),
+    resources: res('https://jira.walmart.com/browse/OPIF-325373'),
+  },
+  {
+    id: 'assort-product-phase2', title: 'Assort Product (AP) Phase 2 Enhancements', icon: '\uD83D\uDCCB',
+    status: 'roadmap', statusLabel: 'Roadmap \u2014 Recommend & Optimize Phase',
+    quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
+    description: 'Phase 2 of AP Tool enhancements — including modular volume groups (MVG), on-demand store volume groups and size curves, assortment optimization engine, and fixture preference workflow improvements. Enables shared event calendar and unified potential items view (OneSource + MINT integration). Connects AP Tool to the enterprise forecast service.',
+    businessBenefit: 'AP Tool transitions from allocation execution tool to a connected recommendation engine — surfacing AI-driven suggestions for fixture allocation, CC rules, and store clustering based on tagging and demand signals.',
+    techIntegration: 'Jira: OPIF-325216, OPIF-325217 (AP Phase 2). MVG and on-demand volume groups built into AP Tool. Assortment optimization engine consumes tagging, affinity graph, and BQ forecast service. Shared event calendar connects AP, Centric, and OneSource.',
+    successMetrics: 'AP Phase 2 features adopted by target merchant groups. CC rule automation live. Assortment optimization engine surfacing recommendations for >80% of assortment decisions. Shared event calendar live across AP, Centric, OneSource.',
+    owners: pptOwners('Michael Allen', 'TBD', 'TBD'),
+    resources: res('https://jira.walmart.com/browse/OPIF-325216'),
+  },
+  {
     id: 'enterprise-wave-planning', title: 'Enterprise Wave Planning & Allocation', icon: '\uD83C\uDFEA',
     status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
-    description: 'Enterprise-grade wave planning and distribution execution capabilities — from committed buy through to store distribution and exits. Owned by Veena Swaminathan.',
+    description: 'Enterprise-grade wave planning and distribution execution capabilities — from committed buy through to store distribution and exits. Part of the LLTT Setup phase goal: automate new store PO process and enable dynamic redistribution of confirmed POs as in-season demand signals emerge.',
     businessBenefit: 'Allocation teams get an automated wave planning tool connected to assortment and buy decisions in AEX and BPE — closing the E2E loop from commit to shelf.',
-    techIntegration: 'DBP consumes finalized buy and assortment data from AEX and BPE to generate wave plans. Integration with store systems and supply chain for automated distribution execution.',
+    techIntegration: 'Jira: OPIF-325598, OPIF-325599 (Wave Planning). DBP consumes finalized buy and assortment data from AEX and BPE to generate wave plans. Integration with store systems and supply chain for automated distribution execution. New Store PO automation included.',
     successMetrics: 'Wave plans generated automatically from committed buy data. Distribution executed without manual re-entry into store systems. In-stock rate improvement measurable within first season.',
-    owners: pptOwners('Veena Swaminathan', '', ''), resources: res(),
+    owners: pptOwners('Veena Swaminathan', '', ''),
+    resources: res('https://jira.walmart.com/browse/OPIF-325598'),
   },
   {
     id: 'fashion-fixture-tagging', title: 'Fashion Fixture Allocation: Tagging-Based Assortment', icon: '\uD83C\uDFF7\uFE0F',

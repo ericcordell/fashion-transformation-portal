@@ -6,6 +6,7 @@
 <title>E2E Fashion Transformation Portal</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="portal.css">
+<link rel="stylesheet" href="portal-goals.css">
 </head>
 <body>
 
@@ -119,6 +120,26 @@
   </div>
 </div>
 
+<!-- GOAL DETAIL MODAL -->
+<div id="gm-overlay" class="modal-overlay">
+  <div id="gm-box">
+    <div id="gm-header">
+      <div class="gm-header-top">
+        <div class="gm-header-left">
+          <span id="gm-icon" class="gm-icon-lg"></span>
+          <div>
+            <div id="gm-num" class="gm-num"></div>
+            <h2 id="gm-title" class="gm-title"></h2>
+          </div>
+        </div>
+        <button onclick="closeGoalModal()" class="gm-close">&times;</button>
+      </div>
+      <div id="gm-subbar" class="gm-subbar"></div>
+    </div>
+    <div id="gm-body" class="gm-body"></div>
+  </div>
+</div>
+
 <!-- ROADMAP POPOUT MODAL -->
 <div id="rm-overlay" class="modal-overlay">
   <div id="rm-box">
@@ -158,8 +179,10 @@
 <script src="data-buying.js"></script>
 <script src="data-allocation.js"></script>
 <script src="data-phases.js"></script>
+<script src="data-goals.js"></script>
 <script src="roadmap-window.js"></script>
 <script src="summary-modal.js"></script>
+<script src="goal-modal.js"></script>
 <script src="phase-view.js"></script>
 <script>
 

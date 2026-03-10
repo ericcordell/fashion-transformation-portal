@@ -169,8 +169,15 @@
 
     // ── EXPANDED (or always-on Phase 1): full detail ──
     var goalsHTML = ph.goals.map(function (g) {
-      return '<div class="pm-goal-chip"><span class="pm-goal-id">' + g.id +
-        '</span><span class="pm-goal-label">' + g.label + '</span></div>';
+      var num = g.id.replace('#', '');
+      return '<div class="pm-goal-chip pm-goal-chip-btn"' +
+        ' onclick="openGoalModal(\'' + num + '\')"' +
+        ' role="button" tabindex="0"' +
+        ' title="Click for full goal details">'+
+        '<span class="pm-goal-id">' + g.id + '</span>' +
+        '<span class="pm-goal-label">' + g.label + '</span>' +
+        '<span class="pm-goal-arrow">&#8594;</span>' +
+        '</div>';
     }).join('');
 
     return [

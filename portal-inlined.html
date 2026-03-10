@@ -474,6 +474,164 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   font-size:0.8rem; margin-bottom:12px; line-height:1.5;
 }
 
+/* portal-goals.css — Goal chip & Goal detail modal styles */
+/* Split from portal.css to keep files under 600 lines       */
+
+/* ============================================================
+   GOAL CHIPS — clickable in expanded sidebar
+   ============================================================ */
+.pm-goal-chip-btn {
+  cursor:pointer;
+  transition:transform 0.12s, box-shadow 0.12s, background 0.12s;
+  user-select:none;
+}
+.pm-goal-chip-btn:hover {
+  transform:translateY(-1px);
+  box-shadow:0 3px 10px rgba(0,0,0,0.18);
+  background:rgba(255,255,255,0.22) !important;
+}
+.pm-goal-chip-btn:focus-visible {
+  outline:2px solid white; outline-offset:2px;
+}
+.pm-goal-arrow {
+  font-size:0.7rem; opacity:0.6; margin-left:auto; flex-shrink:0;
+  transition:opacity 0.12s;
+}
+.pm-goal-chip-btn:hover .pm-goal-arrow { opacity:1; }
+
+/* ============================================================
+   GOAL DETAIL MODAL
+   ============================================================ */
+#gm-overlay {
+  position:fixed; inset:0; z-index:102;
+  background:rgba(0,0,0,0.55); backdrop-filter:blur(4px);
+  display:flex; align-items:center; justify-content:center;
+  padding:20px;
+  opacity:0; pointer-events:none; transition:opacity 0.2s;
+}
+#gm-overlay.open { opacity:1; pointer-events:all; }
+
+#gm-box {
+  width:100%; max-width:680px; max-height:88vh;
+  background:white; border-radius:20px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.35);
+  display:flex; flex-direction:column;
+  overflow:hidden;
+  transform:translateY(12px); transition:transform 0.2s;
+}
+#gm-overlay.open #gm-box { transform:translateY(0); }
+
+/* ── Header ── */
+#gm-header {
+  padding:20px 22px 16px;
+  flex-shrink:0;
+}
+.gm-header-top {
+  display:flex; align-items:flex-start;
+  justify-content:space-between; gap:12px; margin-bottom:12px;
+}
+.gm-header-left {
+  display:flex; align-items:flex-start; gap:14px;
+}
+.gm-icon-lg {
+  font-size:2rem; flex-shrink:0;
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,0.25));
+}
+.gm-num {
+  font-size:0.68rem; font-weight:800; text-transform:uppercase;
+  letter-spacing:0.1em; color:rgba(255,255,255,0.6);
+  margin-bottom:3px;
+}
+.gm-title {
+  font-size:1.05rem; font-weight:800; color:white;
+  line-height:1.3; margin:0;
+}
+.gm-close {
+  background:none; border:none; cursor:pointer;
+  color:white; opacity:0.6; font-size:1.9rem; line-height:1;
+  padding:0; flex-shrink:0; margin-top:-2px;
+  transition:opacity 0.15s;
+}
+.gm-close:hover { opacity:1; }
+
+/* ── Subbar (status + phase pills) ── */
+.gm-subbar {
+  display:flex; align-items:center; flex-wrap:wrap; gap:7px;
+}
+.gm-status-badge {
+  font-size:0.7rem; font-weight:700;
+  padding:3px 10px; border-radius:99px;
+  border:1.5px solid transparent;
+}
+.gm-status-ip   { background:rgba(255,194,32,0.18); border-color:rgba(255,194,32,0.5); color:#ffc220; }
+.gm-status-plan { background:rgba(255,255,255,0.12); border-color:rgba(255,255,255,0.3); color:rgba(255,255,255,0.8); }
+.gm-status-done { background:rgba(42,135,3,0.25); border-color:#2a8703; color:#a3e678; }
+
+.gm-phase-pill {
+  font-size:0.68rem; font-weight:700;
+  padding:3px 10px; border-radius:99px; border:1.5px solid;
+}
+
+/* ── Scrollable body ── */
+.gm-body {
+  overflow-y:auto; padding:20px 22px;
+  display:flex; flex-direction:column; gap:18px;
+}
+
+/* ── Sections ── */
+.gm-section { display:flex; flex-direction:column; gap:8px; }
+.gm-section-title {
+  font-size:0.68rem; font-weight:800; text-transform:uppercase;
+  letter-spacing:0.08em; color:#94a3b8;
+}
+.gm-desc {
+  font-size:0.85rem; line-height:1.65; color:#374151; margin:0;
+}
+
+.gm-two-col {
+  display:grid; grid-template-columns:1fr 1fr; gap:14px;
+}
+@media (max-width:540px) { .gm-two-col { grid-template-columns:1fr; } }
+
+.gm-kpi-box {
+  background:#f0f4ff; border:1.5px solid #bfcfff;
+  border-radius:10px; padding:12px 14px;
+  font-size:0.8rem; line-height:1.6; color:#1e293b; font-weight:500;
+}
+.gm-baseline-box {
+  background:#fff7ed; border:1.5px solid #fed7aa;
+  border-radius:10px; padding:12px 14px;
+  font-size:0.8rem; line-height:1.6; color:#7c2d12;
+}
+
+/* ── Key programs list ── */
+.gm-programs {
+  list-style:none; margin:0; padding:0;
+  display:flex; flex-direction:column; gap:7px;
+}
+.gm-programs li {
+  font-size:0.8rem; color:#1e293b; line-height:1.5;
+  padding:7px 10px; border-radius:8px;
+  background:#f8fafc; border-left:3px solid #0053e2;
+}
+.gm-programs strong { color:#0053e2; }
+.gm-prog-note { color:#64748b; }
+
+/* ── Workstream chips ── */
+.gm-ws-chips { display:flex; flex-wrap:wrap; gap:6px; }
+.gm-ws-chip {
+  font-size:0.72rem; font-weight:600;
+  padding:4px 11px; border-radius:99px;
+  background:#f1f5f9; border:1px solid #e2e8f0; color:#475569;
+}
+
+/* ── Source attribution ── */
+.gm-source {
+  font-size:0.68rem; color:#94a3b8; margin:0;
+  padding-top:12px; border-top:1px solid #f1f5f9;
+}
+.gm-source a { color:#0053e2; text-decoration:underline; }
+
 </style>
 </head>
 <body>
@@ -585,6 +743,26 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
     <div id="tab-status"    class="tab-panel"></div>
     <div id="tab-resources" class="tab-panel"></div>
     <div id="tab-inquiry"   class="tab-panel"></div>
+  </div>
+</div>
+
+<!-- GOAL DETAIL MODAL -->
+<div id="gm-overlay" class="modal-overlay">
+  <div id="gm-box">
+    <div id="gm-header">
+      <div class="gm-header-top">
+        <div class="gm-header-left">
+          <span id="gm-icon" class="gm-icon-lg"></span>
+          <div>
+            <div id="gm-num" class="gm-num"></div>
+            <h2 id="gm-title" class="gm-title"></h2>
+          </div>
+        </div>
+        <button onclick="closeGoalModal()" class="gm-close">&times;</button>
+      </div>
+      <div id="gm-subbar" class="gm-subbar"></div>
+    </div>
+    <div id="gm-body" class="gm-body"></div>
   </div>
 </div>
 
@@ -1483,6 +1661,167 @@ const CARD_PHASE_MAP = {
 };
 </script>
 <script>
+/* ── data-goals.js ── */
+// data-goals.js — LLTT Transformation Goal details
+// Source: APREC Confluence — LLTT Work Management Dashboard (read Mar 2026)
+// https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
+
+const GOALS = {
+  '1': {
+    id: '1',
+    label: '90% of Buys on Happy Path',
+    icon: '\uD83D\uDEF3\uFE0F',
+    target: '90% of fashion apparel buys complete the full AEX workflow end-to-end without exceptions, manual workarounds, or out-of-tool steps.',
+    baseline: 'Significantly below 90% today. Gap is evidenced by siloed modules, manual reallocations, broken event tracking between modules, and frequent tool exits.',
+    status: 'in-progress',
+    phases: [1],
+    workstreams: ['Line Planning', 'Assortment Product', 'Buy Quantification', 'Commitment Report', 'Execution', 'Size & Pack Optimization'],
+    description: 'A \'happy path buy\' is one that flows end-to-end through AEX sequentially without any human workaround, system exit, or manual step. The ideal Happy Path is a 12-step in-tool journey: CSA Space Upload → Line Plan → Assortment Strategy → Store Strategy → Rack Plan → CC Presentation → Financial Plan → Forecast → Buy Quantity → Replen Strategy → Size Profiles → Pack Optimization → Item/PO Creation. A buy is \'on the happy path\' when all steps complete systematically inside the tool.',
+    keyPrograms: [
+      'AP Tool Integration — Replace Line Plan in AEX with the Assortment Planning Tool',
+      'Item Selection (Repository Connection) — Auto-populate items from OneSource/MINT',
+      'Automated BQ — Eliminate manual Size & Pack steps',
+      'New Store PO Automation — Remove manual PO creation',
+      'Lock All Modules After a FL is Bridged — Prevent state drift across modules',
+    ],
+  },
+  '2': {
+    id: '2',
+    label: 'Zero Rekeys Across E2E Workflow',
+    icon: '\u2327',
+    target: '0 manual rekey touchpoints across the entire E2E fashion workflow — Line Plan through Item Creation through PO Creation.',
+    baseline: 'Multiple documented rekey points today: (1) Users download AEX extract → upload into AIMS for FC POs, (2) Merchants re-enter Size & Pack inputs manually, (3) Supplier item details entered separately in email AND the planning tool, (4) Commitment Report data not flowing systematically to markdown/replenishment systems.',
+    status: 'in-progress',
+    phases: [1],
+    workstreams: ['Line Planning', 'Commitment Report', 'Execution', 'eComm End-to-End', 'System Enhancements'],
+    description: 'Rekeys are any instances where data must be manually re-entered into a different system because the prior system does not feed it automatically. The AEX Problem Overview explicitly documents this as a core pain point. Zero Rekeys means 100% of data flows systematically from one step to the next — no manual copy/paste, no spreadsheet intermediaries, no email round-trips.',
+    keyPrograms: [
+      'Supplier One Integration — Direct integration replacing email-based supplier communication',
+      'Online Item PO Creation — Systematically create eComm POs from AEX (eliminating AIMS manual upload)',
+      'Item 360 Integration — Commitment Report changes to capture item validation automatically',
+      'Streamline Merchant-Supplier Communication via Collab — OneSource/Collab integration for BAM',
+      'Intended Item Report Standardization — Standardize data flow for item proposals',
+      'Systematic Data Ingestion to Markdown & Replenishment Systems',
+    ],
+  },
+  '3': {
+    id: '3',
+    label: 'Happy Path Buying Execution',
+    icon: '\u2705',
+    target: 'Buying execution steps (bridge → item creation → PO creation) complete successfully on the happy path without manual engineering intervention.',
+    baseline: 'Known failure modes: finelines stuck in \'Initiation Successful\' state (PRB0088065), CR-to-ADS bridge failures, 9-digit supplier ID issues (PRB0084392), Commitment Reports missing Initial Set Units (PRB0083944), and item attribute mismatches breaking PO creation.',
+    status: 'in-progress',
+    phases: [1],
+    workstreams: ['Commitment Report', 'Execution', 'System Enhancements', 'eComm End-to-End'],
+    description: 'This is the execution-layer companion to Goal #1. While #1 measures whether buys flow through the happy path, #3 measures whether the execution steps complete successfully — buys do not get stuck, do not fail at bridge, and do not require engineering intervention to recover. Visibility and self-service recovery are critical enablers.',
+    keyPrograms: [
+      'Display Item and PO Status to Users + Ability to Re-Bridge Finelines — Self-service recovery',
+      'Alert and Block Users from Downloading Commit Reports Lacking Pre-Reqs — Prevent downstream failures',
+      'Lock Pack Optimization After CR is Bridged — Ensure data integrity post-commit',
+      'AEX Fashion Integration with Mod Start — Connect execution to modular start dates',
+      'Exception Reporting — Surface stuck/failed finelines proactively',
+      'Backend Work to Support Re-Bridge FLs and Display Quote, Item, and PO Status',
+    ],
+  },
+  '4': {
+    id: '4',
+    label: 'Reduce Merchant Hours',
+    icon: '\u23F1\uFE0F',
+    target: 'Directional reduction in total time merchants spend on low-value, manual, repetitive planning tasks. Phase 3 shifts the merchant role from manual planner to strategy encoder.',
+    baseline: 'Significant unquantified manual burden: multiple tool toggles, manual Size & Pack runs, no in-tool analytics, Excel-based planning, season-by-season manual rebuilds.',
+    status: 'in-progress',
+    phases: [1, 3],
+    workstreams: ['Line Planning', 'Buy Quantification', 'Assortment Product', 'Financial Review', 'Usability', 'Admin Screens'],
+    description: 'Reducing the total time merchants spend on low-value, repetitive, manual planning tasks. Phase 1 reduces hours by systemizing workflows and removing tool exits. Phase 3 (Automate) further reduces hours by enabling strategy encoding and scenario generation — merchants set strategic parameters rather than building plans manually. The LP Redesign initiative specifically calls out \'Get Merchants Out of Excel\' as the core baseline problem.',
+    keyPrograms: [
+      'LP Redesign — Get Merchants Out of Excel; add Style # flow, multi-select size group, historical data',
+      'BQ Redesign (BuyPlanSimplification) — Pre-generate DS results, configurable min initial set qty',
+      'Automated Flow Plan (Rules-Based Engine) — Automate flow strategy decisions',
+      'On-Demand Store Volume Groups & Size Curves — Reduce analytics input time',
+      'Assortment Optimization Engine — Reduce manual assortment decision work',
+      'Strategy Repo/Capture (Phase 3) — Merchants encode strategy once; system builds plans',
+      'Scenario Generation and Selection (Phase 3)',
+    ],
+  },
+  '5': {
+    id: '5',
+    label: 'Reduce Trapped Inventory',
+    icon: '\uD83D\uDCE6',
+    target: 'Directional reduction in fashion inventory that ends up in the wrong location after commit — enabled by in-season redistribution and dynamic placement capabilities.',
+    baseline: 'Effectively 0% systematic redistribution capability today. 100% of the buy is locked at commit time with no in-tool recovery mechanism. All redistribution is manual, ad hoc, and rare.',
+    status: 'planned',
+    phases: [2, 3],
+    workstreams: ['Buy Quantification', 'Execution', 'eComm End-to-End', 'Mod Execution', 'Chase Buys', 'System Enhancements'],
+    description: 'Trapped inventory is fashion product ordered (committed via PO) that ends up in the wrong location — wrong store, wrong DC, wrong channel — making it unable to sell at full price. It becomes trapped because the long lead time of fashion (9–12+ months) means errors in buy planning have no recovery under the current workflow. LLTT unlocks in-season redistribution and dynamic placement to free this inventory.',
+    keyPrograms: [
+      'Dynamic PO Re-Distribution — Systematically redirect committed POs to better-fit stores',
+      'Tag-based In-Season Swaps — Use fixture/style tags to recommend product swaps between stores',
+      'Forecast as Enterprise Service — Better upfront forecasting reduces initial placement errors',
+      'Buy Quantification as Enterprise Service — Shared BQ reduces siloed buy errors',
+      'Tag-based In-Season Dynamic Placement (Phase 3) — Fully automate placement decisions in-season',
+      'Chase Buys — Plan and execute mid-season buys for in-demand items',
+    ],
+  },
+  '6': {
+    id: '6',
+    label: '85% Shop In-Stock Rate',
+    icon: '\uD83D\uDED2',
+    target: '85% of shopping trips result in the customer finding the fashion item they are looking for in stock, in their size and color.',
+    baseline: 'Below 85% today. Contributing causes: poor forecasting (no national forecast in line planning), manual BQ leading to inaccurate quantities, no replenishment automation linked to BQ flag, and wrong product in wrong stores.',
+    status: 'planned',
+    phases: [2, 3],
+    workstreams: ['Buy Quantification', 'Line Planning', 'Execution', 'Mod Execution', 'eComm End-to-End', 'System Enhancements'],
+    description: 'The shop in-stock rate measures the percentage of time a customer visiting a fashion department finds the items they are looking for in stock (by size, color, style). An 85% target means that 85% of shopping trips result in a successful purchase. Directly tied to top-line sales, customer satisfaction, and reduced markdown/clearance pressure.',
+    keyPrograms: [
+      'Forecast as Enterprise Service — National forecast visibility replacing manual fineline-level estimates',
+      'Buy Quantification as Enterprise Service — More accurate quantity planning per store cluster',
+      'National Forecast Visibility in Line Planning — Feed DS forecast into LP before BQ',
+      'DS Buy Quantification (V1 & V2) — Data science-driven buy quantities',
+      'Add Replenishment UPCs to Label Mods When Executed — Use BQ replenishment flag for modular execution',
+      'DS Store Segmentation / Store Volume Groups / Size Curves — Store-level accuracy',
+      'Tag-based In-Season Dynamic Placement (Phase 3)',
+    ],
+  },
+  '7': {
+    id: '7',
+    label: '90% PO Redistribution Coverage',
+    icon: '\uD83D\uDD04',
+    target: '90% of eligible Purchase Orders are covered by the dynamic PO redistribution capability — either automated or system-recommended.',
+    baseline: 'Effectively 0% systematic coverage today. Redistribution is fully manual, ad hoc, and rare. No in-tool capability exists in the current AEX workflow.',
+    status: 'planned',
+    phases: [2],
+    workstreams: ['Execution', 'Buy Quantification', 'System Enhancements', 'eComm End-to-End'],
+    description: 'PO redistribution is the ability to dynamically redirect committed Purchase Orders — after the original buy is placed — to different stores, DCs, or channels based on in-season demand signals. Today this is a fully manual, exception-based process. 90% coverage means the system can recommend or execute redistribution for 90% of applicable POs.',
+    keyPrograms: [
+      'Dynamic PO Re-Distribution — Core Phase 2 deliverable; the primary technical vehicle',
+      'Tag-based In-Season Swaps — Prerequisite: tagging/fixture library enables store matching',
+      'Shared Event Calendar & Actions — Coordination layer for redistribution decisions',
+      'Forecast as Enterprise Service — In-season demand signals trigger redistribution',
+      'Buy Quantification as Enterprise Service — Shared BQ enables redistribution calculations',
+    ],
+  },
+  '8': {
+    id: '8',
+    label: 'Increase Sell-Through Rate',
+    icon: '\uD83D\uDCC8',
+    target: 'Directional increase in the percentage of ordered inventory that sells at full or near-full price before markdown/clearance. Named initiative: Fresh Waste (Markdown/Loss) Reduction.',
+    baseline: 'Fashion apparel struggles with sell-through due to long lead times creating demand forecast uncertainty. Significant markdown/clearance activity currently eating into margins.',
+    status: 'planned',
+    phases: [2, 3],
+    workstreams: ['Buy Quantification', 'Line Planning', 'Execution', 'Mod Execution', 'eComm End-to-End', 'Chase Buys', 'System Enhancements'],
+    description: 'Sell-through rate is the percentage of ordered inventory that sells at full or near-full price before markdown/clearance. Higher sell-through means less dead inventory, fewer markdowns, better margin, and reduced clearance costs. This is the ultimate financial outcome metric for LLTT — if Goals #5 (trapped inventory), #6 (in-stock), and #7 (PO redistribution) all improve, sell-through increases as a result.',
+    keyPrograms: [
+      'Fresh Waste (Markdown/Loss) Reduction — Named initiative directly targeting sell-through',
+      'Tag-based In-Season Dynamic Placement (Phase 3) — Right product, right store, right time',
+      'Chase Buys — Replenish winning items mid-season, reducing OOS drag on sell-through',
+      'Assortment Optimization Engine — Better initial assortment selection = higher sell-through',
+      'DS Forecasting with Model Explainability — Accurate demand forecasting reduces over/under buying',
+      'Systematic Data Ingestion to Markdown & Replenishment Systems — Close feedback loop',
+    ],
+  },
+};
+</script>
+<script>
 /* ── roadmap-window.js ── */
 // roadmap-window.js — in-page roadmap popout modal
 // Two independent filter axes:
@@ -1873,6 +2212,125 @@ const CARD_PHASE_MAP = {
 }());
 </script>
 <script>
+/* ── goal-modal.js ── */
+// goal-modal.js — Goal detail popout modal
+// Reads from: data-goals.js (GOALS), data-phases.js (PHASE_DEFS)
+// Exposed globals: openGoalModal(goalId), closeGoalModal()
+
+(function () {
+
+  // Gradient per phase (matches phase sidebar colours)
+  var PHASE_GRAD = {
+    1: 'linear-gradient(135deg,#0053e2,#1a6fff)',
+    2: 'linear-gradient(135deg,#1b5e20,#2a8703)',
+    3: 'linear-gradient(135deg,#1a1a6e,#3b3ba3)',
+  };
+
+  var STATUS_CFG = {
+    'in-progress': { label: '\uD83D\uDFE1 In Progress',  cls: 'gm-status-ip'   },
+    'planned':     { label: '\uD83D\uDD2E Planned',       cls: 'gm-status-plan' },
+    'completed':   { label: '\u2705 Completed',          cls: 'gm-status-done' },
+  };
+
+  // ── PUBLIC ──────────────────────────────────────────────
+  window.openGoalModal = function (goalId) {
+    var goal = GOALS[String(goalId)];
+    if (!goal) return;
+    _render(goal);
+    document.getElementById('gm-overlay').classList.add('open');
+  };
+
+  window.closeGoalModal = function () {
+    document.getElementById('gm-overlay').classList.remove('open');
+  };
+
+  // ── RENDER ──────────────────────────────────────────────
+  function _render(goal) {
+    // Derive header gradient from first phase
+    var grad    = PHASE_GRAD[goal.phases[0]] || PHASE_GRAD[1];
+    var statCfg = STATUS_CFG[goal.status] || STATUS_CFG['planned'];
+
+    // Header
+    var header = document.getElementById('gm-header');
+    header.style.background = grad;
+    document.getElementById('gm-icon').textContent  = goal.icon;
+    document.getElementById('gm-num').textContent   = 'Goal #' + goal.id;
+    document.getElementById('gm-title').textContent = goal.label;
+
+    // Status + phase chips in sub-bar
+    var phasePills = goal.phases.map(function (n) {
+      var ph = PHASE_DEFS[n - 1];
+      return '<span class="gm-phase-pill" style="background:' + ph.bg +
+        ';color:' + ph.color + ';border-color:' + ph.border + ';">' +
+        ph.emoji + ' Phase ' + n + ' &mdash; ' + ph.label + '</span>';
+    }).join('');
+
+    document.getElementById('gm-subbar').innerHTML =
+      '<span class="gm-status-badge ' + statCfg.cls + '">' + statCfg.label + '</span>' +
+      phasePills;
+
+    // Body
+    document.getElementById('gm-body').innerHTML = _bodyHTML(goal);
+  }
+
+  function _bodyHTML(goal) {
+    return [
+      _section('\uD83D\uDCCB Description', '<p class="gm-desc">' + _esc(goal.description) + '</p>'),
+
+      _row(
+        _section('\uD83C\uDFAF Target KPI',
+          '<div class="gm-kpi-box">' + _esc(goal.target) + '</div>'),
+        _section('\uD83D\uDCCA Current Baseline',
+          '<div class="gm-baseline-box">' + _esc(goal.baseline) + '</div>')
+      ),
+
+      _section('\uD83D\uDD17 Key Programs &amp; Initiatives',
+        '<ul class="gm-programs">' +
+        goal.keyPrograms.map(function (p) {
+          var parts = p.split(' \u2014 ');
+          return '<li><strong>' + _esc(parts[0]) + '</strong>' +
+            (parts[1] ? ' &mdash; <span class="gm-prog-note">' + _esc(parts[1]) + '</span>' : '') +
+            '</li>';
+        }).join('') +
+        '</ul>'),
+
+      _section('\uD83C\uDFD7\uFE0F Workstreams Affected',
+        '<div class="gm-ws-chips">' +
+        goal.workstreams.map(function (ws) {
+          return '<span class="gm-ws-chip">' + _esc(ws) + '</span>';
+        }).join('') +
+        '</div>'),
+
+      '<p class="gm-source">&#128196; Source: <a href="https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard"' +
+        ' target="_blank" rel="noopener">APREC — LLTT Work Management Dashboard</a></p>',
+    ].join('');
+  }
+
+  function _section(heading, contentHTML) {
+    return '<div class="gm-section"><div class="gm-section-title">' +
+      heading + '</div>' + contentHTML + '</div>';
+  }
+
+  function _row(a, b) {
+    return '<div class="gm-two-col">' + a + b + '</div>';
+  }
+
+  function _esc(s) {
+    return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  // ── CLOSE HANDLERS ──────────────────────────────────────
+  document.getElementById('gm-overlay').addEventListener('click', function (e) {
+    if (e.target === document.getElementById('gm-overlay')) closeGoalModal();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeGoalModal();
+  });
+
+}());
+</script>
+<script>
 /* ── phase-view.js ── */
 // phase-view.js — Workstream-first Phase Matrix + Filter Bar
 // Phase 1 = always expanded (full cards)  |  Phase 2 & 3 = collapsed by default
@@ -2045,8 +2503,15 @@ const CARD_PHASE_MAP = {
 
     // ── EXPANDED (or always-on Phase 1): full detail ──
     var goalsHTML = ph.goals.map(function (g) {
-      return '<div class="pm-goal-chip"><span class="pm-goal-id">' + g.id +
-        '</span><span class="pm-goal-label">' + g.label + '</span></div>';
+      var num = g.id.replace('#', '');
+      return '<div class="pm-goal-chip pm-goal-chip-btn"' +
+        ' onclick="openGoalModal(\'' + num + '\')"' +
+        ' role="button" tabindex="0"' +
+        ' title="Click for full goal details">'+
+        '<span class="pm-goal-id">' + g.id + '</span>' +
+        '<span class="pm-goal-label">' + g.label + '</span>' +
+        '<span class="pm-goal-arrow">&#8594;</span>' +
+        '</div>';
     }).join('');
 
     return [

@@ -1,0 +1,157 @@
+/* portal-goals.css — Goal chip & Goal detail modal styles */
+/* Split from portal.css to keep files under 600 lines       */
+
+/* ============================================================
+   GOAL CHIPS — clickable in expanded sidebar
+   ============================================================ */
+.pm-goal-chip-btn {
+  cursor:pointer;
+  transition:transform 0.12s, box-shadow 0.12s, background 0.12s;
+  user-select:none;
+}
+.pm-goal-chip-btn:hover {
+  transform:translateY(-1px);
+  box-shadow:0 3px 10px rgba(0,0,0,0.18);
+  background:rgba(255,255,255,0.22) !important;
+}
+.pm-goal-chip-btn:focus-visible {
+  outline:2px solid white; outline-offset:2px;
+}
+.pm-goal-arrow {
+  font-size:0.7rem; opacity:0.6; margin-left:auto; flex-shrink:0;
+  transition:opacity 0.12s;
+}
+.pm-goal-chip-btn:hover .pm-goal-arrow { opacity:1; }
+
+/* ============================================================
+   GOAL DETAIL MODAL
+   ============================================================ */
+#gm-overlay {
+  position:fixed; inset:0; z-index:102;
+  background:rgba(0,0,0,0.55); backdrop-filter:blur(4px);
+  display:flex; align-items:center; justify-content:center;
+  padding:20px;
+  opacity:0; pointer-events:none; transition:opacity 0.2s;
+}
+#gm-overlay.open { opacity:1; pointer-events:all; }
+
+#gm-box {
+  width:100%; max-width:680px; max-height:88vh;
+  background:white; border-radius:20px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.35);
+  display:flex; flex-direction:column;
+  overflow:hidden;
+  transform:translateY(12px); transition:transform 0.2s;
+}
+#gm-overlay.open #gm-box { transform:translateY(0); }
+
+/* ── Header ── */
+#gm-header {
+  padding:20px 22px 16px;
+  flex-shrink:0;
+}
+.gm-header-top {
+  display:flex; align-items:flex-start;
+  justify-content:space-between; gap:12px; margin-bottom:12px;
+}
+.gm-header-left {
+  display:flex; align-items:flex-start; gap:14px;
+}
+.gm-icon-lg {
+  font-size:2rem; flex-shrink:0;
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,0.25));
+}
+.gm-num {
+  font-size:0.68rem; font-weight:800; text-transform:uppercase;
+  letter-spacing:0.1em; color:rgba(255,255,255,0.6);
+  margin-bottom:3px;
+}
+.gm-title {
+  font-size:1.05rem; font-weight:800; color:white;
+  line-height:1.3; margin:0;
+}
+.gm-close {
+  background:none; border:none; cursor:pointer;
+  color:white; opacity:0.6; font-size:1.9rem; line-height:1;
+  padding:0; flex-shrink:0; margin-top:-2px;
+  transition:opacity 0.15s;
+}
+.gm-close:hover { opacity:1; }
+
+/* ── Subbar (status + phase pills) ── */
+.gm-subbar {
+  display:flex; align-items:center; flex-wrap:wrap; gap:7px;
+}
+.gm-status-badge {
+  font-size:0.7rem; font-weight:700;
+  padding:3px 10px; border-radius:99px;
+  border:1.5px solid transparent;
+}
+.gm-status-ip   { background:rgba(255,194,32,0.18); border-color:rgba(255,194,32,0.5); color:#ffc220; }
+.gm-status-plan { background:rgba(255,255,255,0.12); border-color:rgba(255,255,255,0.3); color:rgba(255,255,255,0.8); }
+.gm-status-done { background:rgba(42,135,3,0.25); border-color:#2a8703; color:#a3e678; }
+
+.gm-phase-pill {
+  font-size:0.68rem; font-weight:700;
+  padding:3px 10px; border-radius:99px; border:1.5px solid;
+}
+
+/* ── Scrollable body ── */
+.gm-body {
+  overflow-y:auto; padding:20px 22px;
+  display:flex; flex-direction:column; gap:18px;
+}
+
+/* ── Sections ── */
+.gm-section { display:flex; flex-direction:column; gap:8px; }
+.gm-section-title {
+  font-size:0.68rem; font-weight:800; text-transform:uppercase;
+  letter-spacing:0.08em; color:#94a3b8;
+}
+.gm-desc {
+  font-size:0.85rem; line-height:1.65; color:#374151; margin:0;
+}
+
+.gm-two-col {
+  display:grid; grid-template-columns:1fr 1fr; gap:14px;
+}
+@media (max-width:540px) { .gm-two-col { grid-template-columns:1fr; } }
+
+.gm-kpi-box {
+  background:#f0f4ff; border:1.5px solid #bfcfff;
+  border-radius:10px; padding:12px 14px;
+  font-size:0.8rem; line-height:1.6; color:#1e293b; font-weight:500;
+}
+.gm-baseline-box {
+  background:#fff7ed; border:1.5px solid #fed7aa;
+  border-radius:10px; padding:12px 14px;
+  font-size:0.8rem; line-height:1.6; color:#7c2d12;
+}
+
+/* ── Key programs list ── */
+.gm-programs {
+  list-style:none; margin:0; padding:0;
+  display:flex; flex-direction:column; gap:7px;
+}
+.gm-programs li {
+  font-size:0.8rem; color:#1e293b; line-height:1.5;
+  padding:7px 10px; border-radius:8px;
+  background:#f8fafc; border-left:3px solid #0053e2;
+}
+.gm-programs strong { color:#0053e2; }
+.gm-prog-note { color:#64748b; }
+
+/* ── Workstream chips ── */
+.gm-ws-chips { display:flex; flex-wrap:wrap; gap:6px; }
+.gm-ws-chip {
+  font-size:0.72rem; font-weight:600;
+  padding:4px 11px; border-radius:99px;
+  background:#f1f5f9; border:1px solid #e2e8f0; color:#475569;
+}
+
+/* ── Source attribution ── */
+.gm-source {
+  font-size:0.68rem; color:#94a3b8; margin:0;
+  padding-top:12px; border-top:1px solid #f1f5f9;
+}
+.gm-source a { color:#0053e2; text-decoration:underline; }

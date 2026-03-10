@@ -8,13 +8,14 @@
   let _pillar = null;
   let _filter = 'all';
 
+  // Filter labels read dynamically from QUARTER_META so FY year is always correct
   const FILTER_DEFS = [
     { q: 'all',       label: 'All' },
     { q: 'completed', label: '\u2713 Completed' },
-    { q: 'Q1',        label: 'Q1 FY26' },
-    { q: 'Q2',        label: 'Q2 FY26' },
-    { q: 'Q3',        label: 'Q3 FY26' },
-    { q: 'Q4',        label: 'Q4 FY26' },
+    { q: 'Q1',        label: (QUARTER_META.Q1 && QUARTER_META.Q1.label) || 'Q1' },
+    { q: 'Q2',        label: (QUARTER_META.Q2 && QUARTER_META.Q2.label) || 'Q2' },
+    { q: 'Q3',        label: (QUARTER_META.Q3 && QUARTER_META.Q3.label) || 'Q3' },
+    { q: 'Q4',        label: (QUARTER_META.Q4 && QUARTER_META.Q4.label) || 'Q4' },
   ];
 
   // ---- PUBLIC: open the popout for a given pillar ----

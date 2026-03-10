@@ -180,8 +180,11 @@ function getActiveCards(pillar) {
     .flatMap(q => pillar.cards.filter(c => c.quarter === q));
 }
 
-// Cap all pillars at the same card count so columns stay equal height
-const CARD_LIMIT = Math.min(...PILLARS.map(p => getActiveCards(p).length));
+// Per-pillar cap: show up to 6 active cards per pillar.
+// We do NOT tie pillars to each other's counts — each pillar shows
+// its own most-relevant cards (completed → Q1 → Q2 priority order).
+// The Full Roadmap button always shows everything.
+const CARD_LIMIT = 6;
 
 // ---- STRATEGY UMBRELLA BANNER ----
 function renderUmbrella() {

@@ -120,7 +120,7 @@
       });
       document.getElementById('rm-body').innerHTML = qs.map(function (q) {
         return _qSection(q, statusFiltered.filter(function (c) { return c.quarter === q; }));
-      }).join('');
+      }).join('') + _sourceFooter();
 
     } else if (isPhaseFilter) {
       // Group by phase — show all quarters but only cards in that phase
@@ -142,15 +142,23 @@
         ? qs.map(function (q) {
             return _qSection(q, phCards.filter(function (c) { return c.quarter === q; }));
           }).join('')
-        : '<div class="rm-empty">No programs match this filter combination.</div>');
+        : '<div class="rm-empty">No programs match this filter combination.</div>') + _sourceFooter();
 
     } else {
       // Single quarter filter
       var qCards = statusFiltered.filter(function (c) { return c.quarter === _timeFilter; });
-      document.getElementById('rm-body').innerHTML = qCards.length
+      document.getElementById('rm-body').innerHTML = (qCards.length
         ? _qSection(_timeFilter, qCards)
-        : '<div class="rm-empty">No programs match this filter combination.</div>';
+        : '<div class="rm-empty">No programs match this filter combination.</div>') + _sourceFooter();
     }
+  }
+
+  function _sourceFooter() {
+    return '<p class="rm-source">&#128196; Source: ' +
+      '<a href="https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard"' +
+      ' target="_blank" rel="noopener">APREC &mdash; LLTT Work Management Dashboard</a>' +
+      ' &bull; <a href="https://opif.wal-mart.com" target="_blank" rel="noopener">OPIF Program Tracking</a>' +
+      '</p>';
   }
 
   function _qSection(q, cards) {

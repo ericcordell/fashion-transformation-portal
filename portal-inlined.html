@@ -468,6 +468,14 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   font-size:0.82rem; color:#94a3b8; font-style:italic;
 }
 
+/* Source attribution footer inside roadmap body */
+.rm-source {
+  font-size:0.68rem; color:#94a3b8; margin:18px 0 4px;
+  padding-top:12px; border-top:1px solid #f1f5f9;
+}
+.rm-source a { color:#0053e2; text-decoration:underline; }
+.rm-source a:hover { color:#1a6fff; }
+
 /* Phase banner inside roadmap body */
 .rm-phase-banner {
   padding:8px 14px; border-radius:10px; border:1.5px solid;
@@ -679,16 +687,16 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   </div>
 
   <!-- STRATEGY UMBRELLA — ties all workstreams together -->
-  <div class="strategy-umbrella mb-3" aria-label="Strategy Hub overarching framework">
+  <div class="strategy-umbrella mb-3" aria-label="Strategy Hub — connective tissue linking all workstreams">
     <div class="su-left">
-      <span class="su-icon" aria-hidden="true">&#9748;</span>
+      <span class="su-icon" aria-hidden="true">&#128279;</span>
       <div>
         <div class="su-title">Strategy Workstream &mdash; Trend To Product (TTP) <span class="su-tool">&mdash; Strategy Hub</span></div>
-        <div class="su-sub">&ldquo;The overarching guiding framework that powers Design, Buying, and Allocation decisions end-to-end&rdquo;</div>
+        <div class="su-sub">The connective tissue of E2E fashion &mdash; live strategy signals from TTP bind Design, Buying &amp; Allocation into one integrated, seamless system</div>
       </div>
     </div>
     <div class="su-right">
-      <div class="su-spans-label">Overarching framework &mdash; spans all workstreams &#8595;</div>
+      <div class="su-spans-label">Connective tissue &mdash; linking all workstreams &#8595;</div>
       <div class="su-spans-chips">
         <span class="su-chip su-chip-design">&#127912; Design</span>
         <span class="su-chip su-chip-buying">&#128722; Buying</span>
@@ -705,12 +713,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   -->
   <div id="phase-grid-wrap" class="mb-4"></div>
 
-  <!-- INTEGRATION ROW -->
-  <div class="bg-red-50 border border-red-200 rounded-2xl p-4">
-    <p class="text-xs font-bold text-red-800 uppercase tracking-wider mb-3">&#8597; Integration &amp; Connection Services &mdash; Across All Workstreams</p>
-    <div id="integration-row" class="flex flex-wrap gap-2"></div>
-    <p class="text-xs text-red-600 mt-3 italic">All workstreams connect via integration &amp; connection services &mdash; ERP, PIM, DAM, CAD, supplier systems, store systems, e-commerce, compliance tools, and beyond.</p>
-  </div>
+
 </main>
 
 <!-- CARD DETAIL MODAL -->
@@ -1945,7 +1948,7 @@ const GOALS = {
       });
       document.getElementById('rm-body').innerHTML = qs.map(function (q) {
         return _qSection(q, statusFiltered.filter(function (c) { return c.quarter === q; }));
-      }).join('');
+      }).join('') + _sourceFooter();
 
     } else if (isPhaseFilter) {
       // Group by phase — show all quarters but only cards in that phase
@@ -1967,15 +1970,23 @@ const GOALS = {
         ? qs.map(function (q) {
             return _qSection(q, phCards.filter(function (c) { return c.quarter === q; }));
           }).join('')
-        : '<div class="rm-empty">No programs match this filter combination.</div>');
+        : '<div class="rm-empty">No programs match this filter combination.</div>') + _sourceFooter();
 
     } else {
       // Single quarter filter
       var qCards = statusFiltered.filter(function (c) { return c.quarter === _timeFilter; });
-      document.getElementById('rm-body').innerHTML = qCards.length
+      document.getElementById('rm-body').innerHTML = (qCards.length
         ? _qSection(_timeFilter, qCards)
-        : '<div class="rm-empty">No programs match this filter combination.</div>';
+        : '<div class="rm-empty">No programs match this filter combination.</div>') + _sourceFooter();
     }
+  }
+
+  function _sourceFooter() {
+    return '<p class="rm-source">&#128196; Source: ' +
+      '<a href="https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard"' +
+      ' target="_blank" rel="noopener">APREC &mdash; LLTT Work Management Dashboard</a>' +
+      ' &bull; <a href="https://opif.wal-mart.com" target="_blank" rel="noopener">OPIF Program Tracking</a>' +
+      '</p>';
   }
 
   function _qSection(q, cards) {
@@ -2764,12 +2775,6 @@ function cardHTML(card, workstream, tool) {
 
 
 
-// ---- INTEGRATION ROW ----
-function renderIntegration() {
-  document.getElementById('integration-row').innerHTML =
-    INTEGRATION_ROW.map(t => `<div class="int-chip">&#8597; ${t}</div>`).join('');
-}
-
 // ---- CARD INDEX for modal lookup ----
 const allCards = [];
 function buildCardIndex() {
@@ -2996,7 +3001,7 @@ document.getElementById('modal-overlay').addEventListener('click', e => {
 
 // ---- INIT ----
 renderPhases();          // E2E process flow bar
-renderIntegration();     // Integration services row
+
 buildCardIndex();        // populate allCards[] for modal lookups
 initPhaseView();         // LLTT Phase timeline + phase grid
 

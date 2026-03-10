@@ -53,16 +53,16 @@
   </div>
 
   <!-- STRATEGY UMBRELLA — ties all workstreams together -->
-  <div class="strategy-umbrella mb-3" aria-label="Strategy Hub overarching framework">
+  <div class="strategy-umbrella mb-3" aria-label="Strategy Hub — connective tissue linking all workstreams">
     <div class="su-left">
-      <span class="su-icon" aria-hidden="true">&#9748;</span>
+      <span class="su-icon" aria-hidden="true">&#128279;</span>
       <div>
         <div class="su-title">Strategy Workstream &mdash; Trend To Product (TTP) <span class="su-tool">&mdash; Strategy Hub</span></div>
-        <div class="su-sub">&ldquo;The overarching guiding framework that powers Design, Buying, and Allocation decisions end-to-end&rdquo;</div>
+        <div class="su-sub">The connective tissue of E2E fashion &mdash; live strategy signals from TTP bind Design, Buying &amp; Allocation into one integrated, seamless system</div>
       </div>
     </div>
     <div class="su-right">
-      <div class="su-spans-label">Overarching framework &mdash; spans all workstreams &#8595;</div>
+      <div class="su-spans-label">Connective tissue &mdash; linking all workstreams &#8595;</div>
       <div class="su-spans-chips">
         <span class="su-chip su-chip-design">&#127912; Design</span>
         <span class="su-chip su-chip-buying">&#128722; Buying</span>
@@ -79,12 +79,7 @@
   -->
   <div id="phase-grid-wrap" class="mb-4"></div>
 
-  <!-- INTEGRATION ROW -->
-  <div class="bg-red-50 border border-red-200 rounded-2xl p-4">
-    <p class="text-xs font-bold text-red-800 uppercase tracking-wider mb-3">&#8597; Integration &amp; Connection Services &mdash; Across All Workstreams</p>
-    <div id="integration-row" class="flex flex-wrap gap-2"></div>
-    <p class="text-xs text-red-600 mt-3 italic">All workstreams connect via integration &amp; connection services &mdash; ERP, PIM, DAM, CAD, supplier systems, store systems, e-commerce, compliance tools, and beyond.</p>
-  </div>
+
 </main>
 
 <!-- CARD DETAIL MODAL -->
@@ -280,12 +275,6 @@ function cardHTML(card, workstream, tool) {
 }
 
 
-
-// ---- INTEGRATION ROW ----
-function renderIntegration() {
-  document.getElementById('integration-row').innerHTML =
-    INTEGRATION_ROW.map(t => `<div class="int-chip">&#8597; ${t}</div>`).join('');
-}
 
 // ---- CARD INDEX for modal lookup ----
 const allCards = [];
@@ -513,7 +502,7 @@ document.getElementById('modal-overlay').addEventListener('click', e => {
 
 // ---- INIT ----
 renderPhases();          // E2E process flow bar
-renderIntegration();     // Integration services row
+
 buildCardIndex();        // populate allCards[] for modal lookups
 initPhaseView();         // LLTT Phase timeline + phase grid
 

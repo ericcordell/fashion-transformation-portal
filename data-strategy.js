@@ -11,7 +11,7 @@ const CARDS_STRATEGY = [
     businessBenefit: 'Eliminates redundant strategy sessions and conflicting priorities. Single source for seasonal targets cascaded to all workstreams.',
     techIntegration: 'TTP serves as the upstream data source feeding AEX (Buying), Centric (Design), and BPE/DBP (Allocation). Decisions recorded here propagate downstream without re-entry.',
     successMetrics: 'All workstreams reference TTP as primary source. Zero conflicting financial targets across Design, Buying, and Allocation in any given season.',
-    owners: TBD_OWNERS(), resources: res(),
+    owners: TBD_OWNERS(), resources: res(), workstreams: ['strategy'],
   },
   {
     id: 'space-planning', title: 'Space & Financial Planning', icon: '\uD83D\uDCCA',
@@ -20,7 +20,7 @@ const CARDS_STRATEGY = [
     businessBenefit: 'Clear, pre-approved financial boundaries before assortment and buy decisions begin — reducing mid-season corrections.',
     techIntegration: 'Integrates with AEX for buy quantity guardrails, BPE for inventory plan inputs, and Centric for space-informed line plan constraints.',
     successMetrics: 'Space and financial targets distributed to all workstreams before each seasonal planning cycle. Reduction in mid-season financial reforecasting.',
-    owners: TBD_OWNERS(), resources: res(),
+    owners: TBD_OWNERS(), resources: res(), workstreams: ['strategy'],
   },
   {
     id: 'trend-api-longlead', title: 'Trend API — Long Lead & In-Season', icon: '\uD83D\uDCC8',
@@ -29,7 +29,7 @@ const CARDS_STRATEGY = [
     businessBenefit: 'Merchants and designers get automated trend signals fed directly into planning tools, eliminating manual trend research and accelerating line plan decisions.',
     techIntegration: 'API integrates with Centric (design intent), AEX (assortment weighting), and the Strategy Hub for trend-to-plan alignment.',
     successMetrics: 'Trend API serving all targeted long-lead categories. Measurable reduction in time from trend identification to plan integration.',
-    owners: pptOwners('Bill Chiodetti', '', ''), resources: res(),
+    owners: pptOwners('Bill Chiodetti', '', ''), resources: res(), workstreams: ['strategy'],
   },
   {
     id: 'trend-packaging-redesign', title: 'V1 Trend-to-Packaging Redesign', icon: '\uD83C\uDFA8',
@@ -38,7 +38,7 @@ const CARDS_STRATEGY = [
     businessBenefit: 'Reduces cycle time from trend identification to packaging specification, with traceability of why packaging decisions were made.',
     techIntegration: 'Trend API output feeds into Centric PLM for product and packaging spec creation. Integrated event layer connects trend source to design execution.',
     successMetrics: 'V1 in production and adopted by target design categories. Packaging iteration cycle time measurably reduced.',
-    owners: pptOwners('Bill Chiodetti', '', ''), resources: res(),
+    owners: pptOwners('Bill Chiodetti', '', ''), resources: res(), workstreams: ['strategy'],
   },
   {
     id: 'synthetic-panel', title: 'V1 Synthetic Panel (WMT Data Ventures)', icon: '\uD83E\uDD16',
@@ -47,7 +47,7 @@ const CARDS_STRATEGY = [
     businessBenefit: 'Reduces risk of product misses by simulating customer reactions to designs before commitment — lowering markdown rates on new product introductions.',
     techIntegration: 'Synthetic panel integrates with Centric for design feedback loops and with the Trend API for combined trend + synthetic-consumer signal.',
     successMetrics: 'V1 synthetic panel in production with WMT Data Ventures. Fashion teams actively consuming synthetic panel outputs in line plan decisions.',
-    owners: pptOwners('Bill Chiodetti', '', ''), resources: res(),
+    owners: pptOwners('Bill Chiodetti', '', ''), resources: res(), workstreams: ['strategy'],
   },
   {
     id: 'forecast-enterprise-service', title: 'Forecast as Enterprise Service', icon: '\uD83E\uDDE0',
@@ -57,7 +57,11 @@ const CARDS_STRATEGY = [
     businessBenefit: 'Single, trusted forecast signal across all Fashion workstreams eliminates conflicting demand signals between Buying and Allocation. Forecast as a service reduces duplicative DS investment and accelerates new-department onboarding.',
     techIntegration: 'Jira: OPIF-325188. DS microservice architecture with batch inference pipeline. Forecast consumed by AEX (BQ), BPE (allocation planning), and DBP (distribution). Channel and placement split enables eComm vs. store differentiation in every forecast output.',
     successMetrics: 'Forecast service adopted by all target Buying and Allocation workstreams. Conflicting forecast signals between workstreams eliminated. DS model training fully automated with no manual intervention required.',
-    owners: pptOwners('Bill Chiodetti', '', ''), resources: res('https://jira.walmart.com/browse/OPIF-325188'),
+    owners: pptOwners('Bill Chiodetti', '', ''),
+    resources: res('https://jira.walmart.com/browse/OPIF-325188', '#', '#', '#', [
+      { label: 'LLTT Dashboard (Confluence)', url: 'https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard' },
+    ]),
+    workstreams: ['strategy', 'buying', 'allocation'],
   },
   {
     id: 'shared-merch-strategy', title: 'Shared Merch Strategy & Scenario Planning', icon: '\uD83C\uDFAF',
@@ -67,7 +71,11 @@ const CARDS_STRATEGY = [
     businessBenefit: 'Merchants shift from encoding decisions manually to encoding strategy and goals — the system generates and evaluates scenarios. Dramatically reduces planning cycle time and enables what-if evaluation before financial commitment.',
     techIntegration: 'Jira: OPIF-325203. Strategy repository connects TTP inputs to AEX line plan generation and Centric conceptual plan. Scenario engine evaluates financial and space implications of strategy choices automatically.',
     successMetrics: 'Strategy-based conceptual line plans generated automatically for target departments. Scenario generation and selection adopted by merchant planning teams. Manual strategy-to-plan translation steps eliminated.',
-    owners: pptOwners('Bill Chiodetti', '', ''), resources: res('https://jira.walmart.com/browse/OPIF-325203'),
+    owners: pptOwners('Bill Chiodetti', '', ''),
+    resources: res('https://jira.walmart.com/browse/OPIF-325203', '#', '#', '#', [
+      { label: 'LLTT Dashboard (Confluence)', url: 'https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard' },
+    ]),
+    workstreams: ['strategy', 'buying', 'allocation'],
   },
   {
     id: 'growth-budget-signals', title: 'Growth & Budget IBG Signal Integration', icon: '\uD83D\uDCB9',
@@ -76,7 +84,7 @@ const CARDS_STRATEGY = [
     businessBenefit: 'Trend decisions are automatically filtered through financial guardrails — preventing investment in trends that conflict with budget priorities.',
     techIntegration: 'IBG signals from TTP flow into the Trend API and Centric to weight trend recommendations by financial viability and growth priorities.',
     successMetrics: 'Growth and budget signals actively shaping trend API output. Planning teams no longer manually reconciling trend vs. budget in separate steps.',
-    owners: pptOwners('Bill Chiodetti', '', ''), resources: res(),
+    owners: pptOwners('Bill Chiodetti', '', ''), resources: res(), workstreams: ['strategy'],
   },
   {
     id: 'trend-api-100pct', title: 'Trend API — 100% Long-Lead Categories', icon: '\uD83D\uDE80',
@@ -85,7 +93,7 @@ const CARDS_STRATEGY = [
     businessBenefit: 'Every long-lead merchant receives automated trend signals — leveling up the quality of assortment decisions across all departments, not just pilot categories.',
     techIntegration: 'Trend API extended to all long-lead category configurations in AEX and Centric. Automated onboarding pipeline for new category additions.',
     successMetrics: 'Trend API serving 100% of long-lead categories as confirmed by category coverage report. Zero long-lead categories relying solely on manual trend research.',
-    owners: pptOwners('Bill Chiodetti', '', ''), resources: res(),
+    owners: pptOwners('Bill Chiodetti', '', ''), resources: res(), workstreams: ['strategy'],
   },
   {
     id: 'cross-functional-alignment', title: 'Cross-Functional Alignment', icon: '\uD83E\uDD1D',
@@ -94,7 +102,7 @@ const CARDS_STRATEGY = [
     businessBenefit: 'Teams no longer wait for sequential handoffs. Shared visibility means all workstreams move in parallel against the same plan.',
     techIntegration: 'Enabled through TTP as the shared data layer, surfaced via dashboards accessible across all Fashion tools (AEX, Centric, BPE).',
     successMetrics: 'Cross-functional review cycle time reduced. All workstream leads reference the same seasonal plan data.',
-    owners: TBD_OWNERS(), resources: res(),
+    owners: TBD_OWNERS(), resources: res(), workstreams: ['strategy'],
   },
   {
     id: 'category-priorities', title: 'Category Priority Framework', icon: '\uD83C\uDFAF',
@@ -103,7 +111,7 @@ const CARDS_STRATEGY = [
     businessBenefit: 'Investment decisions flow automatically into buying and allocation — not re-interpreted at each level.',
     techIntegration: 'Category priority data flows from TTP into AEX for assortment weighting and into BPE for inventory investment guardrails.',
     successMetrics: 'Category targets reflected in assortment plans within one planning cycle. Zero buying against a deprioritized category without approval.',
-    owners: TBD_OWNERS(), resources: res(),
+    owners: TBD_OWNERS(), resources: res(), workstreams: ['strategy'],
   },
   {
     id: 'strategy-fy27-kickoff', title: 'FY27 Strategic Planning Kickoff', icon: '\uD83D\uDCCA',
@@ -112,7 +120,7 @@ const CARDS_STRATEGY = [
     businessBenefit: 'FY27 strategy built on a proven, tool-supported foundation rather than starting from scratch each cycle.',
     techIntegration: 'TTP FY27 plan builds on FY26 platform with enhanced data feeds from AEX actuals, BPE performance, and Centric line plan completion rates.',
     successMetrics: 'FY27 strategic plan completed in TTP by end of Q3. All workstream leads aligned before Q4 FY26 planning begins.',
-    owners: TBD_OWNERS(), resources: res(),
+    owners: TBD_OWNERS(), resources: res(), workstreams: ['strategy'],
   },
   {
     id: 'strategy-transformation-review', title: 'Transformation Review & FY28 Framework', icon: '\uD83D\uDD2D',
@@ -121,6 +129,6 @@ const CARDS_STRATEGY = [
     businessBenefit: 'Leadership receives full-cycle ROI view and a clear foundation for the next phase of Fashion technology investment.',
     techIntegration: 'Leverages data from all systems (AEX, Centric, BPE/DBP, TTP) for a unified performance dashboard.',
     successMetrics: 'Transformation scorecard presented to senior leadership. FY28 framework drafted before end of Q4.',
-    owners: TBD_OWNERS(), resources: res(),
+    owners: TBD_OWNERS(), resources: res(), workstreams: ['strategy'],
   },
 ];

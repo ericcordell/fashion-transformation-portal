@@ -11,7 +11,7 @@ const CARDS_ALLOCATION = [
     businessBenefit: 'Planners work in one environment instead of reconciling multiple competing tools. Forecast changes propagate automatically across BPE, DBP, and downstream systems.',
     techIntegration: 'BPE is unified planning system of record. Integration with AEX ensures buy quantities reflect the latest demand signal. DBP consumes BPE outputs for distribution planning.',
     successMetrics: 'All planning decisions recorded in BPE as single source of truth. Off-system workarounds eliminated. Forecast override propagation reduced from days to hours.',
-    owners: TBD_OWNERS(), resources: res(),
+    owners: TBD_OWNERS(), resources: res(), workstreams: ['allocation'],
   },
   {
     id: 'bpe-seasonal', title: 'BPE Seasonal Planning', icon: '\uD83D\uDCC8',
@@ -20,7 +20,7 @@ const CARDS_ALLOCATION = [
     businessBenefit: 'Inventory planners get an integrated seasonal view connecting demand signal, open-to-buy, and historical performance — smarter buy quantity decisions earlier in the season.',
     techIntegration: 'BPE seasonal outputs feed into AEX for buy quantity guardrails and DBP for pre-season distribution planning. Integration with TTP for seasonal financial target alignment.',
     successMetrics: 'Seasonal plan completed in BPE for all 5 in-scope departments by planning deadline. Buy quantities in AEX align to BPE demand signal within defined tolerance.',
-    owners: TBD_OWNERS(), resources: res(),
+    owners: TBD_OWNERS(), resources: res(), workstreams: ['allocation'],
   },
   {
     id: 'tagging-pilot', title: 'Tagging & Affinity Graph — Assortment Gaps Pilot', icon: '\uD83C\uDFF7\uFE0F',
@@ -31,7 +31,12 @@ const CARDS_ALLOCATION = [
     techIntegration: 'Jira: OPIF-325602 (Tagging & Affinity Graph). DS model built on BigQuery. Tagging taxonomy integrates with AEX assortment data and Centric product records. CSA and DS sizing in progress. Affinity graph powers downstream recommendation engine.',
     successMetrics: 'Tagging pilot DS model live by Mar 13. Assortment gap identification validated with merchant team. Tagging taxonomy covers all target Fashion categories. Affinity graph accuracy confirmed.',
     owners: pptOwners('Michael Allen', '', ''),
-    resources: res('https://jira.walmart.com/browse/OPIF-325602'),
+    resources: res('https://jira.walmart.com/browse/OPIF-325602', '#', '#', '#', [
+      { label: 'OPIF-325373 — Tag-based In-Season Swaps (downstream)', url: 'https://jira.walmart.com/browse/OPIF-325373' },
+      { label: 'OPIF-325374 — Dynamic PO Re-Distribution (downstream)', url: 'https://jira.walmart.com/browse/OPIF-325374' },
+      { label: 'LLTT Dashboard', url: 'https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard' },
+    ]),
+    workstreams: ['allocation', 'buying'],
   },
   {
     id: 'distrib-optimization', title: 'Distribution Planning Optimization', icon: '\uD83D\uDCE6',
@@ -40,7 +45,7 @@ const CARDS_ALLOCATION = [
     businessBenefit: 'More product lands in the right store at the right time — reducing markdowns from over-allocation and lost sales from under-allocation.',
     techIntegration: 'DBP optimization layer consumes real-time store inventory, AEX committed buy data, and BPE demand signals for improved allocation recommendations.',
     successMetrics: 'Store-level in-stock rate improves vs. prior season. Over-allocation markdown rate decreases. Allocation accuracy score tracked weekly.',
-    owners: TBD_OWNERS(), resources: res(),
+    owners: TBD_OWNERS(), resources: res(), workstreams: ['allocation'],
   },
   {
     id: 'enterprise-trend-api-inseason', title: 'Enterprise Trend API \u2014 In-Season / Cont. Merch', icon: '\uD83D\uDCF6',
@@ -49,7 +54,7 @@ const CARDS_ALLOCATION = [
     businessBenefit: 'Allocation teams react to in-season trend shifts with data-driven replenishment recommendations rather than relying solely on historical velocity signals.',
     techIntegration: 'Enterprise Trend API serves Fashion in-season via integration with BPE replenishment and DBP allocation workflows. Shares same API layer as Strategy and Design trend workstreams.',
     successMetrics: 'Trend API live for in-season Allocation workflows. Replenishment recommendations incorporating trend signal adopted by target allocation teams.',
-    owners: pptOwners('Bill Chiodetti', '', ''), resources: res(),
+    owners: pptOwners('Bill Chiodetti', '', ''), resources: res(), workstreams: ['allocation', 'strategy'],
   },
   {
     id: 'tag-based-recommendations', title: 'Tag-Based Line & In-Season Recommendations', icon: '\uD83E\uDD16',
@@ -60,7 +65,11 @@ const CARDS_ALLOCATION = [
     techIntegration: 'Jira: OPIF-325373 (Tag-based In-Season Swaps), OPIF-325374 (Dynamic PO Re-Distribution). Builds on Tagging Pilot (OPIF-325602). Recommendation engine consumes affinity graph, in-season velocity, and inventory position from DBP and AEX.',
     successMetrics: 'Tag-based swap recommendations adopted by target allocation teams. Dynamic PO re-distribution covering >90% of eligible POs by end of Q3. Trapped inventory rate measurably reduced vs. prior season.',
     owners: pptOwners('Michael Allen', 'TBD', 'TBD'),
-    resources: res('https://jira.walmart.com/browse/OPIF-325373'),
+    resources: res('https://jira.walmart.com/browse/OPIF-325373', '#', '#', '#', [
+      { label: 'OPIF-325374 — Dynamic PO Re-Distribution', url: 'https://jira.walmart.com/browse/OPIF-325374' },
+      { label: 'OPIF-325602 — Tagging & Affinity Graph (foundation)', url: 'https://jira.walmart.com/browse/OPIF-325602' },
+    ]),
+    workstreams: ['allocation', 'buying'],
   },
   {
     id: 'assort-product-phase2', title: 'Assort Product (AP) Phase 2 Enhancements', icon: '\uD83D\uDCCB',
@@ -71,7 +80,11 @@ const CARDS_ALLOCATION = [
     techIntegration: 'Jira: OPIF-325216, OPIF-325217 (AP Phase 2). MVG and on-demand volume groups built into AP Tool. Assortment optimization engine consumes tagging, affinity graph, and BQ forecast service. Shared event calendar connects AP, Centric, and OneSource.',
     successMetrics: 'AP Phase 2 features adopted by target merchant groups. CC rule automation live. Assortment optimization engine surfacing recommendations for >80% of assortment decisions. Shared event calendar live across AP, Centric, OneSource.',
     owners: pptOwners('Michael Allen', 'TBD', 'TBD'),
-    resources: res('https://jira.walmart.com/browse/OPIF-325216'),
+    resources: res('https://jira.walmart.com/browse/OPIF-325216', '#', '#', '#', [
+      { label: 'OPIF-325217 — AP Phase 2 (companion)', url: 'https://jira.walmart.com/browse/OPIF-325217' },
+      { label: 'OPIF-337970 — Shared Project Tracking & Event Calendar', url: 'https://jira.walmart.com/browse/OPIF-337970' },
+    ]),
+    workstreams: ['allocation', 'buying'],
   },
   {
     id: 'enterprise-wave-planning', title: 'Enterprise Wave Planning & Allocation', icon: '\uD83C\uDFEA',
@@ -81,7 +94,11 @@ const CARDS_ALLOCATION = [
     techIntegration: 'Jira: OPIF-325598, OPIF-325599 (Wave Planning). DBP consumes finalized buy and assortment data from AEX and BPE to generate wave plans. Integration with store systems and supply chain for automated distribution execution. New Store PO automation included.',
     successMetrics: 'Wave plans generated automatically from committed buy data. Distribution executed without manual re-entry into store systems. In-stock rate improvement measurable within first season.',
     owners: pptOwners('Veena Swaminathan', '', ''),
-    resources: res('https://jira.walmart.com/browse/OPIF-325598'),
+    resources: res('https://jira.walmart.com/browse/OPIF-325598', '#', '#', '#', [
+      { label: 'OPIF-325599 — Wave Planning (companion/downstream)', url: 'https://jira.walmart.com/browse/OPIF-325599' },
+      { label: 'LLTT Dashboard', url: 'https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard' },
+    ]),
+    workstreams: ['allocation', 'buying'],
   },
   {
     id: 'fashion-fixture-tagging', title: 'Fashion Fixture Allocation: Tagging-Based Assortment', icon: '\uD83C\uDFF7\uFE0F',
@@ -91,7 +108,7 @@ const CARDS_ALLOCATION = [
     businessBenefit: 'Fixture assortment driven by data-informed tagging rather than manual merchant judgment — improving product placement relevance and reducing slow-sellers in key fixtures.',
     techIntegration: 'Builds on the Q2 Tagging Pilot infrastructure. Affinity graph and tagging model output integrated into fixture allocation planning workflow.',
     successMetrics: 'Tagging-based fixture assortment recommendations live for target categories. Fixture-level sell-through rate improving vs. manually-planned fixtures.',
-    owners: pptOwners('Michael Allen', '', ''), resources: res(),
+    owners: pptOwners('Michael Allen', '', ''), resources: res(), workstreams: ['allocation'],
   },
   {
     id: 'merch-financial', title: 'Merchandise Financial Planning', icon: '\uD83D\uDCB0',
@@ -100,7 +117,7 @@ const CARDS_ALLOCATION = [
     businessBenefit: 'Gives leadership real-time visibility into financial performance against plan. All Fashion departments plan in one MFP tool.',
     techIntegration: 'MFP integrates with TTP (top-down targets), AEX (buy actuals), and BPE (demand plan) to produce a closed-loop financial view from strategy to execution.',
     successMetrics: 'Financial plan vs. actuals reconciliation time reduced. Leadership has real-time MFP dashboard access. All Fashion departments in unified MFP by end of Q4.',
-    owners: TBD_OWNERS(), resources: res(),
+    owners: TBD_OWNERS(), resources: res(), workstreams: ['allocation'],
   },
 ];
 

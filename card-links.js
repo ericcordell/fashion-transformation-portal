@@ -1,270 +1,178 @@
-// card-links.js — Per-card link editor tab
-// Exposes: window.buildLinksTab(cardId, resources)
-// Saves edits to localStorage (portal_links_v1)
-// ZERO inline onclick / no globals polluted beyond the one public function
+// card-links.js — Per-card Links tab (READ-ONLY)
+// Exposes: window.buildLinksTab(cardId, resources, workstreams)
+// No editing, no localStorage — all links come directly from data files.
+// Source of truth: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
 
 (function () {
 
-  var LS_KEY = 'portal_links_v1';
+  var WS_CFG = {
+    strategy:   { label: 'Strategy',   emoji: '\uD83C\uDFDB\uFE0F', color: '#37474f', bg: '#eceff1', border: '#90a4ae' },
+    design:     { label: 'Design',     emoji: '\uD83C\uDFA8', color: '#0053e2', bg: '#eef2ff', border: '#93c5fd' },
+    buying:     { label: 'Buying',     emoji: '\uD83D\uDED2', color: '#b86000', bg: '#fff8ed', border: '#fcd34d' },
+    allocation: { label: 'Allocation', emoji: '\uD83D\uDCE6', color: '#1a1a6e', bg: '#eef0ff', border: '#a5b4fc' },
+  };
 
   var LINK_DEFS = [
-    { field: 'opif',   icon: '\uD83D\uDCCB', label: 'OPIF',            sublabel: 'Opportunity / Initiative Framework' },
-    { field: 'brd',    icon: '\uD83D\uDCDD', label: 'BRD',             sublabel: 'Business Requirements Document'     },
-    { field: 'prd',    icon: '\uD83D\uDCE6', label: 'PRD',             sublabel: 'Product Requirements Document'       },
-    { field: 'uxDemo', icon: '\uD83C\uDFA8', label: 'UX Demo',         sublabel: 'Design & UX walkthrough / prototype' },
+    { field: 'opif',   icon: '\uD83D\uDCCB', label: 'OPIF',    sublabel: 'Opportunity / Initiative Framework (Jira)' },
+    { field: 'brd',    icon: '\uD83D\uDCDD', label: 'BRD',     sublabel: 'Business Requirements Document'           },
+    { field: 'prd',    icon: '\uD83D\uDCE6', label: 'PRD',     sublabel: 'Product Requirements Document'             },
+    { field: 'uxDemo', icon: '\uD83C\uDFA8', label: 'UX Demo', sublabel: 'Design & UX walkthrough / prototype'      },
   ];
 
-  // ── localStorage helpers ───────────────────────────────
-  function _load() {
-    try { return JSON.parse(localStorage.getItem(LS_KEY) || '{}'); } catch (e) { return {}; }
-  }
-  function _save(cardId, field, url) {
-    var d = _load();
-    if (!d[cardId]) d[cardId] = {};
-    if (url) {
-      d[cardId][field] = url;
-    } else {
-      delete d[cardId][field];
-      if (!Object.keys(d[cardId]).length) delete d[cardId];
-    }
-    try { localStorage.setItem(LS_KEY, JSON.stringify(d)); } catch (e) {}
-  }
-  function _getUrl(cardId, field, dataUrl) {
-    var d = _load();
-    return (d[cardId] && d[cardId][field]) || dataUrl || null;
-  }
+  var DASHBOARD_URL = 'https://confluence.walmart.com/display/APREC/' +
+    'Long+Lead+Time+Transformation+Work+Management+Dashboard';
 
   // ── Public entry ───────────────────────────────────────
-  // Call this from openModal() after switching to the links tab.
-  // It builds the tab content and wires all interactions.
-  window.buildLinksTab = function (cardId, resources) {
+  window.buildLinksTab = function (cardId, resources, workstreams) {
     var panel = document.getElementById('tab-links');
     if (!panel) return;
-
-    // Clear and rebuild
     panel.innerHTML = '';
-    var wrap = document.createElement('div');
-    wrap.style.cssText = 'padding:20px 24px;display:flex;flex-direction:column;gap:10px;';
 
-    // Hint bar
-    var hint = document.createElement('p');
-    hint.style.cssText = 'margin:0 0 6px;font-size:0.72rem;color:#64748b;' +
-      'background:#fffbf0;border:1px solid #fde68a;border-radius:8px;padding:8px 12px;';
-    hint.innerHTML = '\u270F\uFE0F Click <strong>Edit</strong> on any row to set or correct the link. ' +
-      'Changes are saved to your browser.';
-    wrap.appendChild(hint);
+    var wrap = _el('div', 'padding:20px 24px;display:flex;flex-direction:column;gap:14px;');
 
-    // One row per link type
+    // ── Source of truth banner ──
+    var banner = _el('a',
+      'display:flex;align-items:center;gap:10px;padding:9px 14px;' +
+      'background:#eef2ff;border:1.5px solid #c7d2fe;border-radius:10px;' +
+      'text-decoration:none;transition:background .15s;');
+    banner.href   = DASHBOARD_URL;
+    banner.target = '_blank';
+    banner.rel    = 'noopener';
+    var bIcon = _el('span', 'font-size:1.1rem;flex-shrink:0;');
+    bIcon.textContent = '\uD83D\uDCC4';
+    var bText = _el('div', 'flex:1;min-width:0;');
+    var bTop  = _el('p', 'margin:0;font-size:0.74rem;font-weight:700;color:#0053e2;');
+    bTop.textContent  = 'Source of Truth: LLTT Work Management Dashboard';
+    var bSub  = _el('p', 'margin:2px 0 0;font-size:0.65rem;color:#4f46e5;');
+    bSub.textContent  = 'confluence.walmart.com — APREC Space';
+    bText.appendChild(bTop); bText.appendChild(bSub);
+    var bArr = _el('span', 'font-size:0.75rem;color:#0053e2;flex-shrink:0;');
+    bArr.textContent = '\u2192';
+    banner.appendChild(bIcon); banner.appendChild(bText); banner.appendChild(bArr);
+    wrap.appendChild(banner);
+
+    // ── Workstream chips ──
+    var ws = Array.isArray(workstreams) && workstreams.length ? workstreams : [];
+    if (ws.length) {
+      var wsWrap = _el('div', 'display:flex;flex-direction:column;gap:6px;');
+      var wsLabel = _el('p',
+        'margin:0;font-size:0.64rem;font-weight:800;text-transform:uppercase;' +
+        'letter-spacing:.07em;color:#94a3b8;');
+      wsLabel.textContent = 'Workstream(s)';
+      var chips = _el('div', 'display:flex;flex-wrap:wrap;gap:6px;');
+      ws.forEach(function (key) {
+        var cfg = WS_CFG[key];
+        if (!cfg) return;
+        var chip = _el('span',
+          'display:inline-flex;align-items:center;gap:5px;font-size:0.7rem;font-weight:700;' +
+          'padding:4px 10px;border-radius:99px;border:1.5px solid ' + cfg.border + ';' +
+          'background:' + cfg.bg + ';color:' + cfg.color + ';');
+        chip.textContent = cfg.emoji + ' ' + cfg.label;
+        chips.appendChild(chip);
+      });
+      wsWrap.appendChild(wsLabel); wsWrap.appendChild(chips);
+      wrap.appendChild(wsWrap);
+    }
+
+    // ── Divider ──
+    var div = _el('div', 'border-top:1px solid #f1f5f9;');
+    wrap.appendChild(div);
+
+    // ── Standard link rows ──
+    var hasAnyLink = false;
+    var res = resources || {};
     LINK_DEFS.forEach(function (def) {
-      var row = _buildRow(cardId, def, (resources || {})[def.field] || null);
-      wrap.appendChild(row);
+      var url = _resolve(res[def.field]);
+      if (!url) return;
+      hasAnyLink = true;
+      wrap.appendChild(_linkRow(def.icon, def.label, def.sublabel, url));
     });
 
-    // Extra "other" links from data (read-only, no edit needed)
-    var others = (resources && resources.other) ? resources.other : [];
+    // ── Other / companion links ──
+    var others = Array.isArray(res.other) ? res.other : [];
     if (others.length) {
-      var sep = document.createElement('div');
-      sep.style.cssText = 'font-size:0.66rem;font-weight:800;text-transform:uppercase;' +
-        'letter-spacing:.06em;color:#94a3b8;padding:4px 0 2px;';
-      sep.textContent = 'Additional Resources';
-      wrap.appendChild(sep);
+      if (hasAnyLink) wrap.appendChild(_el('div', 'border-top:1px solid #f1f5f9;margin:2px 0;'));
+      var othLabel = _el('p',
+        'margin:0 0 6px;font-size:0.64rem;font-weight:800;text-transform:uppercase;' +
+        'letter-spacing:.07em;color:#94a3b8;');
+      othLabel.textContent = 'Related Resources';
+      wrap.appendChild(othLabel);
       others.forEach(function (o) {
-        wrap.appendChild(_buildStaticRow('\uD83D\uDD17', o.label, 'Additional resource', o.url));
+        if (!o || !o.url) return;
+        wrap.appendChild(_linkRow('\uD83D\uDD17', o.label || 'Resource', '', o.url));
       });
+      hasAnyLink = true;
+    }
+
+    // ── Empty state ──
+    if (!hasAnyLink) {
+      var empty = _el('div',
+        'padding:28px;text-align:center;color:#94a3b8;font-size:0.8rem;' +
+        'border:1.5px dashed #e2e8f0;border-radius:12px;');
+      empty.innerHTML = '\uD83D\uDD17 No specific links yet for this deliverable.<br>' +
+        '<span style="font-size:0.7rem;">See the LLTT Dashboard above for live OPIF status.</span>';
+      wrap.appendChild(empty);
     }
 
     panel.appendChild(wrap);
   };
 
-  // ── Build one editable link row ────────────────────────
-  function _buildRow(cardId, def, dataUrl) {
-    var outer = document.createElement('div');
-    outer.style.cssText = 'border:1.5px solid #e2e8f0;border-radius:12px;overflow:hidden;' +
-      'transition:border-color .15s;';
-
-    // ── Display mode ──
-    var display = document.createElement('div');
-    display.style.cssText = 'display:flex;align-items:center;gap:12px;padding:12px 14px;';
-
-    var iconEl = document.createElement('span');
-    iconEl.style.cssText = 'font-size:1.3rem;flex-shrink:0;';
-    iconEl.textContent = def.icon;
-
-    var info = document.createElement('div');
-    info.style.cssText = 'flex:1;min-width:0;';
-    var labelEl = document.createElement('p');
-    labelEl.style.cssText = 'margin:0;font-size:0.82rem;font-weight:700;color:#1e293b;';
-    labelEl.textContent = def.label;
-    var sublabelEl = document.createElement('p');
-    sublabelEl.style.cssText = 'margin:2px 0 0;font-size:0.7rem;color:#94a3b8;';
-    sublabelEl.textContent = def.sublabel;
-    info.appendChild(labelEl);
-    info.appendChild(sublabelEl);
-
-    var linkArea = document.createElement('div');
-    linkArea.style.cssText = 'display:flex;align-items:center;gap:8px;flex-shrink:0;';
-
-    var linkEl = document.createElement('a');
-    linkEl.style.cssText = 'font-size:0.72rem;font-weight:600;padding:4px 10px;' +
-      'border-radius:7px;text-decoration:none;transition:opacity .15s;white-space:nowrap;';
-
-    var editBtn = document.createElement('button');
-    editBtn.textContent = '\u270F\uFE0F Edit';
-    editBtn.style.cssText = 'font-size:0.7rem;font-weight:600;padding:4px 10px;' +
-      'border:1.5px solid #e2e8f0;border-radius:7px;background:white;color:#64748b;' +
-      'cursor:pointer;transition:border-color .15s,color .15s;white-space:nowrap;';
-    editBtn.addEventListener('mouseenter', function () {
-      editBtn.style.borderColor = '#0053e2'; editBtn.style.color = '#0053e2';
+  // ── Build one read-only link row ───────────────────────
+  function _linkRow(icon, label, sublabel, url) {
+    var outer = _el('a',
+      'display:flex;align-items:center;gap:12px;padding:11px 14px;' +
+      'border:1.5px solid #e2e8f0;border-radius:12px;text-decoration:none;' +
+      'transition:border-color .15s,background .15s;cursor:pointer;');
+    outer.href   = url;
+    outer.target = '_blank';
+    outer.rel    = 'noopener';
+    outer.addEventListener('mouseenter', function () {
+      outer.style.borderColor = '#0053e2'; outer.style.background = '#f0f4ff';
     });
-    editBtn.addEventListener('mouseleave', function () {
-      editBtn.style.borderColor = '#e2e8f0'; editBtn.style.color = '#64748b';
+    outer.addEventListener('mouseleave', function () {
+      outer.style.borderColor = '#e2e8f0'; outer.style.background = '';
     });
 
-    linkArea.appendChild(linkEl);
-    linkArea.appendChild(editBtn);
+    var iconEl = _el('span', 'font-size:1.25rem;flex-shrink:0;');
+    iconEl.textContent = icon;
 
-    display.appendChild(iconEl);
-    display.appendChild(info);
-    display.appendChild(linkArea);
+    var info = _el('div', 'flex:1;min-width:0;');
+    var lbl  = _el('p', 'margin:0;font-size:0.82rem;font-weight:700;color:#1e293b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;');
+    lbl.textContent = label;
+    info.appendChild(lbl);
 
-    // ── Edit mode ──
-    var editRow = document.createElement('div');
-    editRow.style.cssText = 'display:none;padding:10px 14px 12px;' +
-      'border-top:1.5px solid #e2e8f0;background:#f8fafc;';
-
-    var inp = document.createElement('input');
-    inp.type = 'url';
-    inp.placeholder = 'https://jira.walmart.com/browse/OPIF-...';
-    inp.style.cssText = 'width:100%;box-sizing:border-box;height:34px;padding:0 10px;' +
-      'border:1.5px solid #e2e8f0;border-radius:8px;font-size:0.78rem;outline:none;' +
-      'margin-bottom:8px;';
-    inp.addEventListener('focus', function () { inp.style.borderColor = '#0053e2'; });
-    inp.addEventListener('blur',  function () { inp.style.borderColor = '#e2e8f0'; });
-
-    var btnRow = document.createElement('div');
-    btnRow.style.cssText = 'display:flex;gap:8px;';
-
-    var saveBtn  = _btn('Save',   '#0053e2', 'white');
-    var clearBtn = _btn('Clear',  '#fee2e2', '#991b1b');
-    var cancelBtn= _btn('Cancel', '#f1f5f9', '#475569');
-    btnRow.appendChild(saveBtn);
-    btnRow.appendChild(clearBtn);
-    btnRow.appendChild(cancelBtn);
-
-    var savedNotice = document.createElement('span');
-    savedNotice.style.cssText = 'font-size:0.7rem;color:#2a8703;margin-left:6px;' +
-      'opacity:0;transition:opacity .3s;';
-    savedNotice.textContent = '\u2713 Saved';
-    btnRow.appendChild(savedNotice);
-
-    editRow.appendChild(inp);
-    editRow.appendChild(btnRow);
-
-    outer.appendChild(display);
-    outer.appendChild(editRow);
-
-    // ── Internal refresh ──
-    // Re-reads localStorage and updates the display link element
-    function _syncDisplay() {
-      var url = _getUrl(cardId, def.field, dataUrl);
-      if (url) {
-        linkEl.href        = url;
-        linkEl.target      = '_blank';
-        linkEl.rel         = 'noopener';
-        linkEl.textContent = def.label + ' \u2192';
-        linkEl.style.background   = '#eef2ff';
-        linkEl.style.color        = '#0053e2';
-        linkEl.style.pointerEvents = 'auto';
-        outer.style.borderColor   = '#c7d2fe';
-      } else {
-        linkEl.removeAttribute('href');
-        linkEl.removeAttribute('target');
-        linkEl.textContent = '\u2014 Not set';
-        linkEl.style.background   = 'transparent';
-        linkEl.style.color        = '#94a3b8';
-        linkEl.style.pointerEvents = 'none';
-        outer.style.borderColor   = '#e2e8f0';
-      }
+    if (sublabel) {
+      var sub = _el('p', 'margin:2px 0 0;font-size:0.68rem;color:#94a3b8;');
+      sub.textContent = sublabel;
+      info.appendChild(sub);
     }
 
-    function _openEdit() {
-      inp.value = _getUrl(cardId, def.field, dataUrl) || '';
-      editRow.style.display = '';
-      outer.style.borderColor = '#0053e2';
-      editBtn.style.display = 'none';
-      inp.focus();
-      inp.select();
-    }
+    // Show short domain for context
+    try {
+      var host = new URL(url).hostname.replace('www.','');
+      var domain = _el('p', 'margin:2px 0 0;font-size:0.64rem;color:#c7d2fe;font-family:monospace;');
+      domain.textContent = host;
+      info.appendChild(domain);
+    } catch (e) {}
 
-    function _closeEdit() {
-      editRow.style.display = 'none';
-      editBtn.style.display = '';
-      _syncDisplay();
-    }
+    var arr = _el('span', 'font-size:0.78rem;color:#0053e2;flex-shrink:0;font-weight:700;');
+    arr.textContent = '\u2192';
 
-    function _doSave() {
-      var url = inp.value.trim();
-      _save(cardId, def.field, url);
-      // Flash the saved notice
-      savedNotice.style.opacity = '1';
-      setTimeout(function () { savedNotice.style.opacity = '0'; }, 1800);
-      _closeEdit();
-    }
-
-    function _doClear() {
-      if (!confirm('Remove the saved link for ' + def.label + '?')) return;
-      _save(cardId, def.field, '');
-      _closeEdit();
-    }
-
-    editBtn.addEventListener  ('click',   _openEdit);
-    saveBtn.addEventListener  ('click',   _doSave);
-    clearBtn.addEventListener ('click',   _doClear);
-    cancelBtn.addEventListener('click',   _closeEdit);
-    inp.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter')  _doSave();
-      if (e.key === 'Escape') _closeEdit();
-    });
-
-    _syncDisplay(); // initial render
+    outer.appendChild(iconEl); outer.appendChild(info); outer.appendChild(arr);
     return outer;
   }
 
-  // ── Static read-only row (for res.other links) ─────────
-  function _buildStaticRow(icon, label, sublabel, url) {
-    var outer = document.createElement('div');
-    outer.style.cssText = 'display:flex;align-items:center;gap:12px;padding:11px 14px;' +
-      'border:1.5px solid #e2e8f0;border-radius:12px;';
-
-    var iconEl = document.createElement('span');
-    iconEl.style.fontSize = '1.2rem'; iconEl.textContent = icon;
-
-    var info = document.createElement('div'); info.style.flex = '1';
-    var l = document.createElement('p');
-    l.style.cssText = 'margin:0;font-size:0.8rem;font-weight:600;color:#1e293b;';
-    l.textContent = label;
-    var s = document.createElement('p');
-    s.style.cssText = 'margin:2px 0 0;font-size:0.69rem;color:#94a3b8;';
-    s.textContent = sublabel;
-    info.appendChild(l); info.appendChild(s);
-
-    var link = document.createElement('a');
-    link.href = url; link.target = '_blank'; link.rel = 'noopener';
-    link.textContent = 'Open \u2192';
-    link.style.cssText = 'font-size:0.72rem;font-weight:600;color:#0053e2;' +
-      'padding:4px 10px;border-radius:7px;background:#eef2ff;text-decoration:none;white-space:nowrap;';
-
-    outer.appendChild(iconEl); outer.appendChild(info); outer.appendChild(link);
-    return outer;
+  // ── Resolve placeholder URLs to null ──────────────────
+  function _resolve(url) {
+    if (!url || url === '#' || url.trim() === '') return null;
+    return url.trim();
   }
 
-  // ── Small button factory ───────────────────────────────
-  function _btn(text, bg, color) {
-    var b = document.createElement('button');
-    b.textContent = text;
-    b.style.cssText = 'padding:5px 14px;border:none;border-radius:7px;font-size:0.73rem;' +
-      'font-weight:700;cursor:pointer;background:' + bg + ';color:' + color + ';';
-    return b;
+  // ── Mini DOM helper ───────────────────────────────────
+  function _el(tag, css) {
+    var el = document.createElement(tag);
+    if (css) el.style.cssText = css;
+    return el;
   }
 
 }());

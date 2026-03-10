@@ -105,13 +105,11 @@
     <div class="px-6 pt-4 border-b border-gray-100 flex gap-2 flex-wrap">
       <button class="tab-btn active" onclick="switchTab('overview')">&#128196; Overview</button>
       <button class="tab-btn" onclick="switchTab('status')">&#128200; Status</button>
-      <button class="tab-btn" onclick="switchTab('resources')">&#128230; Resources</button>
-      <button class="tab-btn" onclick="switchTab('links')" style="color:#0053e2;">&#128279; Links</button>
+      <button class="tab-btn" onclick="switchTab('links')" style="color:#0053e2;">&#128279; Links &amp; Workstreams</button>
       <button class="tab-btn" onclick="switchTab('inquiry')" style="color:#7c3aed;">&#9993;&#65039; Inquiry</button>
     </div>
     <div id="tab-overview"  class="tab-panel active"></div>
     <div id="tab-status"    class="tab-panel"></div>
-    <div id="tab-resources" class="tab-panel"></div>
     <div id="tab-links"     class="tab-panel"></div>
     <div id="tab-inquiry"   class="tab-panel"></div>
   </div>
@@ -373,36 +371,8 @@ function openModal(cardId, workstream, tool) {
       </div>
     </div>`;
 
-  // --- resources tab ---
-  function resLink(icon, label, sublabel, url) {
-    const isPlaceholder = !url || url === '#';
-    return `
-      <a href="${url || '#'}" ${!isPlaceholder ? 'target="_blank"' : 'onclick="return false;"'}
-         class="flex items-center gap-3 p-3 rounded-xl border transition-all group
-                ${isPlaceholder ? 'border-dashed border-gray-200 opacity-50 cursor-default'
-                                : 'border-gray-200 hover:border-blue-400 hover:bg-blue-50 cursor-pointer'}">
-        <span class="text-xl">${icon}</span>
-        <div class="min-w-0">
-          <p class="text-sm font-semibold text-gray-800 group-hover:text-blue-700 truncate">${label}</p>
-          <p class="text-xs text-gray-400">${sublabel}${isPlaceholder ? ' \u2014 link TBD' : ''}</p>
-        </div>
-        ${!isPlaceholder ? '<span class="ml-auto text-gray-300 group-hover:text-blue-400 flex-shrink-0">&rarr;</span>' : ''}
-      </a>`;
-  }
-
-  const otherLinks = (res.other || []).map(o =>
-    resLink('\uD83D\uDD17', o.label, 'Additional resource', o.url)).join('');
-
-  document.getElementById('tab-resources').innerHTML = `
-    <div class="space-y-2 py-5 px-6">
-      ${resLink('\uD83D\uDCDD', 'BRD', 'Business Requirements Document', res.brd)}
-      ${resLink('\uD83D\uDCE6', 'PRD', 'Product Requirements Document', res.prd)}
-      ${resLink('\uD83C\uDFA8', 'UX Demo / Prototype', 'Design & UX walkthrough', res.uxDemo)}
-      ${otherLinks}
-    </div>`;
-
-  // --- links tab (editable OPIF + others via card-links.js) ---
-  buildLinksTab(card.id, res);
+  // --- links + workstreams tab (read-only, via card-links.js) ---
+  buildLinksTab(card.id, res, card.workstreams || []);
 
   // --- inquiry tab ---
   const ownerList = [
@@ -495,7 +465,7 @@ ${userText}
 function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
 
 function switchTab(name) {
-  const names = ['overview','status','resources','links','inquiry'];
+  const names = ['overview','status','links','inquiry'];
   document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', names[i] === name));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.getElementById('tab-' + name).classList.add('active');

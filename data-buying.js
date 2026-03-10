@@ -12,19 +12,22 @@ const CARDS_BUYING = [
     businessBenefit: '50% reduction in support tickets YoY. 1\u20132 day deployment cycles (down from 4\u20135 days). Foundation for all future AEX capability delivery.',
     techIntegration: 'Replaced legacy integration layer with modern resilient architecture. Automation via MCP Playwright with 99% automatable E2E test cases. Q1 prioritized backlog: 6 Fast Follows, 15 Stability, 3 Transformation items.',
     successMetrics: 'Support ticket volume down 50% YoY. Deployment cycle 1\u20132 days. Zero data-loss incidents on platform transition.',
-    owners: pptOwners('Brett Reid', '', 'Michael Allen'), resources: res(),
+    owners: pptOwners('Brett Reid', '', 'Michael Allen'), resources: res(), workstreams: ['buying'],
   },
   {
     id: 'aex-stability', title: 'AEX Stability & Quality of Life', icon: '\uD83D\uDEE1\uFE0F',
-    status: 'yellow', statusLabel: 'Yellow \u2014 At Risk',
+    status: 'green', statusLabel: 'Green \u2014 Q1 Improvements',
     quarter: 'Q1', targetDate: 'April 30, 2026', tag: 'Critical Program',
-    description: '24 AEX Stabilization OPIFs prioritized by business. 19 committed for Q1 & Q2 delivery. 5 pending commitment (3 in product discovery, 2 pending sizing). Of 24: 18 Green, 5 Yellow, 1 Red. Key MTAP tickets in WIP: MTAP-9154, MTAP-7474, MTAP-7438, MTAP-6808, MTAP-9541, MTAP-9570, MTAP-9543.',
-    businessBenefit: 'Merchants gain confidence that AEX decisions execute correctly — reducing costly mistakes from accidental deletions, incorrect size ordering, and data inconsistencies.',
-    techIntegration: 'Key at-risk items tracked in Jira: Automated Item Setup discovery (OPIF-344926), Handle Leftover Space (OPIF-293460), Tagging & Affinity Graph (OPIF-325602). Active bug fixes tracked as PRB incidents in MTAP project.',
-    pathToGreen: '5 OPIFs pending commitment: product and business teams accelerating discovery phase. Weekly OPIF status reviewed in Planning Dashboard. Target: all 19 committed OPIFs delivered by Q1/Q2 BTL dates.',
+    description: 'Q1 stability improvements delivering measurable impact across the AEX platform. Executing platform transition with zero data loss. Activating confirmation safeguards for fineline and style deletions — preventing accidental data loss. Unifying size ordering across Size & Pack and automating online item creation and new store POs. Of 24 prioritized OPIFs: 18 Green, 5 Yellow, 1 Red. Key MTAP tickets in WIP: MTAP-9154, MTAP-7474, MTAP-7438, MTAP-6808, MTAP-9541, MTAP-9570, MTAP-9543.',
+    businessBenefit: 'Merchants gain confidence that AEX decisions execute correctly — safeguards prevent accidental deletions, unified size ordering eliminates inconsistencies, and automated new-store POs remove manual work from the buying workflow.',
+    techIntegration: 'Key items tracked in Jira: Automated Item Setup discovery (OPIF-344926), Handle Leftover Space (OPIF-293460), Tagging & Affinity Graph (OPIF-325602). Active bug fixes tracked as PRB incidents in MTAP project.',
     successMetrics: 'All 24 OPIFs resolved or committed. Merchant satisfaction score improves. Support ticket volume continues downward trend from Neo baseline.',
     owners: pptOwners('Brett Reid', 'Prasanth Chalikandi', 'Michael Allen'),
-    resources: res('https://jira.walmart.com/browse/OPIF-344926'),
+    resources: res('https://jira.walmart.com/browse/OPIF-344926', '#', '#', '#', [
+      { label: 'OPIF-325602 — Tagging & Affinity Graph', url: 'https://jira.walmart.com/browse/OPIF-325602' },
+      { label: 'LLTT Dashboard (all 24 Stability OPIFs)', url: 'https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard' },
+    ]),
+    workstreams: ['buying'],
   },
   {
     id: 'longterm-buying', title: 'Long Leadtime Buying Workflow (LLTT)', icon: '\uD83D\uDDD3\uFE0F',
@@ -36,16 +39,18 @@ const CARDS_BUYING = [
     successMetrics: 'Long leadtime buy decisions finalized in AEX across all supported departments by seasonal deadline. Reduction in off-system spreadsheet workarounds. 90% of buys on confirmed happy path.',
     owners: TBD_OWNERS(),
     resources: res('https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard'),
+    workstreams: ['buying', 'design', 'allocation'],
   },
   {
     id: 'auto-item-setup', title: 'Automated Item Setup', icon: '\u2699\uFE0F',
     status: 'green', statusLabel: 'Green \u2014 On Track',
     quarter: 'Q2', targetDate: 'April 30, 2026', tag: 'Critical Program',
-    description: '3 pillars all on track: (1) Gen AI Data Enrichment, (2) Parent Anchored Variant Groups, (3) Seamless Data Flow (AEX \u2192 Item). Outcome: eliminate merchant manual item reconstruction and oversight.',
-    businessBenefit: 'Removes manual item setup work from Fashion Merchants entirely. Estimated to save hundreds of hours per season across the merchant organization.',
+    description: '3 pillars all on track: (1) Gen AI Data Enrichment, (2) Parent Anchored Variant Groups, (3) Seamless Data Flow (AEX \u2192 Item). Removes merchant execution from item setup and PO creation once assortment decisions are finalized in AEX. Captures merchant intent upfront — eliminating re-entry loops and supplier clarification cycles. Exception management and supplier support shifted to IDC team (human-in-the-loop model).',
+    businessBenefit: 'Removes manual item setup work from Fashion Merchants entirely. Merchant intent captured once in AEX; IDC team owns exceptions. Estimated to save hundreds of hours per season across the merchant organization.',
     techIntegration: 'AEX captures assortment intent and triggers automated item setup via integration with ISAM, Supplier One, and item setup systems. IDC handles exceptions through a managed queue.',
+    pathToGreen: 'Next Steps: Finalize engineering timelines for Supplier One and ISAM capabilities to resolve remaining merchant pain points.',
     successMetrics: 'Automated item setup rate >90% of eligible items. Merchant time on manual item setup reduced to near zero. PO creation cycle time reduced from days to hours.',
-    owners: pptOwners('Michael Allen', '', ''), resources: res(),
+    owners: pptOwners('Michael Allen', '', ''), resources: res(), workstreams: ['buying'],
   },
   {
     id: 'fashion-fixture-allocation-buying', title: 'Fashion Fixture Allocation (Visual)', icon: '\uD83C\uDFEA',
@@ -55,7 +60,7 @@ const CARDS_BUYING = [
     businessBenefit: 'Merchants can visualize and optimize fixture allocation without complex spreadsheets, leading to better product placement decisions and fewer fixture conflicts.',
     techIntegration: 'Built within the buying workflow toolset. Integrates with AEX assortment data for product-to-fixture mapping and with store planogram systems.',
     successMetrics: 'Visual fixture allocation adopted across target departments. Fixture conflicts reduced. Merchant fixture planning time measurably reduced.',
-    owners: pptOwners('Brett Reid', '', 'Michael Allen'), resources: res(),
+    owners: pptOwners('Brett Reid', '', 'Michael Allen'), resources: res(), workstreams: ['buying'],
   },
   {
     id: 'ai-item-repository', title: 'AI Item Repository Launch', icon: '\uD83E\uDDE0',
@@ -65,7 +70,7 @@ const CARDS_BUYING = [
     businessBenefit: 'Reduces time spent creating near-duplicate items from scratch. AI surfaces the closest existing items, enabling merchants to reuse, modify, or replace rather than rebuild.',
     techIntegration: 'AI repository indexes AEX item history and product attributes. ML model provides similarity scoring. Surfaced in AEX line plan and item creation workflows.',
     successMetrics: 'AI item reuse rate tracked and improving. New item creation time reduced for target merchant groups. Duplicate item rate decreasing quarter over quarter.',
-    owners: pptOwners('Brett Reid', '', 'Michael Allen'), resources: res(),
+    owners: pptOwners('Brett Reid', '', 'Michael Allen'), resources: res(), workstreams: ['buying'],
   },
   {
     id: 'size-pack-bq', title: 'Automated Size/Pack Buy Quantification', icon: '\uD83D\uDCE6',
@@ -76,7 +81,11 @@ const CARDS_BUYING = [
     techIntegration: 'Jira: OPIF-325374 (Size/Pack automation). Size/Pack BQ engine integrates with AEX demand signal, historical sell-through by size, and BPE for seasonal demand curve inputs. Discovery completed.',
     successMetrics: 'Automated size/pack BQ in use across target departments by Jul 31. Manual sizing calculation time reduced to near zero. Size-based markdown rate decreasing.',
     owners: pptOwners('Brett Reid', '', 'Michael Allen'),
-    resources: res('https://jira.walmart.com/browse/OPIF-325374'),
+    resources: res('https://jira.walmart.com/browse/OPIF-325374', '#', '#', '#', [
+      { label: 'OPIF-325602 — Tagging & Affinity Graph (foundation)', url: 'https://jira.walmart.com/browse/OPIF-325602' },
+      { label: 'OPIF-325373 — Tag-based In-Season Swaps', url: 'https://jira.walmart.com/browse/OPIF-325373' },
+    ]),
+    workstreams: ['buying', 'allocation'],
   },
   {
     id: 'ap-tool-lineplan', title: 'AP Tool Line Plan Integration w/ AEX', icon: '\uD83D\uDCC8',
@@ -87,7 +96,11 @@ const CARDS_BUYING = [
     techIntegration: 'Jira: OPIF-325568 (AEX Fashion LP Replacement), OPIF-325569 (Shared Item Repository connection). AP Tool line plan data syncs to AEX via shared integration layer. Fashion Excel Upload enabled via existing Assortment Planning capability.',
     successMetrics: 'AP Tool and AEX sharing live line plan data by Oct 30. Zero manual exports from AP Tool to AEX for in-scope workflows. Fashion metrics and attributes fully enabled.',
     owners: pptOwners('Brett Reid', '', 'Michael Allen'),
-    resources: res('https://jira.walmart.com/browse/OPIF-325568'),
+    resources: res('https://jira.walmart.com/browse/OPIF-325568', '#', '#', '#', [
+      { label: 'OPIF-325569 — Shared Item Repository', url: 'https://jira.walmart.com/browse/OPIF-325569' },
+      { label: 'OPIF-325218 — Fashion Metrics Enablement', url: 'https://jira.walmart.com/browse/OPIF-325218' },
+    ]),
+    workstreams: ['buying', 'design'],
   },
   {
     id: 'bam-collab-intent', title: 'BAM / Collab Intent Integration', icon: '\uD83E\uDD1D',
@@ -97,7 +110,7 @@ const CARDS_BUYING = [
     businessBenefit: 'Buying decisions reflect collaborative intent data automatically — reducing the lag between collaboration signals and committed buy decisions.',
     techIntegration: 'BAM and Collab Intent signals integrated into AEX via the shared event layer. Assortment recommendations automatically weighted by collaborative intent scores.',
     successMetrics: 'BAM/Collab Intent data live in AEX buying workflow. Adoption confirmed across target buying teams by Oct 30.',
-    owners: pptOwners('Brett Reid', '', 'Michael Allen'), resources: res(),
+    owners: pptOwners('Brett Reid', '', 'Michael Allen'), resources: res(), workstreams: ['buying'],
   },
   {
     id: 'oneitem-expanded-sources', title: 'OneItem: Expanded Sources (ROM, 3P, Circana)', icon: '\uD83C\uDF10',
@@ -107,7 +120,7 @@ const CARDS_BUYING = [
     businessBenefit: 'Merchants access a broader, richer set of market and performance signals in one place — improving buying decisions with external market context alongside internal data.',
     techIntegration: 'OneItem data pipeline expanded to ingest ROM, 3P market data feeds, and Circana retail data. Surfaced in AEX item records and assortment planning views.',
     successMetrics: 'ROM, 3P, and Circana sources live in OneItem. Merchant adoption of expanded data sources confirmed. Assortment decision quality (measured by sell-through) trending up.',
-    owners: pptOwners('Brett Reid', '', 'Michael Allen'), resources: res(),
+    owners: pptOwners('Brett Reid', '', 'Michael Allen'), resources: res(), workstreams: ['buying', 'strategy'],
   },
   {
     id: 'bq-enterprise-service', title: 'Buy Quantification as Enterprise Service', icon: '\uD83D\uDCCA',
@@ -118,7 +131,11 @@ const CARDS_BUYING = [
     techIntegration: 'Jira: OPIF-344926. BQ enterprise service builds on the DS National Forecasting microservice and automated size/pack work. Outputs consumed by AEX (commit), DBP (wave planning), and supply chain for automated PO creation. Includes rules-based Flow Plan automation.',
     successMetrics: 'BQ enterprise service adopted across all target Fashion buying departments. Manual BQ calculation workarounds eliminated. Dynamic PO re-distribution live and operational for in-season adjustments.',
     owners: pptOwners('Brett Reid', 'TBD', 'Michael Allen'),
-    resources: res('https://jira.walmart.com/browse/OPIF-344926'),
+    resources: res('https://jira.walmart.com/browse/OPIF-344926', '#', '#', '#', [
+      { label: 'LLTT Dashboard', url: 'https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard' },
+      { label: 'OPIF-325374 — Size/Pack (Dynamic PO Re-Distribution)', url: 'https://jira.walmart.com/browse/OPIF-325374' },
+    ]),
+    workstreams: ['buying', 'allocation'],
   },
   {
     id: 'commitment-report-redesign', title: 'Commitment Report Redesign', icon: '\uD83D\uDCDD',
@@ -130,6 +147,7 @@ const CARDS_BUYING = [
     successMetrics: 'COMBO CR adopted as standard across all Fashion buying teams. Pre-commit screen live and reducing vendor miscommunication incidents. CR generation time reduced measurably.',
     owners: pptOwners('Brett Reid', 'TBD', 'Michael Allen'),
     resources: res('https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard'),
+    workstreams: ['buying'],
   },
   {
     id: 'shared-item-repository', title: 'Shared Item Repository (OneItem)', icon: '\uD83D\uDDC4\uFE0F',
@@ -140,7 +158,11 @@ const CARDS_BUYING = [
     techIntegration: 'Jira: OPIF-325569 (Shared Item Repository). Integrates with AEX Assortment List, Supplier One catalog, OneItem workflow, and ISAM for item setup. Auto-populates LP with potential items. Circana, ROM, and 3P data feeds expand intelligence.',
     successMetrics: 'Shared Item Repository live and auto-populating line plans for target departments. Duplicate item creation rate eliminated. Item repository sourcing all ROM, 3P, and Circana signals confirmed.',
     owners: pptOwners('Brett Reid', 'TBD', 'Michael Allen'),
-    resources: res('https://jira.walmart.com/browse/OPIF-325569'),
+    resources: res('https://jira.walmart.com/browse/OPIF-325569', '#', '#', '#', [
+      { label: 'OPIF-325568 — AEX Fashion LP Replacement', url: 'https://jira.walmart.com/browse/OPIF-325568' },
+      { label: 'OPIF-325206 — Auto-populate LP with Potential Items', url: 'https://jira.walmart.com/browse/OPIF-325206' },
+    ]),
+    workstreams: ['buying', 'design'],
   },
   {
     id: 'global-buying-platform', title: 'Global Buying Capability', icon: '\uD83C\uDF0D',
@@ -150,6 +172,6 @@ const CARDS_BUYING = [
     businessBenefit: 'International Fashion teams leverage the same buying workflow as domestic teams — eliminating global-specific tooling debt and enabling cross-market visibility.',
     techIntegration: 'AEX global capability requires multi-currency support, market-specific assortment logic, and integration with international supplier and item setup systems.',
     successMetrics: 'At least one global market piloted in AEX by end of Q4. Roadmap for remaining global markets defined and funded.',
-    owners: TBD_OWNERS(), resources: res(),
+    owners: TBD_OWNERS(), resources: res(), workstreams: ['buying'],
   },
 ];

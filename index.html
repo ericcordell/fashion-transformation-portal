@@ -7,7 +7,6 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="portal.css">
 <link rel="stylesheet" href="portal-goals.css">
-<link rel="stylesheet" href="tab-data.css">
 </head>
 <body>
 
@@ -106,15 +105,15 @@
     <div class="px-6 pt-4 border-b border-gray-100 flex gap-2 flex-wrap">
       <button class="tab-btn active" onclick="switchTab('overview')">&#128196; Overview</button>
       <button class="tab-btn" onclick="switchTab('status')">&#128200; Status</button>
-      <button class="tab-btn" onclick="switchTab('resources')">&#128279; Resources</button>
+      <button class="tab-btn" onclick="switchTab('resources')">&#128230; Resources</button>
+      <button class="tab-btn" onclick="switchTab('links')" style="color:#0053e2;">&#128279; Links</button>
       <button class="tab-btn" onclick="switchTab('inquiry')" style="color:#7c3aed;">&#9993;&#65039; Inquiry</button>
-      <button class="tab-btn" onclick="switchTab('data')" style="color:#0891b2;">&#128202; Programs</button>
     </div>
     <div id="tab-overview"  class="tab-panel active"></div>
     <div id="tab-status"    class="tab-panel"></div>
     <div id="tab-resources" class="tab-panel"></div>
+    <div id="tab-links"     class="tab-panel"></div>
     <div id="tab-inquiry"   class="tab-panel"></div>
-    <div id="tab-data"      class="tab-panel td-panel"></div>
   </div>
 </div>
 
@@ -182,7 +181,7 @@
 <script src="summary-modal.js"></script>
 <script src="goal-modal.js"></script>
 <script src="phase-view.js"></script>
-<script src="tab-data.js"></script>
+<script src="card-links.js"></script>
 <script>
 
 // ============================================================
@@ -396,12 +395,14 @@ function openModal(cardId, workstream, tool) {
 
   document.getElementById('tab-resources').innerHTML = `
     <div class="space-y-2 py-5 px-6">
-      ${resLink('\uD83D\uDCCB', 'OPIF', 'Opportunity / Initiative Framework', res.opif)}
       ${resLink('\uD83D\uDCDD', 'BRD', 'Business Requirements Document', res.brd)}
       ${resLink('\uD83D\uDCE6', 'PRD', 'Product Requirements Document', res.prd)}
       ${resLink('\uD83C\uDFA8', 'UX Demo / Prototype', 'Design & UX walkthrough', res.uxDemo)}
       ${otherLinks}
     </div>`;
+
+  // --- links tab (editable OPIF + others via card-links.js) ---
+  buildLinksTab(card.id, res);
 
   // --- inquiry tab ---
   const ownerList = [
@@ -494,11 +495,10 @@ ${userText}
 function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
 
 function switchTab(name) {
-  const names = ['overview','status','resources','inquiry','data'];
+  const names = ['overview','status','resources','links','inquiry'];
   document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', names[i] === name));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.getElementById('tab-' + name).classList.add('active');
-  if (name === 'data') initDataTab();
 }
 
 document.getElementById('modal-overlay').addEventListener('click', e => {

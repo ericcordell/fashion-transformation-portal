@@ -640,190 +640,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 }
 .gm-source a { color:#0053e2; text-decoration:underline; }
 
-/* tab-data.css — Programs Spreadsheet + Link Editor */
-
-/* ── Panel height ─────────────────────────────────── */
-.td-panel.active { display:flex !important; flex-direction:column; }
-.tds-wrap        { display:flex; flex-direction:column; min-height:0; }
-
-/* ── Toolbar ──────────────────────────────────────── */
-.tds-bar {
-  display:flex; align-items:center; justify-content:space-between;
-  flex-wrap:wrap; gap:8px; padding:10px 14px 9px;
-  background:#f8fafc; border-bottom:1px solid #e2e8f0; flex-shrink:0;
-}
-.tds-bar-l { display:flex; align-items:center; gap:10px; }
-.tds-bar-r { display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
-.tds-bar-title { font-size:0.82rem; font-weight:800; color:#1e293b; letter-spacing:0.02em; }
-.tds-count { font-size:0.7rem; font-weight:600; color:#64748b; background:#e2e8f0; padding:2px 8px; border-radius:99px; }
-
-.tds-search {
-  height:30px; padding:0 10px; width:180px;
-  border:1.5px solid #e2e8f0; border-radius:8px;
-  font-size:0.75rem; outline:none; transition:border-color 0.15s;
-}
-.tds-search:focus { border-color:#0053e2; }
-
-.tds-sel {
-  height:30px; padding:0 8px;
-  border:1.5px solid #e2e8f0; border-radius:8px;
-  font-size:0.72rem; background:white; cursor:pointer; outline:none;
-  transition:border-color 0.15s;
-}
-.tds-sel:focus { border-color:#0053e2; }
-
-.tds-viewall-btn {
-  height:30px; padding:0 14px;
-  background:#0053e2; color:white; border:none; border-radius:8px;
-  font-size:0.72rem; font-weight:700; cursor:pointer; white-space:nowrap;
-  transition:background 0.15s;
-}
-.tds-viewall-btn:hover { background:#1a6fff; }
-
-/* ── Hint bar ─────────────────────────────────────── */
-.tds-hint {
-  margin:0; padding:5px 14px;
-  font-size:0.69rem; color:#64748b;
-  background:#fffbf0; border-bottom:1px solid #fde68a;
-  flex-shrink:0;
-}
-
-/* ── Scroll container ─────────────────────────────── */
-.tds-scroll { flex:1; overflow:auto; max-height:calc(100vh - 310px); }
-
-/* ── Table ────────────────────────────────────────── */
-.tds-tbl {
-  border-collapse:collapse; font-size:0.74rem; color:#1e293b;
-  table-layout:fixed; min-width:max-content;
-}
-.tds-tbl thead tr { position:sticky; top:0; z-index:4; }
-.tds-tbl th {
-  background:#1e293b; color:#e2e8f0;
-  padding:8px 10px; text-align:left;
-  font-size:0.66rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
-  white-space:nowrap; user-select:none; cursor:pointer;
-  border-right:1px solid rgba(255,255,255,0.07);
-}
-.tds-tbl th:hover { background:#334155; }
-.tds-sh { opacity:0.3; }
-.tds-row { border-bottom:1px solid #f1f5f9; cursor:pointer; transition:background 0.1s; }
-.tds-row:nth-child(even) { background:#fafbfc; }
-.tds-row:hover           { background:#eef2ff; }
-.tds-tbl td { padding:7px 10px; vertical-align:top; border-right:1px solid #f1f5f9; max-width:0; }
-.tds-tbl td:last-child { border-right:none; }
-
-/* ── Cell content ─────────────────────────────────── */
-.tds-text, .tds-title {
-  display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:100%;
-}
-.tds-title { font-weight:600; color:#0053e2; cursor:default; }
-
-.tds-ws   { display:inline-block; font-size:0.67rem; font-weight:700; padding:2px 8px; border-radius:99px; white-space:nowrap; }
-.tds-badge{ display:inline-block; font-size:0.66rem; font-weight:700; padding:2px 7px; border-radius:99px; border:1.5px solid transparent; white-space:nowrap; }
-.tds-green  { background:#dcfce7; color:#166534; border-color:#bbf7d0; }
-.tds-yellow { background:#fef9c3; color:#854d0e; border-color:#fde68a; }
-.tds-red    { background:#fee2e2; color:#991b1b; border-color:#fca5a5; }
-.tds-done   { background:#eef2ff; color:#0053e2; border-color:#c7d2fe; }
-.tds-road   { background:#f1f5f9; color:#64748b; border-color:#e2e8f0; }
-
-.tds-phase { display:inline-block; font-size:0.64rem; font-weight:800; padding:2px 5px; border-radius:5px; background:#1e293b; color:#e2e8f0; }
-.tds-q     { display:inline-block; font-size:0.66rem; font-weight:600; padding:2px 7px; border-radius:99px; background:#f1f5f9; color:#475569; white-space:nowrap; }
-.tds-tag   { display:inline-block; font-size:0.62rem; font-weight:700; padding:1px 6px; border-radius:4px; background:#ffc220; color:#7c4700; }
-.tds-nd    { color:#cbd5e1; font-size:0.72rem; }
-
-.tds-own-name  { display:block; font-weight:600; color:#1e293b; white-space:nowrap; }
-.tds-own-email { font-size:0.65rem; color:#0053e2; text-decoration:none; white-space:nowrap; display:block; }
-.tds-own-email:hover { text-decoration:underline; }
-
-/* ── Editable link cells ──────────────────────────── */
-.tds-ln {
-  display:inline-block; font-size:0.68rem; font-weight:700;
-  padding:2px 7px; border-radius:6px; text-decoration:none;
-  white-space:nowrap; transition:opacity 0.15s;
-}
-.tds-ln:hover { opacity:0.75; }
-.tds-ln-opif { background:#dcfce7; color:#166534; }
-.tds-ln-brd  { background:#ede9fe; color:#6d28d9; }
-.tds-ln-prd  { background:#fef3c7; color:#92400e; }
-.tds-ln-demo { background:#ecfeff; color:#0e7490; }
-.tds-ln-conf { background:#eef2ff; color:#0053e2; }
-
-.tds-edit-btn {
-  background:none; border:none; padding:0 2px; cursor:pointer;
-  font-size:0.78rem; line-height:1; vertical-align:middle;
-  opacity:0.5; transition:opacity 0.15s;
-}
-.tds-edit-btn:hover { opacity:1; }
-.tds-set-label { font-size:0.66rem; color:#94a3b8; vertical-align:middle; }
-
-/* ── Edit URL popover ─────────────────────────────── */
-.tds-popover {
-  width:340px; background:white; border-radius:12px;
-  box-shadow:0 8px 32px rgba(0,0,0,0.22);
-  padding:16px; display:flex; flex-direction:column; gap:10px;
-}
-.tds-pop-title { font-size:0.8rem; font-weight:800; color:#1e293b; }
-.tds-pop-input {
-  width:100%; box-sizing:border-box; height:34px; padding:0 10px;
-  border:1.5px solid #e2e8f0; border-radius:8px; font-size:0.78rem; outline:none;
-}
-.tds-pop-input:focus { border-color:#0053e2; }
-.tds-pop-hint  { font-size:0.67rem; color:#94a3b8; }
-.tds-pop-btns  { display:flex; gap:8px; }
-.tds-pop-save  { flex:1; padding:7px; background:#0053e2; color:white; border:none; border-radius:8px; font-weight:700; font-size:0.76rem; cursor:pointer; }
-.tds-pop-save:hover { background:#1a6fff; }
-.tds-pop-clr   { padding:7px 12px; background:#fee2e2; color:#991b1b; border:none; border-radius:8px; font-weight:700; font-size:0.76rem; cursor:pointer; }
-.tds-pop-can   { padding:7px 12px; background:#f1f5f9; color:#475569; border:none; border-radius:8px; font-size:0.76rem; cursor:pointer; }
-
-/* ── Full View modal overlay ──────────────────────── */
-.tds-overlay {
-  position:fixed; inset:0; background:rgba(0,0,0,0.6);
-  z-index:9998; display:flex; align-items:flex-start; justify-content:center;
-  padding:16px;
-}
-.tds-modal-box {
-  background:white; border-radius:16px; width:98vw; max-height:94vh;
-  display:flex; flex-direction:column; overflow:hidden;
-  box-shadow:0 24px 80px rgba(0,0,0,0.28);
-}
-.tds-modal-header {
-  display:flex; align-items:center; justify-content:space-between;
-  padding:14px 18px; background:#1e293b; border-radius:16px 16px 0 0; flex-shrink:0;
-}
-.tds-modal-title  { font-size:0.85rem; font-weight:800; color:white; }
-.tds-export-btn {
-  padding:6px 14px; background:#ffc220; color:#1e293b; border:none;
-  border-radius:8px; font-weight:700; font-size:0.74rem; cursor:pointer;
-}
-.tds-export-btn:hover { background:#e6af00; }
-.tds-modal-close {
-  padding:6px 14px; background:rgba(255,255,255,0.15); color:white; border:none;
-  border-radius:8px; font-size:0.74rem; cursor:pointer;
-}
-.tds-modal-close:hover { background:rgba(255,255,255,0.28); }
-.tds-modal-hint {
-  margin:0; padding:8px 16px; font-size:0.71rem; color:#64748b;
-  background:#f8fafc; border-bottom:1px solid #e2e8f0; flex-shrink:0;
-}
-.tds-modal-scroll { flex:1; overflow:auto; }
-
-/* Inside modal: let text wrap instead of truncating */
-.tds-modal-tbl .tds-text,
-.tds-modal-tbl .tds-title { white-space:normal; overflow:visible; text-overflow:unset; }
-.tds-modal-tbl td { max-width:none; }
-.tds-modal-row:hover { background:#eef2ff; }
-
-/* ── Empty / footer ───────────────────────────────── */
-.tds-empty { text-align:center; padding:48px; color:#94a3b8; font-style:italic; }
-.tds-foot  { flex-shrink:0; font-size:0.68rem; color:#94a3b8; padding:7px 14px; border-top:1px solid #f1f5f9; margin:0; }
-.tds-foot a { color:#0053e2; text-decoration:underline; }
-
-/* ── Mobile ───────────────────────────────────────── */
-@media (max-width:700px) {
-  .tds-bar { flex-direction:column; align-items:flex-start; }
-  .tds-search { width:100%; }
-  .tds-modal-box { width:100vw; max-height:100vh; border-radius:0; }
-}
 </style>
 </head>
 <body>
@@ -923,15 +739,15 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
     <div class="px-6 pt-4 border-b border-gray-100 flex gap-2 flex-wrap">
       <button class="tab-btn active" onclick="switchTab('overview')">&#128196; Overview</button>
       <button class="tab-btn" onclick="switchTab('status')">&#128200; Status</button>
-      <button class="tab-btn" onclick="switchTab('resources')">&#128279; Resources</button>
+      <button class="tab-btn" onclick="switchTab('resources')">&#128230; Resources</button>
+      <button class="tab-btn" onclick="switchTab('links')" style="color:#0053e2;">&#128279; Links</button>
       <button class="tab-btn" onclick="switchTab('inquiry')" style="color:#7c3aed;">&#9993;&#65039; Inquiry</button>
-      <button class="tab-btn" onclick="switchTab('data')" style="color:#0891b2;">&#128202; Programs</button>
     </div>
     <div id="tab-overview"  class="tab-panel active"></div>
     <div id="tab-status"    class="tab-panel"></div>
     <div id="tab-resources" class="tab-panel"></div>
+    <div id="tab-links"     class="tab-panel"></div>
     <div id="tab-inquiry"   class="tab-panel"></div>
-    <div id="tab-data"      class="tab-panel td-panel"></div>
   </div>
 </div>
 
@@ -2865,460 +2681,274 @@ const GOALS = {
 }());
 </script>
 <script>
-/* ── tab-data.js ── */
-// tab-data.js — Programs Spreadsheet + Live Link Editor
-// 21 explicit columns. ✏️ per link cell saves to localStorage.
-// 📋 Full View modal. 📤 Export Fixes dumps corrections as JSON.
-// ZERO inline onclick handlers — all buttons wired via addEventListener.
+/* ── card-links.js ── */
+// card-links.js — Per-card link editor tab
+// Exposes: window.buildLinksTab(cardId, resources)
+// Saves edits to localStorage (portal_links_v1)
+// ZERO inline onclick / no globals polluted beyond the one public function
+
 (function () {
 
-  // ── Config ───────────────────────────────────────────────
-  var CONF_BASE = 'https://confluence.walmart.com/display/APREC/' +
-    'Long+Lead+Time+Transformation+Work+Management+Dashboard';
-  var WS_CFG = {
-    strategy:   { label:'Strategy',   emoji:'🏛️', color:'#0053e2', bg:'#eef2ff', anchor:'#Strategy'   },
-    design:     { label:'Design',     emoji:'🎨', color:'#7c3aed', bg:'#f5f3ff', anchor:'#Design'     },
-    buying:     { label:'Buying',     emoji:'🛒', color:'#0891b2', bg:'#ecfeff', anchor:'#Buying'     },
-    allocation: { label:'Allocation', emoji:'📦', color:'#2a8703', bg:'#f0faf0', anchor:'#Allocation' },
-  };
-  var ST_CFG = {
-    green:     { label:'On Track',  cls:'tds-green'  },
-    yellow:    { label:'At Risk',   cls:'tds-yellow' },
-    red:       { label:'Off Track', cls:'tds-red'    },
-    completed: { label:'Completed', cls:'tds-done'   },
-    roadmap:   { label:'Roadmap',   cls:'tds-road'   },
-  };
-  var QORDER      = { completed:0, Q1:1, Q2:2, Q3:3, Q4:4, Future:5 };
-  var LS_KEY      = 'tds_link_overrides_v1';
-  var EDIT_LABELS = { opifUrl:'OPIF', brdUrl:'BRD', prdUrl:'PRD', uxDemoUrl:'UX Demo' };
+  var LS_KEY = 'portal_links_v1';
 
-  // ── Column definitions ───────────────────────────────────
-  var COLS = [
-    { id:'workstream', label:'Workstream', w:108, sticky:true, render: function(r) {
-        var w = WS_CFG[r.workstream] || WS_CFG.strategy;
-        return '<span class="tds-ws" style="background:'+w.bg+';color:'+w.color+'">'+w.emoji+' '+w.label+'</span>';
-    }},
-    { id:'title', label:'Program', w:195, sticky:true, render: function(r) {
-        return '<span class="tds-title" title="'+_esc(r.title)+'">'+r.icon+' '+_esc(r.title)+'</span>';
-    }},
-    { id:'status', label:'Status', w:88, render: function(r) {
-        var s = ST_CFG[r.status] || ST_CFG.roadmap;
-        return '<span class="tds-badge '+s.cls+'">'+s.label+'</span>';
-    }},
-    { id:'phase', label:'Ph', w:46, center:true, render: function(r) {
-        return '<span class="tds-phase">P'+r.phase+'</span>';
-    }},
-    { id:'quarter', label:'Quarter', w:82, render: function(r) {
-        var m={completed:'✅ Done',Q1:'Q1 FY27',Q2:'Q2 FY27',Q3:'Q3 FY27',Q4:'Q4 FY27',Future:'Future'};
-        return '<span class="tds-q">'+(m[r.quarter]||r.quarter)+'</span>';
-    }},
-    { id:'targetDate', label:'Target Date', w:100, render: function(r) { return _cell(r.targetDate); }},
-    { id:'tag', label:'Tag', w:90, render: function(r) {
-        return r.tag ? '<span class="tds-tag">'+_esc(r.tag)+'</span>' : '<span class="tds-nd">—</span>';
-    }},
-    { id:'description',      label:'Description',      w:220, render: function(r) { return _long(r.description);      }},
-    { id:'businessBenefit',  label:'Business Benefit',  w:220, render: function(r) { return _long(r.businessBenefit);  }},
-    { id:'techIntegration',  label:'Tech Integration',  w:220, render: function(r) { return _long(r.techIntegration);  }},
-    { id:'successMetrics',   label:'Success Metrics',   w:200, render: function(r) { return _long(r.successMetrics);   }},
-    { id:'bp', label:'Business Partner',    w:140, render: function(r) { return _owner(r.bp, r.bpEmail); }},
-    { id:'tl', label:'Transformation Lead', w:140, render: function(r) { return _owner(r.tl, r.tlEmail); }},
-    { id:'pl', label:'Product Lead',        w:140, render: function(r) { return _owner(r.pl, r.plEmail); }},
-    { id:'ux', label:'UX Lead',             w:140, render: function(r) { return _owner(r.ux, r.uxEmail); }},
-    { id:'sw', label:'Software Lead',       w:140, render: function(r) { return _owner(r.sw, r.swEmail); }},
-    { id:'opif',      label:'OPIF',       w:110, center:true, render: function(r) { return _editLink(r,'opifUrl',  'OPIF',  'tds-ln-opif'); }},
-    { id:'brd',       label:'BRD',        w:100, center:true, render: function(r) { return _editLink(r,'brdUrl',   'BRD',   'tds-ln-brd');  }},
-    { id:'prd',       label:'PRD',        w:100, center:true, render: function(r) { return _editLink(r,'prdUrl',   'PRD',   'tds-ln-prd');  }},
-    { id:'uxDemo',    label:'UX Demo',    w:100, center:true, render: function(r) { return _editLink(r,'uxDemoUrl','Demo',  'tds-ln-demo'); }},
-    { id:'confluence',label:'Confluence', w:110, center:true, render: function(r) { return _editLink(r,'confUrl',  'Source','tds-ln-conf'); }},
+  var LINK_DEFS = [
+    { field: 'opif',   icon: '\uD83D\uDCCB', label: 'OPIF',            sublabel: 'Opportunity / Initiative Framework' },
+    { field: 'brd',    icon: '\uD83D\uDCDD', label: 'BRD',             sublabel: 'Business Requirements Document'     },
+    { field: 'prd',    icon: '\uD83D\uDCE6', label: 'PRD',             sublabel: 'Product Requirements Document'       },
+    { field: 'uxDemo', icon: '\uD83C\uDFA8', label: 'UX Demo',         sublabel: 'Design & UX walkthrough / prototype' },
   ];
 
-  // ── LocalStorage helpers ─────────────────────────────────
-  function _loadOv() {
-    try { return JSON.parse(localStorage.getItem(LS_KEY) || '{}'); } catch(e) { return {}; }
+  // ── localStorage helpers ───────────────────────────────
+  function _load() {
+    try { return JSON.parse(localStorage.getItem(LS_KEY) || '{}'); } catch (e) { return {}; }
   }
-  function _saveOv(id, field, url) {
-    var d = _loadOv();
-    if (!d[id]) d[id] = {};
-    if (url) d[id][field] = url; else delete d[id][field];
-    if (!Object.keys(d[id]).length) delete d[id];
-    try { localStorage.setItem(LS_KEY, JSON.stringify(d)); } catch(e) {}
-  }
-  function _getUrl(id, field, raw) {
-    var ov = _loadOv(); return (ov[id] && ov[id][field]) || raw || null;
-  }
-
-  // ── State ────────────────────────────────────────────────
-  var _rows=[], _search='', _wsF='all', _stF='all', _qF='all';
-  var _sortId='quarter', _sortDir='asc', _inited=false;
-
-  // ── Public entry ─────────────────────────────────────────
-  window.initDataTab = function () {
-    if (_inited) { _refresh(); return; }
-    _inited = true;
-    _rows = _flatten();
-    document.getElementById('tab-data').innerHTML = _shell();
-    _bind();
-    _refresh();
-  };
-
-  // ── Flatten PILLARS ──────────────────────────────────────
-  function _flatten() {
-    var out = [];
-    (window.PILLARS || []).forEach(function(pillar) {
-      var ws = pillar.id;
-      (pillar.cards || []).forEach(function(c) {
-        var o = c.owners || {}, res = c.resources || {};
-        var bp = o.businessPartner    || {}, tl = o.transformationLead || {};
-        var pl = o.productLead        || {}, ux = o.uxLead             || {};
-        var sw = o.softwareLead       || {};
-        var ph = (typeof CARD_PHASE_MAP !== 'undefined' && CARD_PHASE_MAP[c.id]) || 1;
-        var anchor = (WS_CFG[ws] || {}).anchor || '';
-        function raw(v) { return (v && v !== '#') ? v : null; }
-        out.push({
-          id:c.id, workstream:ws, phase:ph, icon:c.icon||'📌',
-          title:c.title||'', status:c.status||'roadmap',
-          quarter:c.quarter||'Future', targetDate:c.targetDate||'', tag:c.tag||'',
-          description:c.description||'', businessBenefit:c.businessBenefit||'',
-          techIntegration:c.techIntegration||'', successMetrics:c.successMetrics||'',
-          bp:bp.name||'', bpEmail:bp.email||'', tl:tl.name||'', tlEmail:tl.email||'',
-          pl:pl.name||'', plEmail:pl.email||'', ux:ux.name||'', uxEmail:ux.email||'',
-          sw:sw.name||'', swEmail:sw.email||'',
-          opifUrl:raw(res.opif), brdUrl:raw(res.brd), prdUrl:raw(res.prd),
-          uxDemoUrl:raw(res.uxDemo), confUrl:CONF_BASE+anchor,
-        });
-      });
-    });
-    return out;
-  }
-
-  // ── Shell HTML ───────────────────────────────────────────
-  function _shell() {
-    return '<div class="tds-wrap">'+
-      '<div class="tds-bar">'+
-        '<div class="tds-bar-l">'+
-          '<span class="tds-bar-title">📊 Programs &amp; Deliverables</span>'+
-          '<span id="tds-count" class="tds-count"></span>'+
-        '</div>'+
-        '<div class="tds-bar-r">'+
-          '<input id="tds-search" class="tds-search" type="search" placeholder="🔍 Search...">'+
-          '<select id="tds-ws" class="tds-sel">'+
-            '<option value="all">All Workstreams</option>'+
-            '<option value="strategy">Strategy</option><option value="design">Design</option>'+
-            '<option value="buying">Buying</option><option value="allocation">Allocation</option>'+
-          '</select>'+
-          '<select id="tds-st" class="tds-sel">'+
-            '<option value="all">All Statuses</option><option value="green">On Track</option>'+
-            '<option value="yellow">At Risk</option><option value="red">Off Track</option>'+
-            '<option value="completed">Completed</option><option value="roadmap">Roadmap</option>'+
-          '</select>'+
-          '<select id="tds-q" class="tds-sel">'+
-            '<option value="all">All Quarters</option><option value="completed">Completed</option>'+
-            '<option value="Q1">Q1 FY27</option><option value="Q2">Q2 FY27</option>'+
-            '<option value="Q3">Q3 FY27</option><option value="Q4">Q4 FY27</option>'+
-            '<option value="Future">Future</option>'+
-          '</select>'+
-          '<button id="tds-viewall" class="tds-viewall-btn">📋 Full View</button>'+
-        '</div>'+
-      '</div>'+
-      '<p class="tds-hint">✏️ Click the pencil on any OPIF / BRD / PRD cell to set or correct the link. Saves to your browser.</p>'+
-      '<div class="tds-scroll">'+
-        '<table class="tds-tbl"><thead><tr id="tds-head"></tr></thead><tbody id="tds-body"></tbody></table>'+
-      '</div>'+
-      '<p class="tds-foot">📄 <a href="'+CONF_BASE+'" target="_blank" rel="noopener">APREC — LLTT Dashboard</a>'+
-        ' · Hover any cell for full text · Click a row to open the detail card</p>'+
-    '</div>';
-  }
-
-  // ── Event binding ────────────────────────────────────────
-  function _bind() {
-    function $(id) { return document.getElementById(id); }
-    $('tds-search').addEventListener('input',  function(e){ _search=e.target.value.toLowerCase(); _refresh(); });
-    $('tds-ws'    ).addEventListener('change', function(e){ _wsF=e.target.value; _refresh(); });
-    $('tds-st'    ).addEventListener('change', function(e){ _stF=e.target.value; _refresh(); });
-    $('tds-q'     ).addEventListener('change', function(e){ _qF=e.target.value;  _refresh(); });
-    $('tds-viewall').addEventListener('click', _openModal);
-    $('tds-head'  ).addEventListener('click', function(e) {
-      var th = e.target.closest('th[data-col]'); if (!th) return;
-      _sortDir = (_sortId===th.dataset.col && _sortDir==='asc') ? 'desc' : 'asc';
-      _sortId  = th.dataset.col; _refresh();
-    });
-    $('tds-body').addEventListener('click', function(e) {
-      var eb = e.target.closest('.tds-edit-btn');
-      if (eb) { e.stopPropagation(); _openPopover(eb); return; }
-      if (e.target.closest('a')) return;
-      var tr = e.target.closest('tr[data-id]');
-      if (tr && typeof openCardModal==='function') openCardModal(tr.dataset.id);
-    });
-    // Close popover when clicking elsewhere
-    document.addEventListener('click', function(e) {
-      var pop = document.getElementById('tds-popover');
-      if (pop && !pop.contains(e.target) && !e.target.closest('.tds-edit-btn')) pop.remove();
-    });
-  }
-
-  // ── Filter / sort / refresh ──────────────────────────────
-  function _refresh() {
-    var vis = _sorted(_filtered());
-    _head(); _body(vis);
-    var el = document.getElementById('tds-count');
-    if (el) el.textContent = vis.length+' / '+_rows.length+' programs';
-  }
-  function _filtered() {
-    return _rows.filter(function(r) {
-      if (_wsF!=='all' && r.workstream!==_wsF) return false;
-      if (_stF!=='all' && r.status!==_stF)     return false;
-      if (_qF !=='all' && r.quarter!==_qF)     return false;
-      if (_search) {
-        var hay=[r.title,r.description,r.bp,r.tl,r.pl,r.ux,r.sw].join(' ').toLowerCase();
-        if (hay.indexOf(_search)===-1) return false;
-      }
-      return true;
-    });
-  }
-  function _sorted(rows) {
-    var id=_sortId, dir=_sortDir==='asc'?1:-1;
-    return rows.slice().sort(function(a,b) {
-      var av=id==='quarter'?(QORDER[a.quarter]||9):(a[id]||'').toString().toLowerCase();
-      var bv=id==='quarter'?(QORDER[b.quarter]||9):(b[id]||'').toString().toLowerCase();
-      return av<bv?-dir:av>bv?dir:0;
-    });
-  }
-
-  // ── Table rendering ──────────────────────────────────────
-  function _head() {
-    var left=0;
-    document.getElementById('tds-head').innerHTML = COLS.map(function(c) {
-      var arrow=_sortId===c.id?(_sortDir==='asc'?'▲':'▼'):'<span class="tds-sh">↕</span>';
-      var st=c.sticky?'position:sticky;left:'+left+'px;z-index:3;background:#1e293b;':'';
-      if (c.sticky) left+=c.w;
-      return '<th data-col="'+c.id+'" style="'+st+(c.center?'text-align:center;':'')+
-        'min-width:'+c.w+'px;width:'+c.w+'px">'+c.label+' '+arrow+'</th>';
-    }).join('');
-  }
-  function _body(rows) {
-    if (!rows.length) {
-      document.getElementById('tds-body').innerHTML=
-        '<tr><td colspan="'+COLS.length+'" class="tds-empty">No programs match the filters.</td></tr>';
-      return;
+  function _save(cardId, field, url) {
+    var d = _load();
+    if (!d[cardId]) d[cardId] = {};
+    if (url) {
+      d[cardId][field] = url;
+    } else {
+      delete d[cardId][field];
+      if (!Object.keys(d[cardId]).length) delete d[cardId];
     }
-    document.getElementById('tds-body').innerHTML=rows.map(_row).join('');
+    try { localStorage.setItem(LS_KEY, JSON.stringify(d)); } catch (e) {}
   }
-  function _row(r) {
-    var left=0;
-    var cells=COLS.map(function(c) {
-      var isShadow=c.sticky&&(left+c.w)===303;
-      var st=c.sticky?'position:sticky;left:'+left+'px;z-index:1;background:inherit;':'';
-      if (c.sticky) left+=c.w;
-      return '<td style="'+st+(c.center?'text-align:center;':'')+(isShadow?'box-shadow:3px 0 8px rgba(0,0,0,0.09);':'')+'">'+c.render(r)+'</td>';
-    }).join('');
-    return '<tr data-id="'+r.id+'" class="tds-row">'+cells+'</tr>';
+  function _getUrl(cardId, field, dataUrl) {
+    var d = _load();
+    return (d[cardId] && d[cardId][field]) || dataUrl || null;
   }
 
-  // ── Cell helpers ─────────────────────────────────────────
-  function _esc(s) {
-    return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-  function _cell(s) {
-    var v=(s||'').trim();
-    return v?'<span title="'+_esc(v)+'">'+_esc(v)+'</span>':'<span class="tds-nd">—</span>';
-  }
-  function _long(s) {
-    var v=(s||'').trim();
-    return v?'<span class="tds-text" title="'+_esc(v)+'">'+_esc(v)+'</span>':'<span class="tds-nd">—</span>';
-  }
-  function _owner(name, email) {
-    if (!name||name==='TBD') return '<span class="tds-nd">TBD</span>';
-    var e=email?'<br><a class="tds-own-email" href="mailto:'+_esc(email)+'">'+_esc(email)+'</a>':'';
-    return '<span class="tds-own-name">'+_esc(name)+'</span>'+e;
-  }
-  function _editLink(r, field, label, cls) {
-    var url=_getUrl(r.id, field, r[field]);
-    var eb='<button class="tds-edit-btn" data-id="'+_esc(r.id)+'" data-field="'+_esc(field)+'" title="Edit '+_esc(label)+' link">✏️</button>';
-    if (url) return '<a href="'+_esc(url)+'" target="_blank" rel="noopener" class="tds-ln '+cls+'">'+label+' →</a>'+eb;
-    return eb+'<span class="tds-set-label">Set '+label+'</span>';
-  }
+  // ── Public entry ───────────────────────────────────────
+  // Call this from openModal() after switching to the links tab.
+  // It builds the tab content and wires all interactions.
+  window.buildLinksTab = function (cardId, resources) {
+    var panel = document.getElementById('tab-links');
+    if (!panel) return;
 
-  // ── Edit URL popover (all DOM, no inline onclick) ────────
-  function _openPopover(btn) {
-    var existing = document.getElementById('tds-popover');
-    if (existing) {
-      var same = existing.dataset.btnId===btn.dataset.id+btn.dataset.field;
-      existing.remove();
-      if (same) return;
-    }
-    var cardId=btn.dataset.id, field=btn.dataset.field;
-    var label=EDIT_LABELS[field]||field;
-    var current=_getUrl(cardId, field, '');
-    var rect=btn.getBoundingClientRect();
-
-    var pop=document.createElement('div');
-    pop.id='tds-popover';
-    pop.dataset.btnId=cardId+field;
-    pop.className='tds-popover';
-    pop.style.cssText='position:fixed;top:'+(rect.bottom+8)+'px;left:'+
-      Math.min(Math.max(8,rect.left-80),window.innerWidth-360)+'px;z-index:10001;';
-
-    // Title
-    var title=document.createElement('div'); title.className='tds-pop-title';
-    title.textContent='✏️ Edit '+label+' Link';
-
-    // Input
-    var inp=document.createElement('input'); inp.type='url'; inp.className='tds-pop-input';
-    inp.placeholder='https://...'; inp.value=current||'';
-
-    // Hint
-    var hint=document.createElement('div'); hint.className='tds-pop-hint';
-    hint.textContent='Paste the correct URL. Saves to your browser automatically.';
-
-    // Buttons
-    var row=document.createElement('div'); row.className='tds-pop-btns';
-    var saveBtn=document.createElement('button'); saveBtn.textContent='Save';         saveBtn.className='tds-pop-save';
-    var clrBtn =document.createElement('button'); clrBtn.textContent='Clear';         clrBtn.className='tds-pop-clr';
-    var canBtn =document.createElement('button'); canBtn.textContent='Cancel';        canBtn.className='tds-pop-can';
-    row.appendChild(saveBtn); row.appendChild(clrBtn); row.appendChild(canBtn);
-
-    pop.appendChild(title); pop.appendChild(inp); pop.appendChild(hint); pop.appendChild(row);
-    document.body.appendChild(pop);
-    inp.focus(); inp.select();
-
-    function doSave() { _saveOv(cardId,field,inp.value.trim()); pop.remove(); _refresh(); }
-    function doClear(){ _saveOv(cardId,field,'');                pop.remove(); _refresh(); }
-    saveBtn.addEventListener('click', doSave);
-    clrBtn.addEventListener ('click', doClear);
-    canBtn.addEventListener ('click', function(){ pop.remove(); });
-    inp.addEventListener    ('keydown', function(e){ if(e.key==='Enter') doSave(); if(e.key==='Escape') pop.remove(); });
-  }
-
-  // ── Full View modal (all DOM, no inline onclick) ─────────
-  function _openModal() {
-    if (document.getElementById('tds-modal-overlay')) {
-      document.getElementById('tds-modal-overlay').remove(); return;
-    }
-    var vis=_sorted(_filtered());
-
-    var overlay=document.createElement('div');
-    overlay.id='tds-modal-overlay'; overlay.className='tds-overlay';
-
-    var box=document.createElement('div'); box.className='tds-modal-box';
-
-    // Header
-    var hdr=document.createElement('div'); hdr.className='tds-modal-header';
-    var htitle=document.createElement('span'); htitle.className='tds-modal-title';
-    htitle.textContent='📋 All Programs & Deliverables — '+vis.length+' shown';
-    var hbtns=document.createElement('div'); hbtns.style.cssText='display:flex;gap:8px;align-items:center;';
-    var exportBtn=document.createElement('button'); exportBtn.textContent='📤 Export Link Fixes'; exportBtn.className='tds-export-btn';
-    var closeBtn=document.createElement('button');  closeBtn.textContent='✕ Close';               closeBtn.className='tds-modal-close';
-    hbtns.appendChild(exportBtn); hbtns.appendChild(closeBtn);
-    hdr.appendChild(htitle); hdr.appendChild(hbtns);
+    // Clear and rebuild
+    panel.innerHTML = '';
+    var wrap = document.createElement('div');
+    wrap.style.cssText = 'padding:20px 24px;display:flex;flex-direction:column;gap:10px;';
 
     // Hint bar
-    var hint=document.createElement('p'); hint.className='tds-modal-hint';
-    hint.textContent='Click ✏️ to correct any OPIF / BRD / PRD link. Full text visible — no truncation.';
+    var hint = document.createElement('p');
+    hint.style.cssText = 'margin:0 0 6px;font-size:0.72rem;color:#64748b;' +
+      'background:#fffbf0;border:1px solid #fde68a;border-radius:8px;padding:8px 12px;';
+    hint.innerHTML = '\u270F\uFE0F Click <strong>Edit</strong> on any row to set or correct the link. ' +
+      'Changes are saved to your browser.';
+    wrap.appendChild(hint);
 
-    // Scrollable table
-    var scroll=document.createElement('div'); scroll.className='tds-modal-scroll';
-    var headCells=COLS.map(function(c){
-      return '<th style="min-width:'+c.w+'px;'+(c.center?'text-align:center;':'')+'">'+c.label+'</th>';
-    }).join('');
-    var bodyRows=vis.map(function(r){
-      var cells=COLS.map(function(c){
-        return '<td style="'+(c.center?'text-align:center;':'')+' vertical-align:top;">'+c.render(r)+'</td>';
-      }).join('');
-      return '<tr class="tds-row tds-modal-row" data-id="'+r.id+'">'+cells+'</tr>';
-    }).join('');
-    scroll.innerHTML='<table class="tds-tbl tds-modal-tbl"><thead><tr>'+headCells+'</tr></thead><tbody>'+bodyRows+'</tbody></table>';
-
-    box.appendChild(hdr); box.appendChild(hint); box.appendChild(scroll);
-    overlay.appendChild(box);
-    document.body.appendChild(overlay);
-
-    // Wire events — no inline handlers
-    closeBtn.addEventListener('click', function(){ overlay.remove(); });
-    overlay.addEventListener('click', function(e){ if(e.target===overlay) overlay.remove(); });
-    exportBtn.addEventListener('click', _exportFixes);
-    scroll.addEventListener('click', function(e){
-      var eb=e.target.closest('.tds-edit-btn');
-      if (eb) { e.stopPropagation(); _openPopover(eb); }
+    // One row per link type
+    LINK_DEFS.forEach(function (def) {
+      var row = _buildRow(cardId, def, (resources || {})[def.field] || null);
+      wrap.appendChild(row);
     });
-  }
 
-  // ── Export link fixes (pure DOM, no innerHTML for buttons) ─
-  function _exportFixes() {
-    var existing=document.getElementById('tds-fixes-modal');
-    if (existing) { existing.remove(); return; }
-    var ov=_loadOv(), keys=Object.keys(ov);
-
-    var overlay=document.createElement('div');
-    overlay.id='tds-fixes-modal';
-    overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:10002;'+
-      'display:flex;align-items:center;justify-content:center;padding:20px;';
-
-    var box=document.createElement('div');
-    box.style.cssText='background:white;border-radius:16px;padding:24px;max-width:640px;width:100%;'+
-      'max-height:80vh;overflow-y:auto;display:flex;flex-direction:column;gap:12px;';
-
-    // Header row
-    var hdr=document.createElement('div'); hdr.style.cssText='display:flex;justify-content:space-between;align-items:center;';
-    var htitle=document.createElement('strong'); htitle.style.fontSize='0.9rem'; htitle.textContent='📤 Export Link Fixes';
-    var xBtn=document.createElement('button'); xBtn.textContent='✕';
-    xBtn.style.cssText='background:none;border:none;font-size:1.3rem;cursor:pointer;line-height:1;';
-    hdr.appendChild(htitle); hdr.appendChild(xBtn);
-    box.appendChild(hdr);
-
-    if (!keys.length) {
-      var msg=document.createElement('p');
-      msg.style.cssText='color:#64748b;font-size:0.82rem;margin:0;';
-      msg.textContent='No link overrides saved yet. Use the ✏️ buttons on any OPIF / BRD / PRD cell to start correcting links.';
-      box.appendChild(msg);
-    } else {
-      var desc=document.createElement('p');
-      desc.style.cssText='font-size:0.75rem;color:#475569;margin:0;';
-      desc.textContent=keys.length+' program(s) with saved link corrections. Copy and apply to the matching res() call in data-*.js, then redeploy.';
-      box.appendChild(desc);
-
-      var lines=['// Paste these corrections into the matching res() call in each data-*.js file',''];
-      keys.forEach(function(id){
-        var row=_rows.find(function(r){ return r.id===id; });
-        lines.push('// '+(row?row.title:id));
-        Object.keys(ov[id]).forEach(function(f){ lines.push('   '+f+': "'+ov[id][f]+'"'); });
-        lines.push('');
+    // Extra "other" links from data (read-only, no edit needed)
+    var others = (resources && resources.other) ? resources.other : [];
+    if (others.length) {
+      var sep = document.createElement('div');
+      sep.style.cssText = 'font-size:0.66rem;font-weight:800;text-transform:uppercase;' +
+        'letter-spacing:.06em;color:#94a3b8;padding:4px 0 2px;';
+      sep.textContent = 'Additional Resources';
+      wrap.appendChild(sep);
+      others.forEach(function (o) {
+        wrap.appendChild(_buildStaticRow('\uD83D\uDD17', o.label, 'Additional resource', o.url));
       });
-
-      var ta=document.createElement('textarea');
-      ta.style.cssText='width:100%;box-sizing:border-box;height:220px;font-size:0.72rem;'+
-        'font-family:monospace;border:1px solid #e2e8f0;border-radius:8px;padding:10px;resize:vertical;';
-      ta.value=lines.join('\n');
-      box.appendChild(ta);
-
-      var btnRow=document.createElement('div'); btnRow.style.cssText='display:flex;gap:8px;flex-wrap:wrap;';
-
-      var copyBtn=document.createElement('button'); copyBtn.textContent='📋 Copy to Clipboard';
-      copyBtn.style.cssText='padding:7px 16px;background:#0053e2;color:white;border:none;border-radius:8px;font-weight:700;font-size:0.76rem;cursor:pointer;';
-      copyBtn.addEventListener('click', function(){
-        ta.select();
-        try { navigator.clipboard.writeText(ta.value).catch(function(){ document.execCommand('copy'); }); }
-        catch(e) { document.execCommand('copy'); }
-        copyBtn.textContent='✅ Copied!';
-        setTimeout(function(){ copyBtn.textContent='📋 Copy to Clipboard'; },2000);
-      });
-
-      var clrBtn=document.createElement('button'); clrBtn.textContent='🗑 Clear All Overrides';
-      clrBtn.style.cssText='padding:7px 16px;background:#fee2e2;color:#991b1b;border:none;border-radius:8px;font-weight:700;font-size:0.76rem;cursor:pointer;';
-      clrBtn.addEventListener('click', function(){
-        if (!confirm('Clear all saved link overrides? This cannot be undone.')) return;
-        try { localStorage.removeItem(LS_KEY); } catch(e) {}
-        overlay.remove(); _refresh();
-      });
-
-      btnRow.appendChild(copyBtn); btnRow.appendChild(clrBtn);
-      box.appendChild(btnRow);
-      setTimeout(function(){ ta.focus(); ta.select(); },50);
     }
 
-    overlay.appendChild(box);
-    document.body.appendChild(overlay);
-    xBtn.addEventListener('click', function(){ overlay.remove(); });
-    overlay.addEventListener('click', function(e){ if(e.target===overlay) overlay.remove(); });
+    panel.appendChild(wrap);
+  };
+
+  // ── Build one editable link row ────────────────────────
+  function _buildRow(cardId, def, dataUrl) {
+    var outer = document.createElement('div');
+    outer.style.cssText = 'border:1.5px solid #e2e8f0;border-radius:12px;overflow:hidden;' +
+      'transition:border-color .15s;';
+
+    // ── Display mode ──
+    var display = document.createElement('div');
+    display.style.cssText = 'display:flex;align-items:center;gap:12px;padding:12px 14px;';
+
+    var iconEl = document.createElement('span');
+    iconEl.style.cssText = 'font-size:1.3rem;flex-shrink:0;';
+    iconEl.textContent = def.icon;
+
+    var info = document.createElement('div');
+    info.style.cssText = 'flex:1;min-width:0;';
+    var labelEl = document.createElement('p');
+    labelEl.style.cssText = 'margin:0;font-size:0.82rem;font-weight:700;color:#1e293b;';
+    labelEl.textContent = def.label;
+    var sublabelEl = document.createElement('p');
+    sublabelEl.style.cssText = 'margin:2px 0 0;font-size:0.7rem;color:#94a3b8;';
+    sublabelEl.textContent = def.sublabel;
+    info.appendChild(labelEl);
+    info.appendChild(sublabelEl);
+
+    var linkArea = document.createElement('div');
+    linkArea.style.cssText = 'display:flex;align-items:center;gap:8px;flex-shrink:0;';
+
+    var linkEl = document.createElement('a');
+    linkEl.style.cssText = 'font-size:0.72rem;font-weight:600;padding:4px 10px;' +
+      'border-radius:7px;text-decoration:none;transition:opacity .15s;white-space:nowrap;';
+
+    var editBtn = document.createElement('button');
+    editBtn.textContent = '\u270F\uFE0F Edit';
+    editBtn.style.cssText = 'font-size:0.7rem;font-weight:600;padding:4px 10px;' +
+      'border:1.5px solid #e2e8f0;border-radius:7px;background:white;color:#64748b;' +
+      'cursor:pointer;transition:border-color .15s,color .15s;white-space:nowrap;';
+    editBtn.addEventListener('mouseenter', function () {
+      editBtn.style.borderColor = '#0053e2'; editBtn.style.color = '#0053e2';
+    });
+    editBtn.addEventListener('mouseleave', function () {
+      editBtn.style.borderColor = '#e2e8f0'; editBtn.style.color = '#64748b';
+    });
+
+    linkArea.appendChild(linkEl);
+    linkArea.appendChild(editBtn);
+
+    display.appendChild(iconEl);
+    display.appendChild(info);
+    display.appendChild(linkArea);
+
+    // ── Edit mode ──
+    var editRow = document.createElement('div');
+    editRow.style.cssText = 'display:none;padding:10px 14px 12px;' +
+      'border-top:1.5px solid #e2e8f0;background:#f8fafc;';
+
+    var inp = document.createElement('input');
+    inp.type = 'url';
+    inp.placeholder = 'https://jira.walmart.com/browse/OPIF-...';
+    inp.style.cssText = 'width:100%;box-sizing:border-box;height:34px;padding:0 10px;' +
+      'border:1.5px solid #e2e8f0;border-radius:8px;font-size:0.78rem;outline:none;' +
+      'margin-bottom:8px;';
+    inp.addEventListener('focus', function () { inp.style.borderColor = '#0053e2'; });
+    inp.addEventListener('blur',  function () { inp.style.borderColor = '#e2e8f0'; });
+
+    var btnRow = document.createElement('div');
+    btnRow.style.cssText = 'display:flex;gap:8px;';
+
+    var saveBtn  = _btn('Save',   '#0053e2', 'white');
+    var clearBtn = _btn('Clear',  '#fee2e2', '#991b1b');
+    var cancelBtn= _btn('Cancel', '#f1f5f9', '#475569');
+    btnRow.appendChild(saveBtn);
+    btnRow.appendChild(clearBtn);
+    btnRow.appendChild(cancelBtn);
+
+    var savedNotice = document.createElement('span');
+    savedNotice.style.cssText = 'font-size:0.7rem;color:#2a8703;margin-left:6px;' +
+      'opacity:0;transition:opacity .3s;';
+    savedNotice.textContent = '\u2713 Saved';
+    btnRow.appendChild(savedNotice);
+
+    editRow.appendChild(inp);
+    editRow.appendChild(btnRow);
+
+    outer.appendChild(display);
+    outer.appendChild(editRow);
+
+    // ── Internal refresh ──
+    // Re-reads localStorage and updates the display link element
+    function _syncDisplay() {
+      var url = _getUrl(cardId, def.field, dataUrl);
+      if (url) {
+        linkEl.href        = url;
+        linkEl.target      = '_blank';
+        linkEl.rel         = 'noopener';
+        linkEl.textContent = def.label + ' \u2192';
+        linkEl.style.background   = '#eef2ff';
+        linkEl.style.color        = '#0053e2';
+        linkEl.style.pointerEvents = 'auto';
+        outer.style.borderColor   = '#c7d2fe';
+      } else {
+        linkEl.removeAttribute('href');
+        linkEl.removeAttribute('target');
+        linkEl.textContent = '\u2014 Not set';
+        linkEl.style.background   = 'transparent';
+        linkEl.style.color        = '#94a3b8';
+        linkEl.style.pointerEvents = 'none';
+        outer.style.borderColor   = '#e2e8f0';
+      }
+    }
+
+    function _openEdit() {
+      inp.value = _getUrl(cardId, def.field, dataUrl) || '';
+      editRow.style.display = '';
+      outer.style.borderColor = '#0053e2';
+      editBtn.style.display = 'none';
+      inp.focus();
+      inp.select();
+    }
+
+    function _closeEdit() {
+      editRow.style.display = 'none';
+      editBtn.style.display = '';
+      _syncDisplay();
+    }
+
+    function _doSave() {
+      var url = inp.value.trim();
+      _save(cardId, def.field, url);
+      // Flash the saved notice
+      savedNotice.style.opacity = '1';
+      setTimeout(function () { savedNotice.style.opacity = '0'; }, 1800);
+      _closeEdit();
+    }
+
+    function _doClear() {
+      if (!confirm('Remove the saved link for ' + def.label + '?')) return;
+      _save(cardId, def.field, '');
+      _closeEdit();
+    }
+
+    editBtn.addEventListener  ('click',   _openEdit);
+    saveBtn.addEventListener  ('click',   _doSave);
+    clearBtn.addEventListener ('click',   _doClear);
+    cancelBtn.addEventListener('click',   _closeEdit);
+    inp.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter')  _doSave();
+      if (e.key === 'Escape') _closeEdit();
+    });
+
+    _syncDisplay(); // initial render
+    return outer;
+  }
+
+  // ── Static read-only row (for res.other links) ─────────
+  function _buildStaticRow(icon, label, sublabel, url) {
+    var outer = document.createElement('div');
+    outer.style.cssText = 'display:flex;align-items:center;gap:12px;padding:11px 14px;' +
+      'border:1.5px solid #e2e8f0;border-radius:12px;';
+
+    var iconEl = document.createElement('span');
+    iconEl.style.fontSize = '1.2rem'; iconEl.textContent = icon;
+
+    var info = document.createElement('div'); info.style.flex = '1';
+    var l = document.createElement('p');
+    l.style.cssText = 'margin:0;font-size:0.8rem;font-weight:600;color:#1e293b;';
+    l.textContent = label;
+    var s = document.createElement('p');
+    s.style.cssText = 'margin:2px 0 0;font-size:0.69rem;color:#94a3b8;';
+    s.textContent = sublabel;
+    info.appendChild(l); info.appendChild(s);
+
+    var link = document.createElement('a');
+    link.href = url; link.target = '_blank'; link.rel = 'noopener';
+    link.textContent = 'Open \u2192';
+    link.style.cssText = 'font-size:0.72rem;font-weight:600;color:#0053e2;' +
+      'padding:4px 10px;border-radius:7px;background:#eef2ff;text-decoration:none;white-space:nowrap;';
+
+    outer.appendChild(iconEl); outer.appendChild(info); outer.appendChild(link);
+    return outer;
+  }
+
+  // ── Small button factory ───────────────────────────────
+  function _btn(text, bg, color) {
+    var b = document.createElement('button');
+    b.textContent = text;
+    b.style.cssText = 'padding:5px 14px;border:none;border-radius:7px;font-size:0.73rem;' +
+      'font-weight:700;cursor:pointer;background:' + bg + ';color:' + color + ';';
+    return b;
   }
 
 }());
@@ -3536,12 +3166,14 @@ function openModal(cardId, workstream, tool) {
 
   document.getElementById('tab-resources').innerHTML = `
     <div class="space-y-2 py-5 px-6">
-      ${resLink('\uD83D\uDCCB', 'OPIF', 'Opportunity / Initiative Framework', res.opif)}
       ${resLink('\uD83D\uDCDD', 'BRD', 'Business Requirements Document', res.brd)}
       ${resLink('\uD83D\uDCE6', 'PRD', 'Product Requirements Document', res.prd)}
       ${resLink('\uD83C\uDFA8', 'UX Demo / Prototype', 'Design & UX walkthrough', res.uxDemo)}
       ${otherLinks}
     </div>`;
+
+  // --- links tab (editable OPIF + others via card-links.js) ---
+  buildLinksTab(card.id, res);
 
   // --- inquiry tab ---
   const ownerList = [
@@ -3634,11 +3266,10 @@ ${userText}
 function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
 
 function switchTab(name) {
-  const names = ['overview','status','resources','inquiry','data'];
+  const names = ['overview','status','resources','links','inquiry'];
   document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', names[i] === name));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.getElementById('tab-' + name).classList.add('active');
-  if (name === 'data') initDataTab();
 }
 
 document.getElementById('modal-overlay').addEventListener('click', e => {

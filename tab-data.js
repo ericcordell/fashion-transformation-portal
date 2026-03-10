@@ -1,334 +1,337 @@
-// tab-data.js — Programs Data Spreadsheet tab
-// Renders a searchable, filterable, sortable table of ALL programs
-// across all workstreams. Each row has direct Confluence + OPIF links
-// so editors can jump straight to the source and update.
-// Depends on: PILLARS (data-allocation.js), QUARTER_META, BADGE_CLASS,
-//             CARD_PHASE_MAP (data-phases.js), openCardModal (index.html)
-
+// tab-data.js — Full-column Programs Spreadsheet
+// Every data field from every card gets its own column.
+// Sticky first 2 cols (Workstream + Title). Horizontal scroll for the rest.
+// Depends on: PILLARS, CARD_PHASE_MAP, QUARTER_META, openCardModal
 (function () {
 
-  // ── Confluence source anchors per workstream ──────────────
   var CONF_BASE = 'https://confluence.walmart.com/display/APREC/' +
     'Long+Lead+Time+Transformation+Work+Management+Dashboard';
 
   var WS_CFG = {
-    strategy:   { label: 'Strategy',   emoji: '\uD83C\uDFDB\uFE0F',
-      color: '#0053e2', bg: '#eef2ff', anchor: '#Strategy-TrendToProduct(TTP)' },
-    design:     { label: 'Design',     emoji: '\uD83C\uDFA8',
-      color: '#7c3aed', bg: '#f5f3ff', anchor: '#Design-CentricPLM' },
-    buying:     { label: 'Buying',     emoji: '\uD83D\uDED2',
-      color: '#0891b2', bg: '#ecfeff', anchor: '#Buying-AEXAssortmentPlanning' },
-    allocation: { label: 'Allocation', emoji: '\uD83D\uDCE6',
-      color: '#2a8703', bg: '#f0faf0', anchor: '#Allocation-BPEDBPUnifiedPlanning' },
+    strategy:   { label:'Strategy',   emoji:'\uD83C\uDFDB\uFE0F', color:'#0053e2', bg:'#eef2ff', anchor:'#Strategy' },
+    design:     { label:'Design',     emoji:'\uD83C\uDFA8',       color:'#7c3aed', bg:'#f5f3ff', anchor:'#Design'   },
+    buying:     { label:'Buying',     emoji:'\uD83D\uDED2',       color:'#0891b2', bg:'#ecfeff', anchor:'#Buying'   },
+    allocation: { label:'Allocation', emoji:'\uD83D\uDCE6',       color:'#2a8703', bg:'#f0faf0', anchor:'#Allocation'},
   };
 
-  var STATUS_CFG = {
-    green:     { label: 'On Track',    cls: 'td-s-green'  },
-    yellow:    { label: 'At Risk',     cls: 'td-s-yellow' },
-    red:       { label: 'Off Track',   cls: 'td-s-red'    },
-    completed: { label: 'Completed',   cls: 'td-s-done'   },
-    roadmap:   { label: 'Roadmap',     cls: 'td-s-road'   },
+  var ST_CFG = {
+    green:     { label:'On Track',  cls:'tds-green'  },
+    yellow:    { label:'At Risk',   cls:'tds-yellow' },
+    red:       { label:'Off Track', cls:'tds-red'    },
+    completed: { label:'Completed', cls:'tds-done'   },
+    roadmap:   { label:'Roadmap',   cls:'tds-road'   },
   };
 
-  var QUARTER_LABELS = {
-    completed: '\u2705 Done',
-    Q1: 'Q1 FY27', Q2: 'Q2 FY27', Q3: 'Q3 FY27', Q4: 'Q4 FY27',
-    Future: 'Future',
-  };
+  var QORDER = { completed:0, Q1:1, Q2:2, Q3:3, Q4:4, Future:5 };
 
-  // State
-  var _rows    = [];
-  var _search  = '';
-  var _wsFilter  = 'all';
-  var _stFilter  = 'all';
-  var _qFilter   = 'all';
-  var _sortCol   = 'quarter';
-  var _sortDir   = 'asc';
-  var _expanded  = {}; // rowId → bool (desc expanded)
-  var _inited    = false;
+  // ── Column definitions ───────────────────────────────────
+  // render(row) → inner HTML string for the <td>
+  var COLS = [
+    // ── Fixed / ──
+    { id:'workstream', label:'Workstream', w:105, sticky:true,
+      render: function(r) {
+        var w = WS_CFG[r.workstream] || WS_CFG.strategy;
+        return '<span class="tds-ws" style="background:'+w.bg+';color:'+w.color+'">'+
+          w.emoji+' '+w.label+'</span>'; } },
+    { id:'title', label:'Program', w:190, sticky:true,
+      render: function(r) {
+        return '<span class="tds-title" title="'+_esc(r.title)+'">'+
+          r.icon+' '+_esc(r.title)+'</span>';
+      } },
+    // ── Status / timeline ──
+    { id:'status', label:'Status', w:88,
+      render: function(r) {
+        var s = ST_CFG[r.status] || ST_CFG.roadmap;
+        return '<span class="tds-badge '+s.cls+'">'+s.label+'</span>';
+      } },
+    { id:'phase', label:'Phase', w:52, center:true,
+      render: function(r) {
+        return '<span class="tds-phase">P'+r.phase+'</span>';
+      } },
+    { id:'quarter', label:'Quarter', w:78,
+      render: function(r) {
+        var labels = {completed:'\u2705 Done',Q1:'Q1 FY27',Q2:'Q2 FY27',
+                      Q3:'Q3 FY27',Q4:'Q4 FY27',Future:'Future'};
+        return '<span class="tds-q">'+( labels[r.quarter]||r.quarter)+'</span>';
+      } },
+    { id:'targetDate', label:'Target Date', w:100,
+      render: function(r) { return _cell(r.targetDate); } },
+    { id:'tag', label:'Tag', w:90,
+      render: function(r) {
+        return r.tag ? '<span class="tds-tag">'+_esc(r.tag)+'</span>' : '<span class="tds-nd">\u2014</span>';
+      } },
+    // ── Rich text fields ──
+    { id:'description', label:'Description', w:220,
+      render: function(r) { return _long(r.description); } },
+    { id:'businessBenefit', label:'Business Benefit', w:220,
+      render: function(r) { return _long(r.businessBenefit); } },
+    { id:'techIntegration', label:'Tech Integration', w:220,
+      render: function(r) { return _long(r.techIntegration); } },
+    { id:'successMetrics', label:'Success Metrics', w:200,
+      render: function(r) { return _long(r.successMetrics); } },
+    // ── Owners (one column each) ──
+    { id:'bp', label:'Business Partner', w:140,
+      render: function(r) { return _owner(r.bp, r.bpEmail); } },
+    { id:'tl', label:'Transformation Lead', w:140,
+      render: function(r) { return _owner(r.tl, r.tlEmail); } },
+    { id:'pl', label:'Product Lead', w:140,
+      render: function(r) { return _owner(r.pl, r.plEmail); } },
+    { id:'ux', label:'UX Lead', w:140,
+      render: function(r) { return _owner(r.ux, r.uxEmail); } },
+    { id:'sw', label:'Software Lead', w:140,
+      render: function(r) { return _owner(r.sw, r.swEmail); } },
+    // ── Resource links (one column each) ──
+    { id:'opif', label:'OPIF', w:80, center:true,
+      render: function(r) { return _link(r.opifUrl, 'OPIF', 'tds-ln-opif'); } },
+    { id:'brd', label:'BRD', w:75, center:true,
+      render: function(r) { return _link(r.brdUrl, 'BRD', 'tds-ln-brd'); } },
+    { id:'prd', label:'PRD', w:75, center:true,
+      render: function(r) { return _link(r.prdUrl, 'PRD', 'tds-ln-prd'); } },
+    { id:'uxDemo', label:'UX Demo', w:80, center:true,
+      render: function(r) { return _link(r.uxDemoUrl, 'Demo', 'tds-ln-demo'); } },
+    { id:'confluence', label:'Confluence \u2714️', w:105, center:true,
+      render: function(r) { return _link(r.confUrl, 'Source', 'tds-ln-conf'); } },
+  ];
 
-  // ── Public init ─────────────────────────────────────────
+  // ── State ────────────────────────────────────────────────
+  var _rows = [], _search = '', _wsF = 'all', _stF = 'all', _qF = 'all';
+  var _sortId = 'quarter', _sortDir = 'asc', _inited = false;
+
+  // ── Public ───────────────────────────────────────────────
   window.initDataTab = function () {
     if (_inited) { _refresh(); return; }
     _inited = true;
-    _rows = _flatCards();
-    var panel = document.getElementById('tab-data');
-    panel.innerHTML = _shellHTML();
-    _bindEvents();
+    _rows = _flatten();
+    document.getElementById('tab-data').innerHTML = _shell();
+    _bind();
     _refresh();
   };
 
-  // ── Flatten all PILLARS cards into rows ──────────────────
-  function _flatCards() {
+  // ── Flatten PILLARS → row objects ────────────────────────
+  function _flatten() {
     var out = [];
     (PILLARS || []).forEach(function (pillar) {
-      var ws = pillar.id; // 'strategy' | 'design' | 'buying' | 'allocation'
+      var ws = pillar.id;
       (pillar.cards || []).forEach(function (c) {
-        var owners  = c.owners  || {};
-        var rsrcs   = c.resources || {};
-        var phaseNo = (typeof CARD_PHASE_MAP !== 'undefined' && CARD_PHASE_MAP[c.id]) || 1;
-        var confUrl = CONF_BASE + ((WS_CFG[ws] || {}).anchor || '');
-        var opifUrl = (rsrcs.opif && rsrcs.opif !== '#') ? rsrcs.opif : null;
-        var brdUrl  = (rsrcs.brd  && rsrcs.brd  !== '#') ? rsrcs.brd  : null;
-        var prdUrl  = (rsrcs.prd  && rsrcs.prd  !== '#') ? rsrcs.prd  : null;
+        var o  = c.owners    || {};
+        var r  = c.resources || {};
+        var bp = o.businessPartner    || {};
+        var tl = o.transformationLead || {};
+        var pl = o.productLead        || {};
+        var ux = o.uxLead             || {};
+        var sw = o.softwareLead       || {};
+        var ph = (typeof CARD_PHASE_MAP !== 'undefined' && CARD_PHASE_MAP[c.id]) || 1;
+        var cf = CONF_BASE + ((WS_CFG[ws] || {}).anchor || '');
         out.push({
-          id:          c.id,
-          workstream:  ws,
-          phase:       phaseNo,
-          icon:        c.icon || '\uD83D\uDCCC',
-          title:       c.title,
-          status:      c.status || 'roadmap',
-          statusLabel: c.statusLabel || '',
-          quarter:     c.quarter || 'Future',
-          targetDate:  c.targetDate || '\u2014',
-          tag:         c.tag || '',
-          description: c.description || '',
-          bizBenefit:  c.businessBenefit || '',
-          bp:   ((owners.businessPartner    || {}).name) || '',
-          tl:   ((owners.transformationLead || {}).name) || '',
-          pl:   ((owners.productLead        || {}).name) || '',
-          ux:   ((owners.uxLead             || {}).name) || '',
-          sw:   ((owners.softwareLead       || {}).name) || '',
-          confUrl: confUrl,
-          opifUrl: opifUrl,
-          brdUrl:  brdUrl,
-          prdUrl:  prdUrl,
+          id: c.id, workstream: ws, phase: ph,
+          icon: c.icon || '\uD83D\uDCCC',
+          title:          c.title         || '',
+          status:         c.status        || 'roadmap',
+          quarter:        c.quarter       || 'Future',
+          targetDate:     c.targetDate    || '',
+          tag:            c.tag           || '',
+          description:    c.description   || '',
+          businessBenefit:c.businessBenefit  || '',
+          techIntegration:c.techIntegration  || '',
+          successMetrics: c.successMetrics   || '',
+          bp: bp.name||'', bpEmail: bp.email||'',
+          tl: tl.name||'', tlEmail: tl.email||'',
+          pl: pl.name||'', plEmail: pl.email||'',
+          ux: ux.name||'', uxEmail: ux.email||'',
+          sw: sw.name||'', swEmail: sw.email||'',
+          opifUrl:  _url(r.opif),
+          brdUrl:   _url(r.brd),
+          prdUrl:   _url(r.prd),
+          uxDemoUrl:_url(r.uxDemo),
+          confUrl:  cf,
         });
       });
     });
     return out;
   }
 
-  // ── Shell HTML (search bar + table wrapper) ──────────────
-  function _shellHTML() {
-    return [
-      '<div class="td-wrap">',
-      '  <div class="td-toolbar">',
-      '    <div class="td-toolbar-left">',
-      '      <span class="td-toolbar-title">&#128202; Programs &amp; Deliverables</span>',
-      '      <span id="td-count" class="td-count"></span>',
-      '    </div>',
-      '    <div class="td-toolbar-right">',
-      '      <input id="td-search" class="td-search" type="search" placeholder="&#128269; Search programs...">',
-      '      <select id="td-ws"  class="td-filter-sel"><option value="all">All Workstreams</option>',
-      '        <option value="strategy">Strategy</option><option value="design">Design</option>',
-      '        <option value="buying">Buying</option><option value="allocation">Allocation</option>',
-      '      </select>',
-      '      <select id="td-st"  class="td-filter-sel"><option value="all">All Statuses</option>',
-      '        <option value="green">On Track</option><option value="yellow">At Risk</option>',
-      '        <option value="red">Off Track</option><option value="completed">Completed</option>',
-      '        <option value="roadmap">Roadmap</option>',
-      '      </select>',
-      '      <select id="td-q"   class="td-filter-sel"><option value="all">All Quarters</option>',
-      '        <option value="completed">Completed</option>',
-      '        <option value="Q1">Q1 FY27</option><option value="Q2">Q2 FY27</option>',
-      '        <option value="Q3">Q3 FY27</option><option value="Q4">Q4 FY27</option>',
-      '        <option value="Future">Future</option>',
-      '      </select>',
-      '      <button id="td-csv" class="td-csv-btn" title="Export visible rows to CSV">&#8595; CSV</button>',
-      '    </div>',
-      '  </div>',
-      '  <div class="td-table-scroll">',
-      '    <table class="td-table" id="td-table">',
-      '      <thead><tr id="td-thead"></tr></thead>',
-      '      <tbody id="td-tbody"></tbody>',
-      '    </table>',
-      '  </div>',
-      '  <p class="td-footer-note">&#128196; Source: ',
-      '    <a href="' + CONF_BASE + '" target="_blank" rel="noopener">',
-      '      APREC &mdash; LLTT Work Management Dashboard</a>',
-      '    &bull; Click any &#9997;&#65039; link in the Sources column to open the program',
-      '    directly in Confluence or OPIF and update the data at its source.',
-      '  </p>',
-      '</div>',
-    ].join('\n');
+  function _url(v) { return (v && v !== '#') ? v : null; }
+
+  // ── Shell HTML ───────────────────────────────────────────
+  function _shell() {
+    return '<div class="tds-wrap">'+
+      '<div class="tds-bar">'+
+        '<div class="tds-bar-l">'+
+          '<span class="tds-bar-title">&#128202; Programs &amp; Deliverables</span>'+
+          '<span id="tds-count" class="tds-count"></span>'+
+        '</div>'+
+        '<div class="tds-bar-r">'+
+          '<input id="tds-search" class="tds-search" type="search" placeholder="&#128269; Search...">'+
+          '<select id="tds-ws"  class="tds-sel"><option value="all">All Workstreams</option>'+
+            '<option value="strategy">Strategy</option><option value="design">Design</option>'+
+            '<option value="buying">Buying</option><option value="allocation">Allocation</option></select>'+
+          '<select id="tds-st"  class="tds-sel"><option value="all">All Statuses</option>'+
+            '<option value="green">On Track</option><option value="yellow">At Risk</option>'+
+            '<option value="red">Off Track</option><option value="completed">Completed</option>'+
+            '<option value="roadmap">Roadmap</option></select>'+
+          '<select id="tds-q"   class="tds-sel"><option value="all">All Quarters</option>'+
+            '<option value="completed">Completed</option>'+
+            '<option value="Q1">Q1 FY27</option><option value="Q2">Q2 FY27</option>'+
+            '<option value="Q3">Q3 FY27</option><option value="Q4">Q4 FY27</option>'+
+            '<option value="Future">Future</option></select>'+
+          '<button id="tds-csv" class="tds-csv">&#8595; CSV</button>'+
+        '</div>'+
+      '</div>'+
+      '<div class="tds-scroll">'+
+        '<table class="tds-tbl" id="tds-tbl">'+
+          '<thead><tr id="tds-head"></tr></thead>'+
+          '<tbody id="tds-body"></tbody>'+
+        '</table>'+
+      '</div>'+
+      '<p class="tds-foot">&#128196; Source: '+
+        '<a href="'+CONF_BASE+'" target="_blank" rel="noopener">APREC &mdash; LLTT Work Management Dashboard</a>'+
+        ' &bull; Hover any cell for full text &bull; Click a row to open detail modal'+
+      '</p>'+
+    '</div>';
   }
 
-  // ── Bind all events ──────────────────────────────────────
-  function _bindEvents() {
-    document.getElementById('td-search').addEventListener('input', function (e) {
-      _search = e.target.value.toLowerCase();
+  // ── Event binding ────────────────────────────────────────
+  function _bind() {
+    document.getElementById('tds-search').addEventListener('input',  function(e){ _search = e.target.value.toLowerCase(); _refresh(); });
+    document.getElementById('tds-ws'    ).addEventListener('change', function(e){ _wsF = e.target.value; _refresh(); });
+    document.getElementById('tds-st'    ).addEventListener('change', function(e){ _stF = e.target.value; _refresh(); });
+    document.getElementById('tds-q'     ).addEventListener('change', function(e){ _qF  = e.target.value; _refresh(); });
+    document.getElementById('tds-csv'   ).addEventListener('click',  _csv);
+    document.getElementById('tds-head'  ).addEventListener('click', function(e){
+      var th = e.target.closest('th[data-col]'); if (!th) return;
+      var id = th.dataset.col;
+      _sortDir = (_sortId === id && _sortDir === 'asc') ? 'desc' : 'asc';
+      _sortId = id;
       _refresh();
     });
-    document.getElementById('td-ws').addEventListener('change', function (e) {
-      _wsFilter = e.target.value; _refresh();
-    });
-    document.getElementById('td-st').addEventListener('change', function (e) {
-      _stFilter = e.target.value; _refresh();
-    });
-    document.getElementById('td-q').addEventListener('change', function (e) {
-      _qFilter  = e.target.value; _refresh();
-    });
-    document.getElementById('td-csv').addEventListener('click', _exportCSV);
-
-    // Header sort — delegated
-    document.getElementById('td-thead').addEventListener('click', function (e) {
-      var th = e.target.closest('th[data-sort]');
-      if (!th) return;
-      var col = th.dataset.sort;
-      _sortDir = (_sortCol === col && _sortDir === 'asc') ? 'desc' : 'asc';
-      _sortCol = col;
-      _refresh();
-    });
-
-    // Expand description — delegated on tbody
-    document.getElementById('td-tbody').addEventListener('click', function (e) {
-      var btn = e.target.closest('.td-expand-btn');
-      if (btn) { _expanded[btn.dataset.id] = !_expanded[btn.dataset.id]; _refresh(); return; }
-      var row = e.target.closest('tr[data-id]');
-      if (row && !e.target.closest('a')) {
-        openCardModal && openCardModal(row.dataset.id);
-      }
+    document.getElementById('tds-body').addEventListener('click', function(e){
+      if (e.target.closest('a')) return;
+      var tr = e.target.closest('tr[data-id]');
+      if (tr && typeof openCardModal === 'function') openCardModal(tr.dataset.id);
     });
   }
 
-  // ── Main refresh ─────────────────────────────────────────
+  // ── Refresh ──────────────────────────────────────────────
   function _refresh() {
-    var visible = _filter(_rows);
-    visible = _sort(visible);
-    _renderHead();
-    _renderBody(visible);
-    document.getElementById('td-count').textContent =
-      visible.length + ' of ' + _rows.length + ' programs';
+    var vis = _filtered();
+    vis = _sorted(vis);
+    _head();
+    _body(vis);
+    document.getElementById('tds-count').textContent =
+      vis.length + ' / ' + _rows.length + ' programs';
   }
 
-  function _filter(rows) {
-    return rows.filter(function (r) {
-      if (_wsFilter !== 'all' && r.workstream !== _wsFilter) return false;
-      if (_stFilter !== 'all' && r.status     !== _stFilter) return false;
-      if (_qFilter  !== 'all' && r.quarter    !== _qFilter)  return false;
+  function _filtered() {
+    return _rows.filter(function(r){
+      if (_wsF !== 'all' && r.workstream !== _wsF) return false;
+      if (_stF !== 'all' && r.status     !== _stF) return false;
+      if (_qF  !== 'all' && r.quarter    !== _qF)  return false;
       if (_search) {
-        var hay = (r.title + ' ' + r.description + ' ' + r.bp + ' ' + r.pl).toLowerCase();
+        var hay = [r.title,r.description,r.bp,r.tl,r.pl,r.ux,r.sw].join(' ').toLowerCase();
         if (hay.indexOf(_search) === -1) return false;
       }
       return true;
     });
   }
 
-  var QORDER = { completed: 0, Q1: 1, Q2: 2, Q3: 3, Q4: 4, Future: 5 };
-
-  function _sort(rows) {
-    var col = _sortCol, dir = _sortDir === 'asc' ? 1 : -1;
-    return rows.slice().sort(function (a, b) {
-      var av = col === 'quarter' ? (QORDER[a.quarter] || 9) : (a[col] || '').toString().toLowerCase();
-      var bv = col === 'quarter' ? (QORDER[b.quarter] || 9) : (b[col] || '').toString().toLowerCase();
+  function _sorted(rows) {
+    var id = _sortId, dir = _sortDir === 'asc' ? 1 : -1;
+    return rows.slice().sort(function(a,b){
+      var av = id === 'quarter' ? (QORDER[a.quarter]||9) : (a[id]||'').toString().toLowerCase();
+      var bv = id === 'quarter' ? (QORDER[b.quarter]||9) : (b[id]||'').toString().toLowerCase();
       return av < bv ? -dir : av > bv ? dir : 0;
     });
   }
 
-  // ── Render table head ────────────────────────────────────
-  var COLS = [
-    { key: 'workstream', label: 'Workstream',  sort: 'workstream', w: '100px'  },
-    { key: 'status',     label: 'Status',       sort: 'status',     w: '90px'   },
-    { key: 'phase',      label: 'Ph',           sort: 'phase',      w: '36px'   },
-    { key: 'title',      label: 'Program',      sort: 'title',      w: '200px'  },
-    { key: 'quarter',    label: 'Quarter',      sort: 'quarter',    w: '90px'   },
-    { key: 'targetDate', label: 'Target Date',  sort: 'targetDate', w: '110px'  },
-    { key: 'owners',     label: 'Owners',       sort: 'bp',         w: '140px'  },
-    { key: 'desc',       label: 'Overview',     sort: null,         w: 'auto'   },
-    { key: 'sources',    label: 'Sources ✏️',   sort: null,         w: '110px'  },
-  ];
-
-  function _renderHead() {
-    document.getElementById('td-thead').innerHTML = COLS.map(function (c) {
-      var arrow = '';
-      if (c.sort) {
-        arrow = _sortCol === c.sort
-          ? (_sortDir === 'asc' ? ' &#9650;' : ' &#9660;')
-          : ' <span class="td-sort-hint">&#8597;</span>';
-      }
-      return '<th ' + (c.sort ? 'data-sort="' + c.sort + '" class="td-sortable"' : '') +
-        ' style="width:' + c.w + ';min-width:' + c.w + '">' + c.label + arrow + '</th>';
+  // ── Table head ───────────────────────────────────────────
+  function _head() {
+    var left = 0;
+    document.getElementById('tds-head').innerHTML = COLS.map(function(c){
+      var arrow = _sortId === c.id
+        ? (_sortDir==='asc'?'&#9650;':'&#9660;')
+        : '<span class="tds-sh">&#8597;</span>';
+      var st = c.sticky
+        ? 'position:sticky;left:'+left+'px;z-index:3;background:#1e293b;'
+        : '';
+      if (c.sticky) left += c.w;
+      var ctr = c.center ? 'text-align:center;' : '';
+      return '<th data-col="'+c.id+'" class="tds-sortable" style="'+st+ctr+
+        'min-width:'+c.w+'px;width:'+c.w+'px">'+c.label+' '+arrow+'</th>';
     }).join('');
   }
 
-  // ── Render table body ────────────────────────────────────
-  function _renderBody(rows) {
+  // ── Table body ───────────────────────────────────────────
+  function _body(rows) {
     if (!rows.length) {
-      document.getElementById('td-tbody').innerHTML =
-        '<tr><td colspan="9" class="td-empty">No programs match the current filters.</td></tr>';
+      document.getElementById('tds-body').innerHTML =
+        '<tr><td colspan="'+COLS.length+'" class="tds-empty">No programs match the filters.</td></tr>';
       return;
     }
-    document.getElementById('td-tbody').innerHTML = rows.map(_rowHTML).join('');
+    document.getElementById('tds-body').innerHTML = rows.map(_row).join('');
   }
 
-  function _rowHTML(r) {
-    var ws = WS_CFG[r.workstream] || WS_CFG.strategy;
-    var st = STATUS_CFG[r.status] || STATUS_CFG.roadmap;
-    var desc  = r.description || '\u2014';
-    var short = desc.length > 110 ? desc.slice(0, 110) + '\u2026' : desc;
-    var isExp = !!_expanded[r.id];
-    var descHTML = isExp
-      ? _esc(desc) + ' <button class="td-expand-btn" data-id="' + r.id + '">less \u25b2</button>'
-      : _esc(short) + (desc.length > 110
-          ? ' <button class="td-expand-btn" data-id="' + r.id + '">more \u25bc</button>' : '');
-
-    var ownHTML = [
-      r.bp ? '<span class="td-own-role">BP</span> ' + _esc(r.bp) : '',
-      r.pl ? '<span class="td-own-role">PL</span> ' + _esc(r.pl) : '',
-      r.tl ? '<span class="td-own-role">TL</span> ' + _esc(r.tl) : '',
-    ].filter(Boolean).join('<br>');
-    if (!ownHTML) ownHTML = '<span class="td-tbd">TBD</span>';
-
-    var srcHTML = [
-      '<a href="' + r.confUrl + '" target="_blank" rel="noopener" class="td-src-link td-src-conf"' +
-        ' title="Open in Confluence APREC (LLTT Dashboard)">&#128196; Confluence</a>',
-      r.opifUrl
-        ? '<a href="' + r.opifUrl + '" target="_blank" rel="noopener" class="td-src-link td-src-opif"' +
-          ' title="Open OPIF ticket">&#127381; OPIF</a>'
-        : '<span class="td-src-link td-src-pending" title="OPIF link not yet added">&#127381; OPIF?</span>',
-      r.brdUrl
-        ? '<a href="' + r.brdUrl + '" target="_blank" rel="noopener" class="td-src-link td-src-brd"' +
-          ' title="Open BRD">&#128196; BRD</a>'
-        : '',
-    ].filter(Boolean).join('');
-
-    var tagBadge = r.tag
-      ? '<span class="td-tag">' + _esc(r.tag) + '</span>'
-      : '';
-
-    return '<tr data-id="' + r.id + '" class="td-row">' +
-      '<td><span class="td-ws-chip" style="background:' + ws.bg +
-        ';color:' + ws.color + ';">' + ws.emoji + ' ' + ws.label + '</span></td>' +
-      '<td><span class="td-status-badge ' + st.cls + '">' + st.label + '</span></td>' +
-      '<td class="td-phase-cell"><span class="td-phase-pill">P' + r.phase + '</span></td>' +
-      '<td class="td-title-cell">' + r.icon + ' ' + _esc(r.title) + tagBadge + '</td>' +
-      '<td><span class="td-q-chip">' + (QUARTER_LABELS[r.quarter] || r.quarter) + '</span></td>' +
-      '<td class="td-date">' + _esc(r.targetDate) + '</td>' +
-      '<td class="td-owners">' + ownHTML + '</td>' +
-      '<td class="td-desc">' + descHTML + '</td>' +
-      '<td class="td-sources">' + srcHTML + '</td>' +
-      '</tr>';
+  function _row(r) {
+    var left = 0;
+    var cells = COLS.map(function(c){
+      var st = c.sticky
+        ? 'position:sticky;left:'+left+'px;z-index:1;background:inherit;'
+        : '';
+      if (c.sticky) left += c.w;
+      var ctr = c.center ? 'text-align:center;' : '';
+      var shadow = (c.sticky && left === 295) ? 'box-shadow:2px 0 6px rgba(0,0,0,0.10);' : '';
+      return '<td style="'+st+ctr+shadow+'">'+c.render(r)+'</td>';
+    }).join('');
+    return '<tr data-id="'+r.id+'" class="tds-row">'+cells+'</tr>';
   }
 
-  function _esc(s) {
-    return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  // ── Cell helpers ─────────────────────────────────────────
+  function _esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function _cell(s) {
+    var v = (s || '').trim();
+    return v ? '<span title="'+_esc(v)+'">'+_esc(v)+'</span>'
+             : '<span class="tds-nd">\u2014</span>';
+  }
+
+  function _long(s) {
+    var v = (s || '').trim();
+    if (!v) return '<span class="tds-nd">\u2014</span>';
+    return '<span class="tds-text" title="'+_esc(v)+'">'+_esc(v)+'</span>';
+  }
+
+  function _owner(name, email) {
+    if (!name || name === 'TBD') return '<span class="tds-nd">TBD</span>';
+    var n = '<span class="tds-own-name">'+_esc(name)+'</span>';
+    var e = email ? '<a class="tds-own-email" href="mailto:'+_esc(email)+'">'+_esc(email)+'</a>' : '';
+    return n + (e ? '<br>'+e : '');
+  }
+
+  function _link(url, label, cls) {
+    if (!url) return '<span class="tds-nd">\u2014</span>';
+    return '<a href="'+url+'" target="_blank" rel="noopener" class="tds-ln '+cls+'">'+label+' \u2192</a>';
   }
 
   // ── CSV export ───────────────────────────────────────────
-  function _exportCSV() {
-    var visible = _sort(_filter(_rows));
-    var headers = ['Workstream','Status','Phase','Program','Quarter',
-                   'Target Date','Business Partner','Product Lead',
-                   'Transformation Lead','Overview','Confluence Link','OPIF Link'];
-    var csvRows = [headers.join(',')];
-    visible.forEach(function (r) {
-      csvRows.push([
-        r.workstream, r.status, 'P' + r.phase, r.title,
-        r.quarter, r.targetDate, r.bp, r.pl, r.tl,
-        '"' + (r.description || '').replace(/"/g, '""') + '"',
-        r.confUrl, r.opifUrl || 'pending',
-      ].map(function (v) {
-        return typeof v === 'string' && (v.indexOf(',') > -1 || v.indexOf('"') > -1)
-          ? '"' + v.replace(/"/g,'""') + '"' : (v || '');
-      }).join(','));
-    });
-    var blob = new Blob([csvRows.join('\n')], { type: 'text/csv' });
+  function _csv() {
+    var vis = _sorted(_filtered());
+    var headers = ['Workstream','Program','Status','Phase','Quarter','Target Date',
+      'Tag','Description','Business Benefit','Tech Integration','Success Metrics',
+      'Business Partner','BP Email','Transformation Lead','TL Email',
+      'Product Lead','PL Email','UX Lead','UX Email','Software Lead','SW Email',
+      'OPIF Link','BRD Link','PRD Link','UX Demo Link','Confluence Source'];
+    var q = function(v){ v=String(v||''); return v.indexOf(',')>-1||v.indexOf('"')>-1?'"'+v.replace(/"/g,'""')+'"':v; };
+    var lines = [headers.join(',')].concat(vis.map(function(r){
+      return [r.workstream,r.title,r.status,'P'+r.phase,r.quarter,r.targetDate,
+        r.tag,r.description,r.businessBenefit,r.techIntegration,r.successMetrics,
+        r.bp,r.bpEmail,r.tl,r.tlEmail,r.pl,r.plEmail,r.ux,r.uxEmail,r.sw,r.swEmail,
+        r.opifUrl||'',r.brdUrl||'',r.prdUrl||'',r.uxDemoUrl||'',r.confUrl
+      ].map(q).join(',');
+    }));
     var a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'fashion-portal-programs.csv';
+    a.href = URL.createObjectURL(new Blob([lines.join('\n')],{type:'text/csv'}));
+    a.download = 'fashion-programs.csv';
     a.click();
-    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
   }
 
 }());

@@ -274,3 +274,118 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   font-size:0.75rem; color:#94a3b8; font-style:italic;
   text-align:center; padding:14px 8px;
 }
+
+/* ============================================================
+   FILTER BAR (primary view)
+   ============================================================ */
+.pmf-bar {
+  display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:wrap; gap:8px;
+  background:white; border:1.5px solid #e2e8f0;
+  border-radius:12px; padding:10px 16px; margin-bottom:8px;
+}
+.pmf-group { display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+.pmf-label {
+  font-size:0.64rem; font-weight:800; text-transform:uppercase;
+  letter-spacing:0.08em; color:#94a3b8; flex-shrink:0;
+}
+
+/* Card-attribute filter pills */
+.pmf-pill {
+  font-size:0.72rem; font-weight:600;
+  padding:4px 11px; border-radius:99px;
+  border:1.5px solid #e2e8f0; background:white; color:#64748b;
+  cursor:pointer; transition:all 0.15s;
+}
+.pmf-pill:hover { border-color:#0053e2; color:#0053e2; }
+.pmf-pill.pmf-active {
+  background:#0053e2; border-color:#0053e2; color:white;
+  box-shadow:0 2px 8px rgba(0,83,226,0.25);
+}
+
+/* Phase toggle pills */
+.pmf-phase-pill {
+  font-size:0.72rem; font-weight:700;
+  padding:4px 11px; border-radius:99px;
+  border:1.5px solid #e2e8f0; background:white; color:#64748b;
+  cursor:pointer; transition:all 0.15s;
+}
+.pmf-phase-pill:hover { border-color:var(--phc,#0053e2); color:var(--phc,#0053e2); }
+.pmf-phase-pill.pmf-phase-on {
+  background:var(--phc,#0053e2); border-color:var(--phc,#0053e2); color:white;
+  box-shadow:0 2px 8px rgba(0,0,0,0.18);
+}
+
+/* Clear button */
+.pmf-clear {
+  font-size:0.68rem; font-weight:700;
+  padding:3px 9px; border-radius:99px;
+  border:1.5px solid #fca5a5; background:#fef2f2;
+  color:#ef4444; cursor:pointer; transition:all 0.15s;
+}
+.pmf-clear:hover { background:#ef4444; color:white; border-color:#ef4444; }
+
+/* ── Collapsed phase cell ── */
+.pm-cell-collapsed { background:#f1f5f9; }
+
+.pm-count-pill {
+  display:flex; align-items:center; gap:4px;
+  padding:6px 10px; border-radius:8px;
+  background:white; border:1px solid #e5e7eb;
+  font-size:0.75rem; color:#64748b;
+}
+.pm-count-num { font-weight:800; font-size:0.88rem; color:#1e293b; }
+.pm-count-lbl { font-weight:500; }
+
+/* ── Expand/collapse button in sidebar ── */
+.pm-expand-btn {
+  margin-top:8px; width:100%;
+  font-size:0.7rem; font-weight:700;
+  padding:6px 10px; border-radius:8px;
+  border:1.5px solid rgba(255,255,255,0.35);
+  background:rgba(255,255,255,0.12); color:rgba(255,255,255,0.9);
+  cursor:pointer; transition:all 0.15s; text-align:center;
+}
+.pm-expand-btn:hover {
+  background:rgba(255,255,255,0.22); border-color:rgba(255,255,255,0.6);
+}
+
+/* ── Phase row expansion states ── */
+.pm-phase-collapsed .pm-sidebar { opacity:0.92; }
+.pm-phase-collapsed .pm-ws-col-group { background:#f1f5f9; }
+
+/* ============================================================
+   ROADMAP MODAL — filter rows
+   ============================================================ */
+.rm-filter-row {
+  display:flex; align-items:center; flex-wrap:wrap; gap:6px;
+}
+.rm-filter-row-label {
+  font-size:0.62rem; font-weight:800; text-transform:uppercase;
+  letter-spacing:0.07em; color:rgba(255,255,255,0.5);
+  margin-right:2px; flex-shrink:0;
+}
+.rm-filter-row-sep {
+  color:rgba(255,255,255,0.25); font-size:1rem; padding:0 4px;
+}
+
+/* Phase buttons in roadmap filters get a subtle distinction */
+.rm-filter-btn.rm-filter-phase {
+  border-color:rgba(255,255,255,0.2);
+  background:rgba(255,255,255,0.06);
+}
+.rm-filter-btn.rm-filter-phase.active {
+  background:rgba(255,255,255,0.25); border-color:white;
+}
+
+/* Empty state in roadmap */
+.rm-empty {
+  padding:24px; text-align:center;
+  font-size:0.82rem; color:#94a3b8; font-style:italic;
+}
+
+/* Phase banner inside roadmap body */
+.rm-phase-banner {
+  padding:8px 14px; border-radius:10px; border:1.5px solid;
+  font-size:0.8rem; margin-bottom:12px; line-height:1.5;
+}

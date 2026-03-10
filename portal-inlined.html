@@ -136,196 +136,153 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .sm-card-row:last-child { border-bottom:none; }
 
 /* ============================================================
-   PHASE TIMELINE + PHASE GRID
+   PHASE MATRIX — workstream-first layout
+   Sidebar (left, 200px) = phase context rail
+   Columns (right, 4×flex:1) = workstream hero columns
    ============================================================ */
 
-/* ── Timeline tile row ── */
-.phase-tile-row {
-  display:flex; align-items:stretch; justify-content:center;
-  gap:0; flex-wrap:wrap;
-}
-
-.phase-tile {
-  flex:1; min-width:220px; max-width:360px;
-  background:white; border:2px solid var(--ph-border,#d1d5db);
-  border-radius:12px; padding:14px 18px;
-  text-align:left; cursor:pointer;
-  transition:all 0.18s ease; color:#374151;
-  display:flex; flex-direction:column; gap:4px;
-}
-.phase-tile:hover {
-  border-color:var(--ph-color,#0053e2);
-  box-shadow:0 6px 20px rgba(0,0,0,0.12);
-  transform:translateY(-2px);
-}
-.phase-tile.active {
-  background:white;
-  border-color:var(--ph-color,#0053e2);
-  box-shadow:0 0 0 3px var(--ph-color,#0053e2)22,0 8px 24px rgba(0,0,0,0.14);
-}
-
-.phase-tile-num {
-  font-size:0.62rem; font-weight:800; text-transform:uppercase;
-  letter-spacing:0.08em; color:#94a3b8;
-}
-.phase-tile.active .phase-tile-num { color:var(--ph-color,#0053e2); }
-
-.phase-tile-name {
-  font-size:0.97rem; font-weight:800; line-height:1.2;
-  color:#1e293b;
-}
-.phase-tile.active .phase-tile-name { color:var(--ph-color,#0053e2); }
-
-.phase-tile-window {
-  font-size:0.72rem; font-weight:600; color:#64748b; margin-top:1px;
-}
-
-.phase-tile-tagline {
-  font-size:0.68rem; color:#94a3b8; margin-top:4px;
-  line-height:1.4; font-style:italic;
-}
-.phase-tile.active .phase-tile-tagline { color:var(--ph-color,#0053e2); opacity:0.8; }
-
-.phase-arrow {
-  font-size:1.1rem; color:#d1d5db; align-self:center;
-  flex-shrink:0; padding:0 6px;
-}
-
-/* ── Detail panel ── */
-.phase-detail-panel {
-  border:2px solid #d1d5db; border-radius:12px;
-  margin-top:10px; overflow:hidden;
-  animation:fadeSlideIn 0.22s ease;
-}
-@keyframes fadeSlideIn {
-  from { opacity:0; transform:translateY(-6px); }
-  to   { opacity:1; transform:translateY(0); }
-}
-
-.phase-detail-header {
-  padding:14px 20px 10px;
-  border-bottom:1px solid rgba(0,0,0,0.07);
-}
-.phase-detail-badge {
-  display:inline-block; padding:4px 12px; border-radius:99px;
-  font-size:0.75rem; font-weight:800; color:white;
-  letter-spacing:0.04em; margin-bottom:8px;
-}
-.phase-detail-window {
-  font-size:0.72rem; font-weight:600; color:#64748b;
-  margin-left:10px;
-}
-.phase-detail-desc {
-  font-size:0.84rem; color:#374151; line-height:1.6; margin:6px 0 0;
-}
-.phase-detail-body {
-  display:flex; gap:0; flex-wrap:wrap;
-}
-.phase-detail-col {
-  flex:2; min-width:260px; padding:14px 20px;
-}
-.phase-detail-goals-col {
-  flex:1; min-width:200px;
-  border-left:1px solid rgba(0,0,0,0.07);
-}
-.phase-detail-col-header {
-  font-size:0.68rem; font-weight:800; text-transform:uppercase;
-  letter-spacing:0.07em; color:#94a3b8; margin:0 0 10px;
-}
-.phase-deliverable-list {
-  margin:0; padding-left:16px;
-  list-style:disc;
-}
-.phase-deliverable-list li {
-  font-size:0.8rem; color:#374151; line-height:1.6; padding:1px 0;
-}
-.phase-goals-wrap { display:flex; flex-direction:column; gap:6px; }
-.phase-goal-chip {
-  display:flex; align-items:center; gap:8px;
-  padding:6px 10px; border-radius:8px; border:1.5px solid;
-  font-size:0.77rem;
-}
-.phase-goal-id   { font-weight:900; font-size:0.8rem; flex-shrink:0; }
-.phase-goal-label{ font-weight:500; }
-
-/* ── Phase grid rows ── */
-.phase-row {
-  border-radius:14px; overflow:hidden;
+.phase-matrix {
+  display:flex; flex-direction:column;
+  border-radius:16px; overflow:hidden;
   border:2px solid #e2e8f0;
-  box-shadow:0 2px 8px rgba(0,0,0,0.05);
-  margin-bottom:10px;
-  transition:box-shadow 0.18s;
-}
-.phase-row.phase-row-active {
-  border-color:#0053e2;
-  box-shadow:0 4px 20px rgba(0,83,226,0.13);
+  box-shadow:0 4px 20px rgba(0,0,0,0.08);
 }
 
-.phase-row-header {
-  display:flex; align-items:center; justify-content:space-between;
-  padding:12px 20px; cursor:pointer; gap:12px; flex-wrap:wrap;
+/* Header row: corner + workstream column headers */
+.pm-header-row {
+  display:flex; align-items:stretch;
+  border-bottom:2px solid rgba(255,255,255,0.2);
+}
+
+/* Phase rows: sidebar + cells */
+.pm-phase-row {
+  display:flex; align-items:stretch;
+  border-top:2px solid rgba(255,255,255,0.12);
+}
+
+/* Shared flex group for workstream columns */
+.pm-ws-col-group { flex:1; display:flex; min-width:0; }
+
+/* ── Corner cell (top-left) ── */
+.pm-corner {
+  width:200px; flex-shrink:0;
+  background:linear-gradient(160deg,#1e293b,#334155);
+  padding:14px 14px;
+  display:flex; flex-direction:column;
+  align-items:flex-start; justify-content:flex-end; gap:2px;
+}
+.pm-corner-label {
+  font-size:0.72rem; font-weight:900; text-transform:uppercase;
+  letter-spacing:0.08em; color:rgba(255,255,255,0.9); display:block;
+}
+.pm-corner-sub {
+  font-size:0.62rem; color:rgba(255,255,255,0.45); display:block;
+}
+
+/* ── Workstream column headers ── */
+.pm-ws-header {
+  flex:1; min-width:0; padding:14px 14px;
+  cursor:pointer;
+  display:flex; flex-direction:column; gap:4px;
+  border-left:1px solid rgba(255,255,255,0.18);
   transition:filter 0.15s;
 }
-.phase-row-header:hover { filter:brightness(1.08); }
-
-.phase-row-header-left {
-  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+.pm-ws-header:first-child { border-left:none; }
+.pm-ws-header:hover { filter:brightness(1.1); }
+.pm-ws-title {
+  font-size:0.92rem; font-weight:900; color:white; display:block;
 }
-.phase-row-num {
-  font-size:0.62rem; font-weight:900; letter-spacing:0.1em;
-  text-transform:uppercase; color:rgba(255,255,255,0.6);
-}
-.phase-row-name {
-  font-size:0.98rem; font-weight:800; color:white;
-}
-.phase-row-window {
-  font-size:0.73rem; color:rgba(255,255,255,0.7); font-weight:600;
-}
-.phase-row-pill {
-  font-size:0.68rem; font-weight:700; color:rgba(255,255,255,0.65);
-  border:1.5px solid rgba(255,255,255,0.3); border-radius:99px;
-  padding:3px 10px;
-}
-.phase-row-pill-active {
-  font-size:0.68rem; font-weight:700; color:#FFC220;
-  border:1.5px solid #FFC220; border-radius:99px; padding:3px 10px;
+.pm-ws-tool {
+  font-size:0.67rem; color:rgba(255,255,255,0.65); display:block;
 }
 
-/* Collapsed state: grid hidden, expanded: grid shows */
-.phase-row-grid {
-  display:none;
-  grid-template-columns:repeat(4,1fr);
-  gap:0;
-  background:#f8fafc;
+/* ── Phase sidebar ── */
+.pm-sidebar {
+  width:200px; flex-shrink:0; padding:16px 14px;
+  display:flex; flex-direction:column; gap:7px;
 }
-.phase-row-grid.open { display:grid; }
+.pm-phase-num {
+  font-size:0.6rem; font-weight:900; text-transform:uppercase;
+  letter-spacing:0.1em; color:rgba(255,255,255,0.5);
+}
+.pm-phase-name {
+  font-size:0.95rem; font-weight:900; color:white; line-height:1.2;
+}
+.pm-phase-window {
+  font-size:0.7rem; color:rgba(255,255,255,0.65); font-weight:600;
+}
+.pm-phase-tagline {
+  font-size:0.67rem; color:rgba(255,255,255,0.55);
+  font-style:italic; line-height:1.45;
+}
+.pm-sidebar-divider {
+  height:1px; background:rgba(255,255,255,0.15); margin:3px 0;
+}
+.pm-goals-label {
+  font-size:0.6rem; font-weight:800; text-transform:uppercase;
+  letter-spacing:0.08em; color:rgba(255,255,255,0.4);
+}
+.pm-goals-wrap { display:flex; flex-direction:column; gap:4px; }
+.pm-goal-chip {
+  display:flex; align-items:flex-start; gap:5px;
+  font-size:0.67rem; padding:4px 7px; border-radius:6px;
+  background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2);
+  color:rgba(255,255,255,0.85);
+}
+.pm-goal-id   { font-weight:900; font-size:0.7rem; flex-shrink:0; color:rgba(255,255,255,0.95); }
+.pm-goal-label{ font-size:0.65rem; line-height:1.35; }
+.pm-active-pill {
+  display:inline-flex; align-items:center; gap:4px;
+  font-size:0.64rem; font-weight:800;
+  color:#FFC220; background:rgba(255,194,32,0.15);
+  border:1.5px solid #FFC220; border-radius:99px;
+  padding:2px 9px; width:fit-content; margin-bottom:2px;
+}
 
-/* ── Phase column (per-workstream within a phase row) ── */
-.phase-col { display:flex; flex-direction:column; border-right:1px solid #e5e7eb; }
-.phase-col:last-child { border-right:none; }
-
-.phase-col-header {
-  padding:10px 14px; cursor:pointer;
-  transition:filter 0.15s;
-  display:flex; flex-direction:column; gap:2px;
-}
-.phase-col-header:hover { filter:brightness(1.1); }
-.phase-col-title {
-  font-size:0.8rem; font-weight:800; color:white; display:block;
-}
-.phase-col-tool {
-  font-size:0.65rem; color:rgba(255,255,255,0.7); display:block;
-}
-
-.phase-col-body {
-  flex:1; padding:8px; background:white;
+/* ── Content cells ── */
+.pm-cell {
+  flex:1; min-width:0; padding:10px;
+  border-left:1px solid #e5e7eb;
   display:flex; flex-direction:column; gap:6px;
 }
+.pm-cell:first-child { border-left:none; }
+.pm-cell-p1 { background:white; }
+.pm-cell-future { background:#f8fafc; }
 
-.phase-col-empty {
-  font-size:0.75rem; color:#94a3b8; font-style:italic;
-  text-align:center; padding:18px 8px;
+/* ── Value banner (Phase 2 & 3 workstream capability headline) ── */
+.pm-value-banner {
+  font-size:0.72rem; font-weight:600;
+  padding:7px 10px; border-radius:8px;
+  border:1.5px solid; line-height:1.45;
+  margin-bottom:2px;
 }
+
+/* ── Capability chips (Phase 2 & 3 programs) ── */
+.pm-cap-chip {
+  display:flex; align-items:center; gap:8px;
+  padding:7px 9px; border-radius:8px;
+  background:white; border:1px solid #e5e7eb;
+  cursor:pointer; transition:all 0.15s;
+}
+.pm-cap-chip:hover {
+  border-color:#0053e2;
+  box-shadow:0 2px 8px rgba(0,83,226,0.1);
+  transform:translateY(-1px);
+}
+.pm-cap-crit { border-left:3px solid #ffc220 !important; }
+.pm-cap-icon { font-size:1rem; flex-shrink:0; }
+.pm-cap-body { display:flex; flex-direction:column; gap:2px; min-width:0; }
+.pm-cap-title {
+  font-size:0.77rem; font-weight:600; color:#1e293b; line-height:1.3;
+}
+.pm-cap-badge { font-size:0.61rem !important; }
+
+/* ── Empty state ── */
+.pm-empty {
+  font-size:0.75rem; color:#94a3b8; font-style:italic;
+  text-align:center; padding:14px 8px;
+}
+
 </style>
 </head>
 <body>
@@ -372,13 +329,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
     </div>
   </div>
 
-  <!-- LLTT PHASE TIMELINE SELECTOR -->
-  <div class="bg-white rounded-2xl border border-gray-200 shadow-sm px-5 pt-5 pb-4 mb-4">
-    <p class="text-center text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">LLTT Product Phases &mdash; Click a Phase to Explore</p>
-    <div id="phase-timeline"></div>
-  </div>
-
-  <!-- PHASE GRID (phases = rows, workstreams = columns) -->
+  <!-- WORKSTREAM × PHASE MATRIX
+       Left sidebar  = phase context rail (timing, goals, value)
+       Right columns = workstream hero columns (Strategy / Design / Buying / Allocation)
+       Phase 1 cells = full program cards
+       Phase 2 & 3 cells = capability chips + value-unlock banners
+  -->
   <div id="phase-grid-wrap" class="mb-4"></div>
 
   <!-- INTEGRATION ROW -->
@@ -1166,6 +1122,13 @@ const PHASE_DEFS = [
       { id: '#3', label: 'Happy path buying execution' },
       { id: '#4', label: 'Reduce merchant hours' },
     ],
+    // What each workstream gains after this phase completes
+    wsValue: {
+      strategy:   'Planning hub connected — space & trend signals feed live line plan',
+      design:     'Centric PLM live; AEX Line Plan migrated; visual boards & DAM active',
+      buying:     'AP Tool integrated; item repository live; BAM & auto-BQ connected',
+      allocation: 'Tagging foundation built; visual rack plan; store PO automation live',
+    },
   },
   {
     num: 2,
@@ -1196,6 +1159,12 @@ const PHASE_DEFS = [
       { id: '#7', label: '90% PO redistribution coverage' },
       { id: '#8', label: 'Increase sell-through rate' },
     ],
+    wsValue: {
+      strategy:   'Forecast as Enterprise Service — signals power all downstream workstreams',
+      design:     'Shared Event Calendar & unified potential items (OneSource + MINT) live',
+      buying:     'Buy Quantification as Enterprise Service; expanded item sources active',
+      allocation: 'Tag-based line recommendations & in-season swap logic activated',
+    },
   },
   {
     num: 3,
@@ -1223,6 +1192,12 @@ const PHASE_DEFS = [
       { id: '#6', label: '85% shop in-stock rate' },
       { id: '#8', label: 'Increase sell-through rate' },
     ],
+    wsValue: {
+      strategy:   'Scenario generation from encoded strategy — merchant decision time freed',
+      design:     'AI-driven conceptual line plans generated directly from strategy inputs',
+      buying:     'Global buying platform; full in-season automation & dynamic redistribution',
+      allocation: 'Dynamic tag-based placement; fully automated in-season redistribution',
+    },
   },
 ];
 
@@ -1587,214 +1562,212 @@ const CARD_PHASE_MAP = {
 </script>
 <script>
 /* ── phase-view.js ── */
-// phase-view.js — LLTT Phase Timeline Selector + Phase Grid
-// Depends on: data.js, data-phases.js, data-allocation.js (PILLARS)
-// index.html must expose: openModal(cardId, workstream, tool)
+// phase-view.js — Workstream-first Phase Matrix
+// Layout: left sidebar = phase rail (context)
+//         right columns = workstreams (hero)
+// Phase 1 → full program cards  |  Phase 2 & 3 → capability chips
+// Depends on: data-phases.js (PHASE_DEFS, CARD_PHASE_MAP)
+//             data-allocation.js (PILLARS)
+//             data.js (BADGE_CLASS)
+//             index.html exposes: openModal(), openSummaryModal(), openRoadmapWindow()
 
 (function () {
 
-  let _activePhase = 1;  // default Phase 1
-
-  // Status priority for sorting (lower = higher priority)
   const STATUS_PRIO = { completed:0, red:1, yellow:2, green:3, roadmap:4 };
 
-  // ── PUBLIC INIT ───────────────────────────────────────────
+  // ── PUBLIC API ────────────────────────────────────────────
   window.initPhaseView = function () {
-    _renderTimeline();
-    _renderGrid();
+    _renderMatrix();
   };
 
-  window.setActivePhase = function (num) {
-    _activePhase = num;
-    _renderTimeline();
-    _renderGrid();
-    const grid = document.getElementById('phase-grid-wrap');
-    if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
-
-  // ── PHASE TIMELINE BAR ────────────────────────────────────
-  function _renderTimeline() {
-    const bar = document.getElementById('phase-timeline');
-    if (!bar) return;
-
-    // Three phase tiles
-    const tiles = PHASE_DEFS.map(function (ph) {
-      const isActive = ph.num === _activePhase;
-      return [
-        '<button class="phase-tile' + (isActive ? ' active' : '') + '"',
-        ' style="--ph-color:' + ph.color + ';--ph-border:' + ph.border + ';"',
-        ' onclick="setActivePhase(' + ph.num + ')"',
-        ' aria-pressed="' + isActive + '"',
-        ' title="Click to explore Phase ' + ph.num + '"',
-        '>',
-        '<div class="phase-tile-num">Phase ' + ph.num + '</div>',
-        '<div class="phase-tile-name">' + ph.emoji + ' ' + ph.label + '</div>',
-        '<div class="phase-tile-window">' + ph.window + '</div>',
-        '<div class="phase-tile-tagline">' + ph.tagline + '</div>',
-        '</button>',
-      ].join('');
-    });
-
-    // Connector arrows between tiles
-    const joined = [];
-    tiles.forEach(function (t, i) {
-      joined.push(t);
-      if (i < tiles.length - 1) {
-        joined.push('<div class="phase-arrow" aria-hidden="true">\u25B6</div>');
-      }
-    });
-
-    // Detail panel — shown below the tile row
-    const ph = PHASE_DEFS[_activePhase - 1];
-    const deliverableCols = _splitArray(ph.deliverables, Math.ceil(ph.deliverables.length / 2));
-    const deliverableHTML = deliverableCols.map(function (col) {
-      return '<ul class="phase-deliverable-list">' +
-        col.map(function (d) { return '<li>' + d + '</li>'; }).join('') +
-        '</ul>';
-    }).join('');
-
-    const goalsHTML = ph.goals.map(function (g) {
-      return '<div class="phase-goal-chip" style="border-color:' + ph.border + ';color:' + ph.color + ';background:' + ph.bg + ';">' +
-        '<span class="phase-goal-id">' + g.id + '</span>' +
-        '<span class="phase-goal-label">' + g.label + '</span>' +
-        '</div>';
-    }).join('');
-
-    bar.innerHTML = [
-      '<div class="phase-tile-row">' + joined.join('') + '</div>',
-      '<div class="phase-detail-panel" style="border-color:' + ph.border + ';background:' + ph.bg + ';" id="phase-detail-panel">',
-        '<div class="phase-detail-header">',
-          '<div>',
-            '<span class="phase-detail-badge" style="background:' + ph.darkBg + ';">',
-              ph.emoji + ' Phase ' + ph.num + ': ' + ph.label,
-            '</span>',
-            '<span class="phase-detail-window">&#128197; ' + ph.start + ' \u2013 ' + ph.end + '</span>',
-          '</div>',
-          '<p class="phase-detail-desc">' + ph.description + '</p>',
-        '</div>',
-        '<div class="phase-detail-body">',
-          '<div class="phase-detail-col">',
-            '<p class="phase-detail-col-header">&#128203; Key Deliverables</p>',
-            '<div style="display:flex;gap:16px;flex-wrap:wrap;">' + deliverableHTML + '</div>',
-          '</div>',
-          '<div class="phase-detail-col phase-detail-goals-col">',
-            '<p class="phase-detail-col-header">&#127919; Goal Alignment</p>',
-            '<div class="phase-goals-wrap">' + goalsHTML + '</div>',
-          '</div>',
-        '</div>',
-      '</div>',
-    ].join('');
-  }
-
-  // ── PHASE GRID ────────────────────────────────────────────
-  // Layout: phases = rows (all 3 visible, Phase 1 expanded)
-  //         workstreams = columns (Strategy, Design, Buying, Allocation)
-  function _renderGrid() {
-    const wrap = document.getElementById('phase-grid-wrap');
+  // ── MATRIX SHELL ─────────────────────────────────────────
+  function _renderMatrix() {
+    var wrap = document.getElementById('phase-grid-wrap');
     if (!wrap) return;
 
-    const rowsHTML = PHASE_DEFS.map(function (ph) {
-      const isActive = ph.num === _activePhase;
-      const colsHTML = PILLARS.map(function (pillar) {
-        return _renderPhaseColumn(ph, pillar, isActive);
-      }).join('');
+    var html = [
+      '<div class="phase-matrix" role="region" aria-label="Workstream Phase Matrix">',
+        _headerRow(),
+        PHASE_DEFS.map(_phaseRow).join(''),
+      '</div>',
+    ].join('');
 
+    wrap.innerHTML = html;
+  }
+
+  // ── HEADER ROW ───────────────────────────────────────────
+  // Corner cell (empty) + one header per workstream
+  function _headerRow() {
+    var wsHeaders = PILLARS.map(function (p) {
       return [
-        '<div class="phase-row' + (isActive ? ' phase-row-active' : '') + '" id="phase-row-' + ph.num + '">',
-          '<div class="phase-row-header" style="background:' + ph.darkBg + ';" onclick="setActivePhase(' + ph.num + ')" title="Click to focus Phase ' + ph.num + '">',
-            '<div class="phase-row-header-left">',
-              '<span class="phase-row-num">PHASE ' + ph.num + '</span>',
-              '<span class="phase-row-name">' + ph.emoji + ' ' + ph.label + '</span>',
-              '<span class="phase-row-window">&#128197; ' + ph.window + '</span>',
-            '</div>',
-            '<div class="phase-row-header-right">',
-              isActive ? '<span class="phase-row-pill-active">&#9654; Currently Viewing</span>' : '<span class="phase-row-pill">Click to explore</span>',
-            '</div>',
-          '</div>',
-          '<div class="phase-row-grid' + (isActive ? ' open' : '') + '">',
-            colsHTML,
-          '</div>',
+        '<div class="pm-ws-header ' + p.headerClass + '"',
+        ' onclick="openSummaryModal(\'' + p.id + '\')"',
+        ' title="Click for status summary">',
+          '<span class="pm-ws-title">' + p.title + '</span>',
+          '<span class="pm-ws-tool">&#128736; ' + p.tool + '</span>',
         '</div>',
       ].join('');
     }).join('');
 
-    wrap.innerHTML = rowsHTML;
-  }
-
-  function _renderPhaseColumn(ph, pillar, isActive) {
-    const phaseCards = pillar.cards.filter(function (c) {
-      return (CARD_PHASE_MAP[c.id] || 1) === ph.num;
-    });
-
-    // Sort: critical first, then by status priority
-    const sorted = phaseCards.slice().sort(function (a, b) {
-      const aCrit = (a.tag || '').indexOf('Critical') > -1 ? 0 : 1;
-      const bCrit = (b.tag || '').indexOf('Critical') > -1 ? 0 : 1;
-      if (aCrit !== bCrit) return aCrit - bCrit;
-      return (STATUS_PRIO[a.status] || 4) - (STATUS_PRIO[b.status] || 4);
-    });
-
-    // Show top 5; always include Critical cards even if beyond limit
-    const critical = sorted.filter(function (c) { return (c.tag || '').indexOf('Critical') > -1; });
-    const rest     = sorted.filter(function (c) { return (c.tag || '').indexOf('Critical') === -1; });
-    const shown    = _dedupe(critical.concat(rest)).slice(0, 5);
-    const overflow = phaseCards.length - shown.length;
-
-    const cardsHTML = shown.length
-      ? shown.map(function (c) { return _phaseCardHTML(c, pillar); }).join('')
-      : '<div class="phase-col-empty">No programs in this phase</div>';
-
-    const overflowBtn = overflow > 0
-      ? '<button class="roadmap-btn" onclick="openRoadmapWindow(\'' + pillar.id + '\')" style="margin-top:6px;">&#128203; +' + overflow + ' more &mdash; Full Roadmap</button>'
-      : '<button class="roadmap-btn" onclick="openRoadmapWindow(\'' + pillar.id + '\')" style="margin-top:6px;">&#128203; Full Roadmap</button>';
-
     return [
-      '<div class="phase-col">',
-        '<div class="phase-col-header ' + pillar.headerClass + '" onclick="openSummaryModal(\'' + pillar.id + '\')" title="Click for status summary">',
-          '<span class="phase-col-title">' + pillar.title + '</span>',
-          '<span class="phase-col-tool">' + pillar.tool + '</span>',
+      '<div class="pm-header-row">',
+        '<div class="pm-corner">',
+          '<span class="pm-corner-label">Workstream</span>',
+          '<span class="pm-corner-sub">&#8595; Phase</span>',
         '</div>',
-        '<div class="phase-col-body">',
-          cardsHTML,
-          overflowBtn,
-        '</div>',
+        '<div class="pm-ws-col-group">' + wsHeaders + '</div>',
       '</div>',
     ].join('');
   }
 
-  function _phaseCardHTML(card, pillar) {
-    const badgeCls  = BADGE_CLASS[card.status] || 'badge-roadmap';
-    const isCrit    = (card.tag || '').indexOf('Critical') > -1;
-    const isWin     = (card.tag || '').indexOf('Win') > -1;
-    const tagHTML   = card.tag
-      ? '<span class="tag' + (isWin ? ' tag-win' : '') + '">' + card.tag + '</span>'
-      : '';
-    const critBorder = isCrit ? 'border-left:3px solid #ffc220;' : '';
-    const safeWS     = _safeStr(pillar.title);
-    const safeTool   = _safeStr(pillar.tool);
+  // ── PHASE ROW ─────────────────────────────────────────────
+  function _phaseRow(ph) {
+    var isP1   = ph.num === 1;
+    var cells  = PILLARS.map(function (p) {
+      return isP1 ? _p1Cell(ph, p) : _capCell(ph, p);
+    }).join('');
 
     return [
-      '<div class="card p-3" style="' + critBorder + '" onclick="openModal(\'' + card.id + '\',\'' + safeWS + '\',\'' + safeTool + '\')" role="button" tabindex="0">',
+      '<div class="pm-phase-row pm-phase-' + ph.num + '">',
+        _sidebar(ph),
+        '<div class="pm-ws-col-group">' + cells + '</div>',
+      '</div>',
+    ].join('');
+  }
+
+  // ── LEFT SIDEBAR ─────────────────────────────────────────
+  function _sidebar(ph) {
+    var isActive = ph.num === 1; // March 2026 — we are live in Phase 1
+
+    var goalsHTML = ph.goals.map(function (g) {
+      return [
+        '<div class="pm-goal-chip">',
+          '<span class="pm-goal-id">' + g.id + '</span>',
+          '<span class="pm-goal-label">' + g.label + '</span>',
+        '</div>',
+      ].join('');
+    }).join('');
+
+    return [
+      '<div class="pm-sidebar" style="background:' + ph.darkBg + ';">',
+        isActive ? '<div class="pm-active-pill">&#128994; Active Now</div>' : '',
+        '<div class="pm-phase-num">Phase ' + ph.num + '</div>',
+        '<div class="pm-phase-name">' + ph.emoji + ' ' + ph.label + '</div>',
+        '<div class="pm-phase-window">&#128197; ' + ph.window + '</div>',
+        '<div class="pm-phase-tagline">' + ph.tagline + '</div>',
+        '<div class="pm-sidebar-divider"></div>',
+        '<div class="pm-goals-label">Goals</div>',
+        '<div class="pm-goals-wrap">' + goalsHTML + '</div>',
+      '</div>',
+    ].join('');
+  }
+
+  // ── PHASE 1 CELL — full program cards ────────────────────
+  function _p1Cell(ph, pillar) {
+    var cards    = _getCards(1, pillar);
+    var critical = cards.filter(function (c) { return _isCrit(c); });
+    var rest     = cards.filter(function (c) { return !_isCrit(c); });
+    var shown    = _dedupe(critical.concat(rest)).slice(0, 5);
+    var overflow = cards.length - shown.length;
+
+    var cardsHTML = shown.length
+      ? shown.map(function (c) { return _cardHTML(c, pillar); }).join('')
+      : '<div class="pm-empty">No Phase 1 programs</div>';
+
+    var btnLabel = overflow > 0
+      ? '&#128203; +' + overflow + ' more — Full Roadmap'
+      : '&#128203; Full Roadmap';
+    var btn = '<button class="roadmap-btn" style="margin-top:4px;"' +
+      ' onclick="openRoadmapWindow(\'' + pillar.id + '\')">'
+      + btnLabel + '</button>';
+
+    return '<div class="pm-cell pm-cell-p1">' + cardsHTML + btn + '</div>';
+  }
+
+  // ── PHASE 2 & 3 CELL — capability chips ──────────────────
+  function _capCell(ph, pillar) {
+    var cards      = _getCards(ph.num, pillar);
+    var valueLabel = ph.wsValue ? ph.wsValue[pillar.id] : '';
+
+    var banner = valueLabel
+      ? '<div class="pm-value-banner" style="border-color:' + ph.border + ';color:' + ph.color + ';background:' + ph.bg + ';">'
+          + '&#10024; ' + valueLabel
+          + '</div>'
+      : '';
+
+    var chipsHTML = cards.length
+      ? cards.map(function (c) { return _capChip(c, pillar); }).join('')
+      : '<div class="pm-empty">Roadmap — TBD</div>';
+
+    return [
+      '<div class="pm-cell pm-cell-future">',
+        banner,
+        chipsHTML,
+      '</div>',
+    ].join('');
+  }
+
+  // ── CARD HTML (Phase 1 full card) ─────────────────────────
+  function _cardHTML(card, pillar) {
+    var badgeCls  = BADGE_CLASS[card.status] || 'badge-roadmap';
+    var critStyle = _isCrit(card) ? 'border-left:3px solid #ffc220;' : '';
+    var tagHTML   = card.tag
+      ? '<span class="tag' + (_isWin(card) ? ' tag-win' : '') + '">' + card.tag + '</span>'
+      : '';
+    var safeWS   = _safe(pillar.title);
+    var safeTool = _safe(pillar.tool);
+
+    return [
+      '<div class="card p-3" style="' + critStyle + '"',
+      ' onclick="openModal(\'' + card.id + '\',\'' + safeWS + '\',\'' + safeTool + '\')"',
+      ' role="button" tabindex="0">',
         '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:6px;margin-bottom:6px;">',
           '<div style="display:flex;align-items:flex-start;gap:6px;min-width:0;">',
-            '<span style="font-size:1.1rem;flex-shrink:0;">' + card.icon + '</span>',
-            '<span style="font-weight:600;font-size:0.82rem;line-height:1.35;color:#1e293b;">' + card.title + '</span>',
+            '<span style="font-size:1.05rem;flex-shrink:0;">' + card.icon + '</span>',
+            '<span style="font-weight:600;font-size:0.81rem;line-height:1.35;color:#1e293b;">' + card.title + '</span>',
           '</div>',
           tagHTML,
         '</div>',
         '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">',
           '<span class="badge ' + badgeCls + '">' + card.statusLabel + '</span>',
-          card.targetDate ? '<span style="font-size:0.67rem;color:#94a3b8;">&#128197; ' + card.targetDate + '</span>' : '',
+          card.targetDate
+            ? '<span style="font-size:0.66rem;color:#94a3b8;">&#128197; ' + card.targetDate + '</span>'
+            : '',
+        '</div>',
+      '</div>',
+    ].join('');
+  }
+
+  // ── CAPABILITY CHIP (Phase 2 & 3) ─────────────────────────
+  function _capChip(card, pillar) {
+    var badgeCls = BADGE_CLASS[card.status] || 'badge-roadmap';
+    var safeWS   = _safe(pillar.title);
+    var safeTool = _safe(pillar.tool);
+    var critCls  = _isCrit(card) ? ' pm-cap-crit' : '';
+
+    return [
+      '<div class="pm-cap-chip' + critCls + '"',
+      ' onclick="openModal(\'' + card.id + '\',\'' + safeWS + '\',\'' + safeTool + '\')"',
+      ' role="button" tabindex="0" title="' + card.title + '">',
+        '<span class="pm-cap-icon">' + card.icon + '</span>',
+        '<div class="pm-cap-body">',
+          '<span class="pm-cap-title">' + card.title + '</span>',
+          '<span class="badge ' + badgeCls + ' pm-cap-badge">' + card.statusLabel + '</span>',
         '</div>',
       '</div>',
     ].join('');
   }
 
   // ── HELPERS ───────────────────────────────────────────────
-  function _splitArray(arr, chunkSize) {
-    var out = [];
-    for (var i = 0; i < arr.length; i += chunkSize) out.push(arr.slice(i, i + chunkSize));
-    return out;
+  function _getCards(phaseNum, pillar) {
+    return pillar.cards
+      .filter(function (c) { return (CARD_PHASE_MAP[c.id] || 1) === phaseNum; })
+      .slice()
+      .sort(function (a, b) {
+        var ac = _isCrit(a) ? 0 : 1, bc = _isCrit(b) ? 0 : 1;
+        if (ac !== bc) return ac - bc;
+        return (STATUS_PRIO[a.status] || 4) - (STATUS_PRIO[b.status] || 4);
+      });
   }
 
   function _dedupe(arr) {
@@ -1806,8 +1779,9 @@ const CARD_PHASE_MAP = {
     });
   }
 
-  // Strips single quotes from strings used in inline onclick attrs
-  function _safeStr(s) { return (s || '').replace(/'/g, '\u0027'); }
+  function _isCrit(card) { return (card.tag || '').indexOf('Critical') > -1; }
+  function _isWin(card)  { return (card.tag || '').indexOf('Win')      > -1; }
+  function _safe(s)      { return (s || '').replace(/'/g, '\u0027'); }
 
 }());
 </script>

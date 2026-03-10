@@ -51,22 +51,14 @@
     </div>
   </div>
 
-  <!-- STRATEGY UMBRELLA — visual banner only, same dark color as Strategy pillar -->
-  <div class="umbrella-section mb-3" id="strategy-umbrella-section">
-    <div class="umbrella-header px-6 py-4 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <span style="font-size:1.8rem;">&#127960;&#65039;</span>
-        <div>
-          <h2 class="font-bold text-lg" id="umbrella-title"></h2>
-          <p class="text-xs mt-0.5 opacity-60" id="umbrella-subtitle"></p>
-        </div>
-      </div>
-      <span class="text-xs opacity-40 uppercase tracking-widest font-bold">Umbrella Framework</span>
-    </div>
+  <!-- LLTT PHASE TIMELINE SELECTOR -->
+  <div class="bg-white rounded-2xl border border-gray-200 shadow-sm px-5 pt-5 pb-4 mb-4">
+    <p class="text-center text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">LLTT Product Phases &mdash; Click a Phase to Explore</p>
+    <div id="phase-timeline"></div>
   </div>
 
-  <!-- FOUR WORKSTREAM PILLARS -->
-  <div id="pillars" class="grid gap-4 mb-4" style="grid-template-columns:repeat(4,1fr);"></div>
+  <!-- PHASE GRID (phases = rows, workstreams = columns) -->
+  <div id="phase-grid-wrap" class="mb-4"></div>
 
   <!-- INTEGRATION ROW -->
   <div class="bg-red-50 border border-red-200 rounded-2xl p-4">
@@ -147,8 +139,10 @@
 <script src="data-design.js"></script>
 <script src="data-buying.js"></script>
 <script src="data-allocation.js"></script>
+<script src="data-phases.js"></script>
 <script src="roadmap-window.js"></script>
 <script src="summary-modal.js"></script>
+<script src="phase-view.js"></script>
 <script>
 
 // ============================================================
@@ -185,12 +179,6 @@ function getActiveCards(pillar) {
 // its own most-relevant cards (completed → Q1 → Q2 priority order).
 // The Full Roadmap button always shows everything.
 const CARD_LIMIT = 6;
-
-// ---- STRATEGY UMBRELLA BANNER ----
-function renderUmbrella() {
-  document.getElementById('umbrella-title').textContent    = STRATEGY_UMBRELLA.title;
-  document.getElementById('umbrella-subtitle').textContent = STRATEGY_UMBRELLA.subtitle;
-}
 
 // ---- WORKSTREAM PHASE COLORS ----
 const PHASE_STYLES = {
@@ -250,32 +238,7 @@ function cardHTML(card, workstream, tool) {
     </div>`;
 }
 
-// ---- FOUR PILLARS — fixed CARD_LIMIT cards, equal height across all columns ----
-function renderPillars() {
-  document.getElementById('pillars').innerHTML = PILLARS.map(p => {
-    const cards = getActiveCards(p).slice(0, CARD_LIMIT);
-    const total = p.cards.length;
-    return `
-      <div class="pillar-section">
-        <div class="${p.headerClass} px-5 py-4 ph-clickable" style="min-height:118px;display:flex;flex-direction:column;justify-content:space-between;" onclick="openSummaryModal('${p.id}')" title="Click for status summary">
-          <h3 class="font-bold text-base">${p.title}</h3>
-          <p class="text-xs mt-0.5 opacity-80">${p.subtitle}</p>
-          <div class="flex items-center justify-between mt-2">
-            <span class="text-xs opacity-70">&#128736; ${p.tool}</span>
-            <span class="text-xs opacity-60">${p.phases.join(' &rarr; ')}</span>
-          </div>
-        </div>
-        <div class="bg-white px-4 pt-4 pb-2 flex flex-col gap-2">
-          ${cards.map(c => cardHTML(c, p.title, p.tool)).join('')}
-        </div>
-        <div class="bg-white px-4 pb-3">
-          <button class="roadmap-btn" onclick="openRoadmapWindow('${p.id}')">
-            &#128203; View Full Roadmap &nbsp;<span style="opacity:.5;font-size:.9em;">(${total} deliverables)</span>
-          </button>
-        </div>
-      </div>`;
-  }).join('');
-}
+
 
 // ---- INTEGRATION ROW ----
 function renderIntegration() {
@@ -508,11 +471,10 @@ document.getElementById('modal-overlay').addEventListener('click', e => {
 });
 
 // ---- INIT ----
-renderPhases();
-renderUmbrella();
-renderPillars();
-renderIntegration();
-buildCardIndex();
+renderPhases();          // E2E process flow bar
+renderIntegration();     // Integration services row
+buildCardIndex();        // populate allCards[] for modal lookups
+initPhaseView();         // LLTT Phase timeline + phase grid
 
 </script>
 </body>

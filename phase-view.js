@@ -137,18 +137,34 @@
   }
 
   // ── SIDEBAR ────────────────────────────────────────────
+  // Collapsed (Phase 2 & 3 default): name + window + expand button only
+  // Expanded / Phase 1: full detail — tagline, goals, collapse button
   function _sidebar(ph, expanded) {
     var isActive = ph.num === 1;
-    var goalsHTML = ph.goals.map(function (g) {
-      return '<div class="pm-goal-chip"><span class="pm-goal-id">' + g.id +
-        '</span><span class="pm-goal-label">' + g.label + '</span></div>';
-    }).join('');
-
-    var toggleBtn = ph.num !== 1
+    var needsToggle = ph.num !== 1;
+    var toggleBtn = needsToggle
       ? '<button class="pm-expand-btn" onclick="pmTogglePhase(' + ph.num + ')">' +
           (expanded ? '&#9650; Collapse' : '&#9660; Expand Programs') +
         '</button>'
       : '';
+
+    if (!expanded && needsToggle) {
+      // ── COLLAPSED: minimal — just identity + toggle ──
+      return [
+        '<div class="pm-sidebar pm-sidebar-collapsed" style="background:' + ph.darkBg + ';">',
+          '<div class="pm-phase-num">Phase ' + ph.num + '</div>',
+          '<div class="pm-phase-name">' + ph.emoji + ' ' + ph.label + '</div>',
+          '<div class="pm-phase-window">&#128197; ' + ph.window + '</div>',
+          toggleBtn,
+        '</div>',
+      ].join('');
+    }
+
+    // ── EXPANDED (or always-on Phase 1): full detail ──
+    var goalsHTML = ph.goals.map(function (g) {
+      return '<div class="pm-goal-chip"><span class="pm-goal-id">' + g.id +
+        '</span><span class="pm-goal-label">' + g.label + '</span></div>';
+    }).join('');
 
     return [
       '<div class="pm-sidebar" style="background:' + ph.darkBg + ';">',

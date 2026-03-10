@@ -3194,6 +3194,9 @@ const GOALS = {
   }
 
   // ── CSV export ───────────────────────────────────────────
+  // Bug fix: detached <a> elements don't trigger downloads in modern
+  // browsers — must append to DOM first, then remove. Also falls back
+  // to data: URI if Blob/createObjectURL is blocked by CSP/sandbox.
   function _csv() {
     var vis = _sorted(_filtered());
     var headers = ['Workstream','Program','Status','Phase','Quarter','Target Date',
@@ -3201,19 +3204,89 @@ const GOALS = {
       'Business Partner','BP Email','Transformation Lead','TL Email',
       'Product Lead','PL Email','UX Lead','UX Email','Software Lead','SW Email',
       'OPIF Link','BRD Link','PRD Link','UX Demo Link','Confluence Source'];
-    var q = function(v){ v=String(v||''); return v.indexOf(',')>-1||v.indexOf('"')>-1?'"'+v.replace(/"/g,'""')+'"':v; };
+    var q = function(v){
+      v = String(v || '');
+      return (v.indexOf(',') > -1 || v.indexOf('"') > -1 || v.indexOf('\n') > -1)
+        ? '"' + v.replace(/"/g, '""') + '"' : v;
+    };
     var lines = [headers.join(',')].concat(vis.map(function(r){
-      return [r.workstream,r.title,r.status,'P'+r.phase,r.quarter,r.targetDate,
-        r.tag,r.description,r.businessBenefit,r.techIntegration,r.successMetrics,
-        r.bp,r.bpEmail,r.tl,r.tlEmail,r.pl,r.plEmail,r.ux,r.uxEmail,r.sw,r.swEmail,
-        r.opifUrl||'',r.brdUrl||'',r.prdUrl||'',r.uxDemoUrl||'',r.confUrl
+      return [r.workstream, r.title, r.status, 'P'+r.phase, r.quarter, r.targetDate,
+        r.tag, r.description, r.businessBenefit, r.techIntegration, r.successMetrics,
+        r.bp, r.bpEmail, r.tl, r.tlEmail, r.pl, r.plEmail, r.ux, r.uxEmail, r.sw, r.swEmail,
+        r.opifUrl||'', r.brdUrl||'', r.prdUrl||'', r.uxDemoUrl||'', r.confUrl
       ].map(q).join(',');
     }));
-    var a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob([lines.join('\n')],{type:'text/csv'}));
-    a.download = 'fashion-programs.csv';
-    a.click();
-    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
+    var csv = lines.join('\n');
+    var filename = 'fashion-programs.csv';
+
+    // Attempt 1: Blob + createObjectURL (best quality)
+    try {
+      var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      var blobUrl = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.style.display = 'none';
+      a.href = blobUrl;
+      a.download = filename;
+      a.target = '_self'; // never open a new tab
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function() { URL.revokeObjectURL(blobUrl); }, 2000);
+      return;
+    } catch (e) { /* fall through to data: URI */ }
+
+    // Attempt 2: data: URI fallback (works in sandboxed iframes)
+    try {
+      var dataUri = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+      var a2 = document.createElement('a');
+      a2.style.display = 'none';
+      a2.href = dataUri;
+      a2.download = filename;
+      a2.target = '_self';
+      document.body.appendChild(a2);
+      a2.click();
+      document.body.removeChild(a2);
+      return;
+    } catch (e2) { /* fall through to copy modal */ }
+
+    // Attempt 3: copy-to-clipboard modal (last resort)
+    _csvModal(csv);
+  }
+
+  // Fallback: show CSV in a textarea so users can copy manually
+  function _csvModal(csv) {
+    var existing = document.getElementById('tds-csv-modal');
+    if (existing) existing.remove();
+    var overlay = document.createElement('div');
+    overlay.id = 'tds-csv-modal';
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.55);'
+      + 'display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px;';
+    overlay.innerHTML =
+      '<div style="background:white;border-radius:16px;padding:24px;max-width:680px;'
+      + 'width:100%;max-height:80vh;display:flex;flex-direction:column;gap:12px;">'
+      + '<div style="display:flex;justify-content:space-between;align-items:center;">'
+      + '<strong style="font-size:0.9rem;">&#128196; Copy CSV data</strong>'
+      + '<button onclick="document.getElementById("tds-csv-modal").remove()" '
+      + 'style="background:none;border:none;font-size:1.4rem;cursor:pointer;">&times;</button></div>'
+      + '<p style="font-size:0.75rem;color:#64748b;margin:0;">'
+      + 'Download was blocked — select all and copy this text into a .csv file.</p>'
+      + '<textarea style="flex:1;min-height:300px;font-size:0.68rem;font-family:monospace;'
+      + 'border:1px solid #e2e8f0;border-radius:8px;padding:10px;resize:vertical;">'
+      + csv.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</textarea>'
+      + '<button onclick="navigator.clipboard&&navigator.clipboard.writeText('
+      + 'document.querySelector("#tds-csv-modal textarea").value)" '
+      + 'style="padding:8px 18px;background:#0053e2;color:white;border:none;'
+      + 'border-radius:8px;font-weight:700;cursor:pointer;font-size:0.8rem;">'
+      + '&#128203; Copy to clipboard</button></div>';
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click', function(e){
+      if (e.target === overlay) overlay.remove();
+    });
+    // Auto-select the textarea
+    setTimeout(function(){
+      var ta = overlay.querySelector('textarea');
+      if (ta) { ta.focus(); ta.select(); }
+    }, 50);
   }
 
 }());

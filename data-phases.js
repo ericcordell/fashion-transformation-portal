@@ -38,6 +38,13 @@ const PHASE_DEFS = [
       { id: '#3', label: 'Happy path buying execution' },
       { id: '#4', label: 'Reduce merchant hours' },
     ],
+    // What each workstream gains after this phase completes
+    wsValue: {
+      strategy:   'Planning hub connected — space & trend signals feed live line plan',
+      design:     'Centric PLM live; AEX Line Plan migrated; visual boards & DAM active',
+      buying:     'AP Tool integrated; item repository live; BAM & auto-BQ connected',
+      allocation: 'Tagging foundation built; visual rack plan; store PO automation live',
+    },
   },
   {
     num: 2,
@@ -68,6 +75,12 @@ const PHASE_DEFS = [
       { id: '#7', label: '90% PO redistribution coverage' },
       { id: '#8', label: 'Increase sell-through rate' },
     ],
+    wsValue: {
+      strategy:   'Forecast as Enterprise Service — signals power all downstream workstreams',
+      design:     'Shared Event Calendar & unified potential items (OneSource + MINT) live',
+      buying:     'Buy Quantification as Enterprise Service; expanded item sources active',
+      allocation: 'Tag-based line recommendations & in-season swap logic activated',
+    },
   },
   {
     num: 3,
@@ -95,6 +108,12 @@ const PHASE_DEFS = [
       { id: '#6', label: '85% shop in-stock rate' },
       { id: '#8', label: 'Increase sell-through rate' },
     ],
+    wsValue: {
+      strategy:   'Scenario generation from encoded strategy — merchant decision time freed',
+      design:     'AI-driven conceptual line plans generated directly from strategy inputs',
+      buying:     'Global buying platform; full in-season automation & dynamic redistribution',
+      allocation: 'Dynamic tag-based placement; fully automated in-season redistribution',
+    },
   },
 ];
 

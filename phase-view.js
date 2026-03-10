@@ -16,10 +16,17 @@
   var _cardFilters    = new Set();  // 'critical' | 'ry' | 'completed'
   var _expandedPhases = new Set([1]); // Phase 1 always expanded
 
+  // Split-circle SVG: left-half red, right-half yellow
+  var RY_ICON = '<svg width="12" height="12" viewBox="0 0 10 10"' +
+    ' style="vertical-align:-1px;margin-right:3px;flex-shrink:0;">'+
+    '<path d="M5,0 A5,5 0 0,0 5,10 Z" fill="#ea1100"/>'+
+    '<path d="M5,0 A5,5 0 0,1 5,10 Z" fill="#ffc220"/>'+
+    '</svg>';
+
   var CARD_FILTER_DEFS = [
-    { key:'critical',  label:'&#128308; Critical',    test: function(c){ return _isCrit(c); } },
-    { key:'ry',        label:'&#128993; Red / Yellow', test: function(c){ return c.status==='red'||c.status==='yellow'; } },
-    { key:'completed', label:'&#9989; Completed',     test: function(c){ return c.status==='completed'; } },
+    { key:'critical',  label:'&#11088; Critical',       test: function(c){ return _isCrit(c); } },
+    { key:'ry',        label: RY_ICON + 'Red / Yellow', test: function(c){ return c.status==='red'||c.status==='yellow'; } },
+    { key:'completed', label:'&#9989; Completed',       test: function(c){ return c.status==='completed'; } },
   ];
 
   // ── PUBLIC API ─────────────────────────────────────────

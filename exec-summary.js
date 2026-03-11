@@ -36,10 +36,15 @@
 
   // ── Data helpers ──────────────────────────────────────────────────────────
   function cardsForScope(scope) {
-    const all = window.allCards || [];
+    /* allCards is a const declared in index.html — accessible as a global
+       but NOT via window.allCards (const != window property). */
+    // eslint-disable-next-line no-undef
+    const all = (typeof allCards !== 'undefined' ? allCards : []);
     if (scope.type === 'overall')    return all;
     if (scope.type === 'workstream') return all.filter(c => (c.workstream || '').toLowerCase() === scope.key);
-    if (scope.type === 'phase')      return all.filter(c => (window.CARD_PHASE_MAP || {})[c.id] === scope.phaseNum);
+    // eslint-disable-next-line no-undef
+    const phaseMap = (typeof CARD_PHASE_MAP !== 'undefined' ? CARD_PHASE_MAP : {});
+    if (scope.type === 'phase')      return all.filter(c => phaseMap[c.id] === scope.phaseNum);
     return [];
   }
 
@@ -118,7 +123,8 @@
 
   // ── Section 2: Narrative ─────────────────────────────────────────────────────────
   function narrativeHTML(scopeKey) {
-    const paras = (window.EXEC_NARRATIVES || {})[scopeKey] || [];
+    // eslint-disable-next-line no-undef
+    const paras = (typeof EXEC_NARRATIVES !== 'undefined' ? EXEC_NARRATIVES[scopeKey] : null) || [];
     if (!paras.length) return '';
     const body = paras
       .map(p => `<p style="margin:0 0 10px;font-size:0.83rem;line-height:1.65;color:#374151;">${p}</p>`)
@@ -131,6 +137,9 @@
   }
 
   // ── Section 3: At-Risk Programs (Yellow + Red only) ─────────────────
+  // eslint-disable-next-line no-undef
+  const _QM = () => (typeof QUARTER_META !== 'undefined' ? QUARTER_META : {});
+
   function atRiskHTML(cards) {
     const atRisk = cards.filter(c => c.status === 'red' || c.status === 'yellow');
     if (!atRisk.length) {
@@ -151,9 +160,9 @@
     const cards_html = sorted.map(c => {
       const m = S[c.status];
       const ptg = c.pathToGreen || c.statusNote || null;
-      const qMeta = (window.QUARTER_META || {})[c.quarter] || {};
-      return `
-        <div style="border:1.5px solid ${m.dot}30;border-radius:12px;overflow:hidden;margin-bottom:10px;">
+      const qMeta = _QM()[c.quarter] || {};
+        return `
+          <div style="border:1.5px solid ${m.dot}30;border-radius:12px;overflow:hidden;margin-bottom:10px;">
           <div style="display:flex;align-items:center;gap:8px;padding:10px 14px;
             background:${m.dot}0d;border-bottom:1px solid ${m.dot}20;">
             <span style="font-size:1rem;flex-shrink:0;">${c.icon || '📋'}</span>
@@ -192,7 +201,7 @@
     const groupsHTML = groups.map(g => {
       const m = S[g.status];
       const rows = g.items.map(c => {
-        const qMeta = (window.QUARTER_META || {})[c.quarter] || {};
+        const qMeta = _QM()[c.quarter] || {};
         const qChip = qMeta.label
           ? `<span style="font-size:0.58rem;font-weight:700;padding:1px 5px;border-radius:99px;
               background:${qMeta.bg||'#f1f5f9'};color:${qMeta.color||'#64748b'};

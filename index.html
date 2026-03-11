@@ -490,6 +490,25 @@ function openModal(cardId, workstream, tool) {
         </div>
       </div>
 
+      <!-- Source attribution notice -->
+      <div style="padding:10px 12px;border-radius:10px;background:#f8fafc;border:1px solid #e2e8f0;
+                  display:flex;align-items:flex-start;gap:8px;">
+        <span style="font-size:0.9rem;flex-shrink:0;margin-top:1px;">&#128196;</span>
+        <div style="min-width:0;font-size:0.68rem;color:#64748b;line-height:1.5;">
+          <strong style="color:#475569;">How owners are determined:</strong>
+          owners are sourced first from the <strong>OPIF</strong>
+          (Assignee &rarr; TPM/Lead &nbsp;&middot;&nbsp; Reporter &rarr; Product Manager), then fall back to the
+          <a href="https://confluence.walmart.com/display/APREC/Who%27s+Who+Among+the+Long+Lead+Time+Transformation"
+             target="_blank" rel="noopener"
+             style="color:#0053e2;font-weight:600;text-decoration:none;"
+             onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
+            LLTT Who&rsquo;s Who Confluence page
+          </a>.
+          If an owner listed here is incorrect, please work with the <strong>Product</strong> and
+          <strong>TPM</strong> owners to update the OPIF directly.
+        </div>
+      </div>
+
       <!-- Message box -->
       <div>
         <label style="display:block;font-size:0.68rem;font-weight:800;text-transform:uppercase;

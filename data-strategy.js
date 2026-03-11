@@ -11,7 +11,7 @@ const CARDS_STRATEGY = [
     businessBenefit: 'Eliminates redundant strategy sessions and conflicting priorities. Single source for seasonal targets cascaded to all workstreams.',
     techIntegration: 'TTP serves as the upstream data source feeding AEX (Buying), Centric (Design), and BPE/DBP (Allocation). Decisions recorded here propagate downstream without re-entry.',
     successMetrics: 'All workstreams reference TTP as primary source. Zero conflicting financial targets across Design, Buying, and Allocation in any given season.',
-    owners: TBD_OWNERS(), resources: res(), workstreams: ['strategy'],
+    owners: pptOwners('Bill Chiodetti', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Leon Hovanesian', ''), resources: res(), workstreams: ['strategy'],
   },
   {
     id: 'space-planning', title: 'Space & Financial Planning', icon: '\uD83D\uDCCA',
@@ -29,7 +29,7 @@ const CARDS_STRATEGY = [
     businessBenefit: 'Merchants and designers get automated trend signals fed directly into planning tools, eliminating manual trend research and accelerating line plan decisions.',
     techIntegration: 'API integrates with Centric (design intent), AEX (assortment weighting), and the Strategy Hub for trend-to-plan alignment.',
     successMetrics: 'Trend API serving all targeted long-lead categories. Measurable reduction in time from trend identification to plan integration.',
-    owners: pptOwners('Bill Chiodetti', '', ''), resources: res(), workstreams: ['strategy'],
+    owners: pptOwners('Bill Chiodetti', 'Ramesh Simhambhatla', '', 'Leon Hovanesian', ''), resources: res(), workstreams: ['strategy'],
   },
   {
     id: 'trend-packaging-redesign', title: 'V1 Trend-to-Packaging Redesign', icon: '\uD83C\uDFA8',
@@ -38,7 +38,7 @@ const CARDS_STRATEGY = [
     businessBenefit: 'Reduces cycle time from trend identification to packaging specification, with traceability of why packaging decisions were made.',
     techIntegration: 'Trend API output feeds into Centric PLM for product and packaging spec creation. Integrated event layer connects trend source to design execution.',
     successMetrics: 'V1 in production and adopted by target design categories. Packaging iteration cycle time measurably reduced.',
-    owners: pptOwners('Bill Chiodetti', '', ''), resources: res(), workstreams: ['strategy'],
+    owners: pptOwners('Bill Chiodetti', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Leon Hovanesian', ''), resources: res(), workstreams: ['strategy'],
   },
   {
     id: 'synthetic-panel', title: 'V1 Synthetic Panel (WMT Data Ventures)', icon: '\uD83E\uDD16',
@@ -47,7 +47,7 @@ const CARDS_STRATEGY = [
     businessBenefit: 'Reduces risk of product misses by simulating customer reactions to designs before commitment — lowering markdown rates on new product introductions.',
     techIntegration: 'Synthetic panel integrates with Centric for design feedback loops and with the Trend API for combined trend + synthetic-consumer signal.',
     successMetrics: 'V1 synthetic panel in production with WMT Data Ventures. Fashion teams actively consuming synthetic panel outputs in line plan decisions.',
-    owners: pptOwners('Bill Chiodetti', '', ''), resources: res(), workstreams: ['strategy'],
+    owners: pptOwners('Bill Chiodetti', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Leon Hovanesian', ''), resources: res(), workstreams: ['strategy'],
   },
   {
     id: 'forecast-enterprise-service', title: 'Forecast as Enterprise Service', icon: '\uD83E\uDDE0',
@@ -57,7 +57,7 @@ const CARDS_STRATEGY = [
     businessBenefit: 'Single, trusted forecast signal across all Fashion workstreams eliminates conflicting demand signals between Buying and Allocation. Forecast as a service reduces duplicative DS investment and accelerates new-department onboarding. Channel and placement splits give eComm and store teams differentiated, actionable signals without separate model builds.',
     techIntegration: 'Primary OPIF: OPIF-325221 (Forecast as a Service with Channel and Placement Split). Related: OPIF-325218 (Buy Quantification and Flow as a Service), OPIF-325373 (Unified Planner Experience). DS microservice architecture with batch inference pipeline. Forecast consumed by AEX (BQ), BPE (allocation planning), and DBP (distribution). Channel and placement split enables eComm vs. store differentiation in every forecast output. PRD: Confluence APREC space.',
     successMetrics: 'Forecast service adopted by all target Buying and Allocation workstreams. Conflicting forecast signals between workstreams eliminated. DS model training fully automated with no manual intervention required. Channel-level and placement-level splits live and consumed by AEX and BPE.',
-    owners: pptOwners('Bill Chiodetti', '', ''),
+    owners: pptOwners('Brett Reid', 'Chris Graves', 'Vivek Mishra', 'Robbie Dutta', 'Mike Dunn'),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325221',
       '#',
@@ -81,7 +81,7 @@ const CARDS_STRATEGY = [
     businessBenefit: 'Merchants shift from encoding decisions manually to encoding strategy and goals — the system generates and evaluates scenarios. Dramatically reduces planning cycle time and enables what-if evaluation before financial commitment. Connected and shared merch strategy eliminates duplicative strategy sessions across Design, Buying, and Allocation.',
     techIntegration: 'Primary OPIF: OPIF-325206 (Shared Merch Strategy). Related: OPIF-325203 (Shared Item Repository), OPIF-325208 (Design Hub / Centric Integration). Strategy repository connects TTP inputs to AEX line plan generation and Centric conceptual plan. Scenario engine evaluates financial and space implications of strategy choices automatically. PRD: Connected and Shared Merch Strategy (IESP Confluence space).',
     successMetrics: 'Strategy-based conceptual line plans generated automatically for target departments. Scenario generation and selection adopted by merchant planning teams. Manual strategy-to-plan translation steps eliminated. Single shared merch strategy consumed by all workstreams without re-entry.',
-    owners: pptOwners('Bill Chiodetti', 'Christopher Chiodo', ''),
+    owners: pptOwners('Bill Chiodetti', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Leon Hovanesian', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325206',
       '#',
@@ -104,7 +104,7 @@ const CARDS_STRATEGY = [
     businessBenefit: 'Trend decisions are automatically filtered through financial guardrails — preventing investment in trends that conflict with budget priorities.',
     techIntegration: 'IBG signals from TTP flow into the Trend API and Centric to weight trend recommendations by financial viability and growth priorities.',
     successMetrics: 'Growth and budget signals actively shaping trend API output. Planning teams no longer manually reconciling trend vs. budget in separate steps.',
-    owners: pptOwners('Bill Chiodetti', '', ''), resources: res(), workstreams: ['strategy'],
+    owners: pptOwners('Bill Chiodetti', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Leon Hovanesian', ''), resources: res(), workstreams: ['strategy'],
   },
   {
     id: 'trend-api-100pct', title: 'Trend API — 100% Long-Lead Categories', icon: '\uD83D\uDE80',
@@ -113,7 +113,7 @@ const CARDS_STRATEGY = [
     businessBenefit: 'Every long-lead merchant receives automated trend signals — leveling up the quality of assortment decisions across all departments, not just pilot categories.',
     techIntegration: 'Trend API extended to all long-lead category configurations in AEX and Centric. Automated onboarding pipeline for new category additions.',
     successMetrics: 'Trend API serving 100% of long-lead categories as confirmed by category coverage report. Zero long-lead categories relying solely on manual trend research.',
-    owners: pptOwners('Bill Chiodetti', '', ''), resources: res(), workstreams: ['strategy'],
+    owners: pptOwners('Bill Chiodetti', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Leon Hovanesian', ''), resources: res(), workstreams: ['strategy'],
   },
   {
     id: 'cross-functional-alignment', title: 'Cross-Functional Alignment', icon: '\uD83E\uDD1D',

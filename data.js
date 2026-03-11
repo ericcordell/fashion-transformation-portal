@@ -35,25 +35,44 @@ const res = (opif = '#', brd = '#', prd = '#', uxDemo = '#', other = []) =>
   ({ opif, brd, prd, uxDemo, other });
 
 // ---- Corporate directory — verified via Walmart directory (Mar 2026) ----
+// Primary owner source:  OPIF (Assignee = TPM/TL · Reporter = Product Manager)
+// Fallback owner source: confluence.walmart.com/display/APREC/Who%27s+Who+Among+the+Long+Lead+Time+Transformation
 const PEOPLE = {
-  // Business Partners / Directors
-  'Brett Reid':            { email: 'Brett.Reid@walmart.com',            title: 'Director, Business Analysis & Insights' },
-  'Bill Chiodetti':        { email: 'William.Chiodetti@walmart.com',      title: 'Sr. Director, Product Management' },
-  'William Chiodetti':     { email: 'William.Chiodetti@walmart.com',      title: 'Sr. Director, Product Management' },
-  'Veena Swaminathan':     { email: 'Veena.Swaminathan@walmart.com',      title: 'Director, Product Management' },
-  // Product Leads
-  'Michael Allen':         { email: 'Michael.B.Allen@walmart.com',        title: 'Sr. Director, Product Management' },
-  'Abhishek Jannawar':     { email: 'Abhishek.Jannawar@walmart.com',       title: 'Staff Product Manager' },
-  'Ryan Henderson':      { email: 'Ryan.Henderson@walmart.com',          title: 'Senior Product Manager' },
-  'Dhaarna Singh':         { email: 'Dhaarna.Singh@walmart.com',           title: 'Senior Product Manager' },
-  'Taylor Watson':         { email: 'Taylor.Hunt@walmart.com',             title: 'Principal Product Manager' },
-  'Amy Holder Caley':      { email: 'Amy.Caley@walmart.com',              title: 'Principal Product Manager' },
-  // Transformation / TPM Leads
-  'Prasanth Chalikandi':   { email: 'Prasanth.Chalikandi@walmart.com',     title: 'Principal TPM' },
-  'Christopher Chiodo':    { email: 'Christopher.Chiodo@walmart.com',      title: 'Senior Manager, Product Management' },
-  'Chris Chiodo':          { email: 'Christopher.Chiodo@walmart.com',      title: 'Senior Manager, Product Management' },
-  'Ashwin Chidambaram':    { email: 'Ashwin.Chidambaram@walmart.com',      title: 'Staff Software Engineer (TPM)' },
-  'Arun Santhiagu':        { email: 'Arun.Santhiagu@walmart.com',          title: 'Senior Manager, Software Engineering' },
+  // ---- Business Transformation Leads (Confluence) ----
+  'Brett Reid':          { email: 'Brett.Reid@walmart.com',         title: 'Director, Business Transformation (AEX & Space/Draw)' },
+  'Bill Chiodetti':      { email: 'William.Chiodetti@walmart.com',   title: 'Sr. Director, Product Management (Strategy)' },
+  'William Chiodetti':   { email: 'William.Chiodetti@walmart.com',   title: 'Sr. Director, Product Management (Strategy)' },
+  'Tammy Hawkins':       { email: 'Tammy.Hawkins@walmart.com',       title: 'Sr. Director, Business Transformation (OneSource / GMF PLM)' },
+  'Veena Swaminathan':   { email: 'Veena.Swaminathan@walmart.com',   title: 'Director, Product Management (Replenishment)' },
+  'Ken Brockland':       { email: 'Ken.Brockland@walmart.com',       title: 'Sr. Director, Product Management (AP Tool / Modulars)' },
+  // ---- Product Leads / Managers (OPIF Reporter or Confluence) ----
+  'Michael Allen':       { email: 'Michael.B.Allen@walmart.com',     title: 'Sr. Director, Product Management (AEX)' },
+  'Abhishek Jannawar':   { email: 'Abhishek.Jannawar@walmart.com',   title: 'Staff Product Manager (BQ, S&P, Intent Report)' },
+  'Ryan Henderson':      { email: 'Ryan.Henderson@walmart.com',      title: 'Senior Product Manager (Stability & Replatforming)' },
+  'Dhaarna Singh':       { email: 'Dhaarna.Singh@walmart.com',       title: 'Senior Product Manager (Fashion Space & Wave Planning)' },
+  'Taylor Watson':       { email: 'Taylor.Hunt@walmart.com',         title: 'Principal Product Manager (AP Tool / Line Planning)' },
+  'Amy Caley':           { email: 'Amy.Caley@walmart.com',           title: 'Principal Product Manager (AEX Configuration & Line Planning)' },
+  'Amy Holder Caley':    { email: 'Amy.Caley@walmart.com',           title: 'Principal Product Manager (AEX Configuration & Line Planning)' },
+  'Christopher Chiodo':  { email: 'Christopher.Chiodo@walmart.com', title: 'Senior Manager, Product Management (Design Hub / OneSource)' },
+  'Chris Chiodo':        { email: 'Christopher.Chiodo@walmart.com', title: 'Senior Manager, Product Management (Design Hub / OneSource)' },
+  'Vivek Mishra':        { email: 'Vivek.Mishra@walmart.com',        title: 'Sr. Director, Platform PM (Forecasting & BQ)' },
+  'David Nelms':         { email: 'David.Nelms@walmart.com',         title: 'Sr. Director, Product Management (Assortment Repository)' },
+  // ---- Technical Program Managers (OPIF Assignee or Confluence) ----
+  'Chris Graves':        { email: 'christopher.graves@walmart.com', title: 'Principal TPM (AEX)' },
+  'Ramesh Simhambhatla': { email: 'Ramesh.Simhambhatla@walmart.com', title: 'Staff TPM (Strategy / OneSource)' },
+  'Sakshi Datta':        { email: 'Sakshi.Datta@walmart.com',        title: 'Staff TPM (Space & Draw)' },
+  'Prasanth Chalikandi': { email: 'Prasanth.Chalikandi@walmart.com', title: 'Principal TPM' },
+  'Ashwin Chidambaram':  { email: 'Ashwin.Chidambaram@walmart.com', title: 'Eng. Manager / TPM (AP Tool / Assortment Planning)' },
+  // ---- UX Leads (Confluence) ----
+  'Robbie Dutta':        { email: 'Robbie.Dutta@walmart.com',        title: 'Sr. Director, UX Design (AEX)' },
+  'CJ Weatherford':      { email: 'CJ.Weatherford@walmart.com',      title: 'Principal UX Designer (AEX / AP Tool)' },
+  'Stephen Wolf':        { email: 'Stephen.Wolf@walmart.com',        title: 'Director, UX Design (OneSource / Strategy)' },
+  'Leon Hovanesian':     { email: 'Leon.Hovanesian@walmart.com',     title: 'Senior Manager, Design (Strategy / OneSource)' },
+  'Minwoo Kim':          { email: 'Minwoo.Kim@walmart.com',          title: 'Senior UX Designer (Space & Draw)' },
+  // ---- Engineering / Software Leads (Confluence) ----
+  'Mike Dunn':           { email: 'mike.dunn@walmart.com',           title: 'Director, Software Engineering (AEX)' },
+  'Arun Santhiagu':      { email: 'Arun.Santhiagu@walmart.com',      title: 'Sr. Manager, Software Engineering (AP Tool)' },
+  'Oscar Cantu':         { email: 'Oscar.Cantu@walmart.com',         title: 'Sr. Manager, Software Engineering (Assortment Planning)' },
 };
 
 // Look up a person by name — returns { name, email, title }
@@ -71,13 +90,18 @@ const TBD_OWNERS = () => ({
   softwareLead:       own(),
 });
 
-// Convenience: partial owner set — auto-resolves emails from PEOPLE directory
-const pptOwners = (bp, tl, pl) => ({
+// Convenience: full owner set — auto-resolves emails from PEOPLE directory
+// bp = Business Transformation Lead (Confluence fallback)
+// tl = TPM / OPIF Assignee (primary)
+// pl = Product Manager / OPIF Reporter (primary)
+// ux = UX Lead (Confluence fallback)
+// sw = Engineering Lead (Confluence fallback)
+const pptOwners = (bp, tl, pl, ux = '', sw = '') => ({
   businessPartner:    person(bp),
   transformationLead: person(tl),
   productLead:        person(pl),
-  uxLead:             own(),
-  softwareLead:       own(),
+  uxLead:             person(ux),
+  softwareLead:       person(sw),
 });
 
 // ---- Shared lookup tables (used by main page, roadmap & summary modals) ----

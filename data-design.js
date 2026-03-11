@@ -12,7 +12,7 @@ const CARDS_DESIGN = [
     businessBenefit: 'Design teams work in one system connected to buying and sourcing — eliminating handoff delays and duplicate data entry between disconnected tools. Deprecates Bamboo Rose and eliminates Miro dependency for assortment visualization. Centric becomes the single source of truth for all product design, specification, and sample management.',
     techIntegration: 'Primary OPIF: OPIF-325208 (Design Hub — Centric Integration). Related: OPIF-347498 (Milestone: Centric capabilities review vs AP Tool vs OneSource — DONE), OPIF-347500 (Milestone: Full verticals and ownership proposal — Backlog), OPIF-325206 (Shared Merch Strategy). Centric PLM is system of record for design. Integration plan covers AEX line plan sync, Supplier One spec distribution, DAM asset linking, and OneSource data feed via shared event layer. PRD: OneSource Design Integration (IESP Confluence space).',
     successMetrics: 'Contract signed and integration plan finalized. All target design teams onboarded to Centric. Bamboo Rose decommissioned. Design-to-buying handoff cycle time reduced. Milestone OPIFs (347498, 347500) both completed and proposals actioned.',
-    owners: pptOwners('Chris Chiodo', 'Christopher Chiodo', ''),
+    owners: pptOwners('Tammy Hawkins', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Stephen Wolf', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325208',
       '#',
@@ -38,7 +38,7 @@ const CARDS_DESIGN = [
     businessBenefit: 'Eliminates dual-system line planning (Excel + AEX). Merchants plan in one connected environment from line intent through to buy execution. Fashion attribute and metric enablement accelerates downstream buying decisions. Excel upload reuse eliminates re-keying of potential items from Supplier Catalog.',
     techIntegration: 'Primary OPIF: OPIF-325568 (Move Fashion Line Planning to AP Tool Assortment List — Work in Progress, Q2 FY27). Related OPIFs: OPIF-325216 (AEX Fashion: Use AP Plan Creation & Plan List — Initial Requirements), OPIF-325217 (Fashion Metrics Enablement in Assortment List and Downstream Validation), OPIF-325565 (Fashion Re-Use of Assortment Planning Potential Item Excel Upload — Initial Requirements), OPIF-337970 (Auto-populate Line Plan with Potential Items from Supplier Catalog — Backlog). AP Tool Assortment List becomes Fashion line plan system of record. Auto-populate from Supplier Catalog via Item Repository/OneItem workflow. PRD: Transition Plan Creation and Line Planning to Assortment Planning (Confluence APREC).',
     successMetrics: 'Fashion Line Planning 100% migrated to AP Tool Assortment List. Excel-based line plan workarounds eliminated. Fashion metrics and attributes fully enabled in Assortment List. Item auto-population from Supplier Catalog via Item Repository live. Zero manual re-key of potential items.',
-    owners: pptOwners('Chris Chiodo', 'Ashwin Chidambaram', ''),
+    owners: pptOwners('Brett Reid', 'Ashwin Chidambaram', 'Taylor Watson', 'CJ Weatherford', 'Arun Santhiagu'),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325568',
       '#',
@@ -64,7 +64,7 @@ const CARDS_DESIGN = [
     businessBenefit: 'Sample review cycles are tracked, time-stamped, and linked to the product record — reducing duplicate sampling, missed fit issues, and approval delays.',
     techIntegration: 'Built within Centric PLM. Fit evaluation data connected to product spec record. Integration with sourcing calendar to enforce sample milestone gates.',
     successMetrics: 'All sample milestones tracked in Centric. Fit evaluation turnaround time reduced. Zero unreviewedsamples reaching production.',
-    owners: pptOwners('Chris Chiodo', '', ''), resources: res(), workstreams: ['design'],
+    owners: pptOwners('Tammy Hawkins', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Stephen Wolf', ''), resources: res(), workstreams: ['design'],
   },
   {
     id: 'line-planning', title: 'Line Planning & Calendar Management', icon: '\uD83D\uDCC5',
@@ -73,7 +73,7 @@ const CARDS_DESIGN = [
     businessBenefit: 'Design teams plan against shared calendars that buying and allocation can see in real time — eliminating lag between design intent and downstream reaction.',
     techIntegration: 'Centric PLM is system of record for the line plan. Calendar milestones sync with AEX for buy readiness dates.',
     successMetrics: 'Line plan finalized and shared with Buying by target calendar milestone each season. Reduction in last-minute line plan changes after buying has begun.',
-    owners: TBD_OWNERS(), resources: res(), workstreams: ['design', 'buying'],
+    owners: pptOwners('Tammy Hawkins', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Stephen Wolf', ''), resources: res(), workstreams: ['design', 'buying'],
   },
   {
     id: 'product-specs', title: 'Product Specifications', icon: '\uD83D\uDCCB',
@@ -82,7 +82,7 @@ const CARDS_DESIGN = [
     businessBenefit: 'Eliminates spec re-entry across siloed tools. Design creates specs once; sourcing, buying, and item setup consume from the same record.',
     techIntegration: 'Centric product specs feed into item setup workflows and Supplier One for vendor distribution without manual redistribution.',
     successMetrics: 'Zero duplicate spec records across sourcing and item setup. Spec-related item setup errors reduced quarter over quarter.',
-    owners: TBD_OWNERS(), resources: res(), workstreams: ['design'],
+    owners: pptOwners('Tammy Hawkins', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Stephen Wolf', ''), resources: res(), workstreams: ['design'],
   },
   {
     id: 'trend-api-preseason', title: 'Trend API — 5+ Sources Pre-Season', icon: '\uD83D\uDD0D',
@@ -91,7 +91,7 @@ const CARDS_DESIGN = [
     businessBenefit: 'Designers and merchants see a consolidated trend signal from multiple sources rather than triangulating manually, accelerating pre-season line plan decisions.',
     techIntegration: 'Trend API aggregates 5+ trend data providers. Signal surfaced in Centric and AEX line plan workflows via shared API layer.',
     successMetrics: 'Trend API live with 5+ sources in pre-season workflows. Adoption by target design teams confirmed. Pre-season line plan lock date achievedwithout trend reconciliation delays.',
-    owners: pptOwners('Bill Chiodetti', '', ''), resources: res(), workstreams: ['design', 'strategy'],
+    owners: pptOwners('Bill Chiodetti', 'Ramesh Simhambhatla', '', 'Leon Hovanesian', ''), resources: res(), workstreams: ['design', 'strategy'],
   },
   {
     id: 'ap-tool-shared-ideation', title: 'AP Tool Shared Ideation & Integration', icon: '\uD83D\uDCA1',
@@ -100,7 +100,7 @@ const CARDS_DESIGN = [
     businessBenefit: 'Buying teams see design intent in real time during ideation — enabling earlier buy signal feedback that reduces late-stage line plan changes.',
     techIntegration: 'AP Tool line plan integration with Centric via shared event layer. Design ideation events in Centric trigger updates in AP Tool assortment view.',
     successMetrics: 'AP Tool and Centric sharing live line plan data. Reduction in design-to-buying handoff cycle time. Zero manual line plan exports between systems.',
-    owners: pptOwners('Chris Chiodo', '', ''), resources: res(), workstreams: ['design', 'buying'],
+    owners: pptOwners('Brett Reid', 'Ashwin Chidambaram', 'Taylor Watson', 'CJ Weatherford', 'Arun Santhiagu'), resources: res(), workstreams: ['design', 'buying'],
   },
   {
     id: 'ai-line-plan', title: 'AI-Enhanced Conceptual Line Plan', icon: '\uD83E\uDD16',
@@ -109,7 +109,7 @@ const CARDS_DESIGN = [
     businessBenefit: 'Merchants start each season with an AI-generated line plan framework, reducing blank-page planning time and anchoring decisions in data rather than intuition alone.',
     techIntegration: 'AI layer consumes Trend API, TTP financial targets, and AEX historical sell-through to generate conceptual line plan recommendations surfaced in Centric.',
     successMetrics: 'AI conceptual line plan adopted by target merchant groups. Planning cycle start time reduced. Merchants report improved confidence in opening line plan.',
-    owners: pptOwners('Chris Chiodo', '', ''), resources: res(), workstreams: ['design', 'strategy'],
+    owners: pptOwners('Bill Chiodetti', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Leon Hovanesian', ''), resources: res(), workstreams: ['design', 'strategy'],
   },
   {
     id: 'fit-eval-workflow', title: 'Fit Evaluation Workflow Launch', icon: '\uD83D\uDC54',
@@ -118,7 +118,7 @@ const CARDS_DESIGN = [
     businessBenefit: 'Fit issues are identified and resolved earlier in the development calendar, reducing late-stage corrections that delay production and increase cost.',
     techIntegration: 'Centric fit evaluation workflow linked to product spec and sample management records. Fit approval status gates further design and sourcing steps.',
     successMetrics: 'Fit evaluation completed in Centric for all target categories. Fit-related production delays reduced. Fit approval-to-production lead time measurably shorter.',
-    owners: pptOwners('Chris Chiodo', '', ''), resources: res(), workstreams: ['design'],
+    owners: pptOwners('Tammy Hawkins', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Stephen Wolf', ''), resources: res(), workstreams: ['design'],
   },
   {
     id: 'centralized-dam', title: 'Centralized DAM Launch', icon: '\uD83D\uDDBC\uFE0F',
@@ -127,7 +127,7 @@ const CARDS_DESIGN = [
     businessBenefit: 'Eliminates asset duplication and version confusion across teams. Product imagery and design files are always current and findable without manual distribution.',
     techIntegration: 'DAM integrated with Centric PLM. Assets auto-linked to product records. CAD/2D/3D files accessible to vendors via Supplier One without email distribution.',
     successMetrics: 'All active design assets stored and managed in DAM. Zero duplicate asset versions across product teams. Asset retrieval time reduced significantly.',
-    owners: pptOwners('Chris Chiodo', '', ''), resources: res(), workstreams: ['design'],
+    owners: pptOwners('Tammy Hawkins', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Stephen Wolf', ''), resources: res(), workstreams: ['design'],
   },
   {
     id: 'centric-integration', title: 'Centric Integration Launch', icon: '\uD83D\uDD17',
@@ -136,7 +136,7 @@ const CARDS_DESIGN = [
     businessBenefit: 'Design decisions in Centric automatically flow to buying, sourcing, and item setup — eliminating manual translation steps and the errors they introduce.',
     techIntegration: 'Centric integration covers AEX line plan sync, Supplier One spec distribution, DAM asset linking, and OneSource data feed. Event-driven architecture via shared integration layer.',
     successMetrics: 'All target Centric integrations live. Zero manual data exports from Centric to downstream systems for in-scope workflows.',
-    owners: pptOwners('Chris Chiodo', '', ''), resources: res(), workstreams: ['design', 'buying'],
+    owners: pptOwners('Tammy Hawkins', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Stephen Wolf', ''), resources: res(), workstreams: ['design', 'buying'],
   },
   {
     id: 'shared-event-layer', title: 'Shared Event Layer (AP, Centric, OneSource)', icon: '\uD83C\uDF10',
@@ -145,7 +145,7 @@ const CARDS_DESIGN = [
     businessBenefit: 'System changes in one workstream tool propagate automatically to all connected systems. Eliminates the sync delays and manual reconciliation that occur with batch integrations. Shared event calendar ensures all tools reflect the same planning milestones simultaneously.',
     techIntegration: 'Primary OPIF: OPIF-325188 (Shared Project Tracking and Event Calendar — Initial Requirements). Related: OPIF-325208 (Design Hub / Centric Integration), OPIF-325203 (Shared Item Repository). Event-driven integration layer. AP Tool, Centric, and OneSource publish and consume events. Enables near-real-time cross-system state consistency. PRD: Confluence APREC space (pageId 3255372152).',
     successMetrics: 'Shared event layer live with all three systems publishing events. Cross-system data latency reduced to near real-time. Integration incident rate reduced. Shared event calendar live and consumed by AP, Centric, and OneSource.',
-    owners: pptOwners('Chris Chiodo', 'Christopher Chiodo', ''),
+    owners: pptOwners('Tammy Hawkins', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Stephen Wolf', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325188',
       '#',
@@ -170,7 +170,7 @@ const CARDS_DESIGN = [
     techIntegration: 'Primary OPIF: OPIF-325208 (Design Hub — Centric Integration). Related: OPIF-347498 (Milestone: Centric Capabilities Review — DONE), OPIF-347500 (Milestone: Full Verticals & Ownership Review). Built natively within Centric PLM. Visual boards pull live product imagery, color, and spec data from Centric records. No separate sync required. Replaces Bamboo Rose and Miro for all in-scope design workflows. PRD: OneSource Design Integration (Confluence IESP).',
     pathToGreen: 'Finalize contracts with Centric by target date to secure required 12-week onboarding lead time. Contract finalization is the critical path item — once signed, pilot launch moves to end of May 2026.',
     successMetrics: 'Bamboo Rose decommissioned. Miro usage for assortment visualization retired by end of pilot. Design review cycle time reduced. Associate adoption > 80% within first season.',
-    owners: pptOwners('Chris Chiodo', 'Christopher Chiodo', ''),
+    owners: pptOwners('Tammy Hawkins', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Stephen Wolf', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325208',
       '#',
@@ -193,7 +193,7 @@ const CARDS_DESIGN = [
     businessBenefit: 'Design material decisions in Centric automatically trigger sourcing workflows — eliminating email handoffs and reducing lead time from design approval to vendor engagement.',
     techIntegration: 'Planned integration between Centric (material records) and Supplier One (vendor workflows) via the Integration & Connection Services layer.',
     successMetrics: 'Zero manual email handoffs for approved material decisions. Sourcing receives structured data, not PDFs.',
-    owners: TBD_OWNERS(), resources: res(), workstreams: ['design'],
+    owners: pptOwners('Tammy Hawkins', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Stephen Wolf', ''), resources: res(), workstreams: ['design'],
   },
   {
     id: 'design-analytics', title: 'Advanced Design Analytics', icon: '\uD83D\uDCCA',
@@ -202,6 +202,6 @@ const CARDS_DESIGN = [
     businessBenefit: 'Connects historical sales and trend data to design decisions — reducing reliance on intuition and improving line plan accuracy season over season.',
     techIntegration: 'Centric analytics pulls from AEX sell-through data, TTP strategic priorities, and external trend data sources via the integration layer.',
     successMetrics: 'Design teams using analytics for >50% of key product decisions. Measurable improvement in new product success rate vs. prior seasons.',
-    owners: TBD_OWNERS(), resources: res(), workstreams: ['design', 'strategy'],
+    owners: pptOwners('Bill Chiodetti', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Leon Hovanesian', ''), resources: res(), workstreams: ['design', 'strategy'],
   },
 ];

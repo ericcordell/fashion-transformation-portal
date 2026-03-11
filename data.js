@@ -34,6 +34,35 @@ const own = (name = 'TBD', email = '') => ({ name, email });
 const res = (opif = '#', brd = '#', prd = '#', uxDemo = '#', other = []) =>
   ({ opif, brd, prd, uxDemo, other });
 
+// ---- Corporate directory — verified via Walmart directory (Mar 2026) ----
+const PEOPLE = {
+  // Business Partners / Directors
+  'Brett Reid':            { email: 'Brett.Reid@walmart.com',            title: 'Director, Business Analysis & Insights' },
+  'Bill Chiodetti':        { email: 'William.Chiodetti@walmart.com',      title: 'Sr. Director, Product Management' },
+  'William Chiodetti':     { email: 'William.Chiodetti@walmart.com',      title: 'Sr. Director, Product Management' },
+  'Veena Swaminathan':     { email: 'Veena.Swaminathan@walmart.com',      title: 'Director, Product Management' },
+  // Product Leads
+  'Michael Allen':         { email: 'Michael.B.Allen@walmart.com',        title: 'Sr. Director, Product Management' },
+  'Abhishek Jannawar':     { email: 'Abhishek.Jannawar@walmart.com',       title: 'Staff Product Manager' },
+  'Ryan Henderson':      { email: 'Ryan.Henderson@walmart.com',          title: 'Senior Product Manager' },
+  'Dhaarna Singh':         { email: 'Dhaarna.Singh@walmart.com',           title: 'Senior Product Manager' },
+  'Taylor Watson':         { email: 'Taylor.Hunt@walmart.com',             title: 'Principal Product Manager' },
+  'Amy Holder Caley':      { email: 'Amy.Caley@walmart.com',              title: 'Principal Product Manager' },
+  // Transformation / TPM Leads
+  'Prasanth Chalikandi':   { email: 'Prasanth.Chalikandi@walmart.com',     title: 'Principal TPM' },
+  'Christopher Chiodo':    { email: 'Christopher.Chiodo@walmart.com',      title: 'Senior Manager, Product Management' },
+  'Chris Chiodo':          { email: 'Christopher.Chiodo@walmart.com',      title: 'Senior Manager, Product Management' },
+  'Ashwin Chidambaram':    { email: 'Ashwin.Chidambaram@walmart.com',      title: 'Staff Software Engineer (TPM)' },
+  'Arun Santhiagu':        { email: 'Arun.Santhiagu@walmart.com',          title: 'Senior Manager, Software Engineering' },
+};
+
+// Look up a person by name — returns { name, email, title }
+const person = (name) => {
+  if (!name || name === 'TBD' || name === '') return own();
+  const p = PEOPLE[name];
+  return p ? { name, email: p.email, title: p.title } : own(name);
+};
+
 const TBD_OWNERS = () => ({
   businessPartner:    own(),
   transformationLead: own(),
@@ -42,11 +71,11 @@ const TBD_OWNERS = () => ({
   softwareLead:       own(),
 });
 
-// Convenience: partial owner set from PPT
+// Convenience: partial owner set — auto-resolves emails from PEOPLE directory
 const pptOwners = (bp, tl, pl) => ({
-  businessPartner:    own(bp),
-  transformationLead: own(tl),
-  productLead:        own(pl),
+  businessPartner:    person(bp),
+  transformationLead: person(tl),
+  productLead:        person(pl),
   uxLead:             own(),
   softwareLead:       own(),
 });

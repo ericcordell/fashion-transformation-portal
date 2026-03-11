@@ -78,10 +78,21 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 
 /* ---- Card-detail modal (z:100) ---- */
 #modal-overlay { z-index:100; }
-#modal-box { background:white; border-radius:16px; width:min(640px,95vw);
-             max-height:92vh; overflow-y:auto; box-shadow:0 24px 60px rgba(0,0,0,0.3); }
-#modal-box::-webkit-scrollbar { width:5px; }
-#modal-box::-webkit-scrollbar-thumb { background:#0053e2; border-radius:3px; }
+#modal-box {
+  background:white; border-radius:16px; width:min(640px,95vw);
+  max-height:92vh;
+  /* overflow:hidden clips content cleanly at the rounded corners;
+     scrolling is handled by #modal-body-scroll below */
+  overflow:hidden;
+  display:flex; flex-direction:column;
+  box-shadow:0 24px 60px rgba(0,0,0,0.3);
+}
+/* Sticky zone: header + tab bar — never scrolls away */
+#modal-sticky-top { flex-shrink:0; }
+/* Inner scroll container — only the tab content scrolls */
+#modal-body-scroll { flex:1; overflow-y:auto; min-height:0; }
+#modal-body-scroll::-webkit-scrollbar { width:5px; }
+#modal-body-scroll::-webkit-scrollbar-thumb { background:#0053e2; border-radius:3px; }
 
 .tab-btn { padding:7px 15px; border-radius:99px; font-size:0.8rem; font-weight:600;
            cursor:pointer; transition:all 0.15s; color:#6b7280; }

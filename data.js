@@ -83,7 +83,7 @@ const person = (name) => {
 };
 
 const TBD_OWNERS = () => ({
-  businessPartner:    own(),
+  businessPartner:    [],   // array — can hold multiple Business & Transformation Leads
   transformationLead: own(),
   productLead:        own(),
   uxLead:             own(),
@@ -91,14 +91,15 @@ const TBD_OWNERS = () => ({
 });
 
 // Convenience: full owner set — auto-resolves emails from PEOPLE directory
-// bp = Business Transformation Lead (Confluence fallback)
-// tl = TPM / OPIF Assignee (primary)
-// pl = Product Manager / OPIF Reporter (primary)
+// bp = Business & Transformation Lead(s) — string OR array of strings (multiple allowed)
+// tl = Technical Program Manager (TPM) / OPIF Assignee
+// pl = Product Manager / OPIF Reporter
 // ux = UX Lead (Confluence fallback)
 // sw = Engineering Lead (Confluence fallback)
 const pptOwners = (bp, tl, pl, ux = '', sw = '') => ({
-  businessPartner:    person(bp),
-  transformationLead: person(tl),
+  // businessPartner is always an array so the UI can render 0..N people
+  businessPartner:    (Array.isArray(bp) ? bp : [bp]).map(person).filter(p => p.name && p.name !== 'TBD'),
+  transformationLead: person(tl),   // TPM / OPIF Assignee
   productLead:        person(pl),
   uxLead:             person(ux),
   softwareLead:       person(sw),

@@ -54,6 +54,100 @@
   user-select: none;
 }
 
+/* Pushes filter group to the far right of the bar */
+.es-spacer {
+  flex: 1;
+  min-width: 8px;
+}
+
+/* Filter group container (right side of bar) */
+.es-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  padding-left: 4px;
+  border-left: 1px solid #e5e7eb;
+}
+
+/* Card filter pills (Critical / R-Y / Done) */
+.es-filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px 8px;
+  border-radius: 99px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #64748b;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.12s;
+}
+.es-filter-pill:hover {
+  border-color: #0053e2;
+  color: #0053e2;
+  background: #eff6ff;
+}
+.es-filter-pill.es-filter-active {
+  background: #0053e2;
+  color: white;
+  border-color: #0053e2;
+  font-weight: 700;
+}
+
+/* Clear-all button */
+.es-filter-clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #ef4444;
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.12s;
+}
+.es-filter-clear:hover {
+  background: #ef4444;
+  color: white;
+  border-color: #ef4444;
+}
+
+/* Phase expand/collapse pills */
+.es-phase-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px 7px;
+  border-radius: 99px;
+  font-size: 0.63rem;
+  font-weight: 600;
+  color: var(--phc, #64748b);
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.12s;
+}
+.es-phase-pill:hover {
+  border-color: var(--phc, #64748b);
+  background: color-mix(in srgb, var(--phc, #64748b) 8%, white);
+}
+.es-phase-pill.es-phase-on {
+  background: color-mix(in srgb, var(--phc, #64748b) 12%, white);
+  border-color: var(--phc, #64748b);
+  font-weight: 700;
+}
+
 .es-chip {
   display: inline-flex;
   align-items: center;

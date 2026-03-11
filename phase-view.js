@@ -32,10 +32,16 @@
   // ── PUBLIC API ─────────────────────────────────────────
   window.initPhaseView = function () { _render(); };
 
+  // Expose filter state so exec-summary bar can read active filters
+  window.pmGetState = function () {
+    return { cardFilters: _cardFilters, expandedPhases: _expandedPhases };
+  };
+
   window.pmToggleCardFilter = function (key) {
     if (_cardFilters.has(key)) _cardFilters.delete(key);
     else _cardFilters.add(key);
     _render();
+    if (window._esRenderBar) window._esRenderBar();
   };
 
   window.pmTogglePhase = function (num) {
@@ -43,18 +49,21 @@
     if (_expandedPhases.has(num)) _expandedPhases.delete(num);
     else _expandedPhases.add(num);
     _render();
+    if (window._esRenderBar) window._esRenderBar();
   };
 
   window.pmClearFilters = function () {
     _cardFilters.clear();
     _render();
+    if (window._esRenderBar) window._esRenderBar();
   };
 
   // ── TOP-LEVEL RENDER ───────────────────────────────────
   function _render() {
     var wrap = document.getElementById('phase-grid-wrap');
     if (!wrap) return;
-    wrap.innerHTML = _filterBarHTML() + _matrixHTML();
+    // Filter bar removed — controls live in the exec status bar (exec-summary.js)
+    wrap.innerHTML = _matrixHTML();
   }
 
   // ── FILTER BAR ─────────────────────────────────────────

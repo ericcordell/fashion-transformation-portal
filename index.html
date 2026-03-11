@@ -631,8 +631,8 @@ document.getElementById('modal-overlay').addEventListener('click', e => {
 renderPhases();          // E2E process flow bar
 
 buildCardIndex();        // populate allCards[] for modal lookups
-initExecBar();           // executive status bar (requires allCards)
-initPhaseView();         // LLTT Phase timeline + phase grid
+initPhaseView();         // phase grid + exposes pmGetState() for the bar
+initExecBar();           // unified status + filter bar (requires pmGetState)
 
 </script>
 </body>

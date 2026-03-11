@@ -765,49 +765,63 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   background: white;
   border-radius: 20px;
   overflow: hidden;
-  width: 90%;
-  max-width: 560px;
-  max-height: 82vh;
+  width: 92%;
+  max-width: 660px;
+  max-height: 88vh;
   display: flex;
   flex-direction: column;
   box-shadow: 0 24px 64px rgba(0,0,0,0.22);
 }
 
 #es-header {
-  padding: 20px 22px 16px;
+  padding: 20px 24px 18px;
   flex-shrink: 0;
 }
 
 #es-body {
   overflow-y: auto;
   flex: 1;
-  padding: 0 0 16px;
+  padding: 0 0 20px;
 }
 
-.es-group {
-  padding: 0 20px;
-  margin-top: 14px;
+/* Sections inside the exec modal body */
+.es-section {
+  padding: 16px 24px 14px;
+  border-bottom: 1px solid #f1f5f9;
+}
+.es-section:last-child { border-bottom: none; }
+.es-section--alt { background: #fafbff; }
+
+.es-section-label {
+  margin: 0 0 10px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #64748b;
 }
 
+/* Group headers inside the collapsible All Programs list */
 .es-group-header {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: .07em;
   padding: 4px 8px;
   border-radius: 6px;
   background: #f8fafc;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
+  margin-top: 10px;
 }
 
 .es-card-row {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 10px;
+  padding: 7px 8px;
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.12s;
@@ -819,13 +833,17 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 }
 
 .es-card-title {
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: #1e293b;
   line-height: 1.3;
   flex: 1;
   min-width: 0;
 }
+
+/* details/summary reset */
+details > summary { list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
 
 </style>
 </head>
@@ -2361,113 +2379,373 @@ const GOALS = {
 };
 </script>
 <script>
-// exec-summary.js — Executive Status Bar & Drill-Down Modal
-// Renders a compact strip of clickable status chips (Overall + Workstream + Phase).
-// Each chip opens a scoped RYG breakdown modal without leaving the page.
-// Depends on: data.js, data-*.js (PILLARS, CARD_PHASE_MAP, BADGE_CLASS, QUARTER_META)
-// Must be initialised AFTER buildCardIndex() has populated window.allCards.
+// exec-narratives.js — Scope-level editorial narratives for the Executive Status modal.
+// Each entry maps a scope key to a short, human-readable summary of the work.
+// Kept separate to stay under the 600-line rule and make content updates easy.
+// To update a narrative, just edit the paragraph strings below.
+
+/* global PHASE_DEFS */
+
+const EXEC_NARRATIVES = {
+
+  overall: [
+    'The E2E Fashion Transformation is modernizing how Walmart designs, buys, and ' +
+    'allocates Fashion merchandise. We are connecting previously siloed tools — Centric PLM, ' +
+    'AEX, AP Tool, BPE/DBP, and TTP — into a single integrated ecosystem where decisions in ' +
+    'one system cascade automatically downstream, eliminating manual re-entry and sequential handoffs.',
+
+    'The program runs across three phases: Phase 1 Setup & Integration (now through Oct 2026) ' +
+    'lays the data and tool foundation; Phase 2 Recommend & Optimize (Aug 2026–Apr 2027) activates ' +
+    'intelligent recommendations and dynamic redistribution; Phase 3 Automate (Feb–Oct 2027) shifts ' +
+    'merchants from executing decisions to encoding strategy and letting the system generate scenarios.',
+
+    'Key FY27 commitments include 90% of buys on the happy path, zero rekeys across the E2E ' +
+    'workflow, and happy-path buying execution. The primary watchpoint is the Centric Visual Boards ' +
+    'contract — a contract signature unlocks the 12-week onboarding window needed for the May 2026 pilot.',
+  ],
+
+  strategy: [
+    'The Strategy workstream is the connective tissue of the entire E2E program, operating through ' +
+    'the TTP (Trend-to-Product) hub. All financial targets, category priorities, and seasonal ' +
+    'guardrails originate here and cascade automatically to Design, Buying, and Allocation.',
+
+    'Active Q1 deliverables include the Strategy Hub as the shared source of truth for seasonal ' +
+    'targets, the Trend API delivering macro trend signals into Centric and AEX, V1 Trend-to-Packaging ' +
+    'Redesign workflow (in production), and the V1 Synthetic Consumer Panel (live with WMT Data ' +
+    'Ventures) simulating customer response before production commitment.',
+
+    'Looking ahead, the roadmap includes Forecast as Enterprise Service (Q2) — a single, trusted ' +
+    'demand signal shared across Buying and Allocation — and a Shared Merch Strategy repository (Phase 3) ' +
+    'that will power automated scenario generation and conceptual line plan creation.',
+  ],
+
+  design: [
+    'The Design workstream is building the connected product creation lifecycle within Centric PLM, ' +
+    'replacing fragmented tools (Bamboo Rose, Miro, Excel) with a single system of record for all ' +
+    'Fashion product design, specification, sample management, and line planning.',
+
+    'Active Q1 priorities include launching Centric as Design Hub, migrating line planning from AEX ' +
+    'to the AP Tool Assortment List (eliminating Excel permanently), activating line planning and ' +
+    'calendar management, and building product specifications natively in Centric. A 2-week ' +
+    'spike (due Mar 16) will confirm scope and timeline for the AP Tool line plan migration.',
+
+    'The primary watchpoint is Centric Visual Boards — a contract signature is required to secure ' +
+    'the 12-week onboarding window needed for the May 2026 pilot. This is the critical path item ' +
+    'for Phase 1 Design execution.',
+  ],
+
+  buying: [
+    'The Buying workstream is the largest in scope — spanning AEX platform stability, automated ' +
+    'item setup, buy quantity automation, AP Tool line plan integration, and visual rack planning. ' +
+    'The goal is to move 90% of buys onto a fully automated happy path by the end of Phase 1.',
+
+    'Active priorities include AEX Stability improvements through April, Auto Item Setup (3 pillars: ' +
+    'Gen AI Data Enrichment, Parent Anchored Variant Groups, and Seamless AEX→Item Data Flow), ' +
+    'Long-Term Buying execution, and the Item Repository / AI Item discovery work in active discovery. ' +
+    'All active Buying items are currently Green.',
+
+    'Q2 and Q3 priorities include Visual Rack Plan, BAM / Collaboration integration, Size & Pack BQ ' +
+    'automation, and the AP Tool Line Plan integration — the latter being a critical Phase 1 ' +
+    'deliverable connecting assortment decisions directly to buy execution without manual re-entry.',
+  ],
+
+  allocation: [
+    'The Allocation workstream is building the planning and tagging foundations that power all ' +
+    'downstream automation in Phase 2 and Phase 3. Without the tagging taxonomy in place, ' +
+    'fixture-level recommendations, in-season swaps, and dynamic redistribution cannot activate.',
+
+    'Active Q1 work includes Unified Planning Workflow (BPE as single source of truth for all ' +
+    'planning decisions), BPE Seasonal Planning for 5 Fashion departments, and the Tagging & ' +
+    'Affinity Graph pilot — using product tagging and affinity models to identify assortment gaps ' +
+    'before in-season signals surface. The tagging pilot is the most strategically critical Q2 item.',
+
+    'Upcoming roadmap work (Q2–Q3) includes Enterprise Wave Planning, Distrib Optimization, ' +
+    'Tag-Based Recommendations for line and in-season swaps, and Dynamic PO Re-Distribution. ' +
+    'These capabilities are dependent on the tagging foundation being validated in the Q2 pilot.',
+  ],
+
+  phase1: [
+    'Phase 1 — Setup & Integration (Q1–Q3 FY27, Feb–Oct 2026) — is the foundation of the entire ' +
+    'LLTT program. Every Phase 2 recommendation and Phase 3 automation depends on the integrations ' +
+    'and data pipelines being built now.',
+
+    'Phase 1 connects the core Fashion systems into a single workflow: AP Tool becomes the Fashion ' +
+    'Line Plan (replacing Excel in AEX), Centric PLM becomes the Design Hub, BPE becomes the ' +
+    'unified planning system of record, and the tagging taxonomy is built as the foundation for ' +
+    'all future recommendation and automation capabilities.',
+
+    'Key Phase 1 success metrics: 90% of buys on the happy path, zero rekeys across E2E workflow, ' +
+    'and happy-path buying execution fully in place by Oct 2026.',
+  ],
+
+  phase2: [
+    'Phase 2 — Recommend & Optimize (Q3 FY27–Q1 FY28, Aug 2026–Apr 2027) — activates intelligent ' +
+    'recommendations across every workstream, powered by the integrations and tagging taxonomy ' +
+    'built in Phase 1.',
+
+    'Phase 2 deliverables include Forecast and Buy Quantification delivered as enterprise services ' +
+    '(single, shared signals across all workstreams), Tag-Based Line Recommendations, Tag-Based ' +
+    'In-Season Swaps, Dynamic PO Re-Distribution, and a Shared Event Calendar connecting all ' +
+    'workstream timelines.',
+
+    'Phase 2 goals: reduce trapped inventory, achieve 85% shop in-stock rate, achieve 90% PO ' +
+    'redistribution coverage, and increase sell-through rate. All Phase 2 items are currently ' +
+    'on the roadmap and scheduled to begin Q3 FY27.',
+  ],
+
+  phase3: [
+    'Phase 3 — Automate (Q1–Q3 FY28, Feb–Oct 2027) — is the full vision of the LLTT program. ' +
+    'Merchants shift from manually executing decisions to encoding strategy and goals, and the ' +
+    'system generates, evaluates, and executes scenarios automatically.',
+
+    'Phase 3 deliverables include a Strategy Repository (capturing strategic intent in structured ' +
+    'form), Strategy-Based Conceptual Line Plan creation (generated from encoded strategy), ' +
+    'Scenario Generation and Selection, and Tag-Based In-Season Dynamic Placement ' +
+    '(fully automated in-season redistribution).',
+
+    'Phase 3 goals align to the Phase 2 outcomes — further reducing trapped inventory, increasing ' +
+    'sell-through, and achieving the full merchant hours reduction target (Goal #4) through automation. ' +
+    'Phase 3 items are on the long-range roadmap, dependent on Phase 2 completion.',
+  ],
+};
+
+</script>
+<script>
+// exec-summary.js — Executive Status Bar & 3-Section Drill-Down Modal
+// Sections: 1) Status Scorecard  2) Narrative  3) At-Risk Programs  4) All Programs
+// Depends on: data.js, data-*.js, exec-narratives.js
+// Initialise AFTER buildCardIndex() has run (allCards must be populated).
 (function () {
   'use strict';
 
-  // ── Status priority (higher index = worse / more urgent) ────────────────
-  const STATUS_PRIORITY = { roadmap: 0, completed: 1, green: 2, yellow: 3, red: 4 };
-
-  const STATUS_META = {
-    red:       { dot: '#ea1100', label: 'At Risk',    badgeCls: 'badge-red'       },
-    yellow:    { dot: '#FFC220', label: 'Watch',      badgeCls: 'badge-yellow'    },
-    green:     { dot: '#2a8703', label: 'On Track',   badgeCls: 'badge-green'     },
-    completed: { dot: '#0053e2', label: 'Completed',  badgeCls: 'badge-completed' },
-    roadmap:   { dot: '#94a3b8', label: 'Roadmap',    badgeCls: 'badge-roadmap'   },
+  // ── Status config ───────────────────────────────────────────────────────────
+  const PRIORITY  = { roadmap: 0, completed: 1, green: 2, yellow: 3, red: 4 };
+  const S = {
+    red:       { dot: '#ea1100', label: 'At Risk',   cls: 'badge-red'       },
+    yellow:    { dot: '#FFC220', label: 'Watch',     cls: 'badge-yellow'    },
+    green:     { dot: '#2a8703', label: 'On Track',  cls: 'badge-green'     },
+    completed: { dot: '#0053e2', label: 'Completed', cls: 'badge-completed' },
+    roadmap:   { dot: '#94a3b8', label: 'Roadmap',   cls: 'badge-roadmap'   },
+  };
+  const HDR_GRAD = {
+    red:       'linear-gradient(135deg,#b71c1c,#ea1100)',
+    yellow:    'linear-gradient(135deg,#b86000,#d98c00)',
+    green:     'linear-gradient(135deg,#1b5e20,#2a8703)',
+    completed: 'linear-gradient(135deg,#0053e2,#1a6fff)',
+    roadmap:   'linear-gradient(135deg,#37474f,#546e7a)',
   };
 
-  // ── Scope definitions ───────────────────────────────────────────────────
-  // type 'overall'    → all cards
-  // type 'workstream' → filter by pillar key (lowercased title)
-  // type 'phase'      → filter via CARD_PHASE_MAP phase number
+  // ── Scope definitions ─────────────────────────────────────────────────────────
   const SCOPES = [
-    { key: 'overall',    type: 'overall',    label: 'E2E Overview',  icon: '🗺️'  },
-    // workstreams
-    { key: 'strategy',   type: 'workstream', label: 'Strategy',      icon: '🧭'  },
-    { key: 'design',     type: 'workstream', label: 'Design',        icon: '🎨'  },
-    { key: 'buying',     type: 'workstream', label: 'Buying',        icon: '🛒'  },
-    { key: 'allocation', type: 'workstream', label: 'Allocation',    icon: '📦'  },
-    // phases
-    { key: 'phase1',     type: 'phase', phaseNum: 1, label: 'Phase 1 · Setup',      icon: '🔧' },
-    { key: 'phase2',     type: 'phase', phaseNum: 2, label: 'Phase 2 · Recommend',  icon: '🎯' },
-    { key: 'phase3',     type: 'phase', phaseNum: 3, label: 'Phase 3 · Automate',   icon: '🤖' },
+    { key: 'overall',    type: 'overall',    label: 'E2E Overview',         icon: '🗺️' },
+    { key: 'strategy',   type: 'workstream', label: 'Strategy',             icon: '🧭' },
+    { key: 'design',     type: 'workstream', label: 'Design',               icon: '🎨' },
+    { key: 'buying',     type: 'workstream', label: 'Buying',               icon: '🛒' },
+    { key: 'allocation', type: 'workstream', label: 'Allocation',           icon: '📦' },
+    { key: 'phase1', type: 'phase', phaseNum: 1, label: 'Phase 1 · Setup',     icon: '🔧' },
+    { key: 'phase2', type: 'phase', phaseNum: 2, label: 'Phase 2 · Recommend', icon: '🎯' },
+    { key: 'phase3', type: 'phase', phaseNum: 3, label: 'Phase 3 · Automate',  icon: '🤖' },
   ];
 
-  // ── Helpers ─────────────────────────────────────────────────────────────
-
+  // ── Data helpers ──────────────────────────────────────────────────────────
   function cardsForScope(scope) {
-    const cards = window.allCards || [];
-    if (scope.type === 'overall') return cards;
-    if (scope.type === 'workstream') {
-      return cards.filter(c => (c.workstream || '').toLowerCase() === scope.key);
-    }
-    if (scope.type === 'phase') {
-      return cards.filter(c => (window.CARD_PHASE_MAP || {})[c.id] === scope.phaseNum);
-    }
+    const all = window.allCards || [];
+    if (scope.type === 'overall')    return all;
+    if (scope.type === 'workstream') return all.filter(c => (c.workstream || '').toLowerCase() === scope.key);
+    if (scope.type === 'phase')      return all.filter(c => (window.CARD_PHASE_MAP || {})[c.id] === scope.phaseNum);
     return [];
   }
 
-  // Returns { red, yellow, green, completed, roadmap, worst }
   function rollup(cards) {
     const counts = { red: 0, yellow: 0, green: 0, completed: 0, roadmap: 0 };
     let worst = 'roadmap';
     cards.forEach(c => {
       const s = c.status || 'roadmap';
       if (counts[s] !== undefined) counts[s]++;
-      if ((STATUS_PRIORITY[s] || 0) > (STATUS_PRIORITY[worst] || 0)) worst = s;
+      if ((PRIORITY[s] || 0) > (PRIORITY[worst] || 0)) worst = s;
     });
     return { ...counts, total: cards.length, worst };
   }
 
-  // ── Chip renderer ───────────────────────────────────────────────────────
-
+  // ── Chip bar ─────────────────────────────────────────────────────────────────
   function chipHTML(scope, stats) {
-    const meta = STATUS_META[stats.worst] || STATUS_META.roadmap;
+    const m = S[stats.worst] || S.roadmap;
     const isOverall = scope.type === 'overall';
-    return `
-      <button
-        class="es-chip${isOverall ? ' es-chip--overall' : ''}"
-        onclick="window._esOpenModal('${scope.key}')"
-        title="Click for ${scope.label} status breakdown"
-        aria-label="${scope.label} status: ${meta.label}"
-      >
-        <span class="es-dot" style="background:${meta.dot};"></span>
-        <span class="es-chip-label">${scope.icon} ${scope.label}</span>
-        <span class="es-chip-badge" style="background:${meta.dot}20;color:${meta.dot};border-color:${meta.dot}40;">${meta.label}</span>
-      </button>`;
+    return `<button class="es-chip${isOverall ? ' es-chip--overall' : ''}"
+      onclick="window._esOpenModal('${scope.key}')"
+      title="Click for ${scope.label} status breakdown"
+      aria-label="${scope.label}: ${m.label}">
+      <span class="es-dot" style="background:${m.dot};"></span>
+      <span class="es-chip-label">${scope.icon} ${scope.label}</span>
+      <span class="es-chip-badge" style="background:${m.dot}20;color:${m.dot};border-color:${m.dot}40;">${m.label}</span>
+    </button>`;
   }
-
-  // ── Bar render ──────────────────────────────────────────────────────────
 
   function renderBar() {
     const el = document.getElementById('exec-bar');
     if (!el) return;
+    const ws = SCOPES.filter(s => s.type === 'workstream');
+    const ph = SCOPES.filter(s => s.type === 'phase');
+    const ov = SCOPES[0];
+    el.innerHTML = `<div class="es-bar">
+      <span class="es-bar-label">Executive Status</span>
+      <div class="es-divider"></div>
+      ${chipHTML(ov, rollup(cardsForScope(ov)))}
+      <div class="es-sep">|</div>
+      <span class="es-group-label">By Workstream</span>
+      ${ws.map(s => chipHTML(s, rollup(cardsForScope(s)))).join('')}
+      <div class="es-sep">|</div>
+      <span class="es-group-label">By Phase</span>
+      ${ph.map(s => chipHTML(s, rollup(cardsForScope(s)))).join('')}
+    </div>`;
+  }
 
-    const overallScope = SCOPES[0];
-    const overallStats = rollup(cardsForScope(overallScope));
-    const wsScopes    = SCOPES.filter(s => s.type === 'workstream');
-    const phScopes    = SCOPES.filter(s => s.type === 'phase');
+  // ── Section 1: Status Scorecard ─────────────────────────────────────────────
+  function scorecardHTML(stats) {
+    const ORDER = ['red','yellow','green','completed','roadmap'];
+    const active = ORDER.filter(s => stats[s] > 0);
+    const total  = stats.total || 1;
 
-    el.innerHTML = `
-      <div class="es-bar">
-        <span class="es-bar-label">Executive Status</span>
-        <div class="es-divider"></div>
-        ${chipHTML(overallScope, overallStats)}
-        <div class="es-sep">|</div>
-        <span class="es-group-label">By Workstream</span>
-        ${wsScopes.map(s => chipHTML(s, rollup(cardsForScope(s)))).join('')}
-        <div class="es-sep">|</div>
-        <span class="es-group-label">By Phase</span>
-        ${phScopes.map(s => chipHTML(s, rollup(cardsForScope(s)))).join('')}
+    // Proportional bar
+    const bar = active.map(s =>
+      `<div style="flex:${stats[s]};background:${S[s].dot};height:100%;min-width:4px;
+        transition:flex 0.3s;" title="${stats[s]} ${S[s].label}"></div>`
+    ).join('');
+
+    // Count pills row
+    const pills = active.map(s => `
+      <div style="display:flex;align-items:center;gap:5px;">
+        <span style="width:9px;height:9px;border-radius:50%;background:${S[s].dot};
+          flex-shrink:0;display:inline-block;"></span>
+        <span style="font-size:0.78rem;font-weight:800;color:#1e293b;">${stats[s]}</span>
+        <span style="font-size:0.72rem;color:#64748b;">${S[s].label}</span>
+      </div>`).join('');
+
+    return `
+      <div class="es-section">
+        <p class="es-section-label">📊 Program Snapshot — ${stats.total} total deliverable${stats.total !== 1 ? 's' : ''}</p>
+        <div style="display:flex;height:8px;border-radius:99px;overflow:hidden;gap:2px;margin-bottom:12px;">${bar}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:14px;">${pills}</div>
       </div>`;
   }
 
-  // ── Drill-down modal ────────────────────────────────────────────────────
+  // ── Section 2: Narrative ─────────────────────────────────────────────────────────
+  function narrativeHTML(scopeKey) {
+    const paras = (window.EXEC_NARRATIVES || {})[scopeKey] || [];
+    if (!paras.length) return '';
+    const body = paras
+      .map(p => `<p style="margin:0 0 10px;font-size:0.83rem;line-height:1.65;color:#374151;">${p}</p>`)
+      .join('');
+    return `
+      <div class="es-section es-section--alt">
+        <p class="es-section-label">📝 What We're Working On</p>
+        ${body}
+      </div>`;
+  }
 
+  // ── Section 3: At-Risk Programs (Yellow + Red only) ─────────────────
+  function atRiskHTML(cards) {
+    const atRisk = cards.filter(c => c.status === 'red' || c.status === 'yellow');
+    if (!atRisk.length) {
+      return `
+        <div class="es-section">
+          <p class="es-section-label">🟢 At-Risk Programs</p>
+          <div style="display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;
+            background:#f0fdf4;border:1px solid #86efac;">
+            <span style="font-size:1rem;">✅</span>
+            <span style="font-size:0.82rem;color:#166534;font-weight:600;">No at-risk programs in this scope. All active items are Green or completed.</span>
+          </div>
+        </div>`;
+    }
+
+    // Sort: red first, then yellow
+    const sorted = [...atRisk].sort((a, b) => (PRIORITY[b.status] || 0) - (PRIORITY[a.status] || 0));
+
+    const cards_html = sorted.map(c => {
+      const m = S[c.status];
+      const ptg = c.pathToGreen || c.statusNote || null;
+      const qMeta = (window.QUARTER_META || {})[c.quarter] || {};
+      return `
+        <div style="border:1.5px solid ${m.dot}30;border-radius:12px;overflow:hidden;margin-bottom:10px;">
+          <div style="display:flex;align-items:center;gap:8px;padding:10px 14px;
+            background:${m.dot}0d;border-bottom:1px solid ${m.dot}20;">
+            <span style="font-size:1rem;flex-shrink:0;">${c.icon || '📋'}</span>
+            <span style="font-size:0.85rem;font-weight:700;color:#1e293b;flex:1;">${c.title}</span>
+            <span class="badge ${m.cls}" style="flex-shrink:0;">${c.statusLabel}</span>
+          </div>
+          <div style="padding:10px 14px;">
+            ${ptg ? `
+              <p style="margin:0 0 4px;font-size:0.62rem;font-weight:800;text-transform:uppercase;
+                letter-spacing:.07em;color:${m.dot};">Path to Green</p>
+              <p style="margin:0;font-size:0.8rem;line-height:1.55;color:#374151;">${ptg}</p>` :
+              `<p style="margin:0;font-size:0.78rem;color:#94a3b8;font-style:italic;">Path to green not yet documented. Contact the owner for details.</p>`}
+            <button onclick="window._esClose();openModal('${c.id}','${c.workstream}','${c.tool}');"
+              style="margin-top:8px;font-size:0.72rem;font-weight:700;color:#0053e2;background:none;
+              border:none;cursor:pointer;padding:0;text-decoration:underline;">
+              → View full program details
+            </button>
+          </div>
+        </div>`;
+    }).join('');
+
+    return `
+      <div class="es-section">
+        <p class="es-section-label">🟡 At-Risk Programs — Path to Green</p>
+        ${cards_html}
+      </div>`;
+  }
+
+  // ── Section 4: Full Program List ───────────────────────────────────────────
+  function programListHTML(cards) {
+    const ORDER = ['red','yellow','green','completed','roadmap'];
+    const groups = ORDER
+      .map(s => ({ status: s, items: cards.filter(c => c.status === s) }))
+      .filter(g => g.items.length);
+
+    const groupsHTML = groups.map(g => {
+      const m = S[g.status];
+      const rows = g.items.map(c => {
+        const qMeta = (window.QUARTER_META || {})[c.quarter] || {};
+        const qChip = qMeta.label
+          ? `<span style="font-size:0.58rem;font-weight:700;padding:1px 5px;border-radius:99px;
+              background:${qMeta.bg||'#f1f5f9'};color:${qMeta.color||'#64748b'};
+              border:1px solid ${qMeta.border||'#e2e8f0'};white-space:nowrap;flex-shrink:0;">${qMeta.label}</span>`
+          : '';
+        return `<div class="es-card-row"
+          onclick="window._esClose();openModal('${c.id}','${c.workstream}','${c.tool}');">
+          <span style="font-size:0.95rem;flex-shrink:0;">${c.icon || '📋'}</span>
+          <span class="es-card-title">${c.title}</span>
+          <span style="font-size:0.62rem;color:#94a3b8;white-space:nowrap;">${c.workstream}</span>
+          ${qChip}
+        </div>`;
+      }).join('');
+
+      return `<div style="margin-bottom:6px;">
+        <div class="es-group-header" style="color:${m.dot};border-left:3px solid ${m.dot};">
+          <span class="es-dot" style="background:${m.dot};"></span>${m.label}
+          <span style="margin-left:auto;font-size:0.62rem;font-weight:600;opacity:.7;">
+            ${g.items.length} item${g.items.length !== 1 ? 's' : ''}
+          </span>
+        </div>
+        ${rows}
+      </div>`;
+    }).join('');
+
+    return `
+      <div class="es-section" style="padding-bottom:4px;">
+        <details>
+          <summary class="es-section-label" style="cursor:pointer;user-select:none;
+            list-style:none;display:flex;align-items:center;gap:6px;">
+            <span>📋 All Programs</span>
+            <span style="font-size:0.65rem;font-weight:600;color:#94a3b8;font-style:italic;
+              margin-left:auto;">(click to expand)</span>
+          </summary>
+          <div style="margin-top:10px;">${groupsHTML}</div>
+        </details>
+      </div>`;
+  }
+
+  // ── Modal shell ─────────────────────────────────────────────────────────────────
   function buildModal() {
     if (document.getElementById('es-overlay')) return;
     const div = document.createElement('div');
@@ -2477,16 +2755,14 @@ const GOALS = {
           <div id="es-header">
             <div style="display:flex;justify-content:space-between;align-items:flex-start;">
               <div>
-                <p id="es-eyebrow" style="margin:0 0 3px;font-size:0.65rem;font-weight:800;text-transform:uppercase;
-                   letter-spacing:.07em;color:rgba(255,255,255,0.55);">Executive Status Snapshot</p>
-                <h2 id="es-title" style="color:white;font-weight:800;font-size:1.05rem;margin:0;"></h2>
+                <p style="margin:0 0 3px;font-size:0.62rem;font-weight:800;text-transform:uppercase;
+                  letter-spacing:.08em;color:rgba(255,255,255,0.5);">Executive Status Snapshot</p>
+                <h2 id="es-title" style="color:white;font-weight:800;font-size:1.1rem;margin:0;"></h2>
               </div>
               <button onclick="window._esClose()"
-                style="color:white;opacity:0.6;font-size:1.9rem;line-height:1;cursor:pointer;
-                       background:none;border:none;padding:0;margin-left:16px;"
-                aria-label="Close">&times;</button>
+                style="color:white;opacity:.6;font-size:1.9rem;line-height:1;cursor:pointer;
+                  background:none;border:none;padding:0;margin-left:16px;" aria-label="Close">&times;</button>
             </div>
-            <div id="es-counts" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;"></div>
           </div>
           <div id="es-body"></div>
         </div>
@@ -2497,89 +2773,32 @@ const GOALS = {
     });
   }
 
+  // ── Open modal ─────────────────────────────────────────────────────────────────
   function openModal(scopeKey) {
     const scope = SCOPES.find(s => s.key === scopeKey);
     if (!scope) return;
     const cards = cardsForScope(scope);
     const stats = rollup(cards);
 
-    // Header color based on worst status
-    const headerColors = {
-      red:       'linear-gradient(135deg,#ea1100,#c41000)',
-      yellow:    'linear-gradient(135deg,#b86000,#d98c00)',
-      green:     'linear-gradient(135deg,#1b5e20,#2a8703)',
-      completed: 'linear-gradient(135deg,#0053e2,#1a6fff)',
-      roadmap:   'linear-gradient(135deg,#37474f,#546e7a)',
-    };
-    document.getElementById('es-header').style.background =
-      headerColors[stats.worst] || headerColors.roadmap;
+    document.getElementById('es-header').style.background = HDR_GRAD[stats.worst] || HDR_GRAD.roadmap;
     document.getElementById('es-title').textContent = `${scope.icon} ${scope.label}`;
 
-    // Count pills
-    const countPills = ['red','yellow','green','completed','roadmap']
-      .filter(s => stats[s] > 0)
-      .map(s => {
-        const m = STATUS_META[s];
-        return `<span style="font-size:0.7rem;font-weight:700;padding:3px 9px;border-radius:99px;
-          background:${m.dot}18;color:${m.dot};border:1px solid ${m.dot}40;">
-          ${stats[s]} ${m.label}
-        </span>`;
-      }).join('');
-    document.getElementById('es-counts').innerHTML =
-      countPills || '<span style="font-size:0.75rem;color:rgba(255,255,255,0.5);">No deliverables in scope</span>';
-
-    // Card rows grouped by priority (worst first)
-    const grouped = ['red','yellow','green','completed','roadmap']
-      .map(s => ({ status: s, cards: cards.filter(c => c.status === s) }))
-      .filter(g => g.cards.length > 0);
-
-    const groupHTML = grouped.map(g => {
-      const m = STATUS_META[g.status];
-      const rows = g.cards.map(c => {
-        const qMeta = (window.QUARTER_META || {})[c.quarter] || {};
-        const qChip = qMeta.label
-          ? `<span style="font-size:0.6rem;font-weight:700;padding:1px 6px;border-radius:99px;
-              background:${qMeta.bg||'#f1f5f9'};color:${qMeta.color||'#475569'};
-              border:1px solid ${qMeta.border||'#e2e8f0'};white-space:nowrap;">${qMeta.label}</span>`
-          : '';
-        return `
-          <div class="es-card-row" onclick="openModal('${c.id}','${c.workstream}','${c.tool}');
-              document.getElementById('es-overlay').classList.remove('open');">
-            <span style="font-size:1rem;flex-shrink:0;">${c.icon || '📋'}</span>
-            <span class="es-card-title">${c.title}</span>
-            <span style="font-size:0.65rem;color:#94a3b8;white-space:nowrap;margin-left:auto;padding-left:8px;">${c.workstream}</span>
-            ${qChip}
-          </div>`;
-      }).join('');
-
-      return `
-        <div class="es-group">
-          <div class="es-group-header" style="color:${m.dot};border-left:3px solid ${m.dot};">
-            <span class="es-dot" style="background:${m.dot};"></span>${m.label}
-            <span style="margin-left:auto;font-size:0.65rem;font-weight:600;
-              opacity:0.7;">${g.cards.length} item${g.cards.length !== 1 ? 's' : ''}</span>
-          </div>
-          ${rows}
-        </div>`;
-    }).join('');
-
     document.getElementById('es-body').innerHTML =
-      groupHTML || '<p style="padding:24px;color:#94a3b8;font-size:0.85rem;text-align:center;">No deliverables found for this scope.</p>';
+      scorecardHTML(stats) +
+      narrativeHTML(scope.key) +
+      atRiskHTML(cards) +
+      programListHTML(cards);
 
     document.getElementById('es-overlay').classList.add('open');
   }
 
-  // ── Public API ──────────────────────────────────────────────────────────
+  // ── Public API ─────────────────────────────────────────────────────────────────
   window._esOpenModal = openModal;
   window._esClose = function () {
     const el = document.getElementById('es-overlay');
     if (el) el.classList.remove('open');
   };
-
-  window.initExecBar = function () {
-    buildModal();
-    renderBar();
-  };
+  window.initExecBar = function () { buildModal(); renderBar(); };
 }());
 
 </script>

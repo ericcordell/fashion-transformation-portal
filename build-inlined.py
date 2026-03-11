@@ -22,6 +22,7 @@ JS_ORDER = [
     'data-phases.js',
     'card-links.js',
     'goal-modal.js',
+    'exec-narratives.js',
     'exec-summary.js',
     'roadmap-window.js',
     'summary-modal.js',

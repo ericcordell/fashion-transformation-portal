@@ -7,6 +7,7 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="portal.css">
 <link rel="stylesheet" href="portal-goals.css">
+<link rel="stylesheet" href="exec-summary.css">
 </head>
 <body>
 
@@ -51,6 +52,9 @@
       </span>
     </div>
   </div>
+
+  <!-- EXECUTIVE STATUS BAR — subtle RYG overview strip; click any chip to drill in -->
+  <div id="exec-bar"></div>
 
   <!-- STRATEGY UMBRELLA — ties all workstreams together -->
   <div class="strategy-umbrella mb-3" aria-label="Strategy Hub — connective tissue linking all workstreams">
@@ -190,6 +194,7 @@
 <script src="data-allocation.js"></script>
 <script src="data-phases.js"></script>
 <script src="data-goals.js"></script>
+<script src="exec-summary.js"></script>
 <script src="roadmap-window.js"></script>
 <script src="summary-modal.js"></script>
 <script src="goal-modal.js"></script>
@@ -625,6 +630,7 @@ document.getElementById('modal-overlay').addEventListener('click', e => {
 renderPhases();          // E2E process flow bar
 
 buildCardIndex();        // populate allCards[] for modal lookups
+initExecBar();           // executive status bar (requires allCards)
 initPhaseView();         // LLTT Phase timeline + phase grid
 
 </script>

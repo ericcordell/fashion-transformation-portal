@@ -22,12 +22,13 @@ JS_ORDER = [
     'data-phases.js',
     'card-links.js',
     'goal-modal.js',
+    'exec-summary.js',
     'roadmap-window.js',
     'summary-modal.js',
     'phase-view.js',
 ]
 
-CSS_FILES = ['portal.css', 'portal-goals.css']
+CSS_FILES = ['portal.css', 'portal-goals.css', 'exec-summary.css']
 
 
 def inline_css(html):

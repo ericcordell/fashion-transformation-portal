@@ -480,6 +480,20 @@ def main() -> None:
     log(f'E2E Fashion Portal Daily Sync — {TODAY}')
     log('=' * 60)
 
+    # Skip if already synced today (unless --force passed)
+    if '--force' not in sys.argv:
+        last_line = ''
+        try:
+            lines = LOG_FILE.read_text().splitlines()
+            last_sync = next(
+                (l for l in reversed(lines) if 'Sync complete' in l), ''
+            )
+            if TODAY in last_sync:
+                log(f'Already synced today ({TODAY}) — skipping. Use --force to override.')
+                return
+        except FileNotFoundError:
+            pass
+
     # 1. Load Chrome cookies
     log('Loading Chrome cookies...')
     cookies = load_chrome_cookies([

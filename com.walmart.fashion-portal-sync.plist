@@ -39,9 +39,9 @@
     <string>/Users/e0c0lzr</string>
   </dict>
 
-  <!-- Retry if machine was asleep at scheduled time -->
+  <!-- Run immediately on load if the 8am window was missed (Mac was asleep/off) -->
   <key>RunAtLoad</key>
-  <false/>
+  <true/>
 
   <!-- Keep alive if it crashes -->
   <key>KeepAlive</key>

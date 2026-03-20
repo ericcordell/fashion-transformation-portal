@@ -33,6 +33,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .badge-completed { background:#0053e2; color:white; }
 .badge-green     { background:#2a8703; color:white; }
 .badge-yellow    { background:#FFC220; color:#4a3000; }
+.badge-backlog   { background:#0053e2; color:white; }
 .badge-roadmap   { background:#e8f0fe; color:#0053e2; border:1px solid #0053e2; }
 .badge-red       { background:#ea1100; color:white; }
 
@@ -1243,6 +1244,7 @@ const BADGE_CLASS = {
   completed: 'badge-completed',
   green:     'badge-green',
   yellow:    'badge-yellow',
+  backlog:   'badge-backlog',
   roadmap:   'badge-roadmap',
   red:       'badge-red',
 };
@@ -1450,9 +1452,12 @@ const CARDS_DESIGN = [
   },
   {
     id: 'aex-lineplan-migration', title: 'AEX Line Plan Migration to AP Tool', icon: '\uD83D\uDD04',
-    status: 'green', statusLabel: 'Green \u2014 In Progress',
-    quarter: 'Q1', targetDate: 'Q1\u2013Q2 FY27',
+    status: 'yellow', statusLabel: 'Yellow \u2014 Work in Progress',
+    quarter: 'Q3', targetDate: 'July 31, 2026',
     tag: 'Critical Program',
+    jiraStatus: 'Work in Progress',
+    priority: 'P3',
+    techRank: 5,
     description: 'Migration of the AEX Fashion Line Planning experience to the AP Tool Assortment List — replacing the legacy line plan module with AP Plan Creation & Plan List. Includes enabling fashion-specific metrics, attributes, Excel upload reuse, and potential item population via Item Repository and OneItem workflow. Merchants get out of Excel permanently. Jira update (Mar 3, 2026): 03-Mar-2026 - Next Step: There is a 2 week spike stories and scope will be confirmed.  (ETA: 16-Mar). Timeline to be finalize post this spike ||Deliverables||Timeline || |Planned Start Date|17-Feb| |Development Complete|19-Feb| |QE Functional / Integ Path to Green: Working with Ashwin to get LOE.. Status: Work in Progress. Assignee: Ashwin Chidambaram.',
     businessBenefit: 'Eliminates dual-system line planning (Excel + AEX). Merchants plan in one connected environment from line intent through to buy execution. Fashion attribute and metric enablement accelerates downstream buying decisions. Excel upload reuse eliminates re-keying of potential items from Supplier Catalog.',
     techIntegration: 'Primary OPIF: OPIF-325568 (Move Fashion Line Planning to AP Tool Assortment List — Work in Progress, Q2 FY27). Related OPIFs: OPIF-325216 (AEX Fashion: Use AP Plan Creation & Plan List — Initial Requirements), OPIF-325217 (Fashion Metrics Enablement in Assortment List and Downstream Validation), OPIF-325565 (Fashion Re-Use of Assortment Planning Potential Item Excel Upload — Initial Requirements), OPIF-337970 (Auto-populate Line Plan with Potential Items from Supplier Catalog — Backlog). AP Tool Assortment List becomes Fashion line plan system of record. Auto-populate from Supplier Catalog via Item Repository/OneItem workflow. PRD: Transition Plan Creation and Line Planning to Assortment Planning (Confluence APREC).',
@@ -1679,9 +1684,12 @@ const CARDS_BUYING = [
   },
   {
     id: 'auto-item-setup', title: 'Automated Item Setup', icon: '\u2699\uFE0F',
-    status: 'green', statusLabel: 'Green \u2014 On Track',
+    status: 'yellow', statusLabel: 'Yellow \u2014 Pending Sizing',
     quarter: 'Q2', targetDate: 'April 30, 2026', tag: 'Critical Program',
-    description: '3 pillars all on track: (1) Gen AI Data Enrichment, (2) Parent Anchored Variant Groups, (3) Seamless Data Flow (AEX → Item). Removes merchant execution from item setup and PO creation once assortment decisions are finalized in AEX. Captures merchant intent upfront — eliminating re-entry loops and supplier clarification cycles. Exception management shifted to IDC team (human-in-the-loop model). Jira update (Mar 9, 2026): 09-Mar-2026 - Walkthroughs are underway and is said to be ready for sizing. Risk  : The project is currently in the discovery phase with a high priority, leadership-mandated deadline of April 30.   Path to Green : Product is conducting walkthroughs a Current status: Green — On Track. Assignee: Abhishek Jannawar. Leadership-mandated deadline: April 30, 2026.',
+    jiraStatus: 'Pending Sizing',
+    priority: 'P1',
+    techRank: 1,
+    description: '\u2705 OPIF-mapped \u2014 auto-syncs with Jira. 3 pillars all on track: (1) Gen AI Data Enrichment, (2) Parent Anchored Variant Groups, (3) Seamless Data Flow (AEX \u2192 Item). Removes merchant execution from item setup and PO creation once assortment decisions are finalized in AEX. Captures merchant intent upfront \u2014 eliminating re-entry loops and supplier clarification cycles. Exception management shifted to IDC team (human-in-the-loop model). Jira update (Mar 20, 2026): OPIF-344926 is now in Pending Sizing status with P1 Priority. Walkthroughs are underway and ready for sizing. Leadership-mandated deadline: April 30, 2026. Assignee: Abhishek Jannawar.',
     businessBenefit: 'Removes manual item setup work from Fashion Merchants entirely. Merchant intent captured once in AEX; IDC team owns exceptions. Estimated to save hundreds of hours per season across the merchant organization. Gen AI data enrichment ensures item attributes are complete and accurate without merchant intervention. Leadership-mandated April 30, 2026 deadline signals top executive priority — must-deliver for FY27.',
     techIntegration: 'Primary OPIF: OPIF-344926 (AEX — Automated Item Set Up — Walkthroughs underway, target April 30 2026). AEX captures assortment intent and triggers automated item setup via integration with ISAM, Supplier One, and item setup systems. IDC handles exceptions through a managed queue. Gen AI enrichment layer processes item data before submission. PRD: Automated Item Set Up for AEX Intents (Confluence APREC).',
     pathToGreen: 'Next Steps: Finalize engineering timelines for Supplier One and ISAM capabilities to resolve remaining merchant pain points.',
@@ -1777,8 +1785,11 @@ const CARDS_BUYING = [
   },
   {
     id: 'ap-tool-lineplan', title: 'AP Tool Line Plan Integration w/ AEX', icon: '\uD83D\uDCC8',
-    status: 'green', statusLabel: 'Green \u2014 In Discovery',
-    quarter: 'Q3', targetDate: 'Oct 30, 2026',
+    status: 'yellow', statusLabel: 'Yellow \u2014 Work in Progress',
+    quarter: 'Q3', targetDate: 'July 31, 2026',
+    jiraStatus: 'Work in Progress',
+    priority: 'P3',
+    techRank: 5,
     description: 'Integration of AP Tool (Assortment Planning) line plan with AEX, enabling assortment decisions from line planning to flow directly into buying execution without manual re-entry. Enables fashion merchants to use AP Plan Creation & Plan List as the Fashion Line Plan system of record (replaces AEX legacy LP module). Merchants get out of Excel permanently. Jira update (Mar 3, 2026): 03-Mar-2026 - Next Step: There is a 2 week spike stories and scope will be confirmed.  (ETA: 16-Mar). Timeline to be finalize post this spike ||Deliverables||Timeline || |Planned Start Date|17-Feb| |Development Complete| Path to Green: Working with Ashwin to get LOE.. Current status: Work in Progress. Assignee: Ashwin Chidambaram.',
     businessBenefit: 'Eliminates the gap between line planning (AP Tool) and buying execution (AEX). Merchants no longer re-enter line plan decisions into AEX manually. Fashion metrics are surfaced correctly in the new AP Assortment List environment. Excel upload capability reused eliminates re-keying of potential items.',
     techIntegration: 'Primary OPIF: OPIF-325568 (Move Fashion Line Planning to AP Tool Assortment List — Work in Progress, Q2 FY27). Related: OPIF-325216 (AEX Fashion: Use AP Plan Creation & Plan List — Initial Requirements), OPIF-325217 (Fashion Metrics Enablement in Assortment List & Downstream Validation), OPIF-325565 (Fashion Re-Use of AP Potential Item Excel Upload — Initial Requirements), OPIF-325569 (Streamline Merchant Supplier Comm Through Collab — related workflow). AP Tool line plan data syncs to AEX via shared integration layer. Fashion Excel Upload enabled via existing Assortment Planning capability. PRD: Transition Plan Creation and Line Planning to Assortment Planning (Confluence APREC).',
@@ -2621,6 +2632,7 @@ const EXEC_NARRATIVES = {
     yellow:    { dot: '#FFC220', label: 'Watch',     cls: 'badge-yellow'    },
     green:     { dot: '#2a8703', label: 'On Track',  cls: 'badge-green'     },
     completed: { dot: '#0053e2', label: 'Completed', cls: 'badge-completed' },
+    backlog:   { dot: '#0053e2', label: 'Backlog',   cls: 'badge-backlog'   },
     roadmap:   { dot: '#94a3b8', label: 'Roadmap',   cls: 'badge-roadmap'   },
   };
   var HDR = {

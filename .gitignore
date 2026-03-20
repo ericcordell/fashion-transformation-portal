@@ -3,3 +3,8 @@
 *.xlsx
 .DS_Store
 index-inlined.html
+-e 
+# Secrets — never commit
+.env
+*.token
+.jira_token

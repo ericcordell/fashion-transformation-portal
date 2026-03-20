@@ -1451,36 +1451,6 @@ const CARDS_DESIGN = [
     workstreams: ['design', 'strategy'],
   },
   {
-    id: 'aex-lineplan-migration', title: 'AEX Line Plan Migration to AP Tool', icon: '\uD83D\uDD04',
-    status: 'yellow', statusLabel: 'Yellow \u2014 Work in Progress',
-    quarter: 'Q3', targetDate: 'July 31, 2026',
-    tag: 'Critical Program',
-    jiraStatus: 'Work in Progress',
-    priority: 'P3',
-    techRank: 5,
-    description: 'Migration of the AEX Fashion Line Planning experience to the AP Tool Assortment List — replacing the legacy line plan module with AP Plan Creation & Plan List. Includes enabling fashion-specific metrics, attributes, Excel upload reuse, and potential item population via Item Repository and OneItem workflow. Merchants get out of Excel permanently. Jira update (Mar 3, 2026): 03-Mar-2026 - Next Step: There is a 2 week spike stories and scope will be confirmed.  (ETA: 16-Mar). Timeline to be finalize post this spike ||Deliverables||Timeline || |Planned Start Date|17-Feb| |Development Complete|19-Feb| |QE Functional / Integ Path to Green: Working with Ashwin to get LOE.. Status: Work in Progress. Assignee: Ashwin Chidambaram.',
-    businessBenefit: 'Eliminates dual-system line planning (Excel + AEX). Merchants plan in one connected environment from line intent through to buy execution. Fashion attribute and metric enablement accelerates downstream buying decisions. Excel upload reuse eliminates re-keying of potential items from Supplier Catalog.',
-    techIntegration: 'Primary OPIF: OPIF-325568 (Move Fashion Line Planning to AP Tool Assortment List — Work in Progress, Q2 FY27). Related OPIFs: OPIF-325216 (AEX Fashion: Use AP Plan Creation & Plan List — Initial Requirements), OPIF-325217 (Fashion Metrics Enablement in Assortment List and Downstream Validation), OPIF-325565 (Fashion Re-Use of Assortment Planning Potential Item Excel Upload — Initial Requirements), OPIF-337970 (Auto-populate Line Plan with Potential Items from Supplier Catalog — Backlog). AP Tool Assortment List becomes Fashion line plan system of record. Auto-populate from Supplier Catalog via Item Repository/OneItem workflow. PRD: Transition Plan Creation and Line Planning to Assortment Planning (Confluence APREC).',
-    successMetrics: 'Fashion Line Planning 100% migrated to AP Tool Assortment List. Excel-based line plan workarounds eliminated. Fashion metrics and attributes fully enabled in Assortment List. Item auto-population from Supplier Catalog via Item Repository live. Zero manual re-key of potential items.',
-    owners: pptOwners('Brett Reid', 'Ashwin Chidambaram', 'Taylor Watson', 'CJ Weatherford', 'Arun Santhiagu'),
-    resources: res(
-      'https://jira.walmart.com/browse/OPIF-325568',
-      '#',
-      'https://confluence.walmart.com/display/APREC/Transition+Plan+Creation+and+Line+Planning+to+Assortment+Planning',
-      '#',
-      [
-        { label: 'OPIF-325568 — Move Fashion Line Planning to AP Tool Assortment List (Primary — WIP)', url: 'https://jira.walmart.com/browse/OPIF-325568' },
-        { label: 'OPIF-325216 — AEX Fashion: Use AP Plan Creation & Plan List (Related)', url: 'https://jira.walmart.com/browse/OPIF-325216' },
-        { label: 'OPIF-325217 — Fashion Metrics Enablement in Assortment List (Related)', url: 'https://jira.walmart.com/browse/OPIF-325217' },
-        { label: 'OPIF-325565 — Fashion Re-Use of AP Potential Item Excel Upload (Related)', url: 'https://jira.walmart.com/browse/OPIF-325565' },
-        { label: 'OPIF-337970 — Auto-populate Line Plan from Supplier Catalog (Related)', url: 'https://jira.walmart.com/browse/OPIF-337970' },
-        { label: 'PRD: Transition Plan Creation & Line Planning to AP (Confluence APREC)', url: 'https://confluence.walmart.com/display/APREC/Transition+Plan+Creation+and+Line+Planning+to+Assortment+Planning' },
-        { label: 'LLTT Dashboard', url: 'https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard' },
-      ]
-    ),
-    workstreams: ['design', 'buying'],
-  },
-  {
     id: 'sample-mgmt-fit-eval', title: 'Sample Management & Fit Evaluation', icon: '\uD83D\uDCCB',
     status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q1', targetDate: 'Q1\u2013Q2 FY27',
     tag: 'Critical Program',
@@ -1588,7 +1558,7 @@ const CARDS_DESIGN = [
   {
     id: 'visual-boards', title: 'Centric Visual Board MVP', icon: '\uD83C\uDFA8',
     status: 'yellow', statusLabel: 'Yellow \u2014 Trending Green',
-    quarter: 'Q2', targetDate: 'End of May 2026', tag: 'Critical Program',
+    quarter: 'Q3', targetDate: 'July 30, 2026', tag: 'Critical Program',
     description: 'Visual Boards in Centric — a collaborative visual workspace that deprecates Bamboo Rose and moves design teams off Miro, centralizing fit management and visual assortment planning directly in the Centric platform with live product data. Critical path: Centric contract finalization required (12-week onboarding lead time). Milestone OPIF-347498: COMPLETE — Milestone Only. Christopher has stated that this is now complete. Milestone OPIF-347500: Backlog — Full verticals and ownership review with proposal pending. Assignee: Christopher Chiodo.',
     businessBenefit: 'Deprecates Bamboo Rose and eliminates Miro dependency. Design teams gain a visual assortment planning workspace natively connected to Centric data — decisions are traceable and always linked to the actual plan, not a disconnected whiteboard export. End-of-May 2026 pilot target once contracts signed.',
     techIntegration: 'Primary OPIF: OPIF-325208 (Design Hub — Centric Integration). Related: OPIF-347498 (Milestone: Centric Capabilities Review — DONE), OPIF-347500 (Milestone: Full Verticals & Ownership Review). Built natively within Centric PLM. Visual boards pull live product imagery, color, and spec data from Centric records. No separate sync required. Replaces Bamboo Rose and Miro for all in-scope design workflows. PRD: OneSource Design Integration (Confluence IESP).',
@@ -1669,18 +1639,6 @@ const CARDS_BUYING = [
       ]
     ),
     workstreams: ['buying'],
-  },
-  {
-    id: 'longterm-buying', title: 'Long Leadtime Buying Workflow (LLTT)', icon: '\uD83D\uDDD3\uFE0F',
-    status: 'green', statusLabel: 'Green \u2014 In Progress',
-    quarter: 'Q1', targetDate: 'Feb\u2013Apr 2026',
-    description: 'Streamlined long leadtime buying workflow (LLTT program) covering the full Setup phase through AEX — integrating AP Tool as line plan into AEX flow, enabling suppliers to communicate item details directly into the tool, and connecting ecosystem tools to eliminate duplicative email communication. Sourcing and rack planning visualization tools make decisions easier. Builds foundations of tagging and fixture library. Jira tracked via labels: LLTT and LLTTO.',
-    businessBenefit: 'Buyers and planners work in one shared environment for long leadtime decisions — eliminating spreadsheet and email-based coordination. Goals: 90% of buys on happy path, zero rekeys, reduced merchant hours.',
-    techIntegration: 'LLTT initiative tracked in OPIF Jira project under initiative: U.S. Omni Tech: MerchTools: Assortment Excellence: Fashion Apparel [15922203]. Labels: LLTT / LLTTO. View all active OPIFs via the Confluence dashboard.',
-    successMetrics: 'Long leadtime buy decisions finalized in AEX across all supported departments by seasonal deadline. Reduction in off-system spreadsheet workarounds. 90% of buys on confirmed happy path.',
-    owners: TBD_OWNERS(),
-    resources: res('https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard'),
-    workstreams: ['buying', 'design', 'allocation'],
   },
   {
     id: 'auto-item-setup', title: 'Automated Item Setup', icon: '\u2699\uFE0F',
@@ -1810,7 +1768,7 @@ const CARDS_BUYING = [
         { label: 'LLTT Dashboard', url: 'https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard' },
       ]
     ),
-    workstreams: ['buying', 'design'],
+    workstreams: ['buying'],
   },
   {
     id: 'bam-collab-intent', title: 'BAM / Collab Intent Integration', icon: '\uD83E\uDD1D',

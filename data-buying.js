@@ -38,18 +38,6 @@ const CARDS_BUYING = [
     workstreams: ['buying'],
   },
   {
-    id: 'longterm-buying', title: 'Long Leadtime Buying Workflow (LLTT)', icon: '\uD83D\uDDD3\uFE0F',
-    status: 'green', statusLabel: 'Green \u2014 In Progress',
-    quarter: 'Q1', targetDate: 'Feb\u2013Apr 2026',
-    description: 'Streamlined long leadtime buying workflow (LLTT program) covering the full Setup phase through AEX — integrating AP Tool as line plan into AEX flow, enabling suppliers to communicate item details directly into the tool, and connecting ecosystem tools to eliminate duplicative email communication. Sourcing and rack planning visualization tools make decisions easier. Builds foundations of tagging and fixture library. Jira tracked via labels: LLTT and LLTTO.',
-    businessBenefit: 'Buyers and planners work in one shared environment for long leadtime decisions — eliminating spreadsheet and email-based coordination. Goals: 90% of buys on happy path, zero rekeys, reduced merchant hours.',
-    techIntegration: 'LLTT initiative tracked in OPIF Jira project under initiative: U.S. Omni Tech: MerchTools: Assortment Excellence: Fashion Apparel [15922203]. Labels: LLTT / LLTTO. View all active OPIFs via the Confluence dashboard.',
-    successMetrics: 'Long leadtime buy decisions finalized in AEX across all supported departments by seasonal deadline. Reduction in off-system spreadsheet workarounds. 90% of buys on confirmed happy path.',
-    owners: TBD_OWNERS(),
-    resources: res('https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard'),
-    workstreams: ['buying', 'design', 'allocation'],
-  },
-  {
     id: 'auto-item-setup', title: 'Automated Item Setup', icon: '\u2699\uFE0F',
     status: 'yellow', statusLabel: 'Yellow \u2014 Pending Sizing',
     quarter: 'Q2', targetDate: 'April 30, 2026', tag: 'Critical Program',
@@ -177,7 +165,7 @@ const CARDS_BUYING = [
         { label: 'LLTT Dashboard', url: 'https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard' },
       ]
     ),
-    workstreams: ['buying', 'design'],
+    workstreams: ['buying'],
   },
   {
     id: 'bam-collab-intent', title: 'BAM / Collab Intent Integration', icon: '\uD83E\uDD1D',

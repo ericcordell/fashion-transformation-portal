@@ -8,3 +8,6 @@ index-inlined.html
 .env
 *.token
 .jira_token
+
+# Teams auth token cache
+.teams_token_cache.json

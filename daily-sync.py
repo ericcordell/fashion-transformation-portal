@@ -33,11 +33,19 @@ from datetime import date, datetime
 from pathlib import Path
 from typing import Any
 
+import time
+
 try:
     import http.cookiejar as cookielib
     import urllib.request as urlreq
 except ImportError:
     sys.exit("Python 3.8+ required")
+
+try:
+    from teams_notify import notify_sync_complete
+    _TEAMS_AVAILABLE = True
+except ImportError:
+    _TEAMS_AVAILABLE = False
 
 # ── Config ────────────────────────────────────────────────────────────────────
 BASE          = Path(__file__).parent
@@ -476,6 +484,10 @@ def main() -> None:
     parser.add_argument('--no-scrape',  action='store_true', help='Skip Jira scraping (changelog only)')
     args = parser.parse_args()
 
+    _t_start    = time.monotonic()
+    _started_at = datetime.now().strftime('%H:%M:%S %Z').strip() or datetime.now().strftime('%H:%M:%S')
+    _errors: list[str] = []
+
     log('=' * 60)
     log(f'E2E Fashion Portal Daily Sync — {TODAY}')
     log('=' * 60)
@@ -623,12 +635,42 @@ def main() -> None:
         )
 
     # 9. Publish
+    _published = False
     if not args.dry_run and not args.no_publish:
-        success = publish(cookies)
-        if success:
+        _published = publish(cookies)
+        if _published:
             log(f'Published: https://puppy.walmart.com/sharing/{PORTAL_OWNER}/{PORTAL_SLUG}')
         else:
             log('Publish via API failed — invoke share-puppy agent manually')
+            _errors.append('Publish to puppy.walmart.com failed — run share-puppy manually')
+
+    # 10. Teams notification
+    _duration_s    = time.monotonic() - _t_start
+    _cards_scanned = len(current_cards)
+
+    # Flatten changelog into a list of {card, field, from_, to} for the message
+    _changes_flat = [
+        {'card': card_id, 'field': e['field'], 'from_': e.get('from', '—'), 'to': e.get('to', '—')}
+        for card_id, entries in changelog.items()
+        for e in entries
+        if e.get('date') == TODAY
+    ]
+
+    _summary = {
+        'date':          TODAY,
+        'started_at':    _started_at,
+        'duration_s':    _duration_s,
+        'cards_scanned': _cards_scanned,
+        'cards_updated': len([k for k, v in changelog.items() if any(e.get('date') == TODAY for e in v)]),
+        'changes':       _changes_flat,
+        'errors':        _errors,
+        'published':     _published,
+    }
+
+    if _TEAMS_AVAILABLE and not args.dry_run:
+        notify_sync_complete(_summary)
+    elif args.dry_run:
+        log('DRY RUN: skipping Teams notification')
 
     log('Sync complete.')
 

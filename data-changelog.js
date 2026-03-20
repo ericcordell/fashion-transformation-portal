@@ -4,8 +4,10 @@
  * Format per entry: { date, field, from, to }
  * DO NOT EDIT MANUALLY — this file is overwritten on every sync run.
  *
- * Last sync: never (run daily-sync.py to populate)
+ * Last sync: March 20, 2026
  */
+const LAST_SYNC_DATE = 'March 20, 2026';
+
 const CARD_CHANGELOG = {
   // 'card-id': [ { date: 'YYYY-MM-DD', field: 'status', from: 'green', to: 'yellow', fromLabel: '...', toLabel: '...' }, ... ]
 };

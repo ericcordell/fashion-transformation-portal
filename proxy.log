@@ -1,3 +1,17 @@
 [16:15:01] OPIF Proxy starting on http://localhost:7465
 [16:15:01] Listening. Endpoints: /health  /opif/OPIF-XXXXXX
 [16:15:01] Listening. Endpoints: /health  /opif/OPIF-XXXXXX
+[16:15:29] OPIF Proxy starting on http://localhost:7465
+[16:15:29] OPIF Proxy starting on http://localhost:7465
+[16:15:29] Listening. Endpoints: /health  /opif/OPIF-XXXXXX
+[16:15:29] Listening. Endpoints: /health  /opif/OPIF-XXXXXX
+[16:16:56] Refresh request: OPIF-325208
+[16:16:56] Refresh request: OPIF-325208
+[16:16:56] Refreshing Chrome cookies...
+[16:16:56] Refreshing Chrome cookies...
+[16:17:10]   Loaded 28 cookies
+[16:17:10]   Loaded 28 cookies
+[16:17:15] Refresh request: OPIF-325208
+[16:17:15] Refresh request: OPIF-325208
+[16:17:28] Refresh request: OPIF-325208
+[16:17:28] Refresh request: OPIF-325208

@@ -433,30 +433,25 @@ function openModal(cardId, workstream, tool) {
       <!-- Status Notes (optional per card) -->
       ${statusNote}
 
-      <!-- Live OPIF Refresh -->
+      <!-- Last Synced + Live OPIF Link -->
       ${primaryOpif ? `
-      <div id="opif-refresh-panel" style="border-radius:12px;border:1.5px solid #e2e8f0;overflow:hidden;">
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#f8fafc;">
-          <div style="display:flex;align-items:center;gap:7px;">
-            <span style="font-size:0.9rem;">&#128203;</span>
-            <span style="font-size:0.72rem;font-weight:700;color:#475569;">OPIF Live Data</span>
-            <a href="https://jira.walmart.com/browse/${primaryOpif}" target="_blank" rel="noopener"
-               style="font-size:0.65rem;color:#0053e2;font-weight:600;text-decoration:none;"
-               onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
-              ${primaryOpif} &#8599;
-            </a>
-          </div>
-          <button
-            onclick="refreshFromOPIF('${primaryOpif}', '${card.id}')"
-            id="opif-refresh-btn-${card.id}"
-            style="font-size:0.7rem;font-weight:700;padding:4px 12px;border-radius:8px;
-                   background:#0053e2;color:#fff;border:none;cursor:pointer;
-                   display:flex;align-items:center;gap:5px;transition:opacity .15s;"
-            onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
-            &#8635; Refresh from OPIF
-          </button>
+      <div style="display:flex;align-items:center;justify-content:space-between;
+                  padding:9px 13px;border-radius:10px;background:#f8fafc;
+                  border:1px solid #e2e8f0;gap:10px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="font-size:0.8rem;">&#128337;</span>
+          <span style="font-size:0.7rem;color:#64748b;">
+            <span style="font-weight:700;color:#475569;">Last synced:</span>
+            ${typeof LAST_SYNC_DATE !== 'undefined' ? LAST_SYNC_DATE : 'see daily sync'}
+          </span>
         </div>
-        <div id="opif-refresh-result-${card.id}" style="padding:0;"></div>
+        <a href="https://jira.walmart.com/browse/${primaryOpif}" target="_blank" rel="noopener"
+           style="font-size:0.7rem;font-weight:700;color:#0053e2;text-decoration:none;
+                  display:flex;align-items:center;gap:4px;white-space:nowrap;
+                  padding:3px 10px;border-radius:7px;border:1px solid #bfdbfe;background:#eff6ff;"
+           onmouseover="this.style.background='#dbeafe'" onmouseout="this.style.background='#eff6ff'">
+          View live data in ${primaryOpif} &#8599;
+        </a>
       </div>` : ''}
 
       <!-- Inquiry CTA -->
@@ -695,129 +690,8 @@ ${userText}
   window.location.href = `mailto:${emailAddresses}?subject=${subject}&body=${body}`;
 }
 
-// ── Live OPIF Refresh ────────────────────────────────────────────────────────
-async function refreshFromOPIF(opifId, cardId) {
+
   const btn    = document.getElementById(`opif-refresh-btn-${cardId}`);
-  const result = document.getElementById(`opif-refresh-result-${cardId}`);
-  if (!btn || !result) return;
-
-  btn.disabled     = true;
-  btn.innerHTML    = '&#9203; Fetching...';
-  result.innerHTML = '';
-
-  const PROXY = 'http://localhost:7465';
-
-  // 1. Check proxy is alive
-  let proxyOk = false;
-  try {
-    const h = await fetch(`${PROXY}/health`, { signal: AbortSignal.timeout(3000) });
-    proxyOk  = h.ok;
-  } catch (_) { proxyOk = false; }
-
-  if (!proxyOk) {
-    result.innerHTML = `
-      <div style="padding:12px 14px;background:#fff7ed;border-top:1px solid #fed7aa;">
-        <p style="margin:0 0 6px;font-size:0.75rem;font-weight:700;color:#c2410c;">&#9888; Local proxy not running</p>
-        <p style="margin:0 0 8px;font-size:0.7rem;color:#7c3aed;">The OPIF proxy runs on your Mac and lets the portal fetch live Jira data.</p>
-        <p style="margin:0;font-size:0.68rem;color:#64748b;">Start it with:<br>
-          <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:0.68rem;">cd ~/Downloads/fashion-portal && python3 opif-proxy.py</code>
-        </p>
-      </div>`;
-    btn.disabled  = false;
-    btn.innerHTML = '&#8635; Refresh from OPIF';
-    return;
-  }
-
-  // 2. Fetch OPIF data
-  let data;
-  try {
-    const r = await fetch(`${PROXY}/opif/${opifId}`, { signal: AbortSignal.timeout(20000) });
-    data    = await r.json();
-  } catch (e) {
-    result.innerHTML = `<div style="padding:12px 14px;background:#fef2f2;border-top:1px solid #fecaca;">
-      <p style="margin:0;font-size:0.72rem;font-weight:700;color:#dc2626;">&#10060; Error fetching ${opifId}: ${e.message}</p></div>`;
-    btn.disabled  = false;
-    btn.innerHTML = '&#8635; Refresh from OPIF';
-    return;
-  }
-
-  if (data.error === 'auth_required') {
-    result.innerHTML = `<div style="padding:12px 14px;background:#fff7ed;border-top:1px solid #fed7aa;">
-      <p style="margin:0 0 4px;font-size:0.72rem;font-weight:700;color:#c2410c;">&#128274; Jira session expired</p>
-      <p style="margin:0;font-size:0.68rem;color:#92400e;">
-        <a href="https://jira.walmart.com" target="_blank" style="color:#0053e2;font-weight:600;">Open Jira</a>
-        to refresh your SSO session, then try again.
-      </p></div>`;
-    btn.disabled  = false;
-    btn.innerHTML = '&#8635; Refresh from OPIF';
-    return;
-  }
-
-  // 3. Build diff against current card (from allCards)
-  const card = allCards.find(c => c.id === cardId);
-  const FIELDS = [
-    { key: 'statusLabel', label: 'Status',      icon: '\uD83D\uDFE1' },
-    { key: 'targetDate',  label: 'Target Date',  icon: '\uD83D\uDCC5' },
-    { key: 'priority',    label: 'Priority',     icon: '\u26A0\uFE0F' },
-  ];
-
-  const diffs = FIELDS.filter(f => {
-    const live    = data[f.key];
-    const current = card  ? card[f.key] : null;
-    return live && live !== current;
-  });
-
-  const fetchedAt = data.fetchedAt
-    ? new Date(data.fetchedAt).toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' })
-    : 'just now';
-
-  if (!diffs.length) {
-    result.innerHTML = `
-      <div style="padding:10px 14px;border-top:1px solid #dcfce7;background:#f0fdf4;display:flex;align-items:center;gap:6px;">
-        <span style="color:#16a34a;font-size:0.9rem;">&#10003;</span>
-        <span style="font-size:0.72rem;color:#15803d;font-weight:600;">All up to date</span>
-        <span style="font-size:0.65rem;color:#86efac;margin-left:auto;">as of ${fetchedAt}</span>
-      </div>`;
-  } else {
-    const rows = diffs.map(f => {
-      const cur = (card && card[f.key]) || '\u2014';
-      const liv = data[f.key];
-      return `<tr>
-        <td style="padding:6px 10px;font-size:0.7rem;font-weight:700;color:#64748b;white-space:nowrap;">${f.icon} ${f.label}</td>
-        <td style="padding:6px 8px;font-size:0.7rem;color:#dc2626;text-decoration:line-through;">${cur}</td>
-        <td style="padding:6px 4px;font-size:0.7rem;color:#94a3b8;">&rarr;</td>
-        <td style="padding:6px 10px;font-size:0.7rem;color:#15803d;font-weight:700;">${liv}</td>
-      </tr>`;
-    }).join('');
-
-    result.innerHTML = `
-      <div style="border-top:1px solid #e2e8f0;">
-        <div style="padding:8px 14px;background:#fffbeb;display:flex;align-items:center;justify-content:space-between;">
-          <span style="font-size:0.72rem;font-weight:700;color:#92400e;">&#128276; ${diffs.length} change${diffs.length > 1 ? 's' : ''} found in Jira</span>
-          <span style="font-size:0.65rem;color:#a16207;">as of ${fetchedAt}</span>
-        </div>
-        <table style="width:100%;border-collapse:collapse;background:#fff;">
-          <tbody>${rows}</tbody>
-        </table>
-        <div style="padding:10px 14px;background:#f8fafc;display:flex;justify-content:flex-end;gap:8px;">
-          <button onclick="dismissOpifRefresh('${cardId}')"
-            style="font-size:0.68rem;font-weight:600;padding:4px 10px;border-radius:7px;
-                   background:white;border:1px solid #e2e8f0;color:#64748b;cursor:pointer;">
-            Dismiss
-          </button>
-        </div>
-      </div>`;
-  }
-
-  btn.disabled  = false;
-  btn.innerHTML = '&#8635; Refresh from OPIF';
-}
-
-function dismissOpifRefresh(cardId) {
-  const el = document.getElementById(`opif-refresh-result-${cardId}`);
-  if (el) el.innerHTML = '';
-}
-
 function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
 
 function switchTab(name) {

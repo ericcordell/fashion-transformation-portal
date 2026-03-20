@@ -10,7 +10,7 @@
 
   <key>ProgramArguments</key>
   <array>
-    <string>/usr/bin/python3</string>
+    <string>/Users/e0c0lzr/Downloads/fashion-portal/.venv/bin/python3</string>
     <string>/Users/e0c0lzr/Downloads/fashion-portal/daily-sync.py</string>
   </array>
 

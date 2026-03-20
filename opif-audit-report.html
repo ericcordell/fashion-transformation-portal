@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>OPIF Audit — E2E Fashion Transformation Portal</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  body { font-family: 'Inter', sans-serif; }
+  .pill { @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold; }
+  .badge-green  { background:#e6f9ec; color:#2a8703; }
+  .badge-yellow { background:#fffbe6; color:#b86000; }
+  .badge-red    { background:#fff0ef; color:#ea1100; }
+  .badge-gray   { background:#f3f4f6; color:#6b7280; }
+  .badge-blue   { background:#e8f0fe; color:#0053e2; }
+  .badge-purple { background:#f3e8ff; color:#7c3aed; }
+  tr:hover td  { background: #f8faff; }
+</style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+<!-- HEADER -->
+<div class="bg-[#0053e2] text-white px-8 py-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex items-center gap-3 mb-1">
+      <span class="text-2xl">🏷️</span>
+      <h1 class="text-2xl font-bold">OPIF Audit Report</h1>
+      <span class="bg-white/20 text-white text-xs font-semibold px-3 py-1 rounded-full ml-2">E2E Fashion Transformation Portal</span>
+    </div>
+    <p class="text-blue-100 text-sm">Generated: <span id="gendate"></span> · Source of Truth: Jira OPIF fields</p>
+  </div>
+</div>
+
+<!-- SUMMARY CARDS -->
+<div class="max-w-7xl mx-auto px-8 py-6">
+  <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+    <div class="bg-white rounded-xl border border-gray-200 p-4 text-center shadow-sm">
+      <div class="text-3xl font-bold text-gray-800" id="total-count">—</div>
+      <div class="text-xs text-gray-500 mt-1 font-medium">Total Cards</div>
+    </div>
+    <div class="bg-white rounded-xl border border-red-200 p-4 text-center shadow-sm">
+      <div class="text-3xl font-bold text-red-600" id="no-opif-count">—</div>
+      <div class="text-xs text-gray-500 mt-1 font-medium">No OPIF Linked</div>
+    </div>
+    <div class="bg-white rounded-xl border border-yellow-200 p-4 text-center shadow-sm">
+      <div class="text-3xl font-bold text-yellow-600" id="no-pri-count">—</div>
+      <div class="text-xs text-gray-500 mt-1 font-medium">Missing Priority</div>
+    </div>
+    <div class="bg-white rounded-xl border border-yellow-200 p-4 text-center shadow-sm">
+      <div class="text-3xl font-bold text-yellow-600" id="no-rank-count">—</div>
+      <div class="text-xs text-gray-500 mt-1 font-medium">Missing Tech Rank</div>
+    </div>
+    <div class="bg-white rounded-xl border border-green-200 p-4 text-center shadow-sm">
+      <div class="text-3xl font-bold text-green-600" id="complete-count">—</div>
+      <div class="text-xs text-gray-500 mt-1 font-medium">Fully Complete</div>
+    </div>
+  </div>
+
+  <!-- WHAT JIRA FIELDS WE NEED -->
+  <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 mb-8">
+    <h2 class="text-base font-bold text-gray-800 mb-4">📋 Required Jira OPIF Fields — Source of Truth</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="bg-blue-50 rounded-lg p-4">
+        <div class="font-semibold text-blue-800 text-sm mb-2">🎨 Status Color</div>
+        <div class="text-xs text-blue-700 space-y-1">
+          <div>Jira field: <code class="bg-blue-100 px-1 rounded">Status Color</code></div>
+          <div>Values: Green / Yellow / Red</div>
+          <div>Portal impact: Badge color on every card</div>
+          <div class="text-blue-600 font-medium">⚠️ Must match Jira exactly</div>
+        </div>
+      </div>
+      <div class="bg-purple-50 rounded-lg p-4">
+        <div class="font-semibold text-purple-800 text-sm mb-2">📅 Due Date &amp; Target Quarter</div>
+        <div class="text-xs text-purple-700 space-y-1">
+          <div>Jira field: <code class="bg-purple-100 px-1 rounded">Due Date</code></div>
+          <div>Jira field: <code class="bg-purple-100 px-1 rounded">Target Quarter</code></div>
+          <div>Portal impact: Timeline shown on every card</div>
+          <div>Format: <code class="bg-purple-100 px-1 rounded">Jul 31, 2026</code> + Q3</div>
+        </div>
+      </div>
+      <div class="bg-green-50 rounded-lg p-4">
+        <div class="font-semibold text-green-800 text-sm mb-2">⚡ Priority &amp; Tech Rank</div>
+        <div class="text-xs text-green-700 space-y-1">
+          <div>Jira field: <code class="bg-green-100 px-1 rounded">Priority</code> (P1/P2/P3)</div>
+          <div>Jira field: <code class="bg-green-100 px-1 rounded">Tech Rank</code> (1, 2, 3…)</div>
+          <div>Portal impact: Card sort order in each workstream</div>
+          <div class="text-red-600 font-medium">⚠️ Blank Tech Rank = Backlog automatically</div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-4 bg-amber-50 border border-amber-200 rounded-lg p-3 text-xs text-amber-800">
+      <strong>⚠️ Important:</strong> If an OPIF's <strong>Tech Rank is blank</strong>, the portal will automatically move that card to <strong>Backlog</strong> status regardless of other fields. If an OPIF link doesn't exist yet for your card, please create one and update the Portal team.
+    </div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="flex gap-3 mb-4 flex-wrap">
+    <button onclick="filterBy('all')" id="btn-all" class="filter-btn bg-[#0053e2] text-white px-4 py-2 rounded-lg text-sm font-semibold">All Cards</button>
+    <button onclick="filterBy('issues')" id="btn-issues" class="filter-btn bg-white border border-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-50">⚠️ Has Issues Only</button>
+    <button onclick="filterBy('no-opif')" id="btn-no-opif" class="filter-btn bg-white border border-red-200 text-red-700 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-red-50">No OPIF</button>
+    <button onclick="filterBy('complete')" id="btn-complete" class="filter-btn bg-white border border-green-200 text-green-700 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-50">✅ Complete</button>
+    <select id="ws-filter" onchange="filterByWS()" class="border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 ml-auto">
+      <option value="all">All Workstreams</option>
+      <option value="Strategy">Strategy</option>
+      <option value="Design">Design</option>
+      <option value="Buying">Buying</option>
+      <option value="Allocation">Allocation</option>
+    </select>
+  </div>
+
+  <!-- AUDIT TABLE -->
+  <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-x-auto mb-8">
+    <table class="w-full text-sm" id="audit-table">
+      <thead>
+        <tr class="border-b border-gray-100 bg-gray-50">
+          <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Workstream</th>
+          <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Card / Title</th>
+          <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">OPIF</th>
+          <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Status</th>
+          <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Target Date</th>
+          <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Priority</th>
+          <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Tech Rank</th>
+          <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Product Owner</th>
+          <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Audit Status</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+  </div>
+
+  <!-- BY OWNER BREAKDOWN -->
+  <div class="mb-8">
+    <h2 class="text-base font-bold text-gray-800 mb-4">👥 Action Required By Owner</h2>
+    <div id="owner-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+  </div>
+
+  <!-- EMAIL DRAFT SECTION -->
+  <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+    <h2 class="text-base font-bold text-gray-800 mb-1">✉️ Draft Email — Copy &amp; Paste to Outlook</h2>
+    <p class="text-xs text-gray-500 mb-4">Pre-addressed to all product owners. Update the [YOUR NAME] placeholder before sending.</p>
+    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 text-xs text-gray-700 font-mono whitespace-pre-wrap" id="email-draft"></div>
+    <button onclick="copyEmail()" class="mt-3 bg-[#0053e2] text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700">📋 Copy Email</button>
+  </div>
+</div>
+
+<script>
+const CARDS = [
+  {
+    "workstream": "Strategy",
+    "id": "strategy-hub",
+    "title": "Strategy Hub (TTP)",
+    "opif": null,
+    "jira_link": null,
+    "status": "green",
+    "target_date": "Feb\\u2013Apr 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Bill Chiodetti",
+    "tech_owner": "Ramesh Simhambhatla",
+    "assignee": "Christopher Chiodo"
+  },
+  {
+    "workstream": "Strategy",
+    "id": "space-planning",
+    "title": "Space & Financial Planning",
+    "opif": null,
+    "jira_link": null,
+    "status": "green",
+    "target_date": "Feb\\u2013Apr 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "TBD",
+    "tech_owner": "TBD",
+    "assignee": "TBD"
+  },
+  {
+    "workstream": "Strategy",
+    "id": "trend-api-longlead",
+    "title": "Trend API \u2014 Long Lead & In-Season",
+    "opif": null,
+    "jira_link": null,
+    "status": "green",
+    "target_date": "Q1 FY27",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Bill Chiodetti",
+    "tech_owner": "Ramesh Simhambhatla",
+    "assignee": ""
+  },
+  {
+    "workstream": "Strategy",
+    "id": "trend-packaging-redesign",
+    "title": "V1 Trend-to-Packaging Redesign",
+    "opif": null,
+    "jira_link": null,
+    "status": "green",
+    "target_date": "Q1 FY27",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Bill Chiodetti",
+    "tech_owner": "Ramesh Simhambhatla",
+    "assignee": "Christopher Chiodo"
+  },
+  {
+    "workstream": "Strategy",
+    "id": "synthetic-panel",
+    "title": "V1 Synthetic Panel (WMT Data Ventures)",
+    "opif": null,
+    "jira_link": null,
+    "status": "green",
+    "target_date": "Q1 FY27",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Bill Chiodetti",
+    "tech_owner": "Ramesh Simhambhatla",
+    "assignee": "Christopher Chiodo"
+  },
+  {
+    "workstream": "Strategy",
+    "id": "forecast-enterprise-service",
+    "title": "Forecast as Enterprise Service",
+    "opif": "OPIF-325221",
+    "jira_link": "https://jira.walmart.com/browse/OPIF-325221",
+    "status": "roadmap",
+    "target_date": "May\\u2013Oct 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Brett Reid",
+    "tech_owner": "Chris Graves",
+    "assignee": "Vivek Mishra"
+  },
+  {
+    "workstream": "Strategy",
+    "id": "shared-merch-strategy",
+    "title": "Shared Merch Strategy & Scenario Planning",
+    "opif": "OPIF-325206",
+    "jira_link": "https://jira.walmart.com/browse/OPIF-325206",
+    "status": "roadmap",
+    "target_date": "Aug\\u2013Oct 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Bill Chiodetti",
+    "tech_owner": "Ramesh Simhambhatla",
+    "assignee": "Christopher Chiodo"
+  },
+  {
+    "workstream": "Strategy",
+    "id": "growth-budget-signals",
+    "title": "Growth & Budget IBG Signal Integration",
+    "opif": null,
+    "jira_link": null,
+    "status": "roadmap",
+    "target_date": "May\\u2013Jul 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Bill Chiodetti",
+    "tech_owner": "Ramesh Simhambhatla",
+    "assignee": "Christopher Chiodo"
+  },
+  {
+    "workstream": "Strategy",
+    "id": "trend-api-100pct",
+    "title": "Trend API \u2014 100% Long-Lead Categories",
+    "opif": null,
+    "jira_link": null,
+    "status": "roadmap",
+    "target_date": "May\\u2013Jul 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Bill Chiodetti",
+    "tech_owner": "Ramesh Simhambhatla",
+    "assignee": "Christopher Chiodo"
+  },
+  {
+    "workstream": "Strategy",
+    "id": "cross-functional-alignment",
+    "title": "Cross-Functional Alignment",
+    "opif": null,
+    "jira_link": null,
+    "status": "green",
+    "target_date": "Feb\\u2013Apr 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "TBD",
+    "tech_owner": "TBD",
+    "assignee": "TBD"
+  },
+  {
+    "workstream": "Strategy",
+    "id": "category-priorities",
+    "title": "Category Priority Framework",
+    "opif": null,
+    "jira_link": null,
+    "status": "roadmap",
+    "target_date": "May\\u2013Jul 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "TBD",
+    "tech_owner": "TBD",
+    "assignee": "TBD"
+  },
+  {
+    "workstream": "Strategy",
+    "id": "strategy-fy27-kickoff",
+    "title": "FY27 Strategic Planning Kickoff",
+    "opif": null,
+    "jira_link": null,
+    "status": "roadmap",
+    "target_date": "Aug\\u2013Oct 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "TBD",
+    "tech_owner": "TBD",
+    "assignee": "TBD"
+  },
+  {
+    "workstream": "Strategy",
+    "id": "strategy-transformation-review",
+    "title": "Transformation Review & FY28 Framework",
+    "opif": null,
+    "jira_link": null,
+    "status": "roadmap",
+    "target_date": "Nov 2026\\u2013Jan 2027",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "TBD",
+    "tech_owner": "TBD",
+    "assignee": "TBD"
+  },
+  {
+    "workstream": "Design",
+    "id": "design-hub-centric",
+    "title": "Launch Design Hub (Centric PLM)",
+    "opif": "OPIF-347498",
+    "jira_link": "https://jira.walmart.com/browse/OPIF-347498",
+    "status": "green",
+    "target_date": "Q1 FY27",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Tammy Hawkins",
+    "tech_owner": "Ramesh Simhambhatla",
+    "assignee": "Christopher Chiodo"
+  },
+  {
+    "workstream": "Design",
+    "id": "aex-lineplan-migration",
+    "title": "AEX Line Plan Migration to AP Tool",
+    "opif": "OPIF-325568",
+    "jira_link": "https://jira.walmart.com/browse/OPIF-325568",
+    "status": "yellow",
+    "target_date": "July 31, 2026",
+    "priority": "P3",
+    "tech_rank": "5",
+    "product_owner": "Brett Reid",
+    "tech_owner": "Ashwin Chidambaram",
+    "assignee": "Taylor Watson"
+  },
+  {
+    "workstream": "Design",
+    "id": "sample-mgmt-fit-eval",
+    "title": "Sample Management & Fit Evaluation",
+    "opif": null,
+    "jira_link": null,
+    "status": "roadmap",
+    "target_date": "Q1\\u2013Q2 FY27",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Tammy Hawkins",
+    "tech_owner": "Ramesh Simhambhatla",
+    "assignee": "Christopher Chiodo"
+  },
+  {
+    "workstream": "Design",
+    "id": "line-planning",
+    "title": "Line Planning & Calendar Management",
+    "opif": null,
+    "jira_link": null,
+    "status": "green",
+    "target_date": "Feb\\u2013Apr 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Tammy Hawkins",
+    "tech_owner": "Ramesh Simhambhatla",
+    "assignee": "Christopher Chiodo"
+  },
+  {
+    "workstream": "Design",
+    "id": "product-specs",
+    "title": "Product Specifications",
+    "opif": null,
+    "jira_link": null,
+    "status": "green",
+    "target_date": "Feb\\u2013Apr 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Tammy Hawkins",
+    "tech_owner": "Ramesh Simhambhatla",
+    "assignee": "Christopher Chiodo"
+  },
+  {
+    "workstream": "Design",
+    "id": "trend-api-preseason",
+    "title": "Trend API \u2014 5+ Sources Pre-Season",
+    "opif": null,
+    "jira_link": null,
+    "status": "roadmap",
+    "target_date": "May\\u2013Jul 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Bill Chiodetti",
+    "tech_owner": "Ramesh Simhambhatla",
+    "assignee": ""
+  },
+  {
+    "workstream": "Design",
+    "id": "ap-tool-shared-ideation",
+    "title": "AP Tool Shared Ideation & Integration",
+    "opif": null,
+    "jira_link": null,
+    "status": "roadmap",
+    "target_date": "May\\u2013Jul 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Brett Reid",
+    "tech_owner": "Ashwin Chidambaram",
+    "assignee": "Taylor Watson"
+  },
+  {
+    "workstream": "Design",
+    "id": "ai-line-plan",
+    "title": "AI-Enhanced Conceptual Line Plan",
+    "opif": null,
+    "jira_link": null,
+    "status": "roadmap",
+    "target_date": "May\\u2013Jul 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Bill Chiodetti",
+    "tech_owner": "Ramesh Simhambhatla",
+    "assignee": "Christopher Chiodo"
+  },
+  {
+    "workstream": "Design",
+    "id": "fit-eval-workflow",
+    "title": "Fit Evaluation Workflow Launch",
+    "opif": null,
+    "jira_link": null,
+    "status": "roadmap",
+    "target_date": "May\\u2013Jul 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Tammy Hawkins",
+    "tech_owner": "Ramesh Simhambhatla",
+    "assignee": "Christopher Chiodo"
+  },
+  {
+    "workstream": "Design",
+    "id": "centralized-dam",
+    "title": "Centralized DAM Launch",
+    "opif": null,
+    "jira_link": null,
+    "status": "roadmap",
+    "target_date": "May\\u2013Jul 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Tammy Hawkins",
+    "tech_owner": "Ramesh Simhambhatla",
+    "assignee": "Christopher Chiodo"
+  },
+  {
+    "workstream": "Design",
+    "id": "centric-integration",
+    "title": "Centric Integration Launch",
+    "opif": null,
+    "jira_link": null,
+    "status": "roadmap",
+    "target_date": "May\\u2013Jul 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Tammy Hawkins",
+    "tech_owner": "Ramesh Simhambhatla",
+    "assignee": "Christopher Chiodo"
+  },
+  {
+    "workstream": "Design",
+    "id": "shared-event-layer",
+    "title": "Shared Event Layer (AP, Centric, OneSource)",
+    "opif": "OPIF-325188",
+    "jira_link": "https://jira.walmart.com/browse/OPIF-325188",
+    "status": "roadmap",
+    "target_date": "May\\u2013Jul 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Tammy Hawkins",
+    "tech_owner": "Ramesh Simhambhatla",
+    "assignee": "Christopher Chiodo"
+  },
+  {
+    "workstream": "Design",
+    "id": "visual-boards",
+    "title": "Centric Visual Board MVP",
+    "opif": "OPIF-347498",
+    "jira_link": "https://jira.walmart.com/browse/OPIF-347498",
+    "status": "yellow",
+    "target_date": "End of May 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Tammy Hawkins",
+    "tech_owner": "Ramesh Simhambhatla",
+    "assignee": "Christopher Chiodo"
+  },
+  {
+    "workstream": "Design",
+    "id": "material-sourcing",
+    "title": "Material & Sourcing Management",
+    "opif": null,
+    "jira_link": null,
+    "status": "roadmap",
+    "target_date": "Aug\\u2013Oct 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Tammy Hawkins",
+    "tech_owner": "Ramesh Simhambhatla",
+    "assignee": "Christopher Chiodo"
+  },
+  {
+    "workstream": "Design",
+    "id": "design-analytics",
+    "title": "Advanced Design Analytics",
+    "opif": null,
+    "jira_link": null,
+    "status": "roadmap",
+    "target_date": "Nov 2026\\u2013Jan 2027",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Bill Chiodetti",
+    "tech_owner": "Ramesh Simhambhatla",
+    "assignee": "Christopher Chiodo"
+  },
+  {
+    "workstream": "Buying",
+    "id": "neo-replatform",
+    "title": "AEX Replatform \\u2014 Neo",
+    "opif": null,
+    "jira_link": null,
+    "status": "completed",
+    "target_date": "Mar 2, 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Brett Reid",
+    "tech_owner": "Chris Graves",
+    "assignee": "Ryan Henderson"
+  },
+  {
+    "workstream": "Buying",
+    "id": "aex-stability",
+    "title": "AEX Stability & Quality of Life",
+    "opif": "OPIF-344926",
+    "jira_link": "https://jira.walmart.com/browse/OPIF-344926",
+    "status": "green",
+    "target_date": "April 30, 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Brett Reid",
+    "tech_owner": "Chris Graves",
+    "assignee": "Ryan Henderson"
+  },
+  {
+    "workstream": "Buying",
+    "id": "longterm-buying",
+    "title": "Long Leadtime Buying Workflow (LLTT)",
+    "opif": null,
+    "jira_link": null,
+    "status": "green",
+    "target_date": "Feb\\u2013Apr 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "TBD",
+    "tech_owner": "TBD",
+    "assignee": "TBD"
+  },
+  {
+    "workstream": "Buying",
+    "id": "auto-item-setup",
+    "title": "Automated Item Setup",
+    "opif": "OPIF-344926",
+    "jira_link": "https://jira.walmart.com/browse/OPIF-344926",
+    "status": "yellow",
+    "target_date": "April 30, 2026",
+    "priority": "P1",
+    "tech_rank": "1",
+    "product_owner": "Brett Reid",
+    "tech_owner": "Chris Graves",
+    "assignee": "Abhishek Jannawar"
+  },
+  {
+    "workstream": "Buying",
+    "id": "fashion-fixture-allocation-buying",
+    "title": "Fashion Fixture Allocation (Visual)",
+    "opif": "OPIF-325598",
+    "jira_link": "https://jira.walmart.com/browse/OPIF-325598",
+    "status": "green",
+    "target_date": "Jul 31, 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Brett Reid",
+    "tech_owner": "Sakshi Datta",
+    "assignee": "Dhaarna Singh"
+  },
+  {
+    "workstream": "Buying",
+    "id": "ai-item-repository",
+    "title": "AI Item Repository Launch",
+    "opif": "OPIF-337970",
+    "jira_link": "https://jira.walmart.com/browse/OPIF-337970",
+    "status": "green",
+    "target_date": "Jul 31, 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Brett Reid",
+    "tech_owner": "Chris Graves",
+    "assignee": "Ryan Henderson"
+  },
+  {
+    "workstream": "Buying",
+    "id": "size-pack-bq",
+    "title": "Automated Size/Pack Buy Quantification",
+    "opif": "OPIF-325374",
+    "jira_link": "https://jira.walmart.com/browse/OPIF-325374",
+    "status": "green",
+    "target_date": "Jul 31, 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Brett Reid",
+    "tech_owner": "Chris Graves",
+    "assignee": "Abhishek Jannawar"
+  },
+  {
+    "workstream": "Buying",
+    "id": "ap-tool-lineplan",
+    "title": "AP Tool Line Plan Integration w/ AEX",
+    "opif": "OPIF-325568",
+    "jira_link": "https://jira.walmart.com/browse/OPIF-325568",
+    "status": "yellow",
+    "target_date": "July 31, 2026",
+    "priority": "P3",
+    "tech_rank": "5",
+    "product_owner": "Brett Reid",
+    "tech_owner": "Ashwin Chidambaram",
+    "assignee": "Taylor Watson"
+  },
+  {
+    "workstream": "Buying",
+    "id": "bam-collab-intent",
+    "title": "BAM / Collab Intent Integration",
+    "opif": "OPIF-325569",
+    "jira_link": "https://jira.walmart.com/browse/OPIF-325569",
+    "status": "green",
+    "target_date": "Oct 30, 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Brett Reid",
+    "tech_owner": "Chris Graves",
+    "assignee": "Ryan Henderson"
+  },
+  {
+    "workstream": "Buying",
+    "id": "oneitem-expanded-sources",
+    "title": "OneItem: Expanded Sources (ROM, 3P, Circana)",
+    "opif": null,
+    "jira_link": null,
+    "status": "green",
+    "target_date": "Jan 30, 2027",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Brett Reid",
+    "tech_owner": "Chris Graves",
+    "assignee": "Abhishek Jannawar"
+  },
+  {
+    "workstream": "Buying",
+    "id": "bq-enterprise-service",
+    "title": "Buy Quantification as Enterprise Service",
+    "opif": "OPIF-325218",
+    "jira_link": "https://jira.walmart.com/browse/OPIF-325218",
+    "status": "roadmap",
+    "target_date": "Aug\\u2013Oct 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Brett Reid",
+    "tech_owner": "Chris Graves",
+    "assignee": "Abhishek Jannawar"
+  },
+  {
+    "workstream": "Buying",
+    "id": "commitment-report-redesign",
+    "title": "Commitment Report Redesign",
+    "opif": null,
+    "jira_link": null,
+    "status": "green",
+    "target_date": "Jul 31, 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Brett Reid",
+    "tech_owner": "Chris Graves",
+    "assignee": "Amy Caley"
+  },
+  {
+    "workstream": "Buying",
+    "id": "shared-item-repository",
+    "title": "Shared Item Repository (OneItem)",
+    "opif": "OPIF-325203",
+    "jira_link": "https://jira.walmart.com/browse/OPIF-325203",
+    "status": "roadmap",
+    "target_date": "Aug\\u2013Oct 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Brett Reid",
+    "tech_owner": "Chris Graves",
+    "assignee": "David Nelms"
+  },
+  {
+    "workstream": "Buying",
+    "id": "global-buying-platform",
+    "title": "Global Buying Capability",
+    "opif": null,
+    "jira_link": null,
+    "status": "roadmap",
+    "target_date": "Nov 2026\\u2013Jan 2027",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "TBD",
+    "tech_owner": "TBD",
+    "assignee": "TBD"
+  },
+  {
+    "workstream": "Allocation",
+    "id": "unified-planning",
+    "title": "Unified Planning Workflow",
+    "opif": null,
+    "jira_link": null,
+    "status": "green",
+    "target_date": "Feb\\u2013Apr 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Brett Reid",
+    "tech_owner": "Chris Graves",
+    "assignee": "Abhishek Jannawar"
+  },
+  {
+    "workstream": "Allocation",
+    "id": "bpe-seasonal",
+    "title": "BPE Seasonal Planning",
+    "opif": null,
+    "jira_link": null,
+    "status": "green",
+    "target_date": "Feb\\u2013Apr 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "TBD",
+    "tech_owner": "TBD",
+    "assignee": "TBD"
+  },
+  {
+    "workstream": "Allocation",
+    "id": "tagging-pilot",
+    "title": "Tagging & Affinity Graph \u2014 Assortment Gaps Pilot",
+    "opif": "OPIF-325602",
+    "jira_link": "https://jira.walmart.com/browse/OPIF-325602",
+    "status": "green",
+    "target_date": "Jul 31, 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Brett Reid",
+    "tech_owner": "Chris Graves",
+    "assignee": "Ryan Henderson"
+  },
+  {
+    "workstream": "Allocation",
+    "id": "distrib-optimization",
+    "title": "Distribution Planning Optimization",
+    "opif": null,
+    "jira_link": null,
+    "status": "roadmap",
+    "target_date": "May\\u2013Jul 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Veena Swaminathan",
+    "tech_owner": "Sakshi Datta",
+    "assignee": "Vivek Mishra"
+  },
+  {
+    "workstream": "Allocation",
+    "id": "enterprise-trend-api-inseason",
+    "title": "Enterprise Trend API \\u2014 In-Season / Cont. Merch",
+    "opif": null,
+    "jira_link": null,
+    "status": "roadmap",
+    "target_date": "May\\u2013Jul 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Bill Chiodetti",
+    "tech_owner": "Ramesh Simhambhatla",
+    "assignee": "Christopher Chiodo"
+  },
+  {
+    "workstream": "Allocation",
+    "id": "tag-based-recommendations",
+    "title": "Tag-Based Line & In-Season Recommendations",
+    "opif": "OPIF-325373",
+    "jira_link": "https://jira.walmart.com/browse/OPIF-325373",
+    "status": "roadmap",
+    "target_date": "Aug\\u2013Oct 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Brett Reid",
+    "tech_owner": "Chris Graves",
+    "assignee": "Ryan Henderson"
+  },
+  {
+    "workstream": "Allocation",
+    "id": "assort-product-phase2",
+    "title": "Assort Product (AP) Phase 2 Enhancements",
+    "opif": "OPIF-336019",
+    "jira_link": "https://jira.walmart.com/browse/OPIF-336019",
+    "status": "roadmap",
+    "target_date": "Aug\\u2013Oct 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Ken Brockland",
+    "tech_owner": "Ashwin Chidambaram",
+    "assignee": "Taylor Watson"
+  },
+  {
+    "workstream": "Allocation",
+    "id": "enterprise-wave-planning",
+    "title": "Enterprise Wave Planning & Allocation",
+    "opif": "OPIF-325599",
+    "jira_link": "https://jira.walmart.com/browse/OPIF-325599",
+    "status": "roadmap",
+    "target_date": "Aug\\u2013Oct 2026",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Veena Swaminathan",
+    "tech_owner": "Sakshi Datta",
+    "assignee": "Dhaarna Singh"
+  },
+  {
+    "workstream": "Allocation",
+    "id": "fashion-fixture-tagging",
+    "title": "Fashion Fixture Allocation: Tagging-Based Assortment",
+    "opif": "OPIF-325602",
+    "jira_link": "https://jira.walmart.com/browse/OPIF-325602",
+    "status": "green",
+    "target_date": "Jan 30, 2027",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "Brett Reid",
+    "tech_owner": "Sakshi Datta",
+    "assignee": "Dhaarna Singh"
+  },
+  {
+    "workstream": "Allocation",
+    "id": "merch-financial",
+    "title": "Merchandise Financial Planning",
+    "opif": null,
+    "jira_link": null,
+    "status": "roadmap",
+    "target_date": "Nov 2026\\u2013Jan 2027",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "TBD",
+    "tech_owner": "TBD",
+    "assignee": "TBD"
+  },
+  {
+    "workstream": "Allocation",
+    "id": "strategy",
+    "title": "Strategy",
+    "opif": null,
+    "jira_link": null,
+    "status": "",
+    "target_date": "TBD",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "TBD",
+    "tech_owner": "TBD",
+    "assignee": "TBD"
+  },
+  {
+    "workstream": "Allocation",
+    "id": "design",
+    "title": "Design",
+    "opif": null,
+    "jira_link": null,
+    "status": "",
+    "target_date": "TBD",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "TBD",
+    "tech_owner": "TBD",
+    "assignee": "TBD"
+  },
+  {
+    "workstream": "Allocation",
+    "id": "buying",
+    "title": "Buying",
+    "opif": null,
+    "jira_link": null,
+    "status": "",
+    "target_date": "TBD",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "TBD",
+    "tech_owner": "TBD",
+    "assignee": "TBD"
+  },
+  {
+    "workstream": "Allocation",
+    "id": "allocation",
+    "title": "Allocation",
+    "opif": null,
+    "jira_link": null,
+    "status": "",
+    "target_date": "TBD",
+    "priority": null,
+    "tech_rank": null,
+    "product_owner": "TBD",
+    "tech_owner": "TBD",
+    "assignee": "TBD"
+  }
+];
+
+const WS_COLORS = {
+  Strategy:   { bg:'bg-purple-50', text:'text-purple-700', border:'border-purple-200' },
+  Design:     { bg:'bg-pink-50',   text:'text-pink-700',   border:'border-pink-200'   },
+  Buying:     { bg:'bg-blue-50',   text:'text-blue-700',   border:'border-blue-200'   },
+  Allocation: { bg:'bg-green-50',  text:'text-green-700',  border:'border-green-200'  },
+};
+
+const STATUS_COLORS = {
+  green:     'badge-green',
+  yellow:    'badge-yellow',
+  red:       'badge-red',
+  completed: 'badge-blue',
+  roadmap:   'badge-gray',
+  backlog:   'badge-gray',
+};
+
+function isComplete(c) {
+  return c.opif && c.priority && c.tech_rank;
+}
+
+function hasIssues(c) {
+  return !isComplete(c);
+}
+
+function getMissing(c) {
+  const m = [];
+  if (!c.opif)       m.push('No OPIF');
+  if (!c.priority)   m.push('Priority');
+  if (!c.tech_rank)  m.push('Tech Rank');
+  return m;
+}
+
+function renderTable(cards) {
+  const tbody = document.getElementById('table-body');
+  tbody.innerHTML = '';
+  cards.forEach(c => {
+    const missing = getMissing(c);
+    const complete = missing.length === 0;
+    const ws = WS_COLORS[c.workstream] || WS_COLORS.Strategy;
+    const statusClass = STATUS_COLORS[c.status] || 'badge-gray';
+    const tr = document.createElement('tr');
+    tr.className = 'border-b border-gray-50';
+    tr.dataset.ws = c.workstream;
+    tr.dataset.complete = complete ? 'yes' : 'no';
+    tr.dataset.opif = c.opif ? 'yes' : 'no';
+    tr.innerHTML = `
+      <td class="px-4 py-3">
+        <span class="pill ${ws.bg} ${ws.text} border ${ws.border}">${c.workstream}</span>
+      </td>
+      <td class="px-4 py-3">
+        <div class="font-medium text-gray-800 text-xs leading-snug">${c.title}</div>
+        <div class="text-gray-400 text-[10px] mt-0.5">${c.id}</div>
+      </td>
+      <td class="px-4 py-3">
+        ${c.opif
+          ? `<a href="${c.jira_link}" target="_blank" class="text-[#0053e2] font-semibold text-xs hover:underline">${c.opif}</a>`
+          : `<span class="pill badge-red">⚠️ No OPIF</span>`
+        }
+      </td>
+      <td class="px-4 py-3"><span class="pill ${statusClass}">${c.status || '—'}</span></td>
+      <td class="px-4 py-3 text-xs text-gray-600">${c.target_date || '—'}</td>
+      <td class="px-4 py-3">
+        ${c.priority
+          ? `<span class="pill badge-blue">${c.priority}</span>`
+          : `<span class="pill badge-red">⚠️ Missing</span>`
+        }
+      </td>
+      <td class="px-4 py-3">
+        ${c.tech_rank
+          ? `<span class="font-semibold text-gray-700 text-xs">${c.tech_rank}</span>`
+          : `<span class="pill badge-red">⚠️ Missing</span>`
+        }
+      </td>
+      <td class="px-4 py-3 text-xs text-gray-600">${c.product_owner}</td>
+      <td class="px-4 py-3">
+        ${complete
+          ? `<span class="pill badge-green">✅ Complete</span>`
+          : `<span class="pill badge-red" title="${missing.join(', ')}">⚠️ ${missing.length} issue${missing.length>1?'s':''}</span>`
+        }
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+let activeFilter = 'all';
+let activeWS     = 'all';
+
+function getFiltered() {
+  return CARDS.filter(c => {
+    const wsOk = activeWS === 'all' || c.workstream === activeWS;
+    let filterOk = true;
+    if (activeFilter === 'issues')   filterOk = hasIssues(c);
+    if (activeFilter === 'no-opif') filterOk = !c.opif;
+    if (activeFilter === 'complete') filterOk = isComplete(c);
+    return wsOk && filterOk;
+  });
+}
+
+function filterBy(f) {
+  activeFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.className = b.className.replace('bg-[#0053e2] text-white','bg-white border border-gray-200 text-gray-700');
+  });
+  document.getElementById(`btn-${f}`).className = document.getElementById(`btn-${f}`).className
+    .replace('bg-white border border-gray-200 text-gray-700','bg-[#0053e2] text-white')
+    .replace(/border-\w+-200/,'').replace('text-red-700','').replace('text-green-700','');
+  renderTable(getFiltered());
+}
+
+function filterByWS() {
+  activeWS = document.getElementById('ws-filter').value;
+  renderTable(getFiltered());
+}
+
+function renderSummary() {
+  const real = CARDS.filter(c => c.title.length > 2);
+  document.getElementById('total-count').textContent   = real.length;
+  document.getElementById('no-opif-count').textContent = real.filter(c => !c.opif).length;
+  document.getElementById('no-pri-count').textContent  = real.filter(c => !c.priority).length;
+  document.getElementById('no-rank-count').textContent = real.filter(c => !c.tech_rank).length;
+  document.getElementById('complete-count').textContent= real.filter(isComplete).length;
+}
+
+function renderOwnerGrid() {
+  const owners = {};
+  CARDS.forEach(c => {
+    const o = c.product_owner || 'TBD';
+    if (!owners[o]) owners[o] = { cards: [], issues: 0 };
+    owners[o].cards.push(c);
+    if (hasIssues(c)) owners[o].issues++;
+  });
+  const grid = document.getElementById('owner-grid');
+  Object.entries(owners).sort((a,b) => b[1].issues - a[1].issues).forEach(([owner, data]) => {
+    const opifs = data.cards.filter(c => c.opif).map(c =>
+      `<a href="${c.jira_link}" target="_blank" class="text-[#0053e2] hover:underline">${c.opif}</a>`);
+    const div = document.createElement('div');
+    div.className = 'bg-white rounded-xl border border-gray-200 shadow-sm p-4';
+    div.innerHTML = `
+      <div class="flex justify-between items-start mb-3">
+        <div class="font-semibold text-gray-800">${owner}</div>
+        <div class="flex gap-2">
+          <span class="pill badge-blue">${data.cards.length} cards</span>
+          ${data.issues > 0 ? `<span class="pill badge-red">⚠️ ${data.issues} issues</span>` : '<span class="pill badge-green">✅ Clean</span>'}
+        </div>
+      </div>
+      <div class="text-xs text-gray-500 mb-2">OPIFs: ${opifs.length > 0 ? opifs.join(', ') : '<span class="text-red-500">None linked</span>'}</div>
+      <div class="text-xs text-gray-400">${data.cards.filter(hasIssues).map(c => `<span class="inline-block bg-red-50 text-red-600 px-1.5 py-0.5 rounded mr-1 mb-1">${c.title.substring(0,30)}${c.title.length>30?'…':''}</span>`).join('')}</div>
+    `;
+    grid.appendChild(div);
+  });
+}
+
+function buildEmail() {
+  const owners = ['Brett Reid','Bill Chiodetti','Tammy Hawkins','Veena Swaminathan','Ken Brockland'];
+  const ownerCards = {};
+  owners.forEach(o => ownerCards[o] = CARDS.filter(c => c.product_owner === o && hasIssues(c)));
+
+  const noOpif    = CARDS.filter(c => !c.opif).length;
+  const noPri     = CARDS.filter(c => !c.priority).length;
+  const noRank    = CARDS.filter(c => !c.tech_rank).length;
+  const complete  = CARDS.filter(isComplete).length;
+
+  const cardLines = owners.map(o => {
+    const cards = ownerCards[o];
+    if (!cards || cards.length === 0) return '';
+    return `${o} — ${cards.length} card(s) need attention:\n` +
+      cards.map(c => {
+        const missing = getMissing(c);
+        const opifStr = c.opif ? c.opif : 'NO OPIF LINKED';
+        return `  • ${c.title}\n    OPIF: ${opifStr} | Missing: ${missing.join(', ')}`;
+      }).join('\n');
+  }).filter(Boolean).join('\n\n');
+
+  const email = `TO: Brett Reid; Bill Chiodetti; Tammy Hawkins; Veena Swaminathan; Ken Brockland
+CC: [YOUR NAME]
+SUBJECT: Action Needed: Update Your Jira OPIFs — E2E Fashion Transformation Portal
+
+Hi team,
+
+I wanted to share an exciting update and ask for your help with a quick action item.
+
+🚀 WHAT WE'VE BUILT
+We've launched an interactive E2E Fashion Transformation Portal — a living roadmap that gives the Long Lead Time Transformation (LLTT) workstream real-time visibility across all four pillars: Strategy, Design, Buying, and Allocation. You can view it here:
+
+  👉 https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal
+
+The portal is designed to pull directly from your Jira OPIFs as the single source of truth — meaning when you update your OPIF, the portal reflects it automatically. This allows leadership to see live status, priority, and timelines across all 56+ initiatives without any manual reporting overhead.
+
+📋 WHAT WE NEED FROM YOU
+For the portal to display accurate information, we need each OPIF to have these 5 fields populated:
+
+  1. Status Color     → Green / Yellow / Red (reflects real delivery confidence)
+  2. Due Date         → Specific date (e.g., Jul 31, 2026)
+  3. Target Quarter   → Q1 / Q2 / Q3 / Q4 FY27
+  4. Priority         → P1 / P2 / P3
+  5. Tech Rank        → A numeric rank within your priority tier
+                        (⚠️ If Tech Rank is blank → card auto-moves to Backlog)
+
+⚠️ CURRENT AUDIT STATUS
+As of today, here's where we stand across the portal:
+  • Total cards:           ${CARDS.length}
+  • Missing OPIF entirely: ${noOpif} cards   ← These cannot sync at all
+  • Missing Priority:      ${noPri} cards
+  • Missing Tech Rank:     ${noRank} cards
+  • Fully complete:        ${complete} cards ✅
+
+📌 CARDS THAT NEED YOUR ATTENTION
+${cardLines}
+
+🎯 WHAT TO DO
+  1. Open each OPIF linked above in Jira
+  2. Fill in any missing fields (Status Color, Due Date, Target Quarter, Priority, Tech Rank)
+  3. If a card does NOT have an OPIF yet, please create one and share the link
+  4. Reply to this email once your OPIFs are updated — we'll sync the portal within 24 hours
+
+Target: Please update your OPIFs by end of next week so we can share the fully-synced portal with leadership.
+
+This is a one-time setup — once your OPIFs have the right fields, the portal stays current with minimal effort on your end. We really appreciate your help making this the go-to visibility tool for the E2E Fashion transformation.
+
+Feel free to reply with any questions or if you'd like a 15-minute walkthrough of the portal.
+
+Thank you!
+[YOUR NAME]
+
+---
+Portal: https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal
+Jira OPIF Board: https://jira.walmart.com/projects/OPIF
+LLTT Dashboard: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard`;
+
+  document.getElementById('email-draft').textContent = email;
+}
+
+// INIT
+document.getElementById('gendate').textContent = new Date().toLocaleString();
+renderSummary();
+renderTable(CARDS);
+renderOwnerGrid();
+buildEmail();
+
+function copyEmail() {
+  navigator.clipboard.writeText(document.getElementById('email-draft').textContent)
+    .then(() => alert('Email copied! Paste into Outlook.'))
+    .catch(() => alert('Select the text and copy manually.'));
+}
+</script>
+</body>
+</html>

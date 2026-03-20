@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>OPIF Field Extractor</title>
+<style>
+  body { font-family: -apple-system, sans-serif; background: #f0f4fb; padding: 24px; }
+  h1 { color: #0053e2; margin-bottom: 4px; }
+  h2 { font-size: 1rem; color: #555; font-weight: normal; margin-top: 0 0 24px; }
+  .card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 24px; }
+  .opif-list { display: grid; gap: 10px; }
+  .opif-row { display: grid; grid-template-columns: 130px 1fr 120px 120px 120px 100px 100px; gap: 10px; align-items: center; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px; }
+  .opif-row.header { font-weight: 700; font-size: 0.75rem; color: #888; text-transform: uppercase; }
+  .opif-link { color: #0053e2; font-size: 0.85rem; text-decoration: none; font-weight: 600; }
+  .opif-link:hover { text-decoration: underline; }
+  label { font-size: 0.75rem; color: #555; display: block; margin-bottom: 2px; }
+  select, input { width: 100%; padding: 5px 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.8rem; background: white; }
+  select:focus, input:focus { border-color: #0053e2; outline: none; }
+  .status-red { background: #fff0ef; border-color: #ea1100; }
+  .status-yellow { background: #fffbe6; border-color: #ffc220; }
+  .status-green { background: #f0fdf0; border-color: #2a8703; }
+  .status-backlog { background: #f5f5f5; border-color: #999; }
+  .btn { background: #0053e2; color: white; border: none; padding: 12px 28px; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: 600; }
+  .btn:hover { background: #0047c8; }
+  .btn-secondary { background: white; color: #0053e2; border: 2px solid #0053e2; }
+  .btn-secondary:hover { background: #f0f4fb; }
+  #output { background: #1e1e2e; color: #cdd6f4; padding: 20px; border-radius: 8px; font-family: monospace; font-size: 0.8rem; white-space: pre-wrap; max-height: 400px; overflow-y: auto; display: none; }
+  .actions { display: flex; gap: 12px; margin-top: 20px; }
+  .section-title { font-size: 0.7rem; font-weight: 700; color: #0053e2; text-transform: uppercase; letter-spacing: 1px; margin: 20px 0 10px; }
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 0.7rem; font-weight: 700; }
+  .pill-green { background: #e6f9ec; color: #2a8703; }
+  .pill-yellow { background: #fffbe6; color: #b86000; }
+  .pill-red { background: #fff0ef; color: #ea1100; }
+  .pill-backlog { background: #f5f5f5; color: #555; }
+  .card-title { font-size: 0.85rem; color: #333; }
+  .card-id { font-size: 0.7rem; color: #888; margin-top: 2px; }
+  .opif-badge { font-size: 0.7rem; font-weight: 600; color: #0053e2; background: #e8f0fe; padding: 2px 6px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<h1>🐾 OPIF Audit Tool</h1>
+<h2>Fill in the Jira fields for each OPIF, then click Generate JSON to send to Code Puppy.</h2>
+
+<div class="card">
+  <div class="section-title">📋 Instructions</div>
+  <ol style="font-size:0.85rem; color:#444; line-height:1.7; margin:0; padding-left:20px;">
+    <li>Click each OPIF link below to open it in Jira</li>
+    <li>Find these fields on the Jira page: <strong>Status Color, Target Quarter, Activity Type, Due Date, Priority, Tech Rank</strong></li>
+    <li>Fill them in below for each card</li>
+    <li>Click <strong>Generate JSON</strong> when done — paste the result to Code Puppy</li>
+  </ol>
+</div>
+
+<div class="card">
+  <div class="opif-list">
+    <div class="opif-row header">
+      <div>OPIF</div>
+      <div>Portal Card</div>
+      <div>Status Color</div>
+      <div>Due Date</div>
+      <div>Quarter</div>
+      <div>Priority</div>
+      <div>Tech Rank</div>
+    </div>
+    <div id="rows"></div>
+  </div>
+</div>
+
+<div class="actions">
+  <button class="btn" onclick="generateJSON()">⚡ Generate JSON for Code Puppy</button>
+  <button class="btn btn-secondary" onclick="copyOutput()">📋 Copy Output</button>
+</div>
+
+<div style="margin-top:16px">
+  <pre id="output"></pre>
+</div>
+
+<script>
+const OPIFS = [
+  // ---- BUYING ----
+  { id: 'aex-stability',               title: 'AEX Stability & Quality of Life',         opif: 'OPIF-344926', file: 'data-buying.js',      curStatus: 'green',   curDate: 'April 30, 2026',    curQ: 'Q1', curP: '' },
+  { id: 'fashion-fixture-allocation-buying', title: 'Fashion Fixture Allocation (Visual)',  opif: 'OPIF-325598', file: 'data-buying.js',      curStatus: 'yellow',  curDate: 'Jul 31, 2026',      curQ: 'Q3', curP: 'P3' },
+  { id: 'ai-item-repository',          title: 'AI Item Repository Launch',                opif: 'OPIF-337970', file: 'data-buying.js',      curStatus: 'backlog', curDate: 'Jul 31, 2026',      curQ: 'Q3', curP: 'P3' },
+  { id: 'size-pack-bq',                title: 'Automated Size/Pack Buy Quantification',  opif: 'OPIF-325374', file: 'data-buying.js',      curStatus: 'backlog', curDate: 'Jul 31, 2026',      curQ: 'Q3', curP: 'P3' },
+  { id: 'bam-collab-intent',           title: 'BAM / Collab Intent Integration',          opif: 'OPIF-325569', file: 'data-buying.js',      curStatus: 'backlog', curDate: 'Oct 30, 2026',      curQ: 'Q3', curP: 'P3' },
+  { id: 'bq-enterprise-service',       title: 'BQ as Enterprise Service',                 opif: 'OPIF-325218', file: 'data-buying.js',      curStatus: 'backlog', curDate: 'Aug–Oct 2026',      curQ: 'Q4', curP: 'P3' },
+  { id: 'shared-item-repository',      title: 'Shared Item Repository (OneItem)',         opif: 'OPIF-325203', file: 'data-buying.js',      curStatus: 'yellow',  curDate: 'Aug–Oct 2026',      curQ: 'Q4', curP: 'P3' },
+  // ---- DESIGN ----
+  { id: 'design-hub-centric',          title: 'Launch Design Hub (Centric PLM)',           opif: 'OPIF-325208', file: 'data-design.js',      curStatus: 'yellow',  curDate: 'June 30, 2026',     curQ: 'Q2', curP: 'P3' },
+  { id: 'shared-event-layer',          title: 'Shared Event Layer (AP, Centric, OneSource)', opif: 'OPIF-325188', file: 'data-design.js',   curStatus: 'yellow',  curDate: 'May–Jul 2026',      curQ: 'Q3', curP: 'P3' },
+  { id: 'visual-boards',               title: 'Centric Visual Board MVP',                 opif: 'OPIF-347498', file: 'data-design.js',      curStatus: 'yellow',  curDate: 'June 15, 2026',     curQ: 'Q2', curP: '' },
+  // ---- STRATEGY ----
+  { id: 'forecast-enterprise-service', title: 'Forecast as Enterprise Service',           opif: 'OPIF-325221', file: 'data-strategy.js',    curStatus: 'yellow',  curDate: 'May–Oct 2026',      curQ: 'Q2', curP: 'P3' },
+  { id: 'shared-merch-strategy',       title: 'Shared Merch Strategy & Scenario Planning', opif: 'OPIF-325206', file: 'data-strategy.js',  curStatus: 'yellow',  curDate: 'Aug–Oct 2026',      curQ: 'Q4', curP: 'P3' },
+  // ---- ALLOCATION ----
+  { id: 'tagging-pilot',               title: 'Tagging & Affinity Graph Pilot',            opif: 'OPIF-325602', file: 'data-allocation.js', curStatus: 'green',   curDate: 'Jul 31, 2026',      curQ: 'Q3', curP: 'P3' },
+  { id: 'tag-based-recommendations',   title: 'Tag-Based Line & In-Season Recommendations', opif: 'OPIF-325373', file: 'data-allocation.js', curStatus: 'backlog', curDate: 'Aug–Oct 2026',     curQ: 'Q4', curP: 'P3' },
+  { id: 'assort-product-phase2',       title: 'Assort Product (AP) Phase 2 Enhancements', opif: 'OPIF-336019', file: 'data-allocation.js', curStatus: 'green',   curDate: 'Aug–Oct 2026',      curQ: 'Q4', curP: 'P3' },
+  { id: 'enterprise-wave-planning',    title: 'Enterprise Wave Planning & Allocation',    opif: 'OPIF-325599', file: 'data-allocation.js', curStatus: 'backlog', curDate: 'Aug–Oct 2026',      curQ: 'Q4', curP: 'P3' },
+  { id: 'fashion-fixture-tagging',     title: 'Fashion Fixture Allocation: Tagging-Based', opif: 'OPIF-325602', file: 'data-allocation.js', curStatus: 'green',   curDate: 'Jan 30, 2027',      curQ: 'Q4', curP: '' },
+  // ---- BUYING (non-OPIF still auditing) ----
+  { id: 'longterm-buying',             title: 'Long Leadtime Buying Workflow (LLTT)',     opif: 'OPIF-344926', file: 'data-buying.js',      curStatus: 'green',   curDate: 'April 30, 2026',    curQ: 'Q1', curP: '' },
+];
+
+const statusColors = ['', 'green', 'yellow', 'red', 'backlog'];
+
+function buildRows() {
+  const container = document.getElementById('rows');
+  OPIFS.forEach((item, i) => {
+    const row = document.createElement('div');
+    row.className = 'opif-row';
+    row.innerHTML = `
+      <div>
+        <a class="opif-link" href="https://jira.walmart.com/browse/${item.opif}" target="_blank">${item.opif}</a>
+        <div class="card-id">${item.file.replace('data-','').replace('.js','')}</div>
+      </div>
+      <div>
+        <div class="card-title">${item.title}</div>
+        <div class="card-id">${item.id}</div>
+      </div>
+      <div>
+        <select id="status_${i}" onchange="updateColor(this, ${i})">
+          <option value="">-- pick --</option>
+          <option value="green" ${item.curStatus==='green'?'selected':''}>🟢 Green</option>
+          <option value="yellow" ${item.curStatus==='yellow'?'selected':''}>🟡 Yellow</option>
+          <option value="red" ${item.curStatus==='red'?'selected':''}>🔴 Red</option>
+          <option value="backlog" ${item.curStatus==='backlog'?'selected':''}>⬜ Backlog</option>
+        </select>
+      </div>
+      <div><input type="text" id="due_${i}" placeholder="e.g. Jul 31, 2026" value="${item.curDate}"></div>
+      <div>
+        <select id="quarter_${i}">
+          <option value="">--</option>
+          <option value="Q1" ${item.curQ==='Q1'?'selected':''}>Q1</option>
+          <option value="Q2" ${item.curQ==='Q2'?'selected':''}>Q2</option>
+          <option value="Q3" ${item.curQ==='Q3'?'selected':''}>Q3</option>
+          <option value="Q4" ${item.curQ==='Q4'?'selected':''}>Q4</option>
+        </select>
+      </div>
+      <div>
+        <select id="priority_${i}">
+          <option value="">--</option>
+          <option value="P1" ${item.curP==='P1'?'selected':''}>P1</option>
+          <option value="P2" ${item.curP==='P2'?'selected':''}>P2</option>
+          <option value="P3" ${item.curP==='P3'?'selected':''}>P3</option>
+        </select>
+      </div>
+      <div><input type="number" id="rank_${i}" placeholder="e.g. 3" min="1" max="99" style="width:70px"></div>
+    `;
+    container.appendChild(row);
+  });
+}
+
+function updateColor(sel, i) {
+  const val = sel.value;
+  sel.className = val === 'green' ? 'status-green' : val === 'yellow' ? 'status-yellow' : val === 'red' ? 'status-red' : val === 'backlog' ? 'status-backlog' : '';
+}
+
+function generateJSON() {
+  const results = OPIFS.map((item, i) => ({
+    id: item.id,
+    file: item.file,
+    opif: item.opif,
+    title: item.title,
+    status: document.getElementById(`status_${i}`).value || item.curStatus,
+    targetDate: document.getElementById(`due_${i}`).value || item.curDate,
+    quarter: document.getElementById(`quarter_${i}`).value || item.curQ,
+    priority: document.getElementById(`priority_${i}`).value || item.curP,
+    techRank: document.getElementById(`rank_${i}`).value || '',
+  }));
+
+  const out = document.getElementById('output');
+  out.textContent = JSON.stringify(results, null, 2);
+  out.style.display = 'block';
+  out.scrollIntoView({ behavior: 'smooth' });
+}
+
+function copyOutput() {
+  const text = document.getElementById('output').textContent;
+  if (!text) { generateJSON(); }
+  navigator.clipboard.writeText(document.getElementById('output').textContent)
+    .then(() => alert('Copied! Paste this into Code Puppy.'))
+    .catch(() => alert('Select the text above and copy manually.'));
+}
+
+buildRows();
+</script>
+</body>
+</html>

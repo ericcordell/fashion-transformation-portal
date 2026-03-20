@@ -27,6 +27,7 @@ JS_ORDER = [
     'roadmap-window.js',
     'summary-modal.js',
     'phase-view.js',
+    'data-changelog.js',  # must come AFTER allCards is defined
 ]
 
 CSS_FILES = ['portal.css', 'portal-goals.css', 'exec-summary.css']

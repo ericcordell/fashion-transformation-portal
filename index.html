@@ -122,6 +122,7 @@
         <button class="tab-btn" onclick="switchTab('status')">&#128200; Status</button>
         <button class="tab-btn" onclick="switchTab('links')" style="color:#0053e2;">&#128279; Links &amp; Workstreams</button>
         <button class="tab-btn" onclick="switchTab('inquiry')" style="color:#7c3aed;">&#9993;&#65039; Inquiry</button>
+        <button id="tab-btn-updates" class="tab-btn" onclick="switchTab('updates')" style="color:#b45309;display:none;">&#128276; Updates</button>
       </div>
     </div>
     <!-- Scrollable content zone -->
@@ -130,6 +131,7 @@
       <div id="tab-status"    class="tab-panel"></div>
       <div id="tab-links"     class="tab-panel"></div>
       <div id="tab-inquiry"   class="tab-panel"></div>
+      <div id="tab-updates"   class="tab-panel"></div>
     </div>
   </div>
 </div>
@@ -272,14 +274,24 @@ function renderPhases() {
 
 // ---- SINGLE CARD — includes a small quarter chip for context ----
 function cardHTML(card, workstream, tool) {
-  const badgeCls = BADGE_CLASS[card.status] || 'badge-roadmap';
-  const qMeta    = QUARTER_META[card.quarter];
-  const tagHTML  = card.tag
+  const badgeCls  = BADGE_CLASS[card.status] || 'badge-roadmap';
+  const qMeta     = QUARTER_META[card.quarter];
+  const tagHTML   = card.tag
     ? `<span class="tag ${card.tag.includes('Win') ? 'tag-win' : ''}">${card.tag}</span>` : '';
-  const qChip    = qMeta
+  const qChip     = qMeta
     ? `<span style="font-size:0.62rem;font-weight:700;padding:1px 7px;border-radius:99px;
         background:${qMeta.bg};color:${qMeta.color};border:1px solid ${qMeta.border};
         white-space:nowrap;">${qMeta.label}</span>` : '';
+  // Show update pip if card has recent changelog entries (within 30 days)
+  const recentLog = (card.changeLog || []).filter(e => {
+    const d = new Date(e.date); const now = new Date();
+    return (now - d) / 86400000 <= 30;
+  });
+  const updatedPip = recentLog.length
+    ? `<span title="${recentLog.length} recent update${recentLog.length > 1 ? 's' : ''} — click to view"
+         style="font-size:0.6rem;font-weight:800;padding:1px 6px;border-radius:99px;
+                background:#fef3c7;color:#b45309;border:1px solid #fcd34d;
+                white-space:nowrap;cursor:pointer;">&#128276; Updated</span>` : '';
   return `
     <div class="card p-3" onclick="openModal('${card.id}','${workstream}','${tool}')">
       <div class="flex items-start justify-between gap-2 mb-2">
@@ -292,6 +304,7 @@ function cardHTML(card, workstream, tool) {
       <div class="flex items-center gap-2 flex-wrap">
         <span class="badge ${badgeCls}">${card.statusLabel}</span>
         ${qChip}
+        ${updatedPip}
       </div>
     </div>`;
 }
@@ -577,6 +590,48 @@ function openModal(cardId, workstream, tool) {
 
     </div>`;
 
+  // --- updates tab (changelog) ---
+  const changeLog  = card.changeLog || [];
+  const updatesBtn = document.getElementById('tab-btn-updates');
+  if (changeLog.length) {
+    updatesBtn.style.display = 'inline-flex';
+    updatesBtn.textContent   = `\u{1F514} Updates (${changeLog.length})`;
+    const FIELD_LABELS = { status: 'Status', targetDate: 'Target Date', techRank: 'Tech Rank', owners: 'Owners' };
+    const rows = changeLog.slice().reverse().map(e => {
+      const label = FIELD_LABELS[e.field] || e.field;
+      const fromTxt = e.fromLabel || e.from || '\u2014';
+      const toTxt   = e.toLabel   || e.to   || '\u2014';
+      return `<tr style="border-bottom:1px solid #f1f5f9;">
+        <td style="padding:8px 10px;font-size:0.72rem;color:#64748b;white-space:nowrap;">${e.date}</td>
+        <td style="padding:8px 10px;font-size:0.72rem;font-weight:700;color:#1e293b;">${label}</td>
+        <td style="padding:8px 10px;font-size:0.72rem;color:#dc2626;text-decoration:line-through;">${fromTxt}</td>
+        <td style="padding:8px 4px;font-size:0.72rem;color:#64748b;">\u2192</td>
+        <td style="padding:8px 10px;font-size:0.72rem;color:#15803d;font-weight:600;">${toTxt}</td>
+      </tr>`;
+    }).join('');
+    document.getElementById('tab-updates').innerHTML = `
+      <div class="py-5 px-6">
+        <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">&#128276; Recent Changes (auto-detected by daily sync)</p>
+        <div style="overflow-x:auto;border-radius:10px;border:1px solid #e2e8f0;">
+          <table style="width:100%;border-collapse:collapse;">
+            <thead>
+              <tr style="background:#f8fafc;">
+                <th style="padding:7px 10px;font-size:0.65rem;font-weight:800;color:#94a3b8;text-align:left;text-transform:uppercase;letter-spacing:.06em;">Date</th>
+                <th style="padding:7px 10px;font-size:0.65rem;font-weight:800;color:#94a3b8;text-align:left;text-transform:uppercase;letter-spacing:.06em;">Field</th>
+                <th style="padding:7px 10px;font-size:0.65rem;font-weight:800;color:#94a3b8;text-align:left;text-transform:uppercase;letter-spacing:.06em;">Was</th>
+                <th style="padding:7px 4px;"></th>
+                <th style="padding:7px 10px;font-size:0.65rem;font-weight:800;color:#94a3b8;text-align:left;text-transform:uppercase;letter-spacing:.06em;">Now</th>
+              </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+        <p style="margin-top:12px;font-size:0.68rem;color:#94a3b8;">Changes auto-detected from OPIF Jira + Confluence LLTT Dashboard. Only Status, Target Date, Tech Rank, and Owners are tracked.</p>
+      </div>`;
+  } else {
+    updatesBtn.style.display = 'none';
+  }
+
   switchTab('overview');
   document.getElementById('modal-overlay').classList.add('open');
 }
@@ -617,7 +672,7 @@ ${userText}
 function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
 
 function switchTab(name) {
-  const names = ['overview','status','links','inquiry'];
+  const names = ['overview','status','links','inquiry','updates'];
   document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', names[i] === name));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.getElementById('tab-' + name).classList.add('active');

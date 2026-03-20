@@ -121,6 +121,7 @@ const BADGE_CLASS = {
   completed: 'badge-completed',
   green:     'badge-green',
   yellow:    'badge-yellow',
+  backlog:   'badge-backlog',
   roadmap:   'badge-roadmap',
   red:       'badge-red',
 };

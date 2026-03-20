@@ -25,6 +25,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .badge-completed { background:#0053e2; color:white; }
 .badge-green     { background:#2a8703; color:white; }
 .badge-yellow    { background:#FFC220; color:#4a3000; }
+.badge-backlog   { background:#0053e2; color:white; }
 .badge-roadmap   { background:#e8f0fe; color:#0053e2; border:1px solid #0053e2; }
 .badge-red       { background:#ea1100; color:white; }
 

@@ -14,6 +14,7 @@
     yellow:    { dot: '#FFC220', label: 'Watch',     cls: 'badge-yellow'    },
     green:     { dot: '#2a8703', label: 'On Track',  cls: 'badge-green'     },
     completed: { dot: '#0053e2', label: 'Completed', cls: 'badge-completed' },
+    backlog:   { dot: '#0053e2', label: 'Backlog',   cls: 'badge-backlog'   },
     roadmap:   { dot: '#94a3b8', label: 'Roadmap',   cls: 'badge-roadmap'   },
   };
   var HDR = {

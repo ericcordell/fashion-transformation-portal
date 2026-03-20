@@ -1,1128 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E2E Fashion Transformation Portal</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-/* ============================================================
-   E2E Fashion Transformation Portal — Global Styles
-   Extracted from index.html to keep files under 600 lines.
-   ============================================================ */
+// ===== SCRIPT BLOCK 1 =====
 
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f4fb; }
-
-/* ---- Pillar header gradients ---- */
-.pillar-dark { background: linear-gradient(135deg, #212121, #37474f); color: white; }
-.pillar-blue { background: linear-gradient(135deg, #0053e2, #1a6fff); color: white; }
-.pillar-gold { background: linear-gradient(135deg, #b86000, #d98c00); color: white; }
-.pillar-navy { background: linear-gradient(135deg, #1a1a6e, #3b3ba3); color: white; }
-.umbrella-header { background: linear-gradient(135deg, #212121, #37474f); color: white; }
-
-/* ---- Cards ---- */
-.card { background: white; border-radius: 10px; border: 1px solid #e5e7eb;
-        cursor: pointer; transition: all 0.18s ease; }
-.card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,83,226,0.14); border-color: #0053e2; }
-.card-dark { background: #37474f; border-color: #546e7a; }
-.card-dark:hover { border-color: #FFC220; box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
-
-/* ---- Badges ---- */
-.badge { display:inline-block; padding:2px 8px; border-radius:99px; font-size:0.67rem;
-         font-weight:700; letter-spacing:0.03em; white-space:nowrap; }
-.badge-completed { background:#0053e2; color:white; }
-.badge-green     { background:#2a8703; color:white; }
-.badge-yellow    { background:#FFC220; color:#4a3000; }
-.badge-backlog   { background:#0053e2; color:white; }
-.badge-roadmap   { background:#e8f0fe; color:#0053e2; border:1px solid #0053e2; }
-.badge-red       { background:#ea1100; color:white; }
-
-/* ---- Tags ---- */
-.tag { font-size:0.58rem; font-weight:800; letter-spacing:0.06em; text-transform:uppercase;
-       padding:1px 6px; border-radius:4px; background:#fff8e1; color:#8a5000;
-       border:1px solid #FFC220; white-space:nowrap; }
-.tag-win { background:#e8f5e9; color:#1b5e20; border-color:#2a8703; }
-
-/* ---- Quarter timeline strip ---- */
-.q-section { border-left: 3px solid #e2e8f0; margin-left: 14px; padding-left: 14px; padding-bottom: 4px; }
-.q-label { display:inline-flex; align-items:center; gap:6px; font-size:0.7rem;
-           font-weight:800; letter-spacing:0.07em; text-transform:uppercase;
-           padding:3px 10px; border-radius:99px; margin-bottom:8px; margin-left:-23px; }
-.q-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0;
-          border:2px solid white; box-shadow:0 0 0 2px currentColor; }
-
-/* ---- Layout sections ---- */
-.pillar-section   { border-radius:14px; overflow:hidden; border:1px solid #e2e8f0;
-                    box-shadow:0 2px 8px rgba(0,0,0,0.06); }
-.umbrella-section { border-radius:14px; overflow:hidden; border:2px solid #455a64;
-                    box-shadow:0 4px 20px rgba(0,0,0,0.14); }
-.int-chip { background:white; border:1.5px dashed #f87171; border-radius:8px;
-            padding:5px 11px; font-size:0.73rem; font-weight:600; color:#7f1d1d; }
-
-/* ---- Pillar header — clickable for summary modal ---- */
-.ph-clickable { cursor:pointer; transition:filter 0.18s; }
-.ph-clickable:hover { filter:brightness(1.1); }
-
-/* ---- Roadmap launch button ---- */
-.roadmap-btn { display:flex; align-items:center; justify-content:center; gap:6px;
-  width:100%; padding:6px 0; font-size:0.72rem; font-weight:700;
-  letter-spacing:0.04em; text-transform:uppercase; cursor:pointer; border-radius:8px;
-  border:1.5px dashed #d1d5db; color:#6b7280; background:transparent; transition:all 0.15s; }
-.roadmap-btn:hover { border-color:#0053e2; color:#0053e2; background:#f0f5ff; }
-
-/* ---- Inquiry tab ---- */
-.inquiry-owner-row { display:flex; align-items:center; justify-content:space-between;
-                     padding:8px 0; border-bottom:1px solid #f3f4f6; }
-.inquiry-owner-row:last-child { border-bottom: none; }
-
-/* ====================================================
-   MODAL SHARED BASE
-   All three modals share these overlay/scrollbar patterns.
-   z-index stack: card-detail=100, roadmap=98, summary=96
-   ==================================================== */
-.modal-overlay { display:none; position:fixed; inset:0;
-                 background:rgba(0,0,0,0.55); backdrop-filter:blur(3px);
-                 align-items:center; justify-content:center; }
-.modal-overlay.open { display:flex; }
-
-/* ---- Card-detail modal (z:100) ---- */
-#modal-overlay { z-index:100; }
-#modal-box {
-  background:white; border-radius:16px; width:min(640px,95vw);
-  max-height:92vh;
-  /* overflow:hidden clips content cleanly at the rounded corners;
-     scrolling is handled by #modal-body-scroll below */
-  overflow:hidden;
-  display:flex; flex-direction:column;
-  box-shadow:0 24px 60px rgba(0,0,0,0.3);
-}
-/* Sticky zone: header + tab bar — never scrolls away */
-#modal-sticky-top { flex-shrink:0; }
-/* Inner scroll container — only the tab content scrolls */
-#modal-body-scroll { flex:1; overflow-y:auto; min-height:0; }
-#modal-body-scroll::-webkit-scrollbar { width:5px; }
-#modal-body-scroll::-webkit-scrollbar-thumb { background:#0053e2; border-radius:3px; }
-
-.tab-btn { padding:7px 15px; border-radius:99px; font-size:0.8rem; font-weight:600;
-           cursor:pointer; transition:all 0.15s; color:#6b7280; }
-.tab-btn.active { background:#0053e2; color:white; }
-.tab-btn:hover:not(.active) { background:#f0f5ff; color:#0053e2; }
-.tab-panel { display:none; }
-.tab-panel.active { display:block; }
-
-/* ---- Roadmap popout modal (z:98) ---- */
-#rm-overlay { z-index:98; }
-#rm-box { background:white; border-radius:16px; width:min(900px,95vw);
-          max-height:92vh; overflow:hidden; display:flex; flex-direction:column;
-          box-shadow:0 24px 60px rgba(0,0,0,0.35); }
-#rm-header { flex-shrink:0; padding:20px 24px 16px; border-radius:16px 16px 0 0; }
-#rm-body { overflow-y:auto; padding:20px 24px 28px; }
-#rm-body::-webkit-scrollbar { width:5px; }
-#rm-body::-webkit-scrollbar-thumb { background:#0053e2; border-radius:3px; }
-.rm-q-section { border-left:3px solid #e2e8f0; margin-left:14px;
-                padding-left:14px; padding-bottom:4px; margin-bottom:20px; }
-.rm-q-label { display:inline-flex; align-items:center; gap:6px; font-size:0.7rem;
-              font-weight:800; letter-spacing:0.07em; text-transform:uppercase;
-              padding:3px 10px; border-radius:99px; margin-bottom:10px;
-              margin-left:-23px; border:1.5px solid; }
-.rm-filter-btn { padding:5px 14px; border-radius:99px; font-size:0.76rem; font-weight:700;
-                 cursor:pointer; border:2px solid rgba(255,255,255,0.35);
-                 background:rgba(255,255,255,0.15); color:white; transition:all 0.15s; white-space:nowrap; }
-.rm-filter-btn.active { background:white; color:#0053e2; border-color:white; }
-.rm-filter-btn:hover:not(.active) { background:rgba(255,255,255,0.28); border-color:rgba(255,255,255,0.65); }
-.rm-card { background:white; border-radius:10px; border:1px solid #e5e7eb;
-           cursor:pointer; transition:all 0.18s; padding:12px; }
-.rm-card:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,83,226,.14); border-color:#0053e2; }
-
-/* ---- Summary modal (z:96) ---- */
-#sm-overlay { z-index:96; }
-#sm-box { background:white; border-radius:16px; width:min(600px,95vw);
-          max-height:88vh; overflow:hidden; display:flex; flex-direction:column;
-          box-shadow:0 24px 60px rgba(0,0,0,0.3); }
-#sm-header { flex-shrink:0; padding:20px 24px 18px; border-radius:16px 16px 0 0; }
-#sm-body { overflow-y:auto; }
-#sm-body::-webkit-scrollbar { width:5px; }
-#sm-body::-webkit-scrollbar-thumb { background:#0053e2; border-radius:3px; }
-.sm-card-row { display:flex; align-items:center; gap:10px; padding:9px 0;
-               border-bottom:1px solid #f8fafc; }
-.sm-card-row:last-child { border-bottom:none; }
-
-/* ============================================================
-   PHASE MATRIX — workstream-first layout
-   Sidebar (left, 200px) = phase context rail
-   Columns (right, 4×flex:1) = workstream hero columns
-   ============================================================ */
-
-.phase-matrix {
-  display:flex; flex-direction:column;
-  border-radius:16px; overflow:hidden;
-  border:2px solid #e2e8f0;
-  box-shadow:0 4px 20px rgba(0,0,0,0.08);
-}
-
-/* Header row: corner + workstream column headers */
-.pm-header-row {
-  display:flex; align-items:stretch;
-  border-bottom:2px solid rgba(255,255,255,0.2);
-}
-
-/* Phase rows: sidebar + cells */
-.pm-phase-row {
-  display:flex; align-items:stretch;
-  border-top:2px solid rgba(255,255,255,0.12);
-}
-
-/* Shared flex group for workstream columns */
-.pm-ws-col-group { flex:1; display:flex; min-width:0; }
-
-/* ── Corner cell (top-left) ── */
-.pm-corner {
-  width:200px; flex-shrink:0;
-  background:linear-gradient(160deg,#1e293b,#334155);
-  padding:14px 14px;
-  display:flex; flex-direction:column;
-  align-items:flex-start; justify-content:flex-end; gap:2px;
-}
-.pm-corner-label {
-  font-size:0.72rem; font-weight:900; text-transform:uppercase;
-  letter-spacing:0.08em; color:rgba(255,255,255,0.9); display:block;
-}
-.pm-corner-sub {
-  font-size:0.62rem; color:rgba(255,255,255,0.45); display:block;
-}
-
-/* ── Workstream column headers ── */
-.pm-ws-header {
-  flex:1; min-width:0; padding:14px 14px;
-  cursor:pointer;
-  display:flex; flex-direction:column; gap:4px;
-  border-left:1px solid rgba(255,255,255,0.18);
-  transition:filter 0.15s;
-}
-.pm-ws-header:first-child { border-left:none; }
-.pm-ws-header:hover { filter:brightness(1.1); }
-.pm-ws-title {
-  font-size:0.92rem; font-weight:900; color:white; display:block;
-}
-.pm-ws-tool {
-  font-size:0.67rem; color:rgba(255,255,255,0.65); display:block;
-}
-
-/* ── Phase sidebar ── */
-.pm-sidebar {
-  width:200px; flex-shrink:0; padding:16px 14px;
-  display:flex; flex-direction:column; gap:7px;
-}
-.pm-phase-num {
-  font-size:0.6rem; font-weight:900; text-transform:uppercase;
-  letter-spacing:0.1em; color:rgba(255,255,255,0.5);
-}
-.pm-phase-name {
-  font-size:0.95rem; font-weight:900; color:white; line-height:1.2;
-}
-.pm-phase-window {
-  font-size:0.7rem; color:rgba(255,255,255,0.65); font-weight:600;
-}
-.pm-phase-tagline {
-  font-size:0.67rem; color:rgba(255,255,255,0.55);
-  font-style:italic; line-height:1.45;
-}
-.pm-sidebar-divider {
-  height:1px; background:rgba(255,255,255,0.15); margin:3px 0;
-}
-.pm-goals-label {
-  font-size:0.6rem; font-weight:800; text-transform:uppercase;
-  letter-spacing:0.08em; color:rgba(255,255,255,0.4);
-}
-.pm-goals-wrap { display:flex; flex-direction:column; gap:4px; }
-.pm-goal-chip {
-  display:flex; align-items:flex-start; gap:5px;
-  font-size:0.67rem; padding:4px 7px; border-radius:6px;
-  background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2);
-  color:rgba(255,255,255,0.85);
-}
-.pm-goal-id   { font-weight:900; font-size:0.7rem; flex-shrink:0; color:rgba(255,255,255,0.95); }
-.pm-goal-label{ font-size:0.65rem; line-height:1.35; }
-.pm-active-pill {
-  display:inline-flex; align-items:center; gap:4px;
-  font-size:0.64rem; font-weight:800;
-  color:#FFC220; background:rgba(255,194,32,0.15);
-  border:1.5px solid #FFC220; border-radius:99px;
-  padding:2px 9px; width:fit-content; margin-bottom:2px;
-}
-
-/* ── Content cells ── */
-.pm-cell {
-  flex:1; min-width:0; padding:10px;
-  border-left:1px solid #e5e7eb;
-  display:flex; flex-direction:column; gap:6px;
-}
-.pm-cell:first-child { border-left:none; }
-.pm-cell-p1 { background:white; }
-.pm-cell-future { background:#f8fafc; }
-
-/* ── Value banner (Phase 2 & 3 workstream capability headline) ── */
-.pm-value-banner {
-  font-size:0.72rem; font-weight:600;
-  padding:7px 10px; border-radius:8px;
-  border:1.5px solid; line-height:1.45;
-  margin-bottom:2px;
-}
-
-/* ── Capability chips (Phase 2 & 3 programs) ── */
-.pm-cap-chip {
-  display:flex; align-items:center; gap:8px;
-  padding:7px 9px; border-radius:8px;
-  background:white; border:1px solid #e5e7eb;
-  cursor:pointer; transition:all 0.15s;
-}
-.pm-cap-chip:hover {
-  border-color:#0053e2;
-  box-shadow:0 2px 8px rgba(0,83,226,0.1);
-  transform:translateY(-1px);
-}
-.pm-cap-crit { border-left:3px solid #ffc220 !important; }
-.pm-cap-icon { font-size:1rem; flex-shrink:0; }
-.pm-cap-body { display:flex; flex-direction:column; gap:2px; min-width:0; }
-.pm-cap-title {
-  font-size:0.77rem; font-weight:600; color:#1e293b; line-height:1.3;
-}
-.pm-cap-badge { font-size:0.61rem !important; }
-
-/* ── Empty state ── */
-.pm-empty {
-  font-size:0.75rem; color:#94a3b8; font-style:italic;
-  text-align:center; padding:14px 8px;
-}
-
-/* ============================================================
-   FILTER BAR (primary view)
-   ============================================================ */
-.pmf-bar {
-  display:flex; align-items:center; justify-content:space-between;
-  flex-wrap:wrap; gap:8px;
-  background:white; border:1.5px solid #e2e8f0;
-  border-radius:12px; padding:10px 16px; margin-bottom:8px;
-}
-.pmf-group { display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
-.pmf-label {
-  font-size:0.64rem; font-weight:800; text-transform:uppercase;
-  letter-spacing:0.08em; color:#94a3b8; flex-shrink:0;
-}
-
-/* Card-attribute filter pills */
-.pmf-pill {
-  font-size:0.72rem; font-weight:600;
-  padding:4px 11px; border-radius:99px;
-  border:1.5px solid #e2e8f0; background:white; color:#64748b;
-  cursor:pointer; transition:all 0.15s;
-}
-.pmf-pill:hover { border-color:#0053e2; color:#0053e2; }
-.pmf-pill.pmf-active {
-  background:#0053e2; border-color:#0053e2; color:white;
-  box-shadow:0 2px 8px rgba(0,83,226,0.25);
-}
-
-/* Phase toggle pills */
-.pmf-phase-pill {
-  font-size:0.72rem; font-weight:700;
-  padding:4px 11px; border-radius:99px;
-  border:1.5px solid #e2e8f0; background:white; color:#64748b;
-  cursor:pointer; transition:all 0.15s;
-}
-.pmf-phase-pill:hover { border-color:var(--phc,#0053e2); color:var(--phc,#0053e2); }
-.pmf-phase-pill.pmf-phase-on {
-  background:var(--phc,#0053e2); border-color:var(--phc,#0053e2); color:white;
-  box-shadow:0 2px 8px rgba(0,0,0,0.18);
-}
-
-/* Clear button */
-.pmf-clear {
-  font-size:0.68rem; font-weight:700;
-  padding:3px 9px; border-radius:99px;
-  border:1.5px solid #fca5a5; background:#fef2f2;
-  color:#ef4444; cursor:pointer; transition:all 0.15s;
-}
-.pmf-clear:hover { background:#ef4444; color:white; border-color:#ef4444; }
-
-/* ── Collapsed phase cell ── */
-.pm-cell-collapsed { background:#f1f5f9; }
-
-.pm-count-pill {
-  display:flex; align-items:center; gap:4px;
-  padding:6px 10px; border-radius:8px;
-  background:white; border:1px solid #e5e7eb;
-  font-size:0.75rem; color:#64748b;
-}
-.pm-count-num { font-weight:800; font-size:0.88rem; color:#1e293b; }
-.pm-count-lbl { font-weight:500; }
-
-/* ── Expand/collapse button in sidebar ── */
-.pm-expand-btn {
-  margin-top:8px; width:100%;
-  font-size:0.7rem; font-weight:700;
-  padding:6px 10px; border-radius:8px;
-  border:1.5px solid rgba(255,255,255,0.35);
-  background:rgba(255,255,255,0.12); color:rgba(255,255,255,0.9);
-  cursor:pointer; transition:all 0.15s; text-align:center;
-}
-.pm-expand-btn:hover {
-  background:rgba(255,255,255,0.22); border-color:rgba(255,255,255,0.6);
-}
-
-/* ── Phase row expansion states ── */
-.pm-phase-collapsed .pm-sidebar { opacity:0.92; }
-.pm-phase-collapsed .pm-ws-col-group { background:#f1f5f9; }
-
-/* Collapsed sidebar: centre-align the minimal content, less vertical padding */
-.pm-sidebar-collapsed {
-  display:flex !important;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:14px 8px !important;
-  gap:4px;
-}
-.pm-sidebar-collapsed .pm-phase-window {
-  font-size:0.6rem;
-  opacity:0.75;
-  margin-bottom:6px;
-}
-.pm-sidebar-collapsed .pm-expand-btn {
-  margin-top:6px;
-  font-size:0.68rem;
-}
-
-/* ============================================================
-   STRATEGY UMBRELLA
-   ============================================================ */
-.strategy-umbrella {
-  display:flex; align-items:center; justify-content:space-between;
-  flex-wrap:wrap; gap:12px;
-  background:linear-gradient(135deg,#212121 0%,#37474f 100%);
-  border-radius:16px; padding:14px 20px;
-  box-shadow:0 4px 18px rgba(0,0,0,0.18);
-  position:relative; overflow:hidden;
-}
-/* Decorative bottom drape — signals "umbrella covers everything below" */
-.strategy-umbrella::after {
-  content:'';
-  position:absolute; bottom:-1px; left:12%; right:12%;
-  height:6px;
-  background:linear-gradient(90deg,transparent,rgba(255,194,32,0.45),transparent);
-  border-radius:0 0 8px 8px;
-}
-
-.su-left {
-  display:flex; align-items:center; gap:14px; flex:1; min-width:0;
-}
-.su-icon {
-  font-size:2.4rem; flex-shrink:0;
-  filter:drop-shadow(0 2px 6px rgba(0,0,0,0.35));
-}
-.su-title {
-  font-size:0.97rem; font-weight:800; color:white; letter-spacing:-0.01em;
-}
-.su-tool {
-  font-size:0.78rem; font-weight:500; color:rgba(255,255,255,0.55);
-}
-.su-sub {
-  font-size:0.72rem; color:rgba(255,255,255,0.6); margin-top:2px; line-height:1.5;
-}
-
-.su-right {
-  display:flex; flex-direction:column; align-items:flex-end; gap:5px; flex-shrink:0;
-}
-.su-spans-label {
-  font-size:0.62rem; font-weight:700; text-transform:uppercase;
-  letter-spacing:0.07em; color:rgba(255,194,32,0.75);
-}
-.su-spans-chips { display:flex; gap:6px; }
-
-.su-chip {
-  font-size:0.68rem; font-weight:700;
-  padding:3px 10px; border-radius:99px;
-  border:1.5px solid rgba(255,255,255,0.2);
-  background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.85);
-}
-.su-chip-design { border-color:rgba(0,83,226,0.55); background:rgba(0,83,226,0.2); }
-.su-chip-buying  { border-color:rgba(184,96,0,0.55);  background:rgba(184,96,0,0.2);  }
-.su-chip-alloc   { border-color:rgba(26,26,110,0.55); background:rgba(26,26,110,0.2); }
-
-/* ============================================================
-   ROADMAP MODAL — filter rows
-   ============================================================ */
-.rm-filter-row {
-  display:flex; align-items:center; flex-wrap:wrap; gap:6px;
-}
-.rm-filter-row-label {
-  font-size:0.62rem; font-weight:800; text-transform:uppercase;
-  letter-spacing:0.07em; color:rgba(255,255,255,0.5);
-  margin-right:2px; flex-shrink:0;
-}
-.rm-filter-row-sep {
-  color:rgba(255,255,255,0.25); font-size:1rem; padding:0 4px;
-}
-
-/* Phase buttons in roadmap filters get a subtle distinction */
-.rm-filter-btn.rm-filter-phase {
-  border-color:rgba(255,255,255,0.2);
-  background:rgba(255,255,255,0.06);
-}
-.rm-filter-btn.rm-filter-phase.active {
-  background:rgba(255,255,255,0.25); border-color:white;
-}
-
-/* Empty state in roadmap */
-.rm-empty {
-  padding:24px; text-align:center;
-  font-size:0.82rem; color:#94a3b8; font-style:italic;
-}
-
-/* Source attribution footer inside roadmap body */
-.rm-source {
-  font-size:0.68rem; color:#94a3b8; margin:18px 0 4px;
-  padding-top:12px; border-top:1px solid #f1f5f9;
-}
-.rm-source a { color:#0053e2; text-decoration:underline; }
-.rm-source a:hover { color:#1a6fff; }
-
-/* Phase banner inside roadmap body */
-.rm-phase-banner {
-  padding:8px 14px; border-radius:10px; border:1.5px solid;
-  font-size:0.8rem; margin-bottom:12px; line-height:1.5;
-}
-
-
-</style>
-<style>
-/* portal-goals.css — Goal chip & Goal detail modal styles */
-/* Split from portal.css to keep files under 600 lines       */
-
-/* ============================================================
-   GOAL CHIPS — clickable in expanded sidebar
-   ============================================================ */
-.pm-goal-chip-btn {
-  cursor:pointer;
-  transition:transform 0.12s, box-shadow 0.12s, background 0.12s;
-  user-select:none;
-}
-.pm-goal-chip-btn:hover {
-  transform:translateY(-1px);
-  box-shadow:0 3px 10px rgba(0,0,0,0.18);
-  background:rgba(255,255,255,0.22) !important;
-}
-.pm-goal-chip-btn:focus-visible {
-  outline:2px solid white; outline-offset:2px;
-}
-.pm-goal-arrow {
-  font-size:0.7rem; opacity:0.6; margin-left:auto; flex-shrink:0;
-  transition:opacity 0.12s;
-}
-.pm-goal-chip-btn:hover .pm-goal-arrow { opacity:1; }
-
-/* ============================================================
-   GOAL DETAIL MODAL
-   ============================================================ */
-#gm-overlay {
-  position:fixed; inset:0; z-index:102;
-  background:rgba(0,0,0,0.55); backdrop-filter:blur(4px);
-  display:flex; align-items:center; justify-content:center;
-  padding:20px;
-  opacity:0; pointer-events:none; transition:opacity 0.2s;
-}
-#gm-overlay.open { opacity:1; pointer-events:all; }
-
-#gm-box {
-  width:100%; max-width:680px; max-height:88vh;
-  background:white; border-radius:20px;
-  box-shadow:0 20px 60px rgba(0,0,0,0.35);
-  display:flex; flex-direction:column;
-  overflow:hidden;
-  transform:translateY(12px); transition:transform 0.2s;
-}
-#gm-overlay.open #gm-box { transform:translateY(0); }
-
-/* ── Header ── */
-#gm-header {
-  padding:20px 22px 16px;
-  flex-shrink:0;
-}
-.gm-header-top {
-  display:flex; align-items:flex-start;
-  justify-content:space-between; gap:12px; margin-bottom:12px;
-}
-.gm-header-left {
-  display:flex; align-items:flex-start; gap:14px;
-}
-.gm-icon-lg {
-  font-size:2rem; flex-shrink:0;
-  filter:drop-shadow(0 2px 4px rgba(0,0,0,0.25));
-}
-.gm-num {
-  font-size:0.68rem; font-weight:800; text-transform:uppercase;
-  letter-spacing:0.1em; color:rgba(255,255,255,0.6);
-  margin-bottom:3px;
-}
-.gm-title {
-  font-size:1.05rem; font-weight:800; color:white;
-  line-height:1.3; margin:0;
-}
-.gm-close {
-  background:none; border:none; cursor:pointer;
-  color:white; opacity:0.6; font-size:1.9rem; line-height:1;
-  padding:0; flex-shrink:0; margin-top:-2px;
-  transition:opacity 0.15s;
-}
-.gm-close:hover { opacity:1; }
-
-/* ── Subbar (status + phase pills) ── */
-.gm-subbar {
-  display:flex; align-items:center; flex-wrap:wrap; gap:7px;
-}
-.gm-status-badge {
-  font-size:0.7rem; font-weight:700;
-  padding:3px 10px; border-radius:99px;
-  border:1.5px solid transparent;
-}
-.gm-status-ip   { background:rgba(255,194,32,0.18); border-color:rgba(255,194,32,0.5); color:#ffc220; }
-.gm-status-plan { background:rgba(255,255,255,0.12); border-color:rgba(255,255,255,0.3); color:rgba(255,255,255,0.8); }
-.gm-status-done { background:rgba(42,135,3,0.25); border-color:#2a8703; color:#a3e678; }
-
-.gm-phase-pill {
-  font-size:0.68rem; font-weight:700;
-  padding:3px 10px; border-radius:99px; border:1.5px solid;
-}
-
-/* ── Scrollable body ── */
-.gm-body {
-  overflow-y:auto; padding:20px 22px;
-  display:flex; flex-direction:column; gap:18px;
-}
-
-/* ── Sections ── */
-.gm-section { display:flex; flex-direction:column; gap:8px; }
-.gm-section-title {
-  font-size:0.68rem; font-weight:800; text-transform:uppercase;
-  letter-spacing:0.08em; color:#94a3b8;
-}
-.gm-desc {
-  font-size:0.85rem; line-height:1.65; color:#374151; margin:0;
-}
-
-.gm-two-col {
-  display:grid; grid-template-columns:1fr 1fr; gap:14px;
-}
-@media (max-width:540px) { .gm-two-col { grid-template-columns:1fr; } }
-
-.gm-kpi-box {
-  background:#f0f4ff; border:1.5px solid #bfcfff;
-  border-radius:10px; padding:12px 14px;
-  font-size:0.8rem; line-height:1.6; color:#1e293b; font-weight:500;
-}
-.gm-baseline-box {
-  background:#fff7ed; border:1.5px solid #fed7aa;
-  border-radius:10px; padding:12px 14px;
-  font-size:0.8rem; line-height:1.6; color:#7c2d12;
-}
-
-/* ── Key programs list ── */
-.gm-programs {
-  list-style:none; margin:0; padding:0;
-  display:flex; flex-direction:column; gap:7px;
-}
-.gm-programs li {
-  font-size:0.8rem; color:#1e293b; line-height:1.5;
-  padding:7px 10px; border-radius:8px;
-  background:#f8fafc; border-left:3px solid #0053e2;
-}
-.gm-programs strong { color:#0053e2; }
-.gm-prog-note { color:#64748b; }
-
-/* ── Workstream chips ── */
-.gm-ws-chips { display:flex; flex-wrap:wrap; gap:6px; }
-.gm-ws-chip {
-  font-size:0.72rem; font-weight:600;
-  padding:4px 11px; border-radius:99px;
-  background:#f1f5f9; border:1px solid #e2e8f0; color:#475569;
-}
-
-/* ── Source attribution ── */
-.gm-source {
-  font-size:0.68rem; color:#94a3b8; margin:0;
-  padding-top:12px; border-top:1px solid #f1f5f9;
-}
-.gm-source a { color:#0053e2; text-decoration:underline; }
-
-</style>
-<style>
-/* ============================================================
-   exec-summary.css — Executive Status Bar & Drill-Down Modal
-   Styles for the compact RYG chip strip and scoped status modal.
-   ============================================================ */
-
-#exec-bar {
-  margin-bottom: 12px;
-}
-
-.es-bar {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 4px;
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 7px 14px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-}
-
-.es-bar-label {
-  font-size: 0.62rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  color: #94a3b8;
-  white-space: nowrap;
-  margin-right: 4px;
-}
-
-.es-group-label {
-  font-size: 0.6rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .07em;
-  color: #cbd5e1;
-  white-space: nowrap;
-  padding: 0 2px;
-}
-
-.es-divider {
-  width: 1px;
-  height: 16px;
-  background: #e5e7eb;
-  margin: 0 6px;
-  flex-shrink: 0;
-}
-
-.es-sep {
-  color: #e2e8f0;
-  font-size: 0.8rem;
-  padding: 0 4px;
-  user-select: none;
-}
-
-/* Pushes filter group to the far right of the bar */
-.es-spacer {
-  flex: 1;
-  min-width: 8px;
-}
-
-/* Filter group container (right side of bar) */
-.es-filter-group {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  flex-shrink: 0;
-  flex-wrap: wrap;
-  padding-left: 4px;
-  border-left: 1px solid #e5e7eb;
-}
-
-/* Card filter pills (Critical / R-Y / Done) */
-.es-filter-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  padding: 3px 8px;
-  border-radius: 99px;
-  font-size: 0.65rem;
-  font-weight: 600;
-  color: #64748b;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.12s;
-}
-.es-filter-pill:hover {
-  border-color: #0053e2;
-  color: #0053e2;
-  background: #eff6ff;
-}
-.es-filter-pill.es-filter-active {
-  background: #0053e2;
-  color: white;
-  border-color: #0053e2;
-  font-weight: 700;
-}
-
-/* Clear-all button */
-.es-filter-clear {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  font-size: 0.6rem;
-  font-weight: 700;
-  color: #ef4444;
-  background: #fee2e2;
-  border: 1px solid #fca5a5;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: all 0.12s;
-}
-.es-filter-clear:hover {
-  background: #ef4444;
-  color: white;
-  border-color: #ef4444;
-}
-
-/* Phase expand/collapse pills */
-.es-phase-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-  padding: 3px 7px;
-  border-radius: 99px;
-  font-size: 0.63rem;
-  font-weight: 600;
-  color: var(--phc, #64748b);
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.12s;
-}
-.es-phase-pill:hover {
-  border-color: var(--phc, #64748b);
-  background: color-mix(in srgb, var(--phc, #64748b) 8%, white);
-}
-.es-phase-pill.es-phase-on {
-  background: color-mix(in srgb, var(--phc, #64748b) 12%, white);
-  border-color: var(--phc, #64748b);
-  font-weight: 700;
-}
-
-.es-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 3px 9px;
-  border-radius: 99px;
-  border: 1px solid #e5e7eb;
-  background: #f8fafc;
-  cursor: pointer;
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: #374151;
-  transition: all 0.15s ease;
-  white-space: nowrap;
-  line-height: 1.4;
-}
-.es-chip:hover {
-  background: #eef2ff;
-  border-color: #0053e2;
-  color: #0053e2;
-  transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgba(0,83,226,0.12);
-}
-.es-chip--overall {
-  font-weight: 700;
-  background: #f0f4ff;
-  border-color: #c7d2fe;
-}
-
-.es-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  display: inline-block;
-}
-
-.es-chip-label { font-size: 0.7rem; }
-
-.es-chip-badge {
-  font-size: 0.58rem;
-  font-weight: 700;
-  padding: 1px 5px;
-  border-radius: 99px;
-  border: 1px solid;
-  white-space: nowrap;
-}
-
-/* Exec modal box */
-#es-box {
-  background: white;
-  border-radius: 20px;
-  overflow: hidden;
-  width: 92%;
-  max-width: 660px;
-  max-height: 88vh;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 24px 64px rgba(0,0,0,0.22);
-}
-
-#es-header {
-  padding: 20px 24px 18px;
-  flex-shrink: 0;
-}
-
-#es-body {
-  overflow-y: auto;
-  flex: 1;
-  padding: 0 0 20px;
-}
-
-/* Sections inside the exec modal body */
-.es-section {
-  padding: 16px 24px 14px;
-  border-bottom: 1px solid #f1f5f9;
-}
-.es-section:last-child { border-bottom: none; }
-.es-section--alt { background: #fafbff; }
-
-.es-section-label {
-  margin: 0 0 10px;
-  font-size: 0.65rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  color: #64748b;
-}
-
-/* Group headers inside the collapsible All Programs list */
-.es-group-header {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.62rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: .07em;
-  padding: 4px 8px;
-  border-radius: 6px;
-  background: #f8fafc;
-  margin-bottom: 4px;
-  margin-top: 10px;
-}
-
-.es-card-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 8px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.12s;
-  border: 1px solid transparent;
-}
-.es-card-row:hover {
-  background: #eef2ff;
-  border-color: #c7d2fe;
-}
-
-.es-card-title {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #1e293b;
-  line-height: 1.3;
-  flex: 1;
-  min-width: 0;
-}
-
-/* details/summary reset */
-details > summary { list-style: none; }
-details > summary::-webkit-details-marker { display: none; }
-
-</style>
-</head>
-<body>
-
-<header style="background:#0053e2" class="text-white px-6 py-4 flex items-center justify-between shadow-lg">
-  <div class="flex items-center gap-3">
-    <span style="color:#FFC220;font-size:1.8rem;font-weight:900;">&#9733;</span>
-    <div>
-      <h1 class="text-xl font-bold tracking-wide">E2E Fashion Transformation</h1>
-      <p style="color:#a8c4ff" class="text-xs">PLM &amp; Technology Portal &mdash; Fashion Leadership</p>
-    </div>
-  </div>
-  <div style="color:#a8c4ff" class="text-xs">March 2026 &bull; Confidential</div>
-</header>
-
-<div style="background:linear-gradient(90deg,#1b5e20,#2e7d32,#00695c)" class="text-white px-6 py-2 text-center text-sm font-semibold flex items-center justify-center gap-3">
-  <span>&#129302;</span>
-  <span><strong>AI &amp; Automation:</strong>&nbsp;Automated workflows, intelligent forecasting, and system-driven execution across the Fashion E2E lifecycle</span>
-  <span>&#129302;</span>
-</div>
-
-<!-- phase bar removed from navbar — now lives inside main -->
-
-<main class="p-5 max-w-screen-2xl mx-auto">
-
-  <!-- E2E PHASE FLOW — centered, color-coded by workstream -->
-  <div class="bg-white rounded-2xl border border-gray-200 shadow-sm px-6 pt-5 pb-4 mb-4">
-    <p class="text-center text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">End-to-End Fashion Process Flow</p>
-    <div id="phase-bar" class="flex flex-wrap items-center justify-center gap-y-3 gap-x-0"></div>
-    <!-- legend -->
-    <div class="flex flex-wrap items-center justify-center gap-4 mt-4 pt-3 border-t border-gray-100">
-      <span class="flex items-center gap-1.5 text-xs font-semibold" style="color:#37474f;">
-        <span style="width:10px;height:10px;border-radius:3px;background:#37474f;display:inline-block;"></span>Strategy
-      </span>
-      <span class="flex items-center gap-1.5 text-xs font-semibold" style="color:#0053e2;">
-        <span style="width:10px;height:10px;border-radius:3px;background:#0053e2;display:inline-block;"></span>Design
-      </span>
-      <span class="flex items-center gap-1.5 text-xs font-semibold" style="color:#b86000;">
-        <span style="width:10px;height:10px;border-radius:3px;background:#d98c00;display:inline-block;"></span>Buying
-      </span>
-      <span class="flex items-center gap-1.5 text-xs font-semibold" style="color:#1a1a6e;">
-        <span style="width:10px;height:10px;border-radius:3px;background:#3b3ba3;display:inline-block;"></span>Allocation
-      </span>
-    </div>
-  </div>
-
-  <!-- EXECUTIVE STATUS BAR — subtle RYG overview strip; click any chip to drill in -->
-  <div id="exec-bar"></div>
-
-  <!-- STRATEGY UMBRELLA — ties all workstreams together -->
-  <div class="strategy-umbrella mb-3" aria-label="Strategy Hub — connective tissue linking all workstreams">
-    <div class="su-left">
-      <span class="su-icon" aria-hidden="true">&#128279;</span>
-      <div>
-        <div class="su-title">Strategy Workstream &mdash; Trend To Product (TTP) <span class="su-tool">&mdash; Strategy Hub</span></div>
-        <div class="su-sub">The connective tissue of E2E fashion &mdash; live strategy signals from TTP bind Design, Buying &amp; Allocation into one integrated, seamless system</div>
-      </div>
-    </div>
-    <div class="su-right">
-      <div class="su-spans-label">Connective tissue &mdash; linking all workstreams &#8595;</div>
-      <div class="su-spans-chips">
-        <span class="su-chip su-chip-design">&#127912; Design</span>
-        <span class="su-chip su-chip-buying">&#128722; Buying</span>
-        <span class="su-chip su-chip-alloc">&#128230; Allocation</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- WORKSTREAM × PHASE MATRIX
-       Left sidebar  = phase context rail (timing, goals, value)
-       Right columns = workstream hero columns (Strategy / Design / Buying / Allocation)
-       Phase 1 cells = full program cards
-       Phase 2 & 3 cells = capability chips + value-unlock banners
-  -->
-  <div id="phase-grid-wrap" class="mb-4"></div>
-
-
-</main>
-
-<!-- CARD DETAIL MODAL -->
-<div id="modal-overlay" class="modal-overlay">
-  <div id="modal-box">
-    <!-- Sticky zone: header + tabs never scroll away -->
-    <div id="modal-sticky-top">
-      <div id="modal-header" class="px-6 py-5 rounded-t-2xl" style="background:#0053e2">
-        <div class="flex justify-between items-start">
-          <div class="flex items-center gap-3">
-            <span id="modal-icon" class="text-3xl"></span>
-            <div>
-              <h2 id="modal-title" class="text-white font-bold text-lg leading-tight"></h2>
-              <p id="modal-tool" class="text-blue-200 text-xs mt-0.5"></p>
-            </div>
-          </div>
-          <button onclick="closeModal()"
-            style="color:white;opacity:0.65;font-size:1.6rem;line-height:1;cursor:pointer;
-                   background:rgba(255,255,255,0.12);border:none;border-radius:8px;
-                   width:34px;height:34px;display:flex;align-items:center;justify-content:center;
-                   flex-shrink:0;transition:opacity .15s,background .15s;"
-            onmouseover="this.style.opacity='1';this.style.background='rgba(255,255,255,0.22)'"
-            onmouseout="this.style.opacity='0.65';this.style.background='rgba(255,255,255,0.12)'">
-            &times;
-          </button>
-        </div>
-        <div class="mt-3 flex items-center gap-2 flex-wrap">
-          <span id="modal-badge" class="badge"></span>
-          <span id="modal-tag" class="tag"></span>
-          <span id="modal-date" class="text-blue-200 text-xs"></span>
-        </div>
-      </div>
-      <div class="px-6 pt-4 pb-0 border-b border-gray-100 flex gap-2 flex-wrap"
-           style="background:white;">
-        <button class="tab-btn active" onclick="switchTab('overview')">&#128196; Overview</button>
-        <button class="tab-btn" onclick="switchTab('status')">&#128200; Status</button>
-        <button class="tab-btn" onclick="switchTab('links')" style="color:#0053e2;">&#128279; Links &amp; Workstreams</button>
-        <button class="tab-btn" onclick="switchTab('inquiry')" style="color:#7c3aed;">&#9993;&#65039; Inquiry</button>
-        <button id="tab-btn-updates" class="tab-btn" onclick="switchTab('updates')" style="color:#b45309;display:none;">&#128276; Updates</button>
-      </div>
-    </div>
-    <!-- Scrollable content zone -->
-    <div id="modal-body-scroll">
-      <div id="tab-overview"  class="tab-panel active"></div>
-      <div id="tab-status"    class="tab-panel"></div>
-      <div id="tab-links"     class="tab-panel"></div>
-      <div id="tab-inquiry"   class="tab-panel"></div>
-      <div id="tab-updates"   class="tab-panel"></div>
-    </div>
-  </div>
-</div>
-
-<!-- GOAL DETAIL MODAL -->
-<div id="gm-overlay" class="modal-overlay">
-  <div id="gm-box">
-    <div id="gm-header">
-      <div class="gm-header-top">
-        <div class="gm-header-left">
-          <span id="gm-icon" class="gm-icon-lg"></span>
-          <div>
-            <div id="gm-num" class="gm-num"></div>
-            <h2 id="gm-title" class="gm-title"></h2>
-          </div>
-        </div>
-        <button onclick="closeGoalModal()" class="gm-close">&times;</button>
-      </div>
-      <div id="gm-subbar" class="gm-subbar"></div>
-    </div>
-    <div id="gm-body" class="gm-body"></div>
-  </div>
-</div>
-
-<!-- ROADMAP POPOUT MODAL -->
-<div id="rm-overlay" class="modal-overlay">
-  <div id="rm-box">
-    <div id="rm-header">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-        <div>
-          <h2 id="rm-title" style="color:white;font-weight:800;font-size:1.1rem;margin:0;"></h2>
-          <p  id="rm-subtitle" style="color:rgba(255,255,255,0.65);font-size:0.78rem;margin:5px 0 0;"></p>
-        </div>
-        <button onclick="closeRoadmapModal()" style="color:white;opacity:0.6;font-size:1.9rem;line-height:1;cursor:pointer;background:none;border:none;padding:0;margin-left:16px;">&times;</button>
-      </div>
-      <div id="rm-filters" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;align-items:center;"></div>
-    </div>
-    <div id="rm-body"></div>
-  </div>
-</div>
-
-
-<!-- SUMMARY MODAL (z:96) -->
-<div id="sm-overlay" class="modal-overlay">
-  <div id="sm-box">
-    <div id="sm-header">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-        <div>
-          <h2 id="sm-title" style="color:white;font-weight:800;font-size:1.05rem;margin:0;"></h2>
-          <p  id="sm-subtitle" style="color:rgba(255,255,255,0.65);font-size:0.76rem;margin:5px 0 0;"></p>
-        </div>
-        <button onclick="closeSummaryModal()" style="color:white;opacity:0.6;font-size:1.9rem;line-height:1;cursor:pointer;background:none;border:none;padding:0;margin-left:16px;">&times;</button>
-      </div>
-    </div>
-    <div id="sm-body"></div>
-  </div>
-</div>
-<script>
 // E2E Fashion Transformation Portal — Core Constants & Helpers
 // Walmart FY starts February:
 //   Q1 = Feb–Apr  |  Q2 = May–Jul  |  Q3 = Aug–Oct  |  Q4 = Nov–Jan
@@ -1263,8 +140,10 @@ const INTEGRATION_ROW = [
   'Supplier One', 'ISAM', 'Item Setup Systems',
   'Store Systems', 'E-Commerce', 'Compliance & Traceability',
 ];
-</script>
-<script>
+
+
+// ===== SCRIPT BLOCK 2 =====
+
 // data-strategy.js — Strategy pillar card definitions
 // Source: Confluence LLTT Work Management Dashboard (APREC space)
 // Live Jira data: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
@@ -1274,7 +153,7 @@ const CARDS_STRATEGY = [
   {
     id: 'strategy-hub', title: 'Strategy Hub (TTP)', icon: '\uD83C\uDFDB\uFE0F',
     status: 'green', statusLabel: 'Active', quarter: 'Q1', targetDate: 'Feb\u2013Apr 2026',
-    description: 'Central repository for all Fashion strategy, space, and cross-workstream decisions. Design, Buying, and Allocation align to the same financial targets and category priorities via TTP.',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Central repository for all Fashion strategy, space, and cross-workstream decisions. Design, Buying, and Allocation align to the same financial targets and category priorities via TTP.',
     businessBenefit: 'Eliminates redundant strategy sessions and conflicting priorities. Single source for seasonal targets cascaded to all workstreams.',
     techIntegration: 'TTP serves as the upstream data source feeding AEX (Buying), Centric (Design), and BPE/DBP (Allocation). Decisions recorded here propagate downstream without re-entry.',
     successMetrics: 'All workstreams reference TTP as primary source. Zero conflicting financial targets across Design, Buying, and Allocation in any given season.',
@@ -1283,7 +162,7 @@ const CARDS_STRATEGY = [
   {
     id: 'space-planning', title: 'Space & Financial Planning', icon: '\uD83D\uDCCA',
     status: 'green', statusLabel: 'Active', quarter: 'Q1', targetDate: 'Feb\u2013Apr 2026',
-    description: 'Space and financial planning capabilities defining the guardrails for assortment, buy quantity, and inventory allocation across all fashion departments.',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Space and financial planning capabilities defining the guardrails for assortment, buy quantity, and inventory allocation across all fashion departments.',
     businessBenefit: 'Clear, pre-approved financial boundaries before assortment and buy decisions begin — reducing mid-season corrections.',
     techIntegration: 'Integrates with AEX for buy quantity guardrails, BPE for inventory plan inputs, and Centric for space-informed line plan constraints.',
     successMetrics: 'Space and financial targets distributed to all workstreams before each seasonal planning cycle. Reduction in mid-season financial reforecasting.',
@@ -1292,7 +171,7 @@ const CARDS_STRATEGY = [
   {
     id: 'trend-api-longlead', title: 'Trend API — Long Lead & In-Season', icon: '\uD83D\uDCC8',
     status: 'green', statusLabel: 'Active', quarter: 'Q1', targetDate: 'Q1 FY27',
-    description: 'Trend API providing macro-level insights to enable faster planning and product development for both long-lead and in-season use cases across Fashion.',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Trend API providing macro-level insights to enable faster planning and product development for both long-lead and in-season use cases across Fashion.',
     businessBenefit: 'Merchants and designers get automated trend signals fed directly into planning tools, eliminating manual trend research and accelerating line plan decisions.',
     techIntegration: 'API integrates with Centric (design intent), AEX (assortment weighting), and the Strategy Hub for trend-to-plan alignment.',
     successMetrics: 'Trend API serving all targeted long-lead categories. Measurable reduction in time from trend identification to plan integration.',
@@ -1301,7 +180,7 @@ const CARDS_STRATEGY = [
   {
     id: 'trend-packaging-redesign', title: 'V1 Trend-to-Packaging Redesign', icon: '\uD83C\uDFA8',
     status: 'green', statusLabel: 'In Production', quarter: 'Q1', targetDate: 'Q1 FY27',
-    description: 'First version of the Trend-to-Packaging redesign workflow — enabling design and product teams to take trend signals through to packaging decisions in an integrated flow.',
+    description: '⚠️ No OPIF mapped — status updates are manual only. First version of the Trend-to-Packaging redesign workflow — enabling design and product teams to take trend signals through to packaging decisions in an integrated flow.',
     businessBenefit: 'Reduces cycle time from trend identification to packaging specification, with traceability of why packaging decisions were made.',
     techIntegration: 'Trend API output feeds into Centric PLM for product and packaging spec creation. Integrated event layer connects trend source to design execution.',
     successMetrics: 'V1 in production and adopted by target design categories. Packaging iteration cycle time measurably reduced.',
@@ -1310,7 +189,7 @@ const CARDS_STRATEGY = [
   {
     id: 'synthetic-panel', title: 'V1 Synthetic Panel (WMT Data Ventures)', icon: '\uD83E\uDD16',
     status: 'green', statusLabel: 'In Production', quarter: 'Q1', targetDate: 'Q1 FY27',
-    description: 'V1 of the Synthetic Consumer Panel, built with Walmart Data Ventures, providing simulated customer response data to inform design and assortment decisions before production.',
+    description: '⚠️ No OPIF mapped — status updates are manual only. V1 of the Synthetic Consumer Panel, built with Walmart Data Ventures, providing simulated customer response data to inform design and assortment decisions before production.',
     businessBenefit: 'Reduces risk of product misses by simulating customer reactions to designs before commitment — lowering markdown rates on new product introductions.',
     techIntegration: 'Synthetic panel integrates with Centric for design feedback loops and with the Trend API for combined trend + synthetic-consumer signal.',
     successMetrics: 'V1 synthetic panel in production with WMT Data Ventures. Fashion teams actively consuming synthetic panel outputs in line plan decisions.',
@@ -1318,9 +197,11 @@ const CARDS_STRATEGY = [
   },
   {
     id: 'forecast-enterprise-service', title: 'Forecast as Enterprise Service', icon: '\uD83E\uDDE0',
-    status: 'roadmap', statusLabel: 'Roadmap \u2014 Recommend & Optimize Phase',
+    status: 'yellow', statusLabel: 'Yellow \u2014 Initial Requirements',
+    jiraStatus: 'Initial Requirements',
+    priority: 'P3',
     quarter: 'Q2', targetDate: 'May\u2013Oct 2026',
-    description: 'National forecasting capability delivered as a shared enterprise service — providing channel-level (eComm vs. store) and placement-split forecast outputs consumed by Buying, Allocation, and Planning teams. Enables AEX to consume forecasts aligned with AP service-based forecasting architecture. Includes model explainability and automated training pipelines. OPIF-325221 Status: Discovery in Progress. Assignee: Abhishek Jannawar. Reporter: Abhishek Jannawar. Component: US Omni Tech – MerchTools – AEX Buy Quantification. Related: OPIF-325218 (BQ as a Service), OPIF-325373 (Unified Planner Experience).',
+    description: '✅ OPIF-mapped — auto-syncs with Jira. National forecasting capability delivered as a shared enterprise service — providing channel-level (eComm vs. store) and placement-split forecast outputs consumed by Buying, Allocation, and Planning teams. Enables AEX to consume forecasts aligned with AP service-based forecasting architecture. Includes model explainability and automated training pipelines. OPIF-325221 Status: Initial Requirements (updated Mar 19, 2026). Assignee: Abhishek Jannawar. Reporter: Abhishek Jannawar. Component: US Omni Tech – MerchTools – AEX Buy Quantification. Related: OPIF-325218 (BQ as a Service — Backlog), OPIF-325373 (Unified Planner Experience — Backlog).',
     businessBenefit: 'Single, trusted forecast signal across all Fashion workstreams eliminates conflicting demand signals between Buying and Allocation. Forecast as a service reduces duplicative DS investment and accelerates new-department onboarding. Channel and placement splits give eComm and store teams differentiated, actionable signals without separate model builds.',
     techIntegration: 'Primary OPIF: OPIF-325221 (Forecast as a Service with Channel and Placement Split). Related: OPIF-325218 (Buy Quantification and Flow as a Service), OPIF-325373 (Unified Planner Experience). DS microservice architecture with batch inference pipeline. Forecast consumed by AEX (BQ), BPE (allocation planning), and DBP (distribution). Channel and placement split enables eComm vs. store differentiation in every forecast output. PRD: Confluence APREC space.',
     successMetrics: 'Forecast service adopted by all target Buying and Allocation workstreams. Conflicting forecast signals between workstreams eliminated. DS model training fully automated with no manual intervention required. Channel-level and placement-level splits live and consumed by AEX and BPE.',
@@ -1342,9 +223,11 @@ const CARDS_STRATEGY = [
   },
   {
     id: 'shared-merch-strategy', title: 'Shared Merch Strategy & Scenario Planning', icon: '\uD83C\uDFAF',
-    status: 'roadmap', statusLabel: 'Roadmap \u2014 Automate Phase',
+    status: 'yellow', statusLabel: 'Yellow \u2014 Initial Requirements',
+    jiraStatus: 'Initial Requirements',
+    priority: 'P3',
     quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
-    description: 'Shared merchandise strategy repository capturing goals and priorities that power automated conceptual line plan creation and scenario generation. Strategy inputs from TTP cascade into AEX and Centric without manual re-entry — enabling full scenario evaluation before seasonal commitment. Part of the Automate phase of the LLTT roadmap. OPIF-325206 Status: Initial Requirements. Assignee: Christopher Chiodo. Reporter: Christopher Chiodo. Component: US Omni Tech - AEX-FashionApparel.',
+    description: '✅ OPIF-mapped — auto-syncs with Jira. Shared merchandise strategy repository capturing goals and priorities that power automated conceptual line plan creation and scenario generation. Strategy inputs from TTP cascade into AEX and Centric without manual re-entry — enabling full scenario evaluation before seasonal commitment. Part of the Automate phase of the LLTT roadmap. OPIF-325206 Status: Initial Requirements (updated Mar 5, 2026). Assignee: Christopher Chiodo. Reporter: Christopher Chiodo. Component: US Omni Tech - AEX-FashionApparel.',
     businessBenefit: 'Merchants shift from encoding decisions manually to encoding strategy and goals — the system generates and evaluates scenarios. Dramatically reduces planning cycle time and enables what-if evaluation before financial commitment. Connected and shared merch strategy eliminates duplicative strategy sessions across Design, Buying, and Allocation.',
     techIntegration: 'Primary OPIF: OPIF-325206 (Shared Merch Strategy). Related: OPIF-325203 (Shared Item Repository), OPIF-325208 (Design Hub / Centric Integration). Strategy repository connects TTP inputs to AEX line plan generation and Centric conceptual plan. Scenario engine evaluates financial and space implications of strategy choices automatically. PRD: Connected and Shared Merch Strategy (IESP Confluence space).',
     successMetrics: 'Strategy-based conceptual line plans generated automatically for target departments. Scenario generation and selection adopted by merchant planning teams. Manual strategy-to-plan translation steps eliminated. Single shared merch strategy consumed by all workstreams without re-entry.',
@@ -1366,8 +249,8 @@ const CARDS_STRATEGY = [
   },
   {
     id: 'growth-budget-signals', title: 'Growth & Budget IBG Signal Integration', icon: '\uD83D\uDCB9',
-    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q2', targetDate: 'May\u2013Jul 2026',
-    description: 'Integration of Growth and Budget IBG (Item-level Business Goals) signals into the Trend API and planning workflows, ensuring trend insights are anchored to financial intent.',
+    status: 'backlog', statusLabel: 'Backlog', quarter: 'Q2', targetDate: 'May\u2013Jul 2026',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Integration of Growth and Budget IBG (Item-level Business Goals) signals into the Trend API and planning workflows, ensuring trend insights are anchored to financial intent.',
     businessBenefit: 'Trend decisions are automatically filtered through financial guardrails — preventing investment in trends that conflict with budget priorities.',
     techIntegration: 'IBG signals from TTP flow into the Trend API and Centric to weight trend recommendations by financial viability and growth priorities.',
     successMetrics: 'Growth and budget signals actively shaping trend API output. Planning teams no longer manually reconciling trend vs. budget in separate steps.',
@@ -1375,8 +258,8 @@ const CARDS_STRATEGY = [
   },
   {
     id: 'trend-api-100pct', title: 'Trend API — 100% Long-Lead Categories', icon: '\uD83D\uDE80',
-    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q2', targetDate: 'May\u2013Jul 2026',
-    description: 'Expansion of the Trend API to serve 100% of long-lead Fashion categories, beyond the initial pilot set, providing enterprise-scale trend coverage.',
+    status: 'backlog', statusLabel: 'Backlog', quarter: 'Q2', targetDate: 'May\u2013Jul 2026',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Expansion of the Trend API to serve 100% of long-lead Fashion categories, beyond the initial pilot set, providing enterprise-scale trend coverage.',
     businessBenefit: 'Every long-lead merchant receives automated trend signals — leveling up the quality of assortment decisions across all departments, not just pilot categories.',
     techIntegration: 'Trend API extended to all long-lead category configurations in AEX and Centric. Automated onboarding pipeline for new category additions.',
     successMetrics: 'Trend API serving 100% of long-lead categories as confirmed by category coverage report. Zero long-lead categories relying solely on manual trend research.',
@@ -1385,7 +268,7 @@ const CARDS_STRATEGY = [
   {
     id: 'cross-functional-alignment', title: 'Cross-Functional Alignment', icon: '\uD83E\uDD1D',
     status: 'green', statusLabel: 'Active', quarter: 'Q1', targetDate: 'Feb\u2013Apr 2026',
-    description: 'Structured collaboration across Design, Buying, and Allocation — breaking down linear handoffs in favor of shared, real-time visibility via TTP.',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Structured collaboration across Design, Buying, and Allocation — breaking down linear handoffs in favor of shared, real-time visibility via TTP.',
     businessBenefit: 'Teams no longer wait for sequential handoffs. Shared visibility means all workstreams move in parallel against the same plan.',
     techIntegration: 'Enabled through TTP as the shared data layer, surfaced via dashboards accessible across all Fashion tools (AEX, Centric, BPE).',
     successMetrics: 'Cross-functional review cycle time reduced. All workstream leads reference the same seasonal plan data.',
@@ -1393,8 +276,8 @@ const CARDS_STRATEGY = [
   },
   {
     id: 'category-priorities', title: 'Category Priority Framework', icon: '\uD83C\uDFAF',
-    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q2', targetDate: 'May\u2013Jul 2026',
-    description: 'Formalized category priority framework connecting top-down strategic decisions to department-level assortment, buying, and inventory plans.',
+    status: 'backlog', statusLabel: 'Backlog', quarter: 'Q2', targetDate: 'May\u2013Jul 2026',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Formalized category priority framework connecting top-down strategic decisions to department-level assortment, buying, and inventory plans.',
     businessBenefit: 'Investment decisions flow automatically into buying and allocation — not re-interpreted at each level.',
     techIntegration: 'Category priority data flows from TTP into AEX for assortment weighting and into BPE for inventory investment guardrails.',
     successMetrics: 'Category targets reflected in assortment plans within one planning cycle. Zero buying against a deprioritized category without approval.',
@@ -1402,8 +285,8 @@ const CARDS_STRATEGY = [
   },
   {
     id: 'strategy-fy27-kickoff', title: 'FY27 Strategic Planning Kickoff', icon: '\uD83D\uDCCA',
-    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
-    description: 'Formal kickoff of FY27 strategic planning cycle within TTP, incorporating learnings from FY26 transformation execution.',
+    status: 'backlog', statusLabel: 'Backlog', quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Formal kickoff of FY27 strategic planning cycle within TTP, incorporating learnings from FY26 transformation execution.',
     businessBenefit: 'FY27 strategy built on a proven, tool-supported foundation rather than starting from scratch each cycle.',
     techIntegration: 'TTP FY27 plan builds on FY26 platform with enhanced data feeds from AEX actuals, BPE performance, and Centric line plan completion rates.',
     successMetrics: 'FY27 strategic plan completed in TTP by end of Q3. All workstream leads aligned before Q4 FY26 planning begins.',
@@ -1411,16 +294,18 @@ const CARDS_STRATEGY = [
   },
   {
     id: 'strategy-transformation-review', title: 'Transformation Review & FY28 Framework', icon: '\uD83D\uDD2D',
-    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q4', targetDate: 'Nov 2026\u2013Jan 2027',
-    description: 'Comprehensive review of Fashion E2E Transformation outcomes and initial FY28 strategic priorities framework.',
+    status: 'backlog', statusLabel: 'Backlog', quarter: 'Q4', targetDate: 'Nov 2026\u2013Jan 2027',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Comprehensive review of Fashion E2E Transformation outcomes and initial FY28 strategic priorities framework.',
     businessBenefit: 'Leadership receives full-cycle ROI view and a clear foundation for the next phase of Fashion technology investment.',
     techIntegration: 'Leverages data from all systems (AEX, Centric, BPE/DBP, TTP) for a unified performance dashboard.',
     successMetrics: 'Transformation scorecard presented to senior leadership. FY28 framework drafted before end of Q4.',
     owners: TBD_OWNERS(), resources: res(), workstreams: ['strategy'],
   },
 ];
-</script>
-<script>
+
+
+// ===== SCRIPT BLOCK 3 =====
+
 // data-design.js — Design pillar card definitions
 // Source: Confluence LLTT Work Management Dashboard (APREC space)
 // Live Jira data: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
@@ -1429,9 +314,11 @@ const CARDS_STRATEGY = [
 const CARDS_DESIGN = [
   {
     id: 'design-hub-centric', title: 'Launch Design Hub (Centric PLM)', icon: '\uD83C\uDFD7\uFE0F',
-    status: 'green', statusLabel: 'On Track', quarter: 'Q1', targetDate: 'Q1 FY27',
+    status: 'yellow', statusLabel: 'Yellow \u2014 Initial Requirements', quarter: 'Q1', targetDate: 'June 30, 2026',
     tag: 'Critical Program',
-    description: 'Full launch of Centric PLM as the centralized Design Hub — replacing fragmented design tools with a single system of record for all Fashion product design and development. Includes milestone review of Centric capabilities and ownership proposal for workflows in Centric vs. AP Tool vs. OneSource. Milestone OPIF-347498: COMPLETE — Milestone Only. Christopher has stated that this is now complete. Milestone OPIF-347500: Backlog — Full verticals and ownership review with proposal pending. Assignee: Christopher Chiodo.',
+    jiraStatus: 'Initial Requirements',
+    priority: 'P3',
+    description: '✅ OPIF-mapped — auto-syncs with Jira. Full launch of Centric PLM as the centralized Design Hub — replacing fragmented design tools with a single system of record for all Fashion product design and development. Includes milestone review of Centric capabilities and ownership proposal for workflows in Centric vs. AP Tool vs. OneSource. Milestone OPIF-347498: COMPLETE — Milestone Only. Christopher has stated that this is now complete. Milestone OPIF-347500: Backlog — Full verticals and ownership review with proposal pending. Assignee: Christopher Chiodo.',
     businessBenefit: 'Design teams work in one system connected to buying and sourcing — eliminating handoff delays and duplicate data entry between disconnected tools. Deprecates Bamboo Rose and eliminates Miro dependency for assortment visualization. Centric becomes the single source of truth for all product design, specification, and sample management.',
     techIntegration: 'Primary OPIF: OPIF-325208 (Design Hub — Centric Integration). Related: OPIF-347498 (Milestone: Centric capabilities review vs AP Tool vs OneSource — DONE), OPIF-347500 (Milestone: Full verticals and ownership proposal — Backlog), OPIF-325206 (Shared Merch Strategy). Centric PLM is system of record for design. Integration plan covers AEX line plan sync, Supplier One spec distribution, DAM asset linking, and OneSource data feed via shared event layer. PRD: OneSource Design Integration (IESP Confluence space).',
     successMetrics: 'Contract signed and integration plan finalized. All target design teams onboarded to Centric. Bamboo Rose decommissioned. Design-to-buying handoff cycle time reduced. Milestone OPIFs (347498, 347500) both completed and proposals actioned.',
@@ -1453,10 +340,40 @@ const CARDS_DESIGN = [
     workstreams: ['design', 'strategy'],
   },
   {
-    id: 'sample-mgmt-fit-eval', title: 'Sample Management & Fit Evaluation', icon: '\uD83D\uDCCB',
-    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q1', targetDate: 'Q1\u2013Q2 FY27',
+    id: 'aex-lineplan-migration', title: 'AEX Line Plan Migration to AP Tool', icon: '\uD83D\uDD04',
+    status: 'green', statusLabel: 'Green \u2014 In Progress',
+    quarter: 'Q1', targetDate: 'Q1\u2013Q2 FY27',
     tag: 'Critical Program',
-    description: 'Streamlined sample management and fit evaluation workflow within Centric, eliminating manual tracking of physical samples and enabling structured fit feedback connected to design records.',
+    jiraStatus: 'Work in Progress',
+    priority: 'P3',
+    description: '✅ OPIF-mapped — auto-syncs with Jira. Migration of the AEX Fashion Line Planning experience to the AP Tool Assortment List — replacing the legacy line plan module with AP Plan Creation & Plan List. Includes enabling fashion-specific metrics, attributes, Excel upload reuse, and potential item population via Item Repository and OneItem workflow. Merchants get out of Excel permanently. Jira update (Mar 3, 2026): 03-Mar-2026 - Next Step: There is a 2 week spike stories and scope will be confirmed.  (ETA: 16-Mar). Timeline to be finalize post this spike ||Deliverables||Timeline || |Planned Start Date|17-Feb| |Development Complete|19-Feb| |QE Functional / Integ Path to Green: Working with Ashwin to get LOE.. Status: Work in Progress. Assignee: Ashwin Chidambaram.',
+    businessBenefit: 'Eliminates dual-system line planning (Excel + AEX). Merchants plan in one connected environment from line intent through to buy execution. Fashion attribute and metric enablement accelerates downstream buying decisions. Excel upload reuse eliminates re-keying of potential items from Supplier Catalog.',
+    techIntegration: 'Primary OPIF: OPIF-325568 (Move Fashion Line Planning to AP Tool Assortment List — Work in Progress, Q2 FY27). Related OPIFs: OPIF-325216 (AEX Fashion: Use AP Plan Creation & Plan List — Initial Requirements), OPIF-325217 (Fashion Metrics Enablement in Assortment List and Downstream Validation), OPIF-325565 (Fashion Re-Use of Assortment Planning Potential Item Excel Upload — Initial Requirements), OPIF-337970 (Auto-populate Line Plan with Potential Items from Supplier Catalog — Backlog). AP Tool Assortment List becomes Fashion line plan system of record. Auto-populate from Supplier Catalog via Item Repository/OneItem workflow. PRD: Transition Plan Creation and Line Planning to Assortment Planning (Confluence APREC).',
+    successMetrics: 'Fashion Line Planning 100% migrated to AP Tool Assortment List. Excel-based line plan workarounds eliminated. Fashion metrics and attributes fully enabled in Assortment List. Item auto-population from Supplier Catalog via Item Repository live. Zero manual re-key of potential items.',
+    owners: pptOwners('Brett Reid', 'Ashwin Chidambaram', 'Taylor Watson', 'CJ Weatherford', 'Arun Santhiagu'),
+    resources: res(
+      'https://jira.walmart.com/browse/OPIF-325568',
+      '#',
+      'https://confluence.walmart.com/display/APREC/Transition+Plan+Creation+and+Line+Planning+to+Assortment+Planning',
+      '#',
+      [
+        { label: 'OPIF-325568 — Move Fashion Line Planning to AP Tool Assortment List (Primary — WIP)', url: 'https://jira.walmart.com/browse/OPIF-325568' },
+        { label: 'OPIF-325216 — AEX Fashion: Use AP Plan Creation & Plan List (Related)', url: 'https://jira.walmart.com/browse/OPIF-325216' },
+        { label: 'OPIF-325217 — Fashion Metrics Enablement in Assortment List (Related)', url: 'https://jira.walmart.com/browse/OPIF-325217' },
+        { label: 'OPIF-325565 — Fashion Re-Use of AP Potential Item Excel Upload (Related)', url: 'https://jira.walmart.com/browse/OPIF-325565' },
+        { label: 'OPIF-337970 — Auto-populate Line Plan from Supplier Catalog (Related)', url: 'https://jira.walmart.com/browse/OPIF-337970' },
+        { label: 'PRD: Transition Plan Creation & Line Planning to AP (Confluence APREC)', url: 'https://confluence.walmart.com/display/APREC/Transition+Plan+Creation+and+Line+Planning+to+Assortment+Planning' },
+        { label: 'LLTT Dashboard', url: 'https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard' },
+      ]
+    ),
+    workstreams: ['design', 'buying'],
+  },
+  {
+    id: 'sample-mgmt-fit-eval', title: 'Sample Management & Fit Evaluation', icon: '\uD83D\uDCCB',
+    status: 'backlog', statusLabel: 'Backlog',
+    quarter: 'Q1', targetDate: 'Q1\u2013Q2 FY27',
+    tag: 'Critical Program',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Streamlined sample management and fit evaluation workflow within Centric, eliminating manual tracking of physical samples and enabling structured fit feedback connected to design records.',
     businessBenefit: 'Sample review cycles are tracked, time-stamped, and linked to the product record — reducing duplicate sampling, missed fit issues, and approval delays.',
     techIntegration: 'Built within Centric PLM. Fit evaluation data connected to product spec record. Integration with sourcing calendar to enforce sample milestone gates.',
     successMetrics: 'All sample milestones tracked in Centric. Fit evaluation turnaround time reduced. Zero unreviewedsamples reaching production.',
@@ -1465,7 +382,7 @@ const CARDS_DESIGN = [
   {
     id: 'line-planning', title: 'Line Planning & Calendar Management', icon: '\uD83D\uDCC5',
     status: 'green', statusLabel: 'Active', quarter: 'Q1', targetDate: 'Feb\u2013Apr 2026',
-    description: 'End-to-end line planning and calendar management within Centric, connecting design decisions directly to buying and allocation workflows.',
+    description: '⚠️ No OPIF mapped — status updates are manual only. End-to-end line planning and calendar management within Centric, connecting design decisions directly to buying and allocation workflows.',
     businessBenefit: 'Design teams plan against shared calendars that buying and allocation can see in real time — eliminating lag between design intent and downstream reaction.',
     techIntegration: 'Centric PLM is system of record for the line plan. Calendar milestones sync with AEX for buy readiness dates.',
     successMetrics: 'Line plan finalized and shared with Buying by target calendar milestone each season. Reduction in last-minute line plan changes after buying has begun.',
@@ -1474,7 +391,7 @@ const CARDS_DESIGN = [
   {
     id: 'product-specs', title: 'Product Specifications', icon: '\uD83D\uDCCB',
     status: 'green', statusLabel: 'Active', quarter: 'Q1', targetDate: 'Feb\u2013Apr 2026',
-    description: 'Collaborative product specification management across design and sourcing — a single source of truth for product attributes in Centric.',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Collaborative product specification management across design and sourcing — a single source of truth for product attributes in Centric.',
     businessBenefit: 'Eliminates spec re-entry across siloed tools. Design creates specs once; sourcing, buying, and item setup consume from the same record.',
     techIntegration: 'Centric product specs feed into item setup workflows and Supplier One for vendor distribution without manual redistribution.',
     successMetrics: 'Zero duplicate spec records across sourcing and item setup. Spec-related item setup errors reduced quarter over quarter.',
@@ -1482,8 +399,8 @@ const CARDS_DESIGN = [
   },
   {
     id: 'trend-api-preseason', title: 'Trend API — 5+ Sources Pre-Season', icon: '\uD83D\uDD0D',
-    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q2', targetDate: 'May\u2013Jul 2026',
-    description: 'Launch of the Trend API with 5+ integrated trend sources specifically configured for pre-season use cases — giving designers and merchants multi-source trend consensus before line plans lock.',
+    status: 'backlog', statusLabel: 'Backlog', quarter: 'Q2', targetDate: 'May\u2013Jul 2026',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Launch of the Trend API with 5+ integrated trend sources specifically configured for pre-season use cases — giving designers and merchants multi-source trend consensus before line plans lock.',
     businessBenefit: 'Designers and merchants see a consolidated trend signal from multiple sources rather than triangulating manually, accelerating pre-season line plan decisions.',
     techIntegration: 'Trend API aggregates 5+ trend data providers. Signal surfaced in Centric and AEX line plan workflows via shared API layer.',
     successMetrics: 'Trend API live with 5+ sources in pre-season workflows. Adoption by target design teams confirmed. Pre-season line plan lock date achievedwithout trend reconciliation delays.',
@@ -1491,8 +408,8 @@ const CARDS_DESIGN = [
   },
   {
     id: 'ap-tool-shared-ideation', title: 'AP Tool Shared Ideation & Integration', icon: '\uD83D\uDCA1',
-    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q2', targetDate: 'May\u2013Jul 2026',
-    description: 'Integration of AP Tool with Centric to enable shared ideation between Design and Buying — line plan concepts flow directly into the buying tool without manual handoff.',
+    status: 'backlog', statusLabel: 'Backlog', quarter: 'Q2', targetDate: 'May\u2013Jul 2026',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Integration of AP Tool with Centric to enable shared ideation between Design and Buying — line plan concepts flow directly into the buying tool without manual handoff.',
     businessBenefit: 'Buying teams see design intent in real time during ideation — enabling earlier buy signal feedback that reduces late-stage line plan changes.',
     techIntegration: 'AP Tool line plan integration with Centric via shared event layer. Design ideation events in Centric trigger updates in AP Tool assortment view.',
     successMetrics: 'AP Tool and Centric sharing live line plan data. Reduction in design-to-buying handoff cycle time. Zero manual line plan exports between systems.',
@@ -1500,8 +417,8 @@ const CARDS_DESIGN = [
   },
   {
     id: 'ai-line-plan', title: 'AI-Enhanced Conceptual Line Plan', icon: '\uD83E\uDD16',
-    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q2', targetDate: 'May\u2013Jul 2026',
-    description: 'AI-powered conceptual line planning for merchants — using historical performance, trend signals, and financial guardrails to generate recommended line plan starting points.',
+    status: 'backlog', statusLabel: 'Backlog', quarter: 'Q2', targetDate: 'May\u2013Jul 2026',
+    description: '⚠️ No OPIF mapped — status updates are manual only. AI-powered conceptual line planning for merchants — using historical performance, trend signals, and financial guardrails to generate recommended line plan starting points.',
     businessBenefit: 'Merchants start each season with an AI-generated line plan framework, reducing blank-page planning time and anchoring decisions in data rather than intuition alone.',
     techIntegration: 'AI layer consumes Trend API, TTP financial targets, and AEX historical sell-through to generate conceptual line plan recommendations surfaced in Centric.',
     successMetrics: 'AI conceptual line plan adopted by target merchant groups. Planning cycle start time reduced. Merchants report improved confidence in opening line plan.',
@@ -1509,8 +426,8 @@ const CARDS_DESIGN = [
   },
   {
     id: 'fit-eval-workflow', title: 'Fit Evaluation Workflow Launch', icon: '\uD83D\uDC54',
-    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q2', targetDate: 'May\u2013Jul 2026',
-    description: 'Full launch of the Fit Evaluation workflow in Centric — structured, trackable fit feedback connected directly to the product specification record.',
+    status: 'backlog', statusLabel: 'Backlog', quarter: 'Q2', targetDate: 'May\u2013Jul 2026',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Full launch of the Fit Evaluation workflow in Centric — structured, trackable fit feedback connected directly to the product specification record.',
     businessBenefit: 'Fit issues are identified and resolved earlier in the development calendar, reducing late-stage corrections that delay production and increase cost.',
     techIntegration: 'Centric fit evaluation workflow linked to product spec and sample management records. Fit approval status gates further design and sourcing steps.',
     successMetrics: 'Fit evaluation completed in Centric for all target categories. Fit-related production delays reduced. Fit approval-to-production lead time measurably shorter.',
@@ -1518,8 +435,8 @@ const CARDS_DESIGN = [
   },
   {
     id: 'centralized-dam', title: 'Centralized DAM Launch', icon: '\uD83D\uDDBC\uFE0F',
-    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q2', targetDate: 'May\u2013Jul 2026',
-    description: 'Launch of a centralized Digital Asset Management (DAM) system integrated with Centric, providing a single location for all product imagery, CAD files, and design assets.',
+    status: 'backlog', statusLabel: 'Backlog', quarter: 'Q2', targetDate: 'May\u2013Jul 2026',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Launch of a centralized Digital Asset Management (DAM) system integrated with Centric, providing a single location for all product imagery, CAD files, and design assets.',
     businessBenefit: 'Eliminates asset duplication and version confusion across teams. Product imagery and design files are always current and findable without manual distribution.',
     techIntegration: 'DAM integrated with Centric PLM. Assets auto-linked to product records. CAD/2D/3D files accessible to vendors via Supplier One without email distribution.',
     successMetrics: 'All active design assets stored and managed in DAM. Zero duplicate asset versions across product teams. Asset retrieval time reduced significantly.',
@@ -1527,8 +444,8 @@ const CARDS_DESIGN = [
   },
   {
     id: 'centric-integration', title: 'Centric Integration Launch', icon: '\uD83D\uDD17',
-    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q2', targetDate: 'May\u2013Jul 2026',
-    description: 'Full Centric PLM integration launch connecting design records to AEX (buying), Supplier One (sourcing), and the shared event layer — closing the E2E design-to-execution loop.',
+    status: 'backlog', statusLabel: 'Backlog', quarter: 'Q2', targetDate: 'May\u2013Jul 2026',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Full Centric PLM integration launch connecting design records to AEX (buying), Supplier One (sourcing), and the shared event layer — closing the E2E design-to-execution loop.',
     businessBenefit: 'Design decisions in Centric automatically flow to buying, sourcing, and item setup — eliminating manual translation steps and the errors they introduce.',
     techIntegration: 'Centric integration covers AEX line plan sync, Supplier One spec distribution, DAM asset linking, and OneSource data feed. Event-driven architecture via shared integration layer.',
     successMetrics: 'All target Centric integrations live. Zero manual data exports from Centric to downstream systems for in-scope workflows.',
@@ -1536,8 +453,11 @@ const CARDS_DESIGN = [
   },
   {
     id: 'shared-event-layer', title: 'Shared Event Layer (AP, Centric, OneSource)', icon: '\uD83C\uDF10',
-    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q2', targetDate: 'May\u2013Jul 2026',
-    description: 'Integration of a shared event layer connecting AP Tool, Centric, and OneSource — enabling real-time data flow across Design, Buying, and Strategy systems without point-to-point coupling. OPIF-325188 (Shared Project Tracking and Event Calendar) establishes the tracking and calendar scaffolding. OPIF-325188 Status: Initial Requirements. Assignee: Christopher Chiodo. Reporter: Christopher Chiodo. Component: US Omni Tech - AEX-FashionApparel.',
+    status: 'yellow', statusLabel: 'Yellow \u2014 Initial Requirements',
+    jiraStatus: 'Initial Requirements',
+    priority: 'P3',
+    quarter: 'Q2', targetDate: 'May\u2013Jul 2026',
+    description: '✅ OPIF-mapped — auto-syncs with Jira. Integration of a shared event layer connecting AP Tool, Centric, and OneSource — enabling real-time data flow across Design, Buying, and Strategy systems without point-to-point coupling. OPIF-325188 (Shared Project Tracking and Event Calendar) establishes the tracking and calendar scaffolding. OPIF-325188 Status: Initial Requirements. Assignee: Christopher Chiodo. Reporter: Christopher Chiodo. Component: US Omni Tech - AEX-FashionApparel.',
     businessBenefit: 'System changes in one workstream tool propagate automatically to all connected systems. Eliminates the sync delays and manual reconciliation that occur with batch integrations. Shared event calendar ensures all tools reflect the same planning milestones simultaneously.',
     techIntegration: 'Primary OPIF: OPIF-325188 (Shared Project Tracking and Event Calendar — Initial Requirements). Related: OPIF-325208 (Design Hub / Centric Integration), OPIF-325203 (Shared Item Repository). Event-driven integration layer. AP Tool, Centric, and OneSource publish and consume events. Enables near-real-time cross-system state consistency. PRD: Confluence APREC space (pageId 3255372152).',
     successMetrics: 'Shared event layer live with all three systems publishing events. Cross-system data latency reduced to near real-time. Integration incident rate reduced. Shared event calendar live and consumed by AP, Centric, and OneSource.',
@@ -1560,11 +480,11 @@ const CARDS_DESIGN = [
   {
     id: 'visual-boards', title: 'Centric Visual Board MVP', icon: '\uD83C\uDFA8',
     status: 'yellow', statusLabel: 'Yellow \u2014 Trending Green',
-    quarter: 'Q3', targetDate: 'July 30, 2026', tag: 'Critical Program',
+    quarter: 'Q2', targetDate: 'June 15, 2026', tag: 'Critical Program',
     description: 'Visual Boards in Centric — a collaborative visual workspace that deprecates Bamboo Rose and moves design teams off Miro, centralizing fit management and visual assortment planning directly in the Centric platform with live product data. Critical path: Centric contract finalization required (12-week onboarding lead time). Milestone OPIF-347498: COMPLETE — Milestone Only. Christopher has stated that this is now complete. Milestone OPIF-347500: Backlog — Full verticals and ownership review with proposal pending. Assignee: Christopher Chiodo.',
-    businessBenefit: 'Deprecates Bamboo Rose and eliminates Miro dependency. Design teams gain a visual assortment planning workspace natively connected to Centric data — decisions are traceable and always linked to the actual plan, not a disconnected whiteboard export. End-of-May 2026 pilot target once contracts signed.',
+    businessBenefit: 'Deprecates Bamboo Rose and eliminates Miro dependency. Design teams gain a visual assortment planning workspace natively connected to Centric data — decisions are traceable and always linked to the actual plan, not a disconnected whiteboard export. June 15, 2026 pilot target once contracts signed.',
     techIntegration: 'Primary OPIF: OPIF-325208 (Design Hub — Centric Integration). Related: OPIF-347498 (Milestone: Centric Capabilities Review — DONE), OPIF-347500 (Milestone: Full Verticals & Ownership Review). Built natively within Centric PLM. Visual boards pull live product imagery, color, and spec data from Centric records. No separate sync required. Replaces Bamboo Rose and Miro for all in-scope design workflows. PRD: OneSource Design Integration (Confluence IESP).',
-    pathToGreen: 'Finalize contracts with Centric by target date to secure required 12-week onboarding lead time. Contract finalization is the critical path item — once signed, pilot launch moves to end of May 2026.',
+    pathToGreen: 'Finalize contracts with Centric by target date to secure required 12-week onboarding lead time. Contract finalization is the critical path item — once signed, pilot launch moves to June 15, 2026.',
     successMetrics: 'Bamboo Rose decommissioned. Miro usage for assortment visualization retired by end of pilot. Design review cycle time reduced. Associate adoption > 80% within first season.',
     owners: pptOwners('Tammy Hawkins', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Stephen Wolf', ''),
     resources: res(
@@ -1584,8 +504,8 @@ const CARDS_DESIGN = [
   },
   {
     id: 'material-sourcing', title: 'Material & Sourcing Management', icon: '\uD83E\uDDF5',
-    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
-    description: 'Material and sourcing workflow integration connecting design decisions to sourcing execution without manual handoffs via email or spreadsheet.',
+    status: 'backlog', statusLabel: 'Backlog', quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Material and sourcing workflow integration connecting design decisions to sourcing execution without manual handoffs via email or spreadsheet.',
     businessBenefit: 'Design material decisions in Centric automatically trigger sourcing workflows — eliminating email handoffs and reducing lead time from design approval to vendor engagement.',
     techIntegration: 'Planned integration between Centric (material records) and Supplier One (vendor workflows) via the Integration & Connection Services layer.',
     successMetrics: 'Zero manual email handoffs for approved material decisions. Sourcing receives structured data, not PDFs.',
@@ -1593,16 +513,18 @@ const CARDS_DESIGN = [
   },
   {
     id: 'design-analytics', title: 'Advanced Design Analytics', icon: '\uD83D\uDCCA',
-    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q4', targetDate: 'Nov 2026\u2013Jan 2027',
-    description: 'Analytics capabilities within Centric enabling design teams to make data-informed decisions about color, trend, and product performance across seasons.',
+    status: 'backlog', statusLabel: 'Backlog', quarter: 'Q4', targetDate: 'Nov 2026\u2013Jan 2027',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Analytics capabilities within Centric enabling design teams to make data-informed decisions about color, trend, and product performance across seasons.',
     businessBenefit: 'Connects historical sales and trend data to design decisions — reducing reliance on intuition and improving line plan accuracy season over season.',
     techIntegration: 'Centric analytics pulls from AEX sell-through data, TTP strategic priorities, and external trend data sources via the integration layer.',
     successMetrics: 'Design teams using analytics for >50% of key product decisions. Measurable improvement in new product success rate vs. prior seasons.',
     owners: pptOwners('Bill Chiodetti', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Leon Hovanesian', ''), resources: res(), workstreams: ['design', 'strategy'],
   },
 ];
-</script>
-<script>
+
+
+// ===== SCRIPT BLOCK 4 =====
+
 // data-buying.js — Buying pillar card definitions
 // Source: Confluence LLTT Work Management Dashboard (APREC space)
 // Live Jira: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
@@ -1617,13 +539,13 @@ const CARDS_BUYING = [
     businessBenefit: '50% reduction in support tickets YoY. 1\u20132 day deployment cycles (down from 4\u20135 days). Foundation for all future AEX capability delivery.',
     techIntegration: 'Replaced legacy integration layer with modern resilient architecture. Automation via MCP Playwright with 99% automatable E2E test cases. Q1 prioritized backlog: 6 Fast Follows, 15 Stability, 3 Transformation items.',
     successMetrics: 'Support ticket volume down 50% YoY. Deployment cycle 1\u20132 days. Zero data-loss incidents on platform transition.',
-    owners: pptOwners('Brett Reid', 'Chris Graves', 'Ryan Henderson', 'Robbie Dutta', 'Mike Dunn'), resources: res(), workstreams: ['buying'],
+    owners: pptOwners('Brett Reid', 'Chris Graves', 'Abhishek Jannawar', 'Robbie Dutta', 'Mike Dunn'), resources: res(), workstreams: ['buying'],
   },
   {
     id: 'aex-stability', title: 'AEX Stability & Quality of Life', icon: '\uD83D\uDEE1\uFE0F',
     status: 'green', statusLabel: 'Green \u2014 Q1 Improvements',
     quarter: 'Q1', targetDate: 'April 30, 2026', tag: 'Critical Program',
-    description: 'Q1 stability improvements delivering measurable impact across the AEX platform. Executing platform transition with zero data loss. Activating confirmation safeguards for fineline and style deletions — preventing accidental data loss. Unifying size ordering across Size & Pack and automating online item creation and new store POs. Of 24 prioritized OPIFs: 18 Green, 5 Yellow, 1 Red. Key MTAP tickets in WIP: MTAP-9154, MTAP-7474, MTAP-7438, MTAP-6808, MTAP-9541, MTAP-9570, MTAP-9543.',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Q1 stability improvements delivering measurable impact across the AEX platform. Executing platform transition with zero data loss. Activating confirmation safeguards for fineline and style deletions — preventing accidental data loss. Unifying size ordering across Size & Pack and automating online item creation and new store POs. Of 24 prioritized OPIFs: 18 Green, 5 Yellow, 1 Red. Key MTAP tickets in WIP: MTAP-9154, MTAP-7474, MTAP-7438, MTAP-6808, MTAP-9541, MTAP-9570, MTAP-9543.',
     businessBenefit: 'Merchants gain confidence that AEX decisions execute correctly — safeguards prevent accidental deletions, unified size ordering eliminates inconsistencies, and automated new-store POs remove manual work from the buying workflow.',
     techIntegration: 'Q1 Stability tracked across 24 OPIFs in the LLTT Jira initiative. Key featured OPIFs: OPIF-344926 (AEX Automated Item Set Up — walkthroughs underway), OPIF-325602 (Tagging & Affinity Graph — ready for sizing), OPIF-325568 (Move Fashion LP to AP Tool — WIP). Active bug fixes tracked as PRB incidents in MTAP project (MTAP-9154, MTAP-7474, MTAP-7438, MTAP-6808, MTAP-9541, MTAP-9570, MTAP-9543). LLTT Dashboard tracks full OPIF portfolio.',
     successMetrics: 'All 24 OPIFs resolved or committed. Merchant satisfaction score improves. Support ticket volume continues downward trend from Neo baseline.',
@@ -1643,13 +565,24 @@ const CARDS_BUYING = [
     workstreams: ['buying'],
   },
   {
+    id: 'longterm-buying', title: 'Long Leadtime Buying Workflow (LLTT)', icon: '\uD83D\uDDD3\uFE0F',
+    status: 'green', statusLabel: 'Green \u2014 In Progress',
+    quarter: 'Q1', targetDate: 'Feb\u2013Apr 2026',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Streamlined long leadtime buying workflow (LLTT program) covering the full Setup phase through AEX — integrating AP Tool as line plan into AEX flow, enabling suppliers to communicate item details directly into the tool, and connecting ecosystem tools to eliminate duplicative email communication. Sourcing and rack planning visualization tools make decisions easier. Builds foundations of tagging and fixture library. Jira tracked via labels: LLTT and LLTTO.',
+    businessBenefit: 'Buyers and planners work in one shared environment for long leadtime decisions — eliminating spreadsheet and email-based coordination. Goals: 90% of buys on happy path, zero rekeys, reduced merchant hours.',
+    techIntegration: 'LLTT initiative tracked in OPIF Jira project under initiative: U.S. Omni Tech: MerchTools: Assortment Excellence: Fashion Apparel [15922203]. Labels: LLTT / LLTTO. View all active OPIFs via the Confluence dashboard.',
+    successMetrics: 'Long leadtime buy decisions finalized in AEX across all supported departments by seasonal deadline. Reduction in off-system spreadsheet workarounds. 90% of buys on confirmed happy path.',
+    owners: TBD_OWNERS(),
+    resources: res('https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard'),
+    workstreams: ['buying', 'design', 'allocation'],
+  },
+  {
     id: 'auto-item-setup', title: 'Automated Item Setup', icon: '\u2699\uFE0F',
     status: 'yellow', statusLabel: 'Yellow \u2014 Pending Sizing',
     quarter: 'Q2', targetDate: 'April 30, 2026', tag: 'Critical Program',
     jiraStatus: 'Pending Sizing',
     priority: 'P1',
-    techRank: 1,
-    description: '\u2705 OPIF-mapped \u2014 auto-syncs with Jira. 3 pillars all on track: (1) Gen AI Data Enrichment, (2) Parent Anchored Variant Groups, (3) Seamless Data Flow (AEX \u2192 Item). Removes merchant execution from item setup and PO creation once assortment decisions are finalized in AEX. Captures merchant intent upfront \u2014 eliminating re-entry loops and supplier clarification cycles. Exception management shifted to IDC team (human-in-the-loop model). Jira update (Mar 20, 2026): OPIF-344926 is now in Pending Sizing status with P1 Priority. Walkthroughs are underway and ready for sizing. Leadership-mandated deadline: April 30, 2026. Assignee: Abhishek Jannawar.',
+    description: '✅ OPIF-mapped — auto-syncs with Jira. 3 pillars all on track: (1) Gen AI Data Enrichment, (2) Parent Anchored Variant Groups, (3) Seamless Data Flow (AEX → Item). Removes merchant execution from item setup and PO creation once assortment decisions are finalized in AEX. Captures merchant intent upfront — eliminating re-entry loops and supplier clarification cycles. Exception management shifted to IDC team (human-in-the-loop model). Jira update (Mar 20, 2026): OPIF-344926 is now in Pending Sizing status with P1 Priority. Walkthroughs are underway and ready for sizing. Leadership-mandated deadline: April 30, 2026. Assignee: Abhishek Jannawar.',
     businessBenefit: 'Removes manual item setup work from Fashion Merchants entirely. Merchant intent captured once in AEX; IDC team owns exceptions. Estimated to save hundreds of hours per season across the merchant organization. Gen AI data enrichment ensures item attributes are complete and accurate without merchant intervention. Leadership-mandated April 30, 2026 deadline signals top executive priority — must-deliver for FY27.',
     techIntegration: 'Primary OPIF: OPIF-344926 (AEX — Automated Item Set Up — Walkthroughs underway, target April 30 2026). AEX captures assortment intent and triggers automated item setup via integration with ISAM, Supplier One, and item setup systems. IDC handles exceptions through a managed queue. Gen AI enrichment layer processes item data before submission. PRD: Automated Item Set Up for AEX Intents (Confluence APREC).',
     pathToGreen: 'Next Steps: Finalize engineering timelines for Supplier One and ISAM capabilities to resolve remaining merchant pain points.',
@@ -1670,9 +603,11 @@ const CARDS_BUYING = [
   },
   {
     id: 'fashion-fixture-allocation-buying', title: 'Fashion Fixture Allocation (Visual)', icon: '\uD83C\uDFEA',
-    status: 'green', statusLabel: 'Green \u2014 In Discovery',
+    status: 'yellow', statusLabel: 'Yellow \u2014 Initial Requirements',
     quarter: 'Q2', targetDate: 'Jul 31, 2026',
-    description: 'Assisted Fixture Allocation capability enabling merchants to plan product placement across store fixtures with an AI-assisted visual interface — requirements gathering underway. Builds on tagging and affinity graph data as a foundation. PRD in progress. Scope planning note: Corresponding with Dhaarna to determine if this OPIF is anticipated to be worked on in Q1. It\'s a maybe, but will move it to Q2 for now and if capacity allows for it, we can plan it back into Q1. OPIF-325598 Status: PRD In Progress. Related: OPIF-325599 (Category Space Planning) — Status: Backlog, Assignee: Dhaarna Singh.',
+    jiraStatus: 'Initial Requirements',
+    priority: 'P3',
+    description: '✅ OPIF-mapped — auto-syncs with Jira. Assisted Fixture Allocation capability enabling merchants to plan product placement across store fixtures with an AI-assisted visual interface — requirements gathering underway. Builds on tagging and affinity graph data as a foundation. PRD in progress. OPIF-325598 Status: Initial Requirements (updated Mar 19, 2026). Assignee: Abhishek Jannawar.',
     businessBenefit: 'Merchants can visualize and optimize fixture allocation without complex spreadsheets, leading to better product placement decisions and fewer fixture conflicts. AI assistance surfaces recommended assortments per fixture based on tagging and affinity data — reducing manual merchant judgment burden.',
     techIntegration: 'Primary OPIF: OPIF-325598 (Assisted Fixture Allocation and Recommendations — Requirements gathering underway). Related: OPIF-325599 (Category Space Planning & Dynamic In-season Execution — Backlog, Dhaarna Singh), OPIF-325602 (Tagging and Affinity Graph — foundation). Integrates with AEX assortment data for product-to-fixture mapping and with store planogram systems. Builds on tagging taxonomy and affinity graph from tagging pilot. PRD: Confluence APREC space.',
     successMetrics: 'Assisted fixture allocation adopted across target departments. Fixture conflicts reduced. Merchant fixture planning time measurably reduced. AI recommendation acceptance rate tracked and improving.',
@@ -1694,9 +629,11 @@ const CARDS_BUYING = [
   },
   {
     id: 'ai-item-repository', title: 'AI Item Repository Launch', icon: '\uD83E\uDDE0',
-    status: 'green', statusLabel: 'Green \u2014 In Discovery',
+    status: 'backlog', statusLabel: 'Backlog',
     quarter: 'Q2', targetDate: 'Jul 31, 2026',
-    description: 'AI-powered item repository providing merchants with intelligent product reuse recommendations — surfacing relevant historical items via the Supplier Catalog through the Item Repository/OneItem workflow. Enables auto-population of line plan with potential items. Requirements gathering underway. Jira: OPIF-337970 (Backlog, Ryan Henderson).',
+    jiraStatus: 'Backlog',
+    priority: 'P3',
+    description: '✅ OPIF-mapped — auto-syncs with Jira. AI-powered item repository providing merchants with intelligent product reuse recommendations — surfacing relevant historical items via the Supplier Catalog through the Item Repository/OneItem workflow. Enables auto-population of line plan with potential items. Requirements gathering underway. Jira: OPIF-337970 (Backlog, Ryan Henderson).',
     businessBenefit: 'Reduces time spent creating near-duplicate items from scratch. AI surfaces the closest existing items from Supplier Catalog, enabling merchants to reuse, modify, or replace rather than rebuild. Auto-population of line plan with potential items eliminates manual search and re-entry.',
     techIntegration: 'Primary OPIF: OPIF-337970 (Auto-populate Line Plan with Potential Items from Supplier Catalog through Item Repository/One Item workflow — Backlog). Related: OPIF-325203 (Shared Item Repository — Initial Requirements, Christopher Chiodo), OPIF-325568 (Move Fashion Line Planning to AP Tool — WIP). AI repository indexes Supplier Catalog and AEX item history. ML similarity scoring surfaces recommended items in AP Tool Assortment List and AEX line plan workflows. PRD: Shared Item Repository (Confluence APREC).',
     successMetrics: 'AI item reuse rate tracked and improving. New item creation time reduced for target merchant groups. Duplicate item rate decreasing quarter over quarter. Line plan auto-population from Supplier Catalog live for target departments.',
@@ -1718,9 +655,11 @@ const CARDS_BUYING = [
   },
   {
     id: 'size-pack-bq', title: 'Automated Size/Pack Buy Quantification', icon: '\uD83D\uDCE6',
-    status: 'green', statusLabel: 'Green \u2014 Discovery Done',
+    status: 'backlog', statusLabel: 'Backlog',
     quarter: 'Q2', targetDate: 'Jul 31, 2026',
-    description: 'Automation of size and pack buy quantification (BQ) calculations — eliminating the manual sizing step currently owned by merchants. Moves size logic into BQ module (calc changes in Flow Plan, removal of manual Size Profile screen in Size & Pack). Configurable minimum initial set qty for core sizes. Pre-generated DS results for all 3 Like Finelines recommended by AEX. Encompasses pack simplification for simpler execution. Requirements gathering underway. Jira: OPIF-325374.',
+    jiraStatus: 'Backlog',
+    priority: 'P3',
+    description: '✅ OPIF-mapped — auto-syncs with Jira. Automation of size and pack buy quantification (BQ) calculations — eliminating the manual sizing step currently owned by merchants. Moves size logic into BQ module (calc changes in Flow Plan, removal of manual Size Profile screen in Size & Pack). Configurable minimum initial set qty for core sizes. Pre-generated DS results for all 3 Like Finelines recommended by AEX. Encompasses pack simplification for simpler execution. Requirements gathering underway. Jira: OPIF-325374.',
     businessBenefit: 'Removes the most time-consuming manual calculation in the buying process. Size curves derived from data rather than merchant memory, reducing size-related markdowns. Pack simplification reduces setup complexity in AEX BQ execution. Unified planner experience surfaces BQ and forecast outputs in one view without merchant reconciliation.',
     techIntegration: 'Primary OPIF: OPIF-325374 (Simplification of Pack for Simpler Execution — Requirements gathering). Related: OPIF-325218 (Buy Quantification and Flow as a Service — PRD: Confluence APREC), OPIF-325373 (Unified Planner Experience — PRD: Confluence APREC), OPIF-325221 (Forecast as a Service with Channel and Placement Split). Size/Pack BQ engine integrates with AEX demand signal, historical sell-through by size, and BPE for seasonal demand curve inputs. Discovery completed. PRD: Simplification of Pack (Confluence APREC).',
     successMetrics: 'Automated size/pack BQ in use across target departments by Jul 31. Manual sizing calculation time reduced to near zero. Size-based markdown rate decreasing. Unified planner experience adopted by all target buying teams.',
@@ -1745,12 +684,11 @@ const CARDS_BUYING = [
   },
   {
     id: 'ap-tool-lineplan', title: 'AP Tool Line Plan Integration w/ AEX', icon: '\uD83D\uDCC8',
-    status: 'yellow', statusLabel: 'Yellow \u2014 Work in Progress',
-    quarter: 'Q3', targetDate: 'July 31, 2026',
+    status: 'green', statusLabel: 'Green \u2014 In Progress',
+    quarter: 'Q3', targetDate: 'Oct 30, 2026',
     jiraStatus: 'Work in Progress',
     priority: 'P3',
-    techRank: 5,
-    description: 'Integration of AP Tool (Assortment Planning) line plan with AEX, enabling assortment decisions from line planning to flow directly into buying execution without manual re-entry. Enables fashion merchants to use AP Plan Creation & Plan List as the Fashion Line Plan system of record (replaces AEX legacy LP module). Merchants get out of Excel permanently. Jira update (Mar 3, 2026): 03-Mar-2026 - Next Step: There is a 2 week spike stories and scope will be confirmed.  (ETA: 16-Mar). Timeline to be finalize post this spike ||Deliverables||Timeline || |Planned Start Date|17-Feb| |Development Complete| Path to Green: Working with Ashwin to get LOE.. Current status: Work in Progress. Assignee: Ashwin Chidambaram.',
+    description: '✅ OPIF-mapped — auto-syncs with Jira. Integration of AP Tool (Assortment Planning) line plan with AEX, enabling assortment decisions from line planning to flow directly into buying execution without manual re-entry. Enables fashion merchants to use AP Plan Creation & Plan List as the Fashion Line Plan system of record (replaces AEX legacy LP module). Merchants get out of Excel permanently. Jira update (Mar 3, 2026): 03-Mar-2026 - Next Step: There is a 2 week spike stories and scope will be confirmed.  (ETA: 16-Mar). Timeline to be finalize post this spike ||Deliverables||Timeline || |Planned Start Date|17-Feb| |Development Complete| Path to Green: Working with Ashwin to get LOE.. Current status: Work in Progress. Assignee: Ashwin Chidambaram.',
     businessBenefit: 'Eliminates the gap between line planning (AP Tool) and buying execution (AEX). Merchants no longer re-enter line plan decisions into AEX manually. Fashion metrics are surfaced correctly in the new AP Assortment List environment. Excel upload capability reused eliminates re-keying of potential items.',
     techIntegration: 'Primary OPIF: OPIF-325568 (Move Fashion Line Planning to AP Tool Assortment List — Work in Progress, Q2 FY27). Related: OPIF-325216 (AEX Fashion: Use AP Plan Creation & Plan List — Initial Requirements), OPIF-325217 (Fashion Metrics Enablement in Assortment List & Downstream Validation), OPIF-325565 (Fashion Re-Use of AP Potential Item Excel Upload — Initial Requirements), OPIF-325569 (Streamline Merchant Supplier Comm Through Collab — related workflow). AP Tool line plan data syncs to AEX via shared integration layer. Fashion Excel Upload enabled via existing Assortment Planning capability. PRD: Transition Plan Creation and Line Planning to Assortment Planning (Confluence APREC).',
     successMetrics: 'AP Tool and AEX sharing live line plan data by Oct 30. Zero manual exports from AP Tool to AEX for in-scope workflows. Fashion metrics and attributes fully enabled in Assortment List. Supplier communication streamlined through Collab.',
@@ -1770,13 +708,15 @@ const CARDS_BUYING = [
         { label: 'LLTT Dashboard', url: 'https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard' },
       ]
     ),
-    workstreams: ['buying'],
+    workstreams: ['buying', 'design'],
   },
   {
     id: 'bam-collab-intent', title: 'BAM / Collab Intent Integration', icon: '\uD83E\uDD1D',
-    status: 'green', statusLabel: 'Green \u2014 On Track',
+    status: 'backlog', statusLabel: 'Backlog',
     quarter: 'Q3', targetDate: 'Oct 30, 2026',
-    description: 'Streamline merchant and supplier communication through Collab — integrating Collab as the single system of record for all supplier discussions within AEX, eliminating fragmented email communication. Requirements gathering underway. Jira: OPIF-325569 (Assignee: TBD).',
+    jiraStatus: 'Backlog',
+    priority: 'P3',
+    description: '✅ OPIF-mapped — auto-syncs with Jira. Streamline merchant and supplier communication through Collab — integrating Collab as the single system of record for all supplier discussions within AEX, eliminating fragmented email communication. Requirements gathering underway. OPIF-325569: Assignee: Abhishek Jannawar (updated Mar 19, 2026).',
     businessBenefit: 'Buying decisions reflect collaborative intent data automatically — reducing the lag between collaboration signals and committed buy decisions. Eliminates email-based back-and-forth between merchants and suppliers. All supplier communication traceable and linked to specific assortment decisions.',
     techIntegration: 'Primary OPIF: OPIF-325569 (Streamline Merchant Supplier Communication Through Collab — Requirements gathering). Collab embedded into AEX as single system of record for supplier discussions. BAM and Collab Intent signals integrated into AEX via the shared event layer. Assortment recommendations weighted by collaborative intent scores. PRD: Streamline Merchant Supplier Communication through Collab (Confluence APREC).',
     successMetrics: 'BAM/Collab Intent data live in AEX buying workflow. Zero email-based supplier communication for in-scope workflows. Adoption confirmed across target buying teams by Oct 30. All supplier discussions linked to Jira OPIF or AEX assortment record.',
@@ -1798,7 +738,7 @@ const CARDS_BUYING = [
     id: 'oneitem-expanded-sources', title: 'OneItem: Expanded Sources (ROM, 3P, Circana)', icon: '\uD83C\uDF10',
     status: 'green', statusLabel: 'Green \u2014 On Track',
     quarter: 'Q4', targetDate: 'Jan 30, 2027',
-    description: 'Expansion of OneItem to include additional data sources: ROM (Range of Motion), 3rd-party data, and Circana — providing richer product intelligence for buying and assortment decisions.',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Expansion of OneItem to include additional data sources: ROM (Range of Motion), 3rd-party data, and Circana — providing richer product intelligence for buying and assortment decisions.',
     businessBenefit: 'Merchants access a broader, richer set of market and performance signals in one place — improving buying decisions with external market context alongside internal data.',
     techIntegration: 'OneItem data pipeline expanded to ingest ROM, 3P market data feeds, and Circana retail data. Surfaced in AEX item records and assortment planning views.',
     successMetrics: 'ROM, 3P, and Circana sources live in OneItem. Merchant adoption of expanded data sources confirmed. Assortment decision quality (measured by sell-through) trending up.',
@@ -1806,9 +746,11 @@ const CARDS_BUYING = [
   },
   {
     id: 'bq-enterprise-service', title: 'Buy Quantification as Enterprise Service', icon: '\uD83D\uDCCA',
-    status: 'roadmap', statusLabel: 'Roadmap \u2014 Recommend & Optimize Phase',
+    status: 'backlog', statusLabel: 'Backlog',
     quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
-    description: 'Buy Quantification and Flow delivered as a shared enterprise service — providing demand-driven buy quantity recommendations across all Fashion workstreams without each team running independent BQ calculations. Part of the Recommend & Optimize phase of the LLTT roadmap (Q3 FY27 – Q1 FY28). Includes rollup reporting, dynamic PO re-distribution, pack simplification, unified planner experience, and channel/placement-split forecasting. OPIF-325218 Status: Discovery in Progress. Assignee: Abhishek Jannawar. Reporter: Abhishek Jannawar. Component: US Omni Tech – MerchTools – AEX Buy Quantification.',
+    jiraStatus: 'Backlog',
+    priority: 'P3',
+    description: '✅ OPIF-mapped — auto-syncs with Jira. Buy Quantification and Flow delivered as a shared enterprise service — providing demand-driven buy quantity recommendations across all Fashion workstreams without each team running independent BQ calculations. Part of the Recommend & Optimize phase of the LLTT roadmap (Q3 FY27 – Q1 FY28). Includes rollup reporting, dynamic PO re-distribution, pack simplification, unified planner experience, and channel/placement-split forecasting. OPIF-325218 Status: Discovery in Progress. Assignee: Abhishek Jannawar. Reporter: Abhishek Jannawar. Component: US Omni Tech – MerchTools – AEX Buy Quantification.',
     businessBenefit: 'Single authoritative buy quantity signal across all Fashion buying teams. Replaces manual BQ spreadsheets and per-department workarounds. Enables dynamic redistribution of POs as in-season signals emerge. Channel and placement splits give eComm and store teams differentiated signals.',
     techIntegration: 'Primary OPIF: OPIF-325218 (Buy Quantification and Flow as a Service — Requirements gathering). Related: OPIF-325221 (Forecast as a Service with Channel & Placement Split), OPIF-325373 (Unified Planner Experience), OPIF-325374 (Simplification of Pack for Simpler Execution). BQ enterprise service builds on DS National Forecasting microservice and automated size/pack work. Outputs consumed by AEX (commit), DBP (wave planning), and supply chain for automated PO creation. Includes rules-based Flow Plan automation. PRD: BQ and Flow as a Service (Confluence APREC).',
     successMetrics: 'BQ enterprise service adopted across all target Fashion buying departments. Manual BQ calculation workarounds eliminated. Dynamic PO re-distribution live and operational for in-season adjustments. Unified planner experience and channel-split forecasting adopted.',
@@ -1834,7 +776,7 @@ const CARDS_BUYING = [
     id: 'commitment-report-redesign', title: 'Commitment Report Redesign', icon: '\uD83D\uDCDD',
     status: 'green', statusLabel: 'Green \u2014 In Progress',
     quarter: 'Q2', targetDate: 'Jul 31, 2026',
-    description: 'Full redesign of the Commitment Report (CR) module in AEX — including COMBO CR across all suppliers, improved Excel export with TY item descriptions and offshore store highlighting, store summary graph improvements, and a Pre-Commit screen with unit presentation at fineline/color level. Enables download of multiple CR exports at once and UI to access previously generated reports.',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Full redesign of the Commitment Report (CR) module in AEX — including COMBO CR across all suppliers, improved Excel export with TY item descriptions and offshore store highlighting, store summary graph improvements, and a Pre-Commit screen with unit presentation at fineline/color level. Enables download of multiple CR exports at once and UI to access previously generated reports.',
     businessBenefit: 'Reduces time buyers spend compiling and reformatting commitment reports for vendor communication. Combo CR eliminates the need to generate and merge multiple single-supplier reports.',
     techIntegration: 'Tracked across multiple OPIF/MTAP tickets. Key items: MTAP-9638 (CR multi-export, Backlog), MTAP-9879 (Pre-commit screen, Backlog). AEX CR module, store distribution data, and vendor communication workflows.',
     successMetrics: 'COMBO CR adopted as standard across all Fashion buying teams. Pre-commit screen live and reducing vendor miscommunication incidents. CR generation time reduced measurably.',
@@ -1844,9 +786,11 @@ const CARDS_BUYING = [
   },
   {
     id: 'shared-item-repository', title: 'Shared Item Repository (OneItem)', icon: '\uD83D\uDDC4\uFE0F',
-    status: 'roadmap', statusLabel: 'Roadmap \u2014 Recommend & Optimize Phase',
+    status: 'yellow', statusLabel: 'Yellow \u2014 Initial Requirements',
     quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
-    description: 'Unified item repository serving as the single source of truth for Fashion product items across the E2E workflow — connecting AEX, Line Planning, Supplier Catalog, and item creation systems. Requirements gathering underway. Jira: OPIF-325203 (Christopher Chiodo, Initial Requirements). Enables auto-population of line plan with potential items from Supplier Catalog through OneItem. Expanded sources include ROM, 3P data, and Circana retail signals.',
+    jiraStatus: 'Initial Requirements',
+    priority: 'P3',
+    description: '✅ OPIF-mapped — auto-syncs with Jira. Unified item repository serving as the single source of truth for Fashion product items across the E2E workflow — connecting AEX, Line Planning, Supplier Catalog, and item creation systems. Requirements gathering underway. Jira: OPIF-325203 (Christopher Chiodo, Initial Requirements). Enables auto-population of line plan with potential items from Supplier Catalog through OneItem. Expanded sources include ROM, 3P data, and Circana retail signals.',
     businessBenefit: 'Eliminates duplicate item creation and conflicting item data across systems. Merchants select from a shared, AI-curated item repository rather than building items from scratch each season. Single item record shared across AEX, Centric, and Supplier One eliminates re-entry.',
     techIntegration: 'Primary OPIF: OPIF-325203 (Shared Item Repository — Initial Requirements, Christopher Chiodo). Related: OPIF-337970 (Auto-populate Line Plan with Potential Items from Supplier Catalog — Backlog), OPIF-325188 (Shared Project Tracking and Event Calendar — Initial Requirements), OPIF-325568 (Move Fashion LP to AP Tool — WIP). Integrates with AEX Assortment List, Supplier One catalog, OneItem workflow, and ISAM for item setup. Auto-populates LP with potential items. Circana, ROM, and 3P data feeds expand intelligence. PRD: Shared Item Repository (Confluence APREC).',
     successMetrics: 'Shared Item Repository live and auto-populating line plans for target departments. Duplicate item creation rate eliminated. Item repository sourcing all ROM, 3P, and Circana signals confirmed.',
@@ -1869,17 +813,19 @@ const CARDS_BUYING = [
   },
   {
     id: 'global-buying-platform', title: 'Global Buying Capability', icon: '\uD83C\uDF0D',
-    status: 'roadmap', statusLabel: 'Roadmap',
+    status: 'backlog', statusLabel: 'Backlog',
     quarter: 'Q4', targetDate: 'Nov 2026\u2013Jan 2027',
-    description: 'Extension of the Fashion buying platform to support global segment needs — multi-currency, multi-market assortment planning and buy execution within AEX.',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Extension of the Fashion buying platform to support global segment needs — multi-currency, multi-market assortment planning and buy execution within AEX.',
     businessBenefit: 'International Fashion teams leverage the same buying workflow as domestic teams — eliminating global-specific tooling debt and enabling cross-market visibility.',
     techIntegration: 'AEX global capability requires multi-currency support, market-specific assortment logic, and integration with international supplier and item setup systems.',
     successMetrics: 'At least one global market piloted in AEX by end of Q4. Roadmap for remaining global markets defined and funded.',
     owners: TBD_OWNERS(), resources: res(), workstreams: ['buying'],
   },
 ];
-</script>
-<script>
+
+
+// ===== SCRIPT BLOCK 5 =====
+
 // data-allocation.js — Allocation pillar card definitions + PILLARS assembly
 // Source: Confluence LLTT Work Management Dashboard (APREC space)
 // Live Jira: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
@@ -1889,7 +835,7 @@ const CARDS_ALLOCATION = [
   {
     id: 'unified-planning', title: 'Unified Planning Workflow', icon: '\uD83D\uDD17',
     status: 'green', statusLabel: 'Active', quarter: 'Q1', targetDate: 'Feb\u2013Apr 2026',
-    description: 'Consolidates competing planning tools into a single vertically-owned workflow. Decisions recorded once in BPE, surfaced everywhere — forecast overrides propagate without re-entry.',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Consolidates competing planning tools into a single vertically-owned workflow. Decisions recorded once in BPE, surfaced everywhere — forecast overrides propagate without re-entry.',
     businessBenefit: 'Planners work in one environment instead of reconciling multiple competing tools. Forecast changes propagate automatically across BPE, DBP, and downstream systems.',
     techIntegration: 'BPE is unified planning system of record. Integration with AEX ensures buy quantities reflect the latest demand signal. DBP consumes BPE outputs for distribution planning.',
     successMetrics: 'All planning decisions recorded in BPE as single source of truth. Off-system workarounds eliminated. Forecast override propagation reduced from days to hours.',
@@ -1898,7 +844,7 @@ const CARDS_ALLOCATION = [
   {
     id: 'bpe-seasonal', title: 'BPE Seasonal Planning', icon: '\uD83D\uDCC8',
     status: 'green', statusLabel: 'Active', quarter: 'Q1', targetDate: 'Feb\u2013Apr 2026',
-    description: 'BPE supports seasonal planning for approximately 5 fashion departments, enabling demand and buy quantity decisions in an integrated planning environment.',
+    description: '⚠️ No OPIF mapped — status updates are manual only. BPE supports seasonal planning for approximately 5 fashion departments, enabling demand and buy quantity decisions in an integrated planning environment.',
     businessBenefit: 'Inventory planners get an integrated seasonal view connecting demand signal, open-to-buy, and historical performance — smarter buy quantity decisions earlier in the season.',
     techIntegration: 'BPE seasonal outputs feed into AEX for buy quantity guardrails and DBP for pre-season distribution planning. Integration with TTP for seasonal financial target alignment.',
     successMetrics: 'Seasonal plan completed in BPE for all 5 in-scope departments by planning deadline. Buy quantities in AEX align to BPE demand signal within defined tolerance.',
@@ -1906,13 +852,15 @@ const CARDS_ALLOCATION = [
   },
   {
     id: 'tagging-pilot', title: 'Tagging & Affinity Graph — Assortment Gaps Pilot', icon: '\uD83C\uDFF7\uFE0F',
-    status: 'green', statusLabel: 'Green \u2014 In Discovery',
+    status: 'green', statusLabel: 'Green \u2014 Work in Progress',
     quarter: 'Q2', targetDate: 'Jul 31, 2026',
-    description: 'Pilot program using product tagging and affinity graphs to identify assortment gaps in Fashion. Builds the tagging taxonomy and affinity model that powers all downstream tag-based capabilities (fixture allocation, line recommendations, in-season swaps). Foundation of the LLTT Recommend & Optimize phase. Jira update (Mar 10, 2026): 10-Mar-2026 - Walkthrough completed on 2-Mar Risk: Delays in PRD finalization and walkthrough completed on 2-Mar.  Currently working on sizing​ Path to Green: Working with CSA and BQ for sizing. AP and DS have now provided sizing.​ Owner : Chris Gr Path to Green: Ryan has confirmed that this is anticipated to be worked on in Q1. Working with Oscar to identify Technical Lead. Current status: Pending Sizing. Assignee: Mike Dunn (TPM). Reporter: Ryan Henderson.',
+    jiraStatus: 'Work in Progress',
+    priority: 'P3',
+    description: '✅ OPIF-mapped — auto-syncs with Jira. Pilot program using product tagging and affinity graphs to identify assortment gaps in Fashion. Builds the tagging taxonomy and affinity model that powers all downstream tag-based capabilities (fixture allocation, line recommendations, in-season swaps). Foundation of the LLTT Recommend & Optimize phase. Jira update (Mar 20, 2026): OPIF-325602 is now in Work in Progress with 135 story points sized. Engineering Lead: Aravind Chiruvelli. Walkthrough completed Mar 2, and sizing is complete. Assignee: Aravind Chiruvelli. Reporter: Ryan Henderson.'
     businessBenefit: 'Allocation teams proactively identify assortment coverage gaps before in-season sell-out signals surface. Tagging foundation enables automated recommendations and dynamic allocation across all future phases. Affinity graph surfaces product relationships that merchant intuition alone misses.',
     techIntegration: 'Primary OPIF: OPIF-325602 (Tagging and Affinity Graph — Ready for sizing, Ryan Henderson). Path to Green: Ryan confirmed Q1 scope, working with Oscar to identify Technical Lead. PRD: Tagging PRD (Confluence APREC space — DRAFT). DS model built on BigQuery. Tagging taxonomy integrates with AEX assortment data and Centric product records. CSA and DS sizing in progress. Affinity graph powers downstream recommendation engine.',
-    successMetrics: 'Tagging pilot DS model live by Mar 13. Assortment gap identification validated with merchant team. Tagging taxonomy covers all target Fashion categories. Affinity graph accuracy confirmed. Technical Lead identified.',
-    owners: pptOwners('Brett Reid', 'Chris Graves', 'Ryan Henderson', 'Robbie Dutta', 'Oscar Cantu'),
+    successMetrics: 'Tagging pilot DS model live and validated. Assortment gap identification validated with merchant team. Tagging taxonomy covers all target Fashion categories. Affinity graph accuracy confirmed. Engineering Lead identified and confirmed.',
+    owners: pptOwners('Brett Reid', 'Chris Graves', 'Ryan Henderson', 'Robbie Dutta', 'Aravind Chiruvelli'),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325602',
       '#',
@@ -1931,8 +879,8 @@ const CARDS_ALLOCATION = [
   },
   {
     id: 'distrib-optimization', title: 'Distribution Planning Optimization', icon: '\uD83D\uDCE6',
-    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q2', targetDate: 'May\u2013Jul 2026',
-    description: 'Optimization of distribution planning logic in DBP — improving store-level allocation accuracy based on demand signals, sell-through rates, and inventory positions.',
+    status: 'backlog', statusLabel: 'Backlog', quarter: 'Q2', targetDate: 'May\u2013Jul 2026',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Optimization of distribution planning logic in DBP — improving store-level allocation accuracy based on demand signals, sell-through rates, and inventory positions.',
     businessBenefit: 'More product lands in the right store at the right time — reducing markdowns from over-allocation and lost sales from under-allocation.',
     techIntegration: 'DBP optimization layer consumes real-time store inventory, AEX committed buy data, and BPE demand signals for improved allocation recommendations.',
     successMetrics: 'Store-level in-stock rate improves vs. prior season. Over-allocation markdown rate decreases. Allocation accuracy score tracked weekly.',
@@ -1940,8 +888,8 @@ const CARDS_ALLOCATION = [
   },
   {
     id: 'enterprise-trend-api-inseason', title: 'Enterprise Trend API \u2014 In-Season / Cont. Merch', icon: '\uD83D\uDCF6',
-    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q2', targetDate: 'May\u2013Jul 2026',
-    description: 'Enterprise-scale Trend API configured for in-season and continuous merchandising use cases in Allocation — enabling real-time trend signals to inform replenishment and allocation decisions.',
+    status: 'backlog', statusLabel: 'Backlog', quarter: 'Q2', targetDate: 'May\u2013Jul 2026',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Enterprise-scale Trend API configured for in-season and continuous merchandising use cases in Allocation — enabling real-time trend signals to inform replenishment and allocation decisions.',
     businessBenefit: 'Allocation teams react to in-season trend shifts with data-driven replenishment recommendations rather than relying solely on historical velocity signals.',
     techIntegration: 'Enterprise Trend API serves Fashion in-season via integration with BPE replenishment and DBP allocation workflows. Shares same API layer as Strategy and Design trend workstreams.',
     successMetrics: 'Trend API live for in-season Allocation workflows. Replenishment recommendations incorporating trend signal adopted by target allocation teams.',
@@ -1949,9 +897,11 @@ const CARDS_ALLOCATION = [
   },
   {
     id: 'tag-based-recommendations', title: 'Tag-Based Line & In-Season Recommendations', icon: '\uD83E\uDD16',
-    status: 'roadmap', statusLabel: 'Roadmap \u2014 Recommend & Optimize Phase',
+    status: 'backlog', statusLabel: 'Backlog',
     quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
-    description: 'Leverage the tagging taxonomy and affinity graph from the Q2 pilot to power automated in-season assortment recommendations and dynamic store-level swaps. Replaces manual in-season allocation decisions with system-generated tag-based recommendations. Includes dynamic PO re-distribution and unified planner experience as part of the LLTT Recommend & Optimize phase. Requirements gathering underway.',
+    jiraStatus: 'Backlog',
+    priority: 'P3',
+    description: '✅ OPIF-mapped — auto-syncs with Jira. Leverage the tagging taxonomy and affinity graph from the Q2 pilot to power automated in-season assortment recommendations and dynamic store-level swaps. Replaces manual in-season allocation decisions with system-generated tag-based recommendations. Includes dynamic PO re-distribution and unified planner experience as part of the LLTT Recommend & Optimize phase. Requirements gathering underway.',
     businessBenefit: 'Allocation teams receive proactive, data-driven swap recommendations instead of reacting to sell-out events. Dynamic PO re-distribution reduces trapped inventory and improves in-stock rates across the season. Unified planner experience surfaces tag-based recommendations without toggling between systems.',
     techIntegration: 'Primary OPIF: OPIF-325373 (Unified Planner Experience — Requirements gathering). Related: OPIF-325374 (Simplification of Pack / Dynamic PO Re-Distribution — Requirements gathering), OPIF-325602 (Tagging and Affinity Graph — Ready for sizing, foundation), OPIF-325218 (BQ and Flow as a Service). Builds on Tagging Pilot (OPIF-325602). Recommendation engine consumes affinity graph, in-season velocity, and inventory position from DBP and AEX. PRD: Unified Planner Experience and Simplification of Pack (Confluence APREC).',
     successMetrics: 'Tag-based swap recommendations adopted by target allocation teams. Dynamic PO re-distribution covering >90% of eligible POs by end of Q3. Trapped inventory rate measurably reduced vs. prior season. Unified planner experience live and adopted.',
@@ -1975,11 +925,13 @@ const CARDS_ALLOCATION = [
   },
   {
     id: 'assort-product-phase2', title: 'Assort Product (AP) Phase 2 Enhancements', icon: '\uD83D\uDCCB',
-    status: 'roadmap', statusLabel: 'Roadmap \u2014 Recommend & Optimize Phase',
+    status: 'green', statusLabel: 'Green \u2014 Work in Progress',
     quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
-    description: 'Phase 2 of AP Tool enhancements — including modular volume groups (MVG), on-demand store volume groups and size curves, assortment optimization engine, and fixture preference workflow improvements. Enables shared event calendar and unified potential items view (OneSource + MINT integration). Connects AP Tool to the enterprise forecast service. Jira update (Feb 10, 2026): 02-10-2026 : Working with Arun on overall timeline. Dev Complete : TBD  Integration Testing : TBD  E2E Testing : TBD Current status: Work in Progress. Assignee: Arun Santhiagu (TPM). Reporter: Taylor Watson. Target completion: 2026-07-31.',
+    jiraStatus: 'Work in Progress',
+    priority: 'P3',
+    description: '✅ OPIF-mapped — auto-syncs with Jira. Phase 2 of AP Tool enhancements — including modular volume groups (MVG), on-demand store volume groups and size curves, assortment optimization engine, and fixture preference workflow improvements. Enables shared event calendar and unified potential items view (OneSource + MINT integration). Connects AP Tool to the enterprise forecast service. Jira update (Feb 10, 2026): 02-10-2026 : Working with Arun on overall timeline. Dev Complete : TBD  Integration Testing : TBD  E2E Testing : TBD Current status: Work in Progress. Assignee: Arun Santhiagu (TPM). Reporter: Taylor Watson. Target completion: 2026-07-31.',
     businessBenefit: 'AP Tool transitions from allocation execution tool to a connected recommendation engine — surfacing AI-driven suggestions for fixture allocation, CC rules, and store clustering based on tagging and demand signals. Shared event calendar eliminates planning milestone re-entry across AP, Centric, and OneSource.',
-    techIntegration: 'Primary OPIF: OPIF-336019 (AP Tool Phase 2 Enhancements — Dev underway, target Jul 31 2026, Ashwin Chidambaram). PRD: Phase 2 Enhancements (Confluence OLR space). Related: OPIF-325188 (Shared Project Tracking & Event Calendar — Initial Requirements, Christopher Chiodo), OPIF-325568 (Move Fashion LP to AP Tool — WIP, Ashwin Chidambaram), OPIF-325602 (Tagging and Affinity Graph — foundation). MVG and on-demand volume groups built into AP Tool. Assortment optimization engine consumes tagging, affinity graph, and BQ forecast service. Shared event calendar connects AP, Centric, and OneSource.',
+    techIntegration: 'Primary OPIF: OPIF-336019 (AP Tool Phase 2 Enhancements — Work in Progress, 60 story points, target Jul 31 2026, Arun Santhiagu). PRD: Phase 2 Enhancements (Confluence OLR space). Related: OPIF-325188 (Shared Project Tracking & Event Calendar — Initial Requirements, Christopher Chiodo), OPIF-325568 (Move Fashion LP to AP Tool — WIP, Ashwin Chidambaram), OPIF-325602 (Tagging and Affinity Graph — foundation). MVG and on-demand volume groups built into AP Tool. Assortment optimization engine consumes tagging, affinity graph, and BQ forecast service. Shared event calendar connects AP, Centric, and OneSource.',
     successMetrics: 'AP Phase 2 features adopted by target merchant groups. CC rule automation live. Assortment optimization engine surfacing recommendations for >80% of assortment decisions. Shared event calendar live across AP, Centric, OneSource. Jul 31 delivery met.',
     owners: pptOwners('Ken Brockland', 'Ashwin Chidambaram', 'Taylor Watson', 'CJ Weatherford', 'Arun Santhiagu'),
     resources: res(
@@ -2000,8 +952,10 @@ const CARDS_ALLOCATION = [
   },
   {
     id: 'enterprise-wave-planning', title: 'Enterprise Wave Planning & Allocation', icon: '\uD83C\uDFEA',
-    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
-    description: 'Enterprise-grade wave planning and distribution execution capabilities — from committed buy through to store distribution and exits. Part of the LLTT Setup phase goal: automate new store PO process and enable dynamic redistribution of confirmed POs as in-season demand signals emerge. Includes Category Space Planning & Dynamic In-season Execution (OPIF-325599). OPIF-325599: Status Backlog, Assignee Dhaarna Singh. OPIF-325598: Status PRD In Progress. Scope note: Corresponding with Dhaarna to determine if this OPIF is anticipated to be worked on in Q1. It\'s a maybe, but will move it to Q2 for now and if capacity allows for it, we can plan .',
+    status: 'backlog', statusLabel: 'Backlog', quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
+    jiraStatus: 'Backlog',
+    priority: 'P3',
+    description: '✅ OPIF-mapped — auto-syncs with Jira. Enterprise-grade wave planning and distribution execution capabilities — from committed buy through to store distribution and exits. Part of the LLTT Setup phase goal: automate new store PO process and enable dynamic redistribution of confirmed POs as in-season demand signals emerge. Includes Category Space Planning & Dynamic In-season Execution (OPIF-325599). OPIF-325599: Status Backlog, Assignee Dhaarna Singh. OPIF-325598: Status PRD In Progress. Scope note: Corresponding with Dhaarna to determine if this OPIF is anticipated to be worked on in Q1. It\'s a maybe, but will move it to Q2 for now and if capacity allows for it, we can plan .',
     businessBenefit: 'Allocation teams get an automated wave planning tool connected to assortment and buy decisions in AEX and BPE — closing the E2E loop from commit to shelf. Category Space Planning and dynamic in-season execution enable allocation teams to react to real-time signals without manual redistribution.',
     techIntegration: 'Primary OPIF: OPIF-325599 (Category Space Planning & Dynamic In-season Execution — Requirements gathering, Dhaarna Singh). Related: OPIF-325598 (Assisted Fixture Allocation and Recommendations — Requirements gathering, Dhaarna Singh), OPIF-325373 (Unified Planner Experience), OPIF-325218 (BQ and Flow as a Service). DBP consumes finalized buy and assortment data from AEX and BPE to generate wave plans. Integration with store systems and supply chain for automated distribution execution. New Store PO automation included. PRD: Category Space Planning (Confluence APREC).',
     successMetrics: 'Wave plans generated automatically from committed buy data. Distribution executed without manual re-entry into store systems. In-stock rate improvement measurable within first season. Category space planning recommendations live and adopted by target allocation teams.',
@@ -2027,7 +981,7 @@ const CARDS_ALLOCATION = [
     id: 'fashion-fixture-tagging', title: 'Fashion Fixture Allocation: Tagging-Based Assortment', icon: '\uD83C\uDFF7\uFE0F',
     status: 'green', statusLabel: 'Green \u2014 In Discovery',
     quarter: 'Q4', targetDate: 'Jan 30, 2027',
-    description: 'Advanced fixture allocation using tagging and affinity data to drive assortment recommendations — dependent on the Q2 Tagging Pilot (OPIF-325602) results. Product Discovery in progress. Builds on Assisted Fixture Allocation (OPIF-325598) and Category Space Planning (OPIF-325599) for a full tagging-driven fixture assortment capability. Target: Jan 30, 2027.',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Advanced fixture allocation using tagging and affinity data to drive assortment recommendations — dependent on the Q2 Tagging Pilot (OPIF-325602) results. Product Discovery in progress. Builds on Assisted Fixture Allocation (OPIF-325598) and Category Space Planning (OPIF-325599) for a full tagging-driven fixture assortment capability. Target: Jan 30, 2027.',
     businessBenefit: 'Fixture assortment driven by data-informed tagging rather than manual merchant judgment — improving product placement relevance and reducing slow-sellers in key fixtures. Affinity graph ensures complementary products are placed together for maximum basket affinity.',
     techIntegration: 'Builds on Q2 Tagging Pilot infrastructure (OPIF-325602 — Tagging and Affinity Graph). Related: OPIF-325598 (Assisted Fixture Allocation and Recommendations — Primary fixture capability), OPIF-325599 (Category Space Planning & Dynamic In-season Execution). Affinity graph and tagging model output integrated into fixture allocation planning workflow in DBP and AP Tool. PRD: Assisted Fixture Allocation (Confluence APREC).',
     successMetrics: 'Tagging-based fixture assortment recommendations live for target categories. Fixture-level sell-through rate improving vs. manually-planned fixtures. Affinity-based product placement co-location tracked and validated.',
@@ -2049,8 +1003,8 @@ const CARDS_ALLOCATION = [
   },
   {
     id: 'merch-financial', title: 'Merchandise Financial Planning', icon: '\uD83D\uDCB0',
-    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q4', targetDate: 'Nov 2026\u2013Jan 2027',
-    description: 'Future-state integrated merchandise financial planning supporting all fashion departments within a unified toolset — replacing fragmented MFP across spreadsheets and legacy tools.',
+    status: 'backlog', statusLabel: 'Backlog', quarter: 'Q4', targetDate: 'Nov 2026\u2013Jan 2027',
+    description: '⚠️ No OPIF mapped — status updates are manual only. Future-state integrated merchandise financial planning supporting all fashion departments within a unified toolset — replacing fragmented MFP across spreadsheets and legacy tools.',
     businessBenefit: 'Gives leadership real-time visibility into financial performance against plan. All Fashion departments plan in one MFP tool.',
     techIntegration: 'MFP integrates with TTP (top-down targets), AEX (buy actuals), and BPE (demand plan) to produce a closed-loop financial view from strategy to execution.',
     successMetrics: 'Financial plan vs. actuals reconciliation time reduced. Leadership has real-time MFP dashboard access. All Fashion departments in unified MFP by end of Q4.',
@@ -2091,8 +1045,10 @@ const PILLARS = [
     cards: CARDS_ALLOCATION,
   },
 ];
-</script>
-<script>
+
+
+// ===== SCRIPT BLOCK 6 =====
+
 // data-phases.js — LLTT three-phase definitions + card-to-phase mapping
 // Source: Confluence LLTT Work Management Dashboard (APREC space)
 // https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
@@ -2282,8 +1238,10 @@ const CARD_PHASE_MAP = {
   'fashion-fixture-tagging':   3,  // Tag-based Dynamic Placement
   'merch-financial':           3,
 };
-</script>
-<script>
+
+
+// ===== SCRIPT BLOCK 7 =====
+
 // data-goals.js — LLTT Transformation Goal details
 // Source: APREC Confluence — LLTT Work Management Dashboard (read Mar 2026)
 // https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
@@ -2442,8 +1400,10 @@ const GOALS = {
     ],
   },
 };
-</script>
-<script>
+
+
+// ===== SCRIPT BLOCK 8 =====
+
 // exec-narratives.js — Scope-level editorial narratives for the Executive Status modal.
 // Each entry maps a scope key to a short, human-readable summary of the work.
 // Kept separate to stay under the 600-line rule and make content updates easy.
@@ -2574,8 +1534,10 @@ const EXEC_NARRATIVES = {
   ],
 };
 
-</script>
-<script>
+
+
+// ===== SCRIPT BLOCK 9 =====
+
 // exec-summary.js — Unified Status + Filter Bar & 3-Section Executive Modal
 // Bar left side : status chips (overall + workstreams + phases) — click to drill-in
 // Bar right side: card-filter pills (Critical / R–Y / Done) + phase expand toggles
@@ -2893,8 +1855,10 @@ const EXEC_NARRATIVES = {
   window.initExecBar   = function () { buildModal(); renderBar(); };
 }());
 
-</script>
-<script>
+
+
+// ===== SCRIPT BLOCK 10 =====
+
 // roadmap-window.js — in-page roadmap popout modal
 // Two independent filter axes:
 //   _timeFilter  : 'all' | 'Q1'...'Q4' | 'ph1' | 'ph2' | 'ph3'
@@ -3116,8 +2080,10 @@ const EXEC_NARRATIVES = {
   });
 
 }());
-</script>
-<script>
+
+
+// ===== SCRIPT BLOCK 11 =====
+
 // summary-modal.js — workstream header summary popout
 // Opens when user clicks a pillar header.
 // Globals from data.js: PILLARS, QUARTER_META, QUARTER_ORDER, PILLAR_GRADIENTS, BADGE_CLASS
@@ -3289,8 +2255,10 @@ const EXEC_NARRATIVES = {
   });
 
 }());
-</script>
-<script>
+
+
+// ===== SCRIPT BLOCK 12 =====
+
 // goal-modal.js — Goal detail popout modal
 // Reads from: data-goals.js (GOALS), data-phases.js (PHASE_DEFS)
 // Exposed globals: openGoalModal(goalId), closeGoalModal()
@@ -3407,8 +2375,10 @@ const EXEC_NARRATIVES = {
   });
 
 }());
-</script>
-<script>
+
+
+// ===== SCRIPT BLOCK 13 =====
+
 // phase-view.js — Workstream-first Phase Matrix + Filter Bar
 // Phase 1 = always expanded (full cards)  |  Phase 2 & 3 = collapsed by default
 // Filter bar: card-attribute filters (Critical / Red-Yellow / Completed)
@@ -3752,8 +2722,10 @@ const EXEC_NARRATIVES = {
   function _safe(s)      { return (s || '').replace(/'/g, '\u0027'); }
 
 }());
-</script>
-<script>
+
+
+// ===== SCRIPT BLOCK 14 =====
+
 // card-links.js — Per-card Links tab (READ-ONLY)
 // Exposes: window.buildLinksTab(cardId, resources, workstreams)
 // No editing, no localStorage — all links come directly from data files.
@@ -3932,8 +2904,10 @@ const EXEC_NARRATIVES = {
   }
 
 }());
-</script>
-<script>
+
+
+// ===== SCRIPT BLOCK 15 =====
+
 
 // ============================================================
 // ACTIVE QUARTER DETECTION (Walmart FY: Q1=Feb-Apr, Q2=May-Jul, Q3=Aug-Oct, Q4=Nov-Jan)
@@ -4004,24 +2978,14 @@ function renderPhases() {
 
 // ---- SINGLE CARD — includes a small quarter chip for context ----
 function cardHTML(card, workstream, tool) {
-  const badgeCls  = BADGE_CLASS[card.status] || 'badge-roadmap';
-  const qMeta     = QUARTER_META[card.quarter];
-  const tagHTML   = card.tag
+  const badgeCls = BADGE_CLASS[card.status] || 'badge-roadmap';
+  const qMeta    = QUARTER_META[card.quarter];
+  const tagHTML  = card.tag
     ? `<span class="tag ${card.tag.includes('Win') ? 'tag-win' : ''}">${card.tag}</span>` : '';
-  const qChip     = qMeta
+  const qChip    = qMeta
     ? `<span style="font-size:0.62rem;font-weight:700;padding:1px 7px;border-radius:99px;
         background:${qMeta.bg};color:${qMeta.color};border:1px solid ${qMeta.border};
         white-space:nowrap;">${qMeta.label}</span>` : '';
-  // Show update pip if card has recent changelog entries (within 30 days)
-  const recentLog = (card.changeLog || []).filter(e => {
-    const d = new Date(e.date); const now = new Date();
-    return (now - d) / 86400000 <= 30;
-  });
-  const updatedPip = recentLog.length
-    ? `<span title="${recentLog.length} recent update${recentLog.length > 1 ? 's' : ''} — click to view"
-         style="font-size:0.6rem;font-weight:800;padding:1px 6px;border-radius:99px;
-                background:#fef3c7;color:#b45309;border:1px solid #fcd34d;
-                white-space:nowrap;cursor:pointer;">&#128276; Updated</span>` : '';
   return `
     <div class="card p-3" onclick="openModal('${card.id}','${workstream}','${tool}')">
       <div class="flex items-start justify-between gap-2 mb-2">
@@ -4034,7 +2998,6 @@ function cardHTML(card, workstream, tool) {
       <div class="flex items-center gap-2 flex-wrap">
         <span class="badge ${badgeCls}">${card.statusLabel}</span>
         ${qChip}
-        ${updatedPip}
       </div>
     </div>`;
 }
@@ -4320,48 +3283,6 @@ function openModal(cardId, workstream, tool) {
 
     </div>`;
 
-  // --- updates tab (changelog) ---
-  const changeLog  = card.changeLog || [];
-  const updatesBtn = document.getElementById('tab-btn-updates');
-  if (changeLog.length) {
-    updatesBtn.style.display = 'inline-flex';
-    updatesBtn.textContent   = `\u{1F514} Updates (${changeLog.length})`;
-    const FIELD_LABELS = { status: 'Status', targetDate: 'Target Date', techRank: 'Tech Rank', owners: 'Owners' };
-    const rows = changeLog.slice().reverse().map(e => {
-      const label = FIELD_LABELS[e.field] || e.field;
-      const fromTxt = e.fromLabel || e.from || '\u2014';
-      const toTxt   = e.toLabel   || e.to   || '\u2014';
-      return `<tr style="border-bottom:1px solid #f1f5f9;">
-        <td style="padding:8px 10px;font-size:0.72rem;color:#64748b;white-space:nowrap;">${e.date}</td>
-        <td style="padding:8px 10px;font-size:0.72rem;font-weight:700;color:#1e293b;">${label}</td>
-        <td style="padding:8px 10px;font-size:0.72rem;color:#dc2626;text-decoration:line-through;">${fromTxt}</td>
-        <td style="padding:8px 4px;font-size:0.72rem;color:#64748b;">\u2192</td>
-        <td style="padding:8px 10px;font-size:0.72rem;color:#15803d;font-weight:600;">${toTxt}</td>
-      </tr>`;
-    }).join('');
-    document.getElementById('tab-updates').innerHTML = `
-      <div class="py-5 px-6">
-        <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">&#128276; Recent Changes (auto-detected by daily sync)</p>
-        <div style="overflow-x:auto;border-radius:10px;border:1px solid #e2e8f0;">
-          <table style="width:100%;border-collapse:collapse;">
-            <thead>
-              <tr style="background:#f8fafc;">
-                <th style="padding:7px 10px;font-size:0.65rem;font-weight:800;color:#94a3b8;text-align:left;text-transform:uppercase;letter-spacing:.06em;">Date</th>
-                <th style="padding:7px 10px;font-size:0.65rem;font-weight:800;color:#94a3b8;text-align:left;text-transform:uppercase;letter-spacing:.06em;">Field</th>
-                <th style="padding:7px 10px;font-size:0.65rem;font-weight:800;color:#94a3b8;text-align:left;text-transform:uppercase;letter-spacing:.06em;">Was</th>
-                <th style="padding:7px 4px;"></th>
-                <th style="padding:7px 10px;font-size:0.65rem;font-weight:800;color:#94a3b8;text-align:left;text-transform:uppercase;letter-spacing:.06em;">Now</th>
-              </tr>
-            </thead>
-            <tbody>${rows}</tbody>
-          </table>
-        </div>
-        <p style="margin-top:12px;font-size:0.68rem;color:#94a3b8;">Changes auto-detected from OPIF Jira + Confluence LLTT Dashboard. Only Status, Target Date, Tech Rank, and Owners are tracked.</p>
-      </div>`;
-  } else {
-    updatesBtn.style.display = 'none';
-  }
-
   switchTab('overview');
   document.getElementById('modal-overlay').classList.add('open');
 }
@@ -4402,7 +3323,7 @@ ${userText}
 function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
 
 function switchTab(name) {
-  const names = ['overview','status','links','inquiry','updates'];
+  const names = ['overview','status','links','inquiry'];
   document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', names[i] === name));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.getElementById('tab-' + name).classList.add('active');
@@ -4419,6 +3340,5 @@ buildCardIndex();        // populate allCards[] for modal lookups
 initPhaseView();         // phase grid + exposes pmGetState() for the bar
 initExecBar();           // unified status + filter bar (requires pmGetState)
 
-</script>
-</body>
-</html>
+
+

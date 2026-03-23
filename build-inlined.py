@@ -3,9 +3,20 @@
 
 Inlines portal.css, portal-goals.css, and all <script src=...> JS files
 found in index.html, producing portal-inlined.html.
+
+Also produces portal-final.html — a rjsmin-compressed version safe for
+publishing to puppy.walmart.com (stays under the ~202 KB API limit).
+
+Requires: pip install rjsmin
 """
 import re
 from pathlib import Path
+
+try:
+    import rjsmin
+    _RJSMIN = True
+except ImportError:
+    _RJSMIN = False
 
 BASE = Path(__file__).parent
 SRC  = BASE / 'index.html'
@@ -18,15 +29,15 @@ JS_ORDER = [
     'data-design.js',
     'data-buying.js',
     'data-allocation.js',
-    'data-goals.js',
     'data-phases.js',
-    'card-links.js',
-    'goal-modal.js',
+    'data-goals.js',
     'exec-narratives.js',
     'exec-summary.js',
     'roadmap-window.js',
     'summary-modal.js',
+    'goal-modal.js',
     'phase-view.js',
+    'card-links.js',
     'data-changelog.js',  # must come AFTER allCards is defined
 ]
 
@@ -67,6 +78,37 @@ def inline_js(html):
     return html
 
 
+def _compress(html: str) -> str:
+    """Produce a puppy-safe compressed version using rjsmin for JS blocks.
+
+    rjsmin correctly handles template literals, regex, and string contents
+    — unlike naive whitespace strippers that break JS syntax.
+    Falls back to basic whitespace collapse if rjsmin is not installed.
+    """
+    if _RJSMIN:
+        def _minify_script(m):
+            try:
+                return '<script>' + rjsmin.jsmin(m.group(1), keep_bang_comments=False) + '</script>'
+            except Exception:
+                return m.group(0)
+        html = re.sub(r'<script>(.*?)</script>', _minify_script, html, flags=re.DOTALL)
+    else:
+        print('WARNING: rjsmin not installed — JS minification skipped. Run: pip install rjsmin')
+
+    # Safe CSS compression (strip comments + blank lines)
+    def _minify_style(m):
+        css = re.sub(r'/\*.*?\*/', '', m.group(1), flags=re.DOTALL)
+        css = '\n'.join(l.strip() for l in css.splitlines() if l.strip())
+        return '<style>' + css + '</style>'
+    html = re.sub(r'<style>(.*?)</style>', _minify_style, html, flags=re.DOTALL)
+
+    # Strip HTML comments and collapse inter-tag whitespace
+    html = re.sub(r'<!--.*?-->', '', html, flags=re.DOTALL)
+    html = re.sub(r'>\s{2,}<', '><', html)
+    html = '\n'.join(l for l in html.splitlines() if l.strip())
+    return html
+
+
 def main():
     html = SRC.read_text('utf-8')
     html = inline_css(html)
@@ -74,6 +116,13 @@ def main():
     OUT.write_text(html, 'utf-8')
     size_kb = OUT.stat().st_size / 1024
     print('Written {} ({:.1f} KB)'.format(OUT.name, size_kb))
+
+    # Build the compressed version for puppy.walmart.com publishing
+    final = BASE / 'portal-final.html'
+    compressed = _compress(html)
+    final.write_text(compressed, 'utf-8')
+    final_kb = final.stat().st_size / 1024
+    print('Written {} ({:.1f} KB) — ready for puppy publish'.format(final.name, final_kb))
 
 
 if __name__ == '__main__':

@@ -1,0 +1,48 @@
+  File "/Users/e0c0lzr/Downloads/fashion-portal/daily-sync.py", line 686
+    id: '{scraped['opifId'].lower()}', title: '{scraped.get('title', scraped['opifId'])}', icon: '\u{1F4CB}',
+                                                                                                     ^
+SyntaxError: invalid decimal literal
+  File "/Users/e0c0lzr/Downloads/fashion-portal/daily-sync.py", line 686
+    id: '{scraped['opifId'].lower()}', title: '{scraped.get('title', scraped['opifId'])}', icon: '\u{1F4CB}',
+                                                                                                     ^
+SyntaxError: invalid decimal literal
+[2026-03-23 10:22:10] ============================================================
+[2026-03-23 10:22:10] E2E Fashion Portal Daily Sync — 2026-03-23
+[2026-03-23 10:22:10] ============================================================
+[2026-03-23 10:22:10] Loading Chrome cookies...
+[2026-03-23 10:22:17] WARNING: Could not get Chrome key: Cannot read Chrome key from Keychain — cookies may be empty
+[2026-03-23 10:22:17]   Loaded 0 cookies
+[2026-03-23 10:22:17] WARNING: No cookies — fetches will be unauthenticated (may get 403)
+[2026-03-23 10:22:17] Fetching Confluence dashboard: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
+[2026-03-23 10:22:19]   Found 0 OPIF IDs on dashboard: []...
+[2026-03-23 10:22:19] ERROR: No OPIF IDs found — Confluence may require re-authentication
+[2026-03-23 10:22:19]   Open Chrome, visit confluence.walmart.com, then re-run this script
+[2026-03-23 10:24:51] ============================================================
+[2026-03-23 10:24:51] E2E Fashion Portal Daily Sync — 2026-03-23
+[2026-03-23 10:24:51] ============================================================
+[2026-03-23 10:24:51] Loading Chrome cookies...
+[2026-03-23 10:24:59]   Loaded 0 cookies
+[2026-03-23 10:24:59] WARNING: No cookies — fetches will be unauthenticated (may get 403)
+[2026-03-23 10:24:59] Fetching Confluence dashboard: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
+[2026-03-23 10:25:01]   Found 0 OPIF IDs on dashboard: []...
+[2026-03-23 10:25:01] ERROR: No OPIF IDs found — Confluence may require re-authentication
+[2026-03-23 10:25:01]   Open Chrome, visit confluence.walmart.com, then re-run this script
+[2026-03-23 10:31:01] ============================================================
+[2026-03-23 10:31:01] E2E Fashion Portal Daily Sync — 2026-03-23
+[2026-03-23 10:31:01] ============================================================
+[2026-03-23 10:31:01] Loading Chrome cookies...
+[2026-03-23 10:31:14]   Loaded 48 cookies
+[2026-03-23 10:31:14] Fetching Confluence dashboard: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
+[2026-03-23 10:31:14] FETCH ERROR https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard: 'latin-1' codec can't encode character '\ufffd' in position 4: ordinal not in range(256)
+[2026-03-23 10:31:14]   Found 0 OPIF IDs on dashboard: []...
+[2026-03-23 10:31:14] ERROR: No OPIF IDs found — Confluence may require re-authentication
+[2026-03-23 10:31:14]   Open Chrome, visit confluence.walmart.com, then re-run this script
+[2026-03-23 10:31:52] ============================================================
+[2026-03-23 10:31:52] E2E Fashion Portal Daily Sync — 2026-03-23
+[2026-03-23 10:31:52] ============================================================
+[2026-03-23 10:31:52] Loading Chrome cookies...
+[2026-03-23 10:32:56]   Loaded 48 cookies
+[2026-03-23 10:32:56] Fetching Confluence dashboard: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
+[2026-03-23 10:32:58]   Found 0 OPIF IDs on dashboard: []...
+[2026-03-23 10:32:58] ERROR: No OPIF IDs found — Confluence may require re-authentication
+[2026-03-23 10:32:58]   Open Chrome, visit confluence.walmart.com, then re-run this script

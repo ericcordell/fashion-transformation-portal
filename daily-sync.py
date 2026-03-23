@@ -59,7 +59,7 @@ CONFLUENCE_DASHBOARD_URL = (
 )
 JIRA_BASE     = 'https://jira.walmart.com'
 SHARE_PUPPY   = 'https://puppy.walmart.com'
-PORTAL_SLUG   = 'e2e-fashion-portal'
+PORTAL_SLUG   = 'fashion-portal'
 PORTAL_OWNER  = 'e0c0lzr'
 
 # Fields we track changes for (card key → human label)
@@ -171,12 +171,14 @@ def make_session(cookies: dict[str, str]) -> urlreq.OpenerDirector:
     """Build a urllib opener that sends the given cookies on every request."""
     cookie_jar = cookielib.CookieJar()
     opener = urlreq.build_opener(urlreq.HTTPCookieProcessor(cookie_jar))
+    # Filter out cookies with non-ASCII characters that can't be sent in HTTP headers
+    safe_cookies = {k: v for k, v in cookies.items() if all(ord(c) < 128 for c in v)}
     opener.addheaders = [
         ('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) '
                        'AppleWebKit/537.36 (KHTML, like Gecko) '
                        'Chrome/122.0.0.0 Safari/537.36'),
         ('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'),
-        ('Cookie', '; '.join(f'{k}={v}' for k, v in cookies.items())),
+        ('Cookie', '; '.join(f'{k}={v}' for k, v in safe_cookies.items())),
     ]
     return opener
 
@@ -681,20 +683,28 @@ def _append_new_opif(scraped: dict) -> None:
     The card will appear in the portal with status Roadmap and TBD owners until
     a human confirms the correct workstream + enrichment.
     """
+    opif_id = scraped['opifId']
+    title = scraped.get('title', scraped['opifId'])
+    status = scraped.get('status', 'roadmap')
+    status_label = scraped.get('statusLabel', 'Roadmap — Newly Identified')
+    quarter = scraped.get('quarter', 'Future')
+    target_date = scraped.get('targetDate', 'TBD')
+    url = scraped['url']
+    
     new_block = f"""
   {{
-    id: '{scraped['opifId'].lower()}', title: '{scraped.get('title', scraped['opifId'])}', icon: '\u{1F4CB}',
-    status: '{scraped.get('status', 'roadmap')}',
-    statusLabel: '{scraped.get('statusLabel', 'Roadmap — Newly Identified')}',
-    quarter: '{scraped.get('quarter', 'Future')}',
-    targetDate: '{scraped.get('targetDate', 'TBD')}',
+    id: '{opif_id.lower()}', title: '{title}', icon: '\U0001F4CB',
+    status: '{status}',
+    statusLabel: '{status_label}',
+    quarter: '{quarter}',
+    targetDate: '{target_date}',
     tag: 'New — Needs Review',
     description: 'Newly identified OPIF from LLTT Dashboard. Awaiting full enrichment.',
     businessBenefit: 'TBD',
-    techIntegration: 'Primary OPIF: {scraped['opifId']}',
+    techIntegration: 'Primary OPIF: {opif_id}',
     successMetrics: 'TBD',
     owners: TBD_OWNERS(),
-    resources: res('{scraped['url']}'),
+    resources: res('{url}'),
     workstreams: ['buying'],  // TODO: confirm correct workstream
   }},"""
     path = BASE / 'data-buying.js'

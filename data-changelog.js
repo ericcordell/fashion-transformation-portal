@@ -4,12 +4,51 @@
  * Format per entry: { date, field, from, to }
  * DO NOT EDIT MANUALLY — this file is overwritten on every sync run.
  *
- * Last sync: March 20, 2026
+ * Last sync: March 23, 2026
  */
-const LAST_SYNC_DATE = 'March 20, 2026';
+const LAST_SYNC_DATE = 'March 23, 2026';
 
 const CARD_CHANGELOG = {
-  // 'card-id': [ { date: 'YYYY-MM-DD', field: 'status', from: 'green', to: 'yellow', fromLabel: '...', toLabel: '...' }, ... ]
+  'forecast-enterprise-service': [
+    {
+      date: '2026-03-23',
+      field: 'status',
+      from: 'roadmap',
+      to: 'yellow',
+      fromLabel: 'Roadmap \u2014 Recommend & Optimize Phase',
+      toLabel: 'Yellow \u2014 Ready for Walkthrough',
+    },
+  ],
+  'bq-enterprise-service': [
+    {
+      date: '2026-03-23',
+      field: 'status',
+      from: 'roadmap',
+      to: 'yellow',
+      fromLabel: 'Roadmap \u2014 Recommend & Optimize Phase',
+      toLabel: 'Yellow \u2014 Ready for Walkthrough',
+    },
+  ],
+  'auto-item-setup': [
+    {
+      date: '2026-03-23',
+      field: 'status',
+      from: 'yellow',
+      to: 'yellow',
+      fromLabel: 'Yellow \u2014 Pending Sizing',
+      toLabel: 'Yellow \u2014 Ready to Start (P1 \u26a0\ufe0f)',
+    },
+  ],
+  'design-hub-centric': [
+    {
+      date: '2026-03-23',
+      field: 'status',
+      from: 'in-progress',
+      to: 'milestone-done',
+      fromLabel: 'Milestone In Progress',
+      toLabel: 'OPIF-347498: Centric Capabilities Review \u2014 Confirmed Done \u2705',
+    },
+  ],
 };
 
 // Inject changeLog into every card that has entries

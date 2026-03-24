@@ -112,7 +112,7 @@ def _build_html(summary: dict) -> str:
     published_note = (
         "<span style='color:#2a8703;font-weight:600;'>"
         "✅ Portal republished to "
-        "<a href='https://puppy.walmart.com/sharing/e0c0lzr/fashion-portal'>puppy.walmart.com</a>"
+        "<a href='https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod'>puppy.walmart.com</a>"
         "</span>"
         if published else
         "<span style='color:#94a3b8;'>No publish (no changes)</span>"

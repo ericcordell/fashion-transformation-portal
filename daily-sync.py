@@ -11,7 +11,7 @@ What this does every run:
   6. Updates status / dates / rank on existing cards in data-*.js
   7. Detects NEW OPIFs not yet in the portal — enriches and adds them
   8. Rebuilds portal-inlined.html via build-inlined.py
-  9. Publishes to puppy.walmart.com (same permanent URL)
+  9. Publishes to puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod (PROD)
 
 Usage:
   python3 daily-sync.py             # full sync + publish
@@ -58,8 +58,14 @@ CONFLUENCE_DASHBOARD_URL = (
     'Long+Lead+Time+Transformation+Work+Management+Dashboard'
 )
 JIRA_BASE     = 'https://jira.walmart.com'
-SHARE_PUPPY   = 'https://puppy.walmart.com'
-PORTAL_SLUG   = 'fashion-portal'
+SHARE_PUPPY        = 'https://puppy.walmart.com'
+# Canonical slugs — NEVER change these without updating teams_notify.py too.
+# PROD: published by the daily scheduler and on explicit request.
+# TEST: published during development / QA / debugging sessions.
+PORTAL_SLUG_PROD   = 'e2e-fashion-portal-prod'
+PORTAL_SLUG_TEST   = 'e2e-fashion-portal-test'
+# Active target for this run — daily-sync always publishes to PROD.
+PORTAL_SLUG        = PORTAL_SLUG_PROD
 PORTAL_OWNER  = 'e0c0lzr'
 
 # Fields we track changes for (card key → human label)
@@ -484,7 +490,16 @@ def main() -> None:
     parser.add_argument('--dry-run',    action='store_true', help='Print changes, no writes')
     parser.add_argument('--no-publish', action='store_true', help='Sync + rebuild, skip publish')
     parser.add_argument('--no-scrape',  action='store_true', help='Skip Jira scraping (changelog only)')
+    parser.add_argument('--test',       action='store_true',
+                        help='Publish to TEST slug instead of PROD (use during dev/QA)')
     args = parser.parse_args()
+
+    # Route to the correct canonical slug based on --test flag.
+    # The daily scheduler never passes --test, so it always hits PROD.
+    global PORTAL_SLUG
+    PORTAL_SLUG = PORTAL_SLUG_TEST if args.test else PORTAL_SLUG_PROD
+    if args.test:
+        log(f'[publish] Targeting TEST portal ({PORTAL_SLUG_TEST})')
 
     _t_start    = time.monotonic()
     _started_at = datetime.now().strftime('%H:%M:%S %Z').strip() or datetime.now().strftime('%H:%M:%S')

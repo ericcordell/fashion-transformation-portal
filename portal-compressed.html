@@ -6,28 +6,17 @@
 <title>E2E Fashion Transformation Portal</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
-/* ============================================================
-   E2E Fashion Transformation Portal — Global Styles
-   Extracted from index.html to keep files under 600 lines.
-   ============================================================ */
-
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f4fb; }
-
-/* ---- Pillar header gradients ---- */
 .pillar-dark { background: linear-gradient(135deg, #212121, #37474f); color: white; }
 .pillar-blue { background: linear-gradient(135deg, #0053e2, #1a6fff); color: white; }
 .pillar-gold { background: linear-gradient(135deg, #b86000, #d98c00); color: white; }
 .pillar-navy { background: linear-gradient(135deg, #1a1a6e, #3b3ba3); color: white; }
 .umbrella-header { background: linear-gradient(135deg, #212121, #37474f); color: white; }
-
-/* ---- Cards ---- */
 .card { background: white; border-radius: 10px; border: 1px solid #e5e7eb;
         cursor: pointer; transition: all 0.18s ease; }
 .card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,83,226,0.14); border-color: #0053e2; }
 .card-dark { background: #37474f; border-color: #546e7a; }
 .card-dark:hover { border-color: #FFC220; box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
-
-/* ---- Badges ---- */
 .badge { display:inline-block; padding:2px 8px; border-radius:99px; font-size:0.67rem;
          font-weight:700; letter-spacing:0.03em; white-space:nowrap; }
 .badge-completed { background:#0053e2; color:white; }
@@ -36,81 +25,54 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .badge-backlog   { background:#0053e2; color:white; }
 .badge-roadmap   { background:#e8f0fe; color:#0053e2; border:1px solid #0053e2; }
 .badge-red       { background:#ea1100; color:white; }
-
-/* ---- Tags ---- */
 .tag { font-size:0.58rem; font-weight:800; letter-spacing:0.06em; text-transform:uppercase;
        padding:1px 6px; border-radius:4px; background:#fff8e1; color:#8a5000;
        border:1px solid #FFC220; white-space:nowrap; }
 .tag-win { background:#e8f5e9; color:#1b5e20; border-color:#2a8703; }
-
-/* ---- Quarter timeline strip ---- */
 .q-section { border-left: 3px solid #e2e8f0; margin-left: 14px; padding-left: 14px; padding-bottom: 4px; }
 .q-label { display:inline-flex; align-items:center; gap:6px; font-size:0.7rem;
            font-weight:800; letter-spacing:0.07em; text-transform:uppercase;
            padding:3px 10px; border-radius:99px; margin-bottom:8px; margin-left:-23px; }
 .q-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0;
           border:2px solid white; box-shadow:0 0 0 2px currentColor; }
-
-/* ---- Layout sections ---- */
 .pillar-section   { border-radius:14px; overflow:hidden; border:1px solid #e2e8f0;
                     box-shadow:0 2px 8px rgba(0,0,0,0.06); }
 .umbrella-section { border-radius:14px; overflow:hidden; border:2px solid #455a64;
                     box-shadow:0 4px 20px rgba(0,0,0,0.14); }
 .int-chip { background:white; border:1.5px dashed #f87171; border-radius:8px;
             padding:5px 11px; font-size:0.73rem; font-weight:600; color:#7f1d1d; }
-
-/* ---- Pillar header — clickable for summary modal ---- */
 .ph-clickable { cursor:pointer; transition:filter 0.18s; }
 .ph-clickable:hover { filter:brightness(1.1); }
-
-/* ---- Roadmap launch button ---- */
 .roadmap-btn { display:flex; align-items:center; justify-content:center; gap:6px;
   width:100%; padding:6px 0; font-size:0.72rem; font-weight:700;
   letter-spacing:0.04em; text-transform:uppercase; cursor:pointer; border-radius:8px;
   border:1.5px dashed #d1d5db; color:#6b7280; background:transparent; transition:all 0.15s; }
 .roadmap-btn:hover { border-color:#0053e2; color:#0053e2; background:#f0f5ff; }
-
-/* ---- Inquiry tab ---- */
 .inquiry-owner-row { display:flex; align-items:center; justify-content:space-between;
                      padding:8px 0; border-bottom:1px solid #f3f4f6; }
 .inquiry-owner-row:last-child { border-bottom: none; }
-
-/* ====================================================
-   MODAL SHARED BASE
-   All three modals share these overlay/scrollbar patterns.
-   z-index stack: card-detail=100, roadmap=98, summary=96
-   ==================================================== */
 .modal-overlay { display:none; position:fixed; inset:0;
                  background:rgba(0,0,0,0.55); backdrop-filter:blur(3px);
                  align-items:center; justify-content:center; }
 .modal-overlay.open { display:flex; }
-
-/* ---- Card-detail modal (z:100) ---- */
 #modal-overlay { z-index:100; }
 #modal-box {
   background:white; border-radius:16px; width:min(640px,95vw);
   max-height:92vh;
-  /* overflow:hidden clips content cleanly at the rounded corners;
-     scrolling is handled by #modal-body-scroll below */
   overflow:hidden;
   display:flex; flex-direction:column;
   box-shadow:0 24px 60px rgba(0,0,0,0.3);
 }
-/* Sticky zone: header + tab bar — never scrolls away */
 #modal-sticky-top { flex-shrink:0; }
-/* Inner scroll container — only the tab content scrolls */
 #modal-body-scroll { flex:1; overflow-y:auto; min-height:0; }
 #modal-body-scroll::-webkit-scrollbar { width:5px; }
 #modal-body-scroll::-webkit-scrollbar-thumb { background:#0053e2; border-radius:3px; }
-
 .tab-btn { padding:7px 15px; border-radius:99px; font-size:0.8rem; font-weight:600;
            cursor:pointer; transition:all 0.15s; color:#6b7280; }
 .tab-btn.active { background:#0053e2; color:white; }
 .tab-btn:hover:not(.active) { background:#f0f5ff; color:#0053e2; }
 .tab-panel { display:none; }
 .tab-panel.active { display:block; }
-
-/* ---- Roadmap popout modal (z:98) ---- */
 #rm-overlay { z-index:98; }
 #rm-box { background:white; border-radius:16px; width:min(900px,95vw);
           max-height:92vh; overflow:hidden; display:flex; flex-direction:column;
@@ -133,8 +95,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .rm-card { background:white; border-radius:10px; border:1px solid #e5e7eb;
            cursor:pointer; transition:all 0.18s; padding:12px; }
 .rm-card:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,83,226,.14); border-color:#0053e2; }
-
-/* ---- Summary modal (z:96) ---- */
 #sm-overlay { z-index:96; }
 #sm-box { background:white; border-radius:16px; width:min(600px,95vw);
           max-height:88vh; overflow:hidden; display:flex; flex-direction:column;
@@ -146,36 +106,21 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .sm-card-row { display:flex; align-items:center; gap:10px; padding:9px 0;
                border-bottom:1px solid #f8fafc; }
 .sm-card-row:last-child { border-bottom:none; }
-
-/* ============================================================
-   PHASE MATRIX — workstream-first layout
-   Sidebar (left, 200px) = phase context rail
-   Columns (right, 4×flex:1) = workstream hero columns
-   ============================================================ */
-
 .phase-matrix {
   display:flex; flex-direction:column;
   border-radius:16px; overflow:hidden;
   border:2px solid #e2e8f0;
   box-shadow:0 4px 20px rgba(0,0,0,0.08);
 }
-
-/* Header row: corner + workstream column headers */
 .pm-header-row {
   display:flex; align-items:stretch;
   border-bottom:2px solid rgba(255,255,255,0.2);
 }
-
-/* Phase rows: sidebar + cells */
 .pm-phase-row {
   display:flex; align-items:stretch;
   border-top:2px solid rgba(255,255,255,0.12);
 }
-
-/* Shared flex group for workstream columns */
 .pm-ws-col-group { flex:1; display:flex; min-width:0; }
-
-/* ── Corner cell (top-left) ── */
 .pm-corner {
   width:200px; flex-shrink:0;
   background:linear-gradient(160deg,#1e293b,#334155);
@@ -190,8 +135,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .pm-corner-sub {
   font-size:0.62rem; color:rgba(255,255,255,0.45); display:block;
 }
-
-/* ── Workstream column headers ── */
 .pm-ws-header {
   flex:1; min-width:0; padding:14px 14px;
   cursor:pointer;
@@ -207,8 +150,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .pm-ws-tool {
   font-size:0.67rem; color:rgba(255,255,255,0.65); display:block;
 }
-
-/* ── Phase sidebar ── */
 .pm-sidebar {
   width:200px; flex-shrink:0; padding:16px 14px;
   display:flex; flex-direction:column; gap:7px;
@@ -250,8 +191,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   border:1.5px solid #FFC220; border-radius:99px;
   padding:2px 9px; width:fit-content; margin-bottom:2px;
 }
-
-/* ── Content cells ── */
 .pm-cell {
   flex:1; min-width:0; padding:10px;
   border-left:1px solid #e5e7eb;
@@ -260,16 +199,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .pm-cell:first-child { border-left:none; }
 .pm-cell-p1 { background:white; }
 .pm-cell-future { background:#f8fafc; }
-
-/* ── Value banner (Phase 2 & 3 workstream capability headline) ── */
 .pm-value-banner {
   font-size:0.72rem; font-weight:600;
   padding:7px 10px; border-radius:8px;
   border:1.5px solid; line-height:1.45;
   margin-bottom:2px;
 }
-
-/* ── Capability chips (Phase 2 & 3 programs) ── */
 .pm-cap-chip {
   display:flex; align-items:center; gap:8px;
   padding:7px 9px; border-radius:8px;
@@ -288,16 +223,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   font-size:0.77rem; font-weight:600; color:#1e293b; line-height:1.3;
 }
 .pm-cap-badge { font-size:0.61rem !important; }
-
-/* ── Empty state ── */
 .pm-empty {
   font-size:0.75rem; color:#94a3b8; font-style:italic;
   text-align:center; padding:14px 8px;
 }
-
-/* ============================================================
-   FILTER BAR (primary view)
-   ============================================================ */
 .pmf-bar {
   display:flex; align-items:center; justify-content:space-between;
   flex-wrap:wrap; gap:8px;
@@ -309,8 +238,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   font-size:0.64rem; font-weight:800; text-transform:uppercase;
   letter-spacing:0.08em; color:#94a3b8; flex-shrink:0;
 }
-
-/* Card-attribute filter pills */
 .pmf-pill {
   font-size:0.72rem; font-weight:600;
   padding:4px 11px; border-radius:99px;
@@ -322,8 +249,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   background:#0053e2; border-color:#0053e2; color:white;
   box-shadow:0 2px 8px rgba(0,83,226,0.25);
 }
-
-/* Phase toggle pills */
 .pmf-phase-pill {
   font-size:0.72rem; font-weight:700;
   padding:4px 11px; border-radius:99px;
@@ -335,8 +260,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   background:var(--phc,#0053e2); border-color:var(--phc,#0053e2); color:white;
   box-shadow:0 2px 8px rgba(0,0,0,0.18);
 }
-
-/* Clear button */
 .pmf-clear {
   font-size:0.68rem; font-weight:700;
   padding:3px 9px; border-radius:99px;
@@ -344,10 +267,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   color:#ef4444; cursor:pointer; transition:all 0.15s;
 }
 .pmf-clear:hover { background:#ef4444; color:white; border-color:#ef4444; }
-
-/* ── Collapsed phase cell ── */
 .pm-cell-collapsed { background:#f1f5f9; }
-
 .pm-count-pill {
   display:flex; align-items:center; gap:4px;
   padding:6px 10px; border-radius:8px;
@@ -356,8 +276,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 }
 .pm-count-num { font-weight:800; font-size:0.88rem; color:#1e293b; }
 .pm-count-lbl { font-weight:500; }
-
-/* ── Expand/collapse button in sidebar ── */
 .pm-expand-btn {
   margin-top:8px; width:100%;
   font-size:0.7rem; font-weight:700;
@@ -369,12 +287,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .pm-expand-btn:hover {
   background:rgba(255,255,255,0.22); border-color:rgba(255,255,255,0.6);
 }
-
-/* ── Phase row expansion states ── */
 .pm-phase-collapsed .pm-sidebar { opacity:0.92; }
 .pm-phase-collapsed .pm-ws-col-group { background:#f1f5f9; }
-
-/* Collapsed sidebar: centre-align the minimal content, less vertical padding */
 .pm-sidebar-collapsed {
   display:flex !important;
   flex-direction:column;
@@ -393,10 +307,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   margin-top:6px;
   font-size:0.68rem;
 }
-
-/* ============================================================
-   STRATEGY UMBRELLA
-   ============================================================ */
 .strategy-umbrella {
   display:flex; align-items:center; justify-content:space-between;
   flex-wrap:wrap; gap:12px;
@@ -405,7 +315,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   box-shadow:0 4px 18px rgba(0,0,0,0.18);
   position:relative; overflow:hidden;
 }
-/* Decorative bottom drape — signals "umbrella covers everything below" */
 .strategy-umbrella::after {
   content:'';
   position:absolute; bottom:-1px; left:12%; right:12%;
@@ -413,7 +322,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   background:linear-gradient(90deg,transparent,rgba(255,194,32,0.45),transparent);
   border-radius:0 0 8px 8px;
 }
-
 .su-left {
   display:flex; align-items:center; gap:14px; flex:1; min-width:0;
 }
@@ -430,7 +338,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .su-sub {
   font-size:0.72rem; color:rgba(255,255,255,0.6); margin-top:2px; line-height:1.5;
 }
-
 .su-right {
   display:flex; flex-direction:column; align-items:flex-end; gap:5px; flex-shrink:0;
 }
@@ -439,7 +346,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   letter-spacing:0.07em; color:rgba(255,194,32,0.75);
 }
 .su-spans-chips { display:flex; gap:6px; }
-
 .su-chip {
   font-size:0.68rem; font-weight:700;
   padding:3px 10px; border-radius:99px;
@@ -449,10 +355,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .su-chip-design { border-color:rgba(0,83,226,0.55); background:rgba(0,83,226,0.2); }
 .su-chip-buying  { border-color:rgba(184,96,0,0.55);  background:rgba(184,96,0,0.2);  }
 .su-chip-alloc   { border-color:rgba(26,26,110,0.55); background:rgba(26,26,110,0.2); }
-
-/* ============================================================
-   ROADMAP MODAL — filter rows
-   ============================================================ */
 .rm-filter-row {
   display:flex; align-items:center; flex-wrap:wrap; gap:6px;
 }
@@ -464,8 +366,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .rm-filter-row-sep {
   color:rgba(255,255,255,0.25); font-size:1rem; padding:0 4px;
 }
-
-/* Phase buttons in roadmap filters get a subtle distinction */
 .rm-filter-btn.rm-filter-phase {
   border-color:rgba(255,255,255,0.2);
   background:rgba(255,255,255,0.06);
@@ -473,36 +373,22 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .rm-filter-btn.rm-filter-phase.active {
   background:rgba(255,255,255,0.25); border-color:white;
 }
-
-/* Empty state in roadmap */
 .rm-empty {
   padding:24px; text-align:center;
   font-size:0.82rem; color:#94a3b8; font-style:italic;
 }
-
-/* Source attribution footer inside roadmap body */
 .rm-source {
   font-size:0.68rem; color:#94a3b8; margin:18px 0 4px;
   padding-top:12px; border-top:1px solid #f1f5f9;
 }
 .rm-source a { color:#0053e2; text-decoration:underline; }
 .rm-source a:hover { color:#1a6fff; }
-
-/* Phase banner inside roadmap body */
 .rm-phase-banner {
   padding:8px 14px; border-radius:10px; border:1.5px solid;
   font-size:0.8rem; margin-bottom:12px; line-height:1.5;
 }
-
-
 </style>
 <style>
-/* portal-goals.css — Goal chip & Goal detail modal styles */
-/* Split from portal.css to keep files under 600 lines       */
-
-/* ============================================================
-   GOAL CHIPS — clickable in expanded sidebar
-   ============================================================ */
 .pm-goal-chip-btn {
   cursor:pointer;
   transition:transform 0.12s, box-shadow 0.12s, background 0.12s;
@@ -521,10 +407,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   transition:opacity 0.12s;
 }
 .pm-goal-chip-btn:hover .pm-goal-arrow { opacity:1; }
-
-/* ============================================================
-   GOAL DETAIL MODAL
-   ============================================================ */
 #gm-overlay {
   position:fixed; inset:0; z-index:102;
   background:rgba(0,0,0,0.55); backdrop-filter:blur(4px);
@@ -533,7 +415,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   opacity:0; pointer-events:none; transition:opacity 0.2s;
 }
 #gm-overlay.open { opacity:1; pointer-events:all; }
-
 #gm-box {
   width:100%; max-width:680px; max-height:88vh;
   background:white; border-radius:20px;
@@ -543,8 +424,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   transform:translateY(12px); transition:transform 0.2s;
 }
 #gm-overlay.open #gm-box { transform:translateY(0); }
-
-/* ── Header ── */
 #gm-header {
   padding:20px 22px 16px;
   flex-shrink:0;
@@ -576,8 +455,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   transition:opacity 0.15s;
 }
 .gm-close:hover { opacity:1; }
-
-/* ── Subbar (status + phase pills) ── */
 .gm-subbar {
   display:flex; align-items:center; flex-wrap:wrap; gap:7px;
 }
@@ -589,19 +466,14 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .gm-status-ip   { background:rgba(255,194,32,0.18); border-color:rgba(255,194,32,0.5); color:#ffc220; }
 .gm-status-plan { background:rgba(255,255,255,0.12); border-color:rgba(255,255,255,0.3); color:rgba(255,255,255,0.8); }
 .gm-status-done { background:rgba(42,135,3,0.25); border-color:#2a8703; color:#a3e678; }
-
 .gm-phase-pill {
   font-size:0.68rem; font-weight:700;
   padding:3px 10px; border-radius:99px; border:1.5px solid;
 }
-
-/* ── Scrollable body ── */
 .gm-body {
   overflow-y:auto; padding:20px 22px;
   display:flex; flex-direction:column; gap:18px;
 }
-
-/* ── Sections ── */
 .gm-section { display:flex; flex-direction:column; gap:8px; }
 .gm-section-title {
   font-size:0.68rem; font-weight:800; text-transform:uppercase;
@@ -610,12 +482,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .gm-desc {
   font-size:0.85rem; line-height:1.65; color:#374151; margin:0;
 }
-
 .gm-two-col {
   display:grid; grid-template-columns:1fr 1fr; gap:14px;
 }
 @media (max-width:540px) { .gm-two-col { grid-template-columns:1fr; } }
-
 .gm-kpi-box {
   background:#f0f4ff; border:1.5px solid #bfcfff;
   border-radius:10px; padding:12px 14px;
@@ -626,8 +496,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   border-radius:10px; padding:12px 14px;
   font-size:0.8rem; line-height:1.6; color:#7c2d12;
 }
-
-/* ── Key programs list ── */
 .gm-programs {
   list-style:none; margin:0; padding:0;
   display:flex; flex-direction:column; gap:7px;
@@ -639,33 +507,22 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 }
 .gm-programs strong { color:#0053e2; }
 .gm-prog-note { color:#64748b; }
-
-/* ── Workstream chips ── */
 .gm-ws-chips { display:flex; flex-wrap:wrap; gap:6px; }
 .gm-ws-chip {
   font-size:0.72rem; font-weight:600;
   padding:4px 11px; border-radius:99px;
   background:#f1f5f9; border:1px solid #e2e8f0; color:#475569;
 }
-
-/* ── Source attribution ── */
 .gm-source {
   font-size:0.68rem; color:#94a3b8; margin:0;
   padding-top:12px; border-top:1px solid #f1f5f9;
 }
 .gm-source a { color:#0053e2; text-decoration:underline; }
-
 </style>
 <style>
-/* ============================================================
-   exec-summary.css — Executive Status Bar & Drill-Down Modal
-   Styles for the compact RYG chip strip and scoped status modal.
-   ============================================================ */
-
 #exec-bar {
   margin-bottom: 12px;
 }
-
 .es-bar {
   display: flex;
   align-items: center;
@@ -677,7 +534,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   padding: 7px 14px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
-
 .es-bar-label {
   font-size: 0.62rem;
   font-weight: 800;
@@ -687,7 +543,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   white-space: nowrap;
   margin-right: 4px;
 }
-
 .es-group-label {
   font-size: 0.6rem;
   font-weight: 700;
@@ -697,7 +552,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   white-space: nowrap;
   padding: 0 2px;
 }
-
 .es-divider {
   width: 1px;
   height: 16px;
@@ -705,21 +559,16 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   margin: 0 6px;
   flex-shrink: 0;
 }
-
 .es-sep {
   color: #e2e8f0;
   font-size: 0.8rem;
   padding: 0 4px;
   user-select: none;
 }
-
-/* Pushes filter group to the far right of the bar */
 .es-spacer {
   flex: 1;
   min-width: 8px;
 }
-
-/* Filter group container (right side of bar) */
 .es-filter-group {
   display: flex;
   align-items: center;
@@ -729,8 +578,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   padding-left: 4px;
   border-left: 1px solid #e5e7eb;
 }
-
-/* Card filter pills (Critical / R-Y / Done) */
 .es-filter-pill {
   display: inline-flex;
   align-items: center;
@@ -757,8 +604,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   border-color: #0053e2;
   font-weight: 700;
 }
-
-/* Clear-all button */
 .es-filter-clear {
   display: inline-flex;
   align-items: center;
@@ -780,8 +625,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   color: white;
   border-color: #ef4444;
 }
-
-/* Phase expand/collapse pills */
 .es-phase-pill {
   display: inline-flex;
   align-items: center;
@@ -806,7 +649,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   border-color: var(--phc, #64748b);
   font-weight: 700;
 }
-
 .es-chip {
   display: inline-flex;
   align-items: center;
@@ -835,7 +677,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   background: #f0f4ff;
   border-color: #c7d2fe;
 }
-
 .es-dot {
   width: 7px;
   height: 7px;
@@ -843,9 +684,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   flex-shrink: 0;
   display: inline-block;
 }
-
 .es-chip-label { font-size: 0.7rem; }
-
 .es-chip-badge {
   font-size: 0.58rem;
   font-weight: 700;
@@ -854,8 +693,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   border: 1px solid;
   white-space: nowrap;
 }
-
-/* Exec modal box */
 #es-box {
   background: white;
   border-radius: 20px;
@@ -867,26 +704,21 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   flex-direction: column;
   box-shadow: 0 24px 64px rgba(0,0,0,0.22);
 }
-
 #es-header {
   padding: 20px 24px 18px;
   flex-shrink: 0;
 }
-
 #es-body {
   overflow-y: auto;
   flex: 1;
   padding: 0 0 20px;
 }
-
-/* Sections inside the exec modal body */
 .es-section {
   padding: 16px 24px 14px;
   border-bottom: 1px solid #f1f5f9;
 }
 .es-section:last-child { border-bottom: none; }
 .es-section--alt { background: #fafbff; }
-
 .es-section-label {
   margin: 0 0 10px;
   font-size: 0.65rem;
@@ -895,8 +727,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   letter-spacing: .08em;
   color: #64748b;
 }
-
-/* Group headers inside the collapsible All Programs list */
 .es-group-header {
   display: flex;
   align-items: center;
@@ -911,7 +741,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   margin-bottom: 4px;
   margin-top: 10px;
 }
-
 .es-card-row {
   display: flex;
   align-items: center;
@@ -926,7 +755,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   background: #eef2ff;
   border-color: #c7d2fe;
 }
-
 .es-card-title {
   font-size: 0.8rem;
   font-weight: 600;
@@ -935,15 +763,11 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   flex: 1;
   min-width: 0;
 }
-
-/* details/summary reset */
 details > summary { list-style: none; }
 details > summary::-webkit-details-marker { display: none; }
-
 </style>
 </head>
 <body>
-
 <header style="background:#0053e2" class="text-white px-6 py-4 flex items-center justify-between shadow-lg">
   <div class="flex items-center gap-3">
     <span style="color:#FFC220;font-size:1.8rem;font-weight:900;">&#9733;</span>
@@ -954,17 +778,13 @@ details > summary::-webkit-details-marker { display: none; }
   </div>
   <div style="color:#a8c4ff" class="text-xs">March 2026 &bull; Confidential</div>
 </header>
-
 <div style="background:linear-gradient(90deg,#1b5e20,#2e7d32,#00695c)" class="text-white px-6 py-2 text-center text-sm font-semibold flex items-center justify-center gap-3">
   <span>&#129302;</span>
   <span><strong>AI &amp; Automation:</strong>&nbsp;Automated workflows, intelligent forecasting, and system-driven execution across the Fashion E2E lifecycle</span>
   <span>&#129302;</span>
 </div>
-
 <!-- phase bar removed from navbar — now lives inside main -->
-
 <main class="p-5 max-w-screen-2xl mx-auto">
-
   <!-- E2E PHASE FLOW — centered, color-coded by workstream -->
   <div class="bg-white rounded-2xl border border-gray-200 shadow-sm px-6 pt-5 pb-4 mb-4">
     <p class="text-center text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">End-to-End Fashion Process Flow</p>
@@ -985,10 +805,8 @@ details > summary::-webkit-details-marker { display: none; }
       </span>
     </div>
   </div>
-
   <!-- EXECUTIVE STATUS BAR — subtle RYG overview strip; click any chip to drill in -->
   <div id="exec-bar"></div>
-
   <!-- STRATEGY UMBRELLA — ties all workstreams together -->
   <div class="strategy-umbrella mb-3" aria-label="Strategy Hub — connective tissue linking all workstreams">
     <div class="su-left">
@@ -1007,7 +825,6 @@ details > summary::-webkit-details-marker { display: none; }
       </div>
     </div>
   </div>
-
   <!-- WORKSTREAM × PHASE MATRIX
        Left sidebar  = phase context rail (timing, goals, value)
        Right columns = workstream hero columns (Strategy / Design / Buying / Allocation)
@@ -1015,10 +832,7 @@ details > summary::-webkit-details-marker { display: none; }
        Phase 2 & 3 cells = capability chips + value-unlock banners
   -->
   <div id="phase-grid-wrap" class="mb-4"></div>
-
-
 </main>
-
 <!-- CARD DETAIL MODAL -->
 <div id="modal-overlay" class="modal-overlay">
   <div id="modal-box">
@@ -1068,7 +882,6 @@ details > summary::-webkit-details-marker { display: none; }
     </div>
   </div>
 </div>
-
 <!-- GOAL DETAIL MODAL -->
 <div id="gm-overlay" class="modal-overlay">
   <div id="gm-box">
@@ -1088,7 +901,6 @@ details > summary::-webkit-details-marker { display: none; }
     <div id="gm-body" class="gm-body"></div>
   </div>
 </div>
-
 <!-- ROADMAP POPOUT MODAL -->
 <div id="rm-overlay" class="modal-overlay">
   <div id="rm-box">
@@ -1105,8 +917,6 @@ details > summary::-webkit-details-marker { display: none; }
     <div id="rm-body"></div>
   </div>
 </div>
-
-
 <!-- SUMMARY MODAL (z:96) -->
 <div id="sm-overlay" class="modal-overlay">
   <div id="sm-box">
@@ -1123,14 +933,6 @@ details > summary::-webkit-details-marker { display: none; }
   </div>
 </div>
 <script>
-// E2E Fashion Transformation Portal — Core Constants & Helpers
-// Walmart FY starts February:
-//   Q1 = Feb–Apr  |  Q2 = May–Jul  |  Q3 = Aug–Oct  |  Q4 = Nov–Jan
-// Pillar card arrays live in: data-strategy.js, data-design.js,
-//   data-buying.js, data-allocation.js
-// PILLARS is assembled at end of data-allocation.js (last file loaded).
-
-// ---- E2E Phase flow bar ----
 const PHASES = [
   { id: 'strategy',   label: 'Strategy',     workstream: 'strategy'   },
   { id: 'design',     label: 'Design',        workstream: 'design'     },
@@ -1146,31 +948,20 @@ const PHASES = [
   { id: 'distrib',    label: 'Distribution',  workstream: 'allocation' },
   { id: 'exits',      label: 'Exits',         workstream: 'allocation' },
 ];
-
-// ---- Strategy umbrella banner ----
 const STRATEGY_UMBRELLA = {
   title:    'Strategy',
   subtitle: 'Strategy Hub (TTP) — The guiding framework across Design, Buying & Allocation',
 };
-
-// ---- Shared helpers (used in all pillar data files) ----
 const own = (name = 'TBD', email = '') => ({ name, email });
-
 const res = (opif = '#', brd = '#', prd = '#', uxDemo = '#', other = []) =>
   ({ opif, brd, prd, uxDemo, other });
-
-// ---- Corporate directory — verified via Walmart directory (Mar 2026) ----
-// Primary owner source:  OPIF (Assignee = TPM/TL · Reporter = Product Manager)
-// Fallback owner source: confluence.walmart.com/display/APREC/Who%27s+Who+Among+the+Long+Lead+Time+Transformation
 const PEOPLE = {
-  // ---- Business Transformation Leads (Confluence) ----
   'Brett Reid':          { email: 'Brett.Reid@walmart.com',         title: 'Director, Business Transformation (AEX & Space/Draw)' },
   'Bill Chiodetti':      { email: 'William.Chiodetti@walmart.com',   title: 'Sr. Director, Product Management (Strategy)' },
   'William Chiodetti':   { email: 'William.Chiodetti@walmart.com',   title: 'Sr. Director, Product Management (Strategy)' },
   'Tammy Hawkins':       { email: 'Tammy.Hawkins@walmart.com',       title: 'Sr. Director, Business Transformation (OneSource / GMF PLM)' },
   'Veena Swaminathan':   { email: 'Veena.Swaminathan@walmart.com',   title: 'Director, Product Management (Replenishment)' },
   'Ken Brockland':       { email: 'Ken.Brockland@walmart.com',       title: 'Sr. Director, Product Management (AP Tool / Modulars)' },
-  // ---- Product Leads / Managers (OPIF Reporter or Confluence) ----
   'Michael Allen':       { email: 'Michael.B.Allen@walmart.com',     title: 'Sr. Director, Product Management (AEX)' },
   'Abhishek Jannawar':   { email: 'Abhishek.Jannawar@walmart.com',   title: 'Staff Product Manager (BQ, S&P, Intent Report)' },
   'Ryan Henderson':      { email: 'Ryan.Henderson@walmart.com',      title: 'Senior Product Manager (Stability & Replatforming)' },
@@ -1182,57 +973,40 @@ const PEOPLE = {
   'Chris Chiodo':        { email: 'Christopher.Chiodo@walmart.com', title: 'Senior Manager, Product Management (Design Hub / OneSource)' },
   'Vivek Mishra':        { email: 'Vivek.Mishra@walmart.com',        title: 'Sr. Director, Platform PM (Forecasting & BQ)' },
   'David Nelms':         { email: 'David.Nelms@walmart.com',         title: 'Sr. Director, Product Management (Assortment Repository)' },
-  // ---- Technical Program Managers (OPIF Assignee or Confluence) ----
   'Chris Graves':        { email: 'christopher.graves@walmart.com', title: 'Principal TPM (AEX)' },
   'Ramesh Simhambhatla': { email: 'Ramesh.Simhambhatla@walmart.com', title: 'Staff TPM (Strategy / OneSource)' },
   'Sakshi Datta':        { email: 'Sakshi.Datta@walmart.com',        title: 'Staff TPM (Space & Draw)' },
   'Prasanth Chalikandi': { email: 'Prasanth.Chalikandi@walmart.com', title: 'Principal TPM' },
   'Ashwin Chidambaram':  { email: 'Ashwin.Chidambaram@walmart.com', title: 'Eng. Manager / TPM (AP Tool / Assortment Planning)' },
-  // ---- UX Leads (Confluence) ----
   'Robbie Dutta':        { email: 'Robbie.Dutta@walmart.com',        title: 'Sr. Director, UX Design (AEX)' },
   'CJ Weatherford':      { email: 'CJ.Weatherford@walmart.com',      title: 'Principal UX Designer (AEX / AP Tool)' },
   'Stephen Wolf':        { email: 'Stephen.Wolf@walmart.com',        title: 'Director, UX Design (OneSource / Strategy)' },
   'Leon Hovanesian':     { email: 'Leon.Hovanesian@walmart.com',     title: 'Senior Manager, Design (Strategy / OneSource)' },
   'Minwoo Kim':          { email: 'Minwoo.Kim@walmart.com',          title: 'Senior UX Designer (Space & Draw)' },
-  // ---- Engineering / Software Leads (Confluence) ----
   'Mike Dunn':           { email: 'mike.dunn@walmart.com',           title: 'Director, Software Engineering (AEX)' },
   'Arun Santhiagu':      { email: 'Arun.Santhiagu@walmart.com',      title: 'Sr. Manager, Software Engineering (AP Tool)' },
   'Oscar Cantu':         { email: 'Oscar.Cantu@walmart.com',         title: 'Sr. Manager, Software Engineering (Assortment Planning)' },
 };
-
-// Look up a person by name — returns { name, email, title }
 const person = (name) => {
   if (!name || name === 'TBD' || name === '') return own();
   const p = PEOPLE[name];
   return p ? { name, email: p.email, title: p.title } : own(name);
 };
-
 const TBD_OWNERS = () => ({
-  businessPartner:    [],   // array — can hold multiple Business & Transformation Leads
+  businessPartner:    [],
   transformationLead: own(),
   productLead:        own(),
   uxLead:             own(),
   softwareLead:       own(),
 });
-
-// Convenience: full owner set — auto-resolves emails from PEOPLE directory
-// bp = Business & Transformation Lead(s) — string OR array of strings (multiple allowed)
-// tl = Technical Program Manager (TPM) / OPIF Assignee
-// pl = Product Manager / OPIF Reporter
-// ux = UX Lead (Confluence fallback)
-// sw = Engineering Lead (Confluence fallback)
 const pptOwners = (bp, tl, pl, ux = '', sw = '') => ({
-  // businessPartner is always an array so the UI can render 0..N people
   businessPartner:    (Array.isArray(bp) ? bp : [bp]).map(person).filter(p => p.name && p.name !== 'TBD'),
-  transformationLead: person(tl),   // TPM / OPIF Assignee
+  transformationLead: person(tl),
   productLead:        person(pl),
   uxLead:             person(ux),
   softwareLead:       person(sw),
 });
-
-// ---- Shared lookup tables (used by main page, roadmap & summary modals) ----
 const QUARTER_ORDER = ['completed', 'Q1', 'Q2', 'Q3', 'Q4', 'Future'];
-
 const QUARTER_META = {
   completed: { label: '\u2705 Completed',              color: '#0053e2', bg: '#eef2ff', border: '#0053e2' },
   Q1:        { label: 'Q1 FY27 \u00b7 Feb\u2013Apr',  color: '#2a8703', bg: '#f0faf0', border: '#2a8703' },
@@ -1241,7 +1015,6 @@ const QUARTER_META = {
   Q4:        { label: 'Q4 FY27 \u00b7 Nov\u2013Jan',  color: '#546e7a', bg: '#f8fafc', border: '#b0bec5' },
   Future:    { label: '\uD83D\uDD2E Future Roadmap',   color: '#9e9e9e', bg: '#fafafa', border: '#e0e0e0' },
 };
-
 const BADGE_CLASS = {
   completed: 'badge-completed',
   green:     'badge-green',
@@ -1250,14 +1023,12 @@ const BADGE_CLASS = {
   roadmap:   'badge-roadmap',
   red:       'badge-red',
 };
-
 const PILLAR_GRADIENTS = {
   'pillar-dark': 'linear-gradient(135deg,#212121,#37474f)',
   'pillar-blue': 'linear-gradient(135deg,#0053e2,#1a6fff)',
   'pillar-gold': 'linear-gradient(135deg,#b86000,#d98c00)',
   'pillar-navy': 'linear-gradient(135deg,#1a1a6e,#3b3ba3)',
 };
-
 const INTEGRATION_ROW = [
   'ERP', 'PIM', 'DAM', 'CAD / 2D / 3D',
   'Supplier One', 'ISAM', 'Item Setup Systems',
@@ -1265,11 +1036,6 @@ const INTEGRATION_ROW = [
 ];
 </script>
 <script>
-// data-strategy.js — Strategy pillar card definitions
-// Source: Confluence LLTT Work Management Dashboard (APREC space)
-// Live Jira data: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
-// Depends on: data.js (own, res, TBD_OWNERS, pptOwners)
-
 const CARDS_STRATEGY = [
   {
     id: 'strategy-hub', title: 'Strategy Hub (TTP)', icon: '\uD83C\uDFDB\uFE0F',
@@ -1318,7 +1084,7 @@ const CARDS_STRATEGY = [
   },
   {
     id: 'forecast-enterprise-service', title: 'Forecast as Enterprise Service', icon: '\uD83E\uDDE0',
-    status: 'yellow', statusLabel: 'Yellow \u2014 Ready for Walkthrough',
+    status: 'roadmap', statusLabel: 'Roadmap \u2014 Recommend & Optimize Phase',
     quarter: 'Q2', targetDate: 'May\u2013Oct 2026',
     description: 'National forecasting capability delivered as a shared enterprise service — providing channel-level (eComm vs. store) and placement-split forecast outputs consumed by Buying, Allocation, and Planning teams. Enables AEX to consume forecasts aligned with AP service-based forecasting architecture. Includes model explainability and automated training pipelines. OPIF-325221 Status: Discovery in Progress. Assignee: Abhishek Jannawar. Reporter: Abhishek Jannawar. Component: US Omni Tech – MerchTools – AEX Buy Quantification. Related: OPIF-325218 (BQ as a Service), OPIF-325373 (Unified Planner Experience).',
     businessBenefit: 'Single, trusted forecast signal across all Fashion workstreams eliminates conflicting demand signals between Buying and Allocation. Forecast as a service reduces duplicative DS investment and accelerates new-department onboarding. Channel and placement splits give eComm and store teams differentiated, actionable signals without separate model builds.',
@@ -1421,11 +1187,6 @@ const CARDS_STRATEGY = [
 ];
 </script>
 <script>
-// data-design.js — Design pillar card definitions
-// Source: Confluence LLTT Work Management Dashboard (APREC space)
-// Live Jira data: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
-// Depends on: data.js (own, res, TBD_OWNERS, pptOwners)
-
 const CARDS_DESIGN = [
   {
     id: 'design-hub-centric', title: 'Launch Design Hub (Centric PLM)', icon: '\uD83C\uDFD7\uFE0F',
@@ -1603,11 +1364,6 @@ const CARDS_DESIGN = [
 ];
 </script>
 <script>
-// data-buying.js — Buying pillar card definitions
-// Source: Confluence LLTT Work Management Dashboard (APREC space)
-// Live Jira: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
-// Depends on: data.js (own, res, TBD_OWNERS, pptOwners)
-
 const CARDS_BUYING = [
   {
     id: 'neo-replatform', title: 'AEX Replatform \u2014 Neo', icon: '\uD83C\uDFC6',
@@ -1644,7 +1400,7 @@ const CARDS_BUYING = [
   },
   {
     id: 'auto-item-setup', title: 'Automated Item Setup', icon: '\u2699\uFE0F',
-    status: 'yellow', statusLabel: 'Yellow \u2014 Ready to Start (P1 \u26a0\ufe0f)',
+    status: 'yellow', statusLabel: 'Yellow \u2014 Pending Sizing',
     quarter: 'Q2', targetDate: 'April 30, 2026', tag: 'Critical Program',
     jiraStatus: 'Pending Sizing',
     priority: 'P1',
@@ -1806,7 +1562,7 @@ const CARDS_BUYING = [
   },
   {
     id: 'bq-enterprise-service', title: 'Buy Quantification as Enterprise Service', icon: '\uD83D\uDCCA',
-    status: 'yellow', statusLabel: 'Yellow \u2014 Ready for Walkthrough',
+    status: 'roadmap', statusLabel: 'Roadmap \u2014 Recommend & Optimize Phase',
     quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
     description: 'Buy Quantification and Flow delivered as a shared enterprise service — providing demand-driven buy quantity recommendations across all Fashion workstreams without each team running independent BQ calculations. Part of the Recommend & Optimize phase of the LLTT roadmap (Q3 FY27 – Q1 FY28). Includes rollup reporting, dynamic PO re-distribution, pack simplification, unified planner experience, and channel/placement-split forecasting. OPIF-325218 Status: Discovery in Progress. Assignee: Abhishek Jannawar. Reporter: Abhishek Jannawar. Component: US Omni Tech – MerchTools – AEX Buy Quantification.',
     businessBenefit: 'Single authoritative buy quantity signal across all Fashion buying teams. Replaces manual BQ spreadsheets and per-department workarounds. Enables dynamic redistribution of POs as in-season signals emerge. Channel and placement splits give eComm and store teams differentiated signals.',
@@ -1880,11 +1636,6 @@ const CARDS_BUYING = [
 ];
 </script>
 <script>
-// data-allocation.js — Allocation pillar card definitions + PILLARS assembly
-// Source: Confluence LLTT Work Management Dashboard (APREC space)
-// Live Jira: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
-// Depends on: data.js, data-strategy.js, data-design.js, data-buying.js
-
 const CARDS_ALLOCATION = [
   {
     id: 'unified-planning', title: 'Unified Planning Workflow', icon: '\uD83D\uDD17',
@@ -2057,10 +1808,6 @@ const CARDS_ALLOCATION = [
     owners: TBD_OWNERS(), resources: res(), workstreams: ['allocation'],
   },
 ];
-
-// ============================================================
-// PILLARS ASSEMBLY — all four pillar arrays must be loaded first
-// ============================================================
 const PILLARS = [
   {
     id: 'strategy', title: 'Strategy', subtitle: 'Strategy Hub (TTP)',
@@ -2093,14 +1840,6 @@ const PILLARS = [
 ];
 </script>
 <script>
-// data-phases.js — LLTT three-phase definitions + card-to-phase mapping
-// Source: Confluence LLTT Work Management Dashboard (APREC space)
-// https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
-//
-// Phase 1: Setup & Integration   — Q1–Q3 FY27  (Feb 2026 – Oct 2026)
-// Phase 2: Recommend & Optimize  — Q3 FY27–Q1 FY28 (Aug 2026 – Apr 2027)
-// Phase 3: Automate              — Q1–Q3 FY28  (Feb 2027 – Oct 2027)
-
 const PHASE_DEFS = [
   {
     num: 1,
@@ -2133,7 +1872,6 @@ const PHASE_DEFS = [
       { id: '#3', label: 'Happy path buying execution' },
       { id: '#4', label: 'Reduce merchant hours' },
     ],
-    // What each workstream gains after this phase completes
     wsValue: {
       strategy:   'Planning hub connected — space & trend signals feed live line plan',
       design:     'Centric PLM live; AEX Line Plan migrated; visual boards & DAM active',
@@ -2211,12 +1949,7 @@ const PHASE_DEFS = [
     },
   },
 ];
-
-// ── CARD → PHASE MAP ─────────────────────────────────────────
-// Single source of truth for which phase each card belongs to.
-// Phase logic derived from Confluence LLTT Roadmap table deliverables.
 const CARD_PHASE_MAP = {
-  // ── Strategy ──
   'strategy-hub':              1,
   'space-planning':            1,
   'trend-api-longlead':        1,
@@ -2230,64 +1963,52 @@ const CARD_PHASE_MAP = {
   'strategy-fy27-kickoff':     2,
   'shared-merch-strategy':     3,
   'strategy-transformation-review': 3,
-
-  // ── Design ──
-  'design-hub-centric':        1,  // Critical — launch Centric
-  'aex-lineplan-migration':    1,  // Critical — AP Tool LP Integration
-  'sample-mgmt-fit-eval':      1,  // Critical
+  'design-hub-centric':        1,
+  'aex-lineplan-migration':    1,
+  'sample-mgmt-fit-eval':      1,
   'line-planning':             1,
   'product-specs':             1,
   'trend-api-preseason':       1,
   'ap-tool-shared-ideation':   1,
   'fit-eval-workflow':         1,
-  'centralized-dam':           1,  // OneSource Central Visual Boards
+  'centralized-dam':           1,
   'centric-integration':       1,
-  'visual-boards':             1,  // Critical
-  'shared-event-layer':        2,  // Phase 2: Shared Event Calendar
+  'visual-boards':             1,
+  'shared-event-layer':        2,
   'material-sourcing':         2,
-  'ai-line-plan':              3,  // Phase 3: Strategy-based Conceptual LP
+  'ai-line-plan':              3,
   'design-analytics':          3,
-
-  // ── Buying ──
-  'neo-replatform':            1,  // Completed
-  'aex-stability':             1,  // Critical
-  'longterm-buying':           1,  // LLTT core
-  'auto-item-setup':           1,  // Critical — Item Creation Quality
-  'fashion-fixture-allocation-buying': 1, // Visual Rack Plan
-  'ai-item-repository':        1,  // Item Selection / Repository
-  'size-pack-bq':              1,  // Automated BQ
-  'ap-tool-lineplan':          1,  // AP Tool Integration
-  'bam-collab-intent':         1,  // Collab / BAM Integration
-  'commitment-report-redesign':1,  // Item Report standardization
-  'oneitem-expanded-sources':  2,  // Unified Potential Items
-  'bq-enterprise-service':     2,  // Buy Quantification Enterprise Service
-  'shared-item-repository':    2,  // Unified Potential Items
+  'neo-replatform':            1,
+  'aex-stability':             1,
+  'longterm-buying':           1,
+  'auto-item-setup':           1,
+  'fashion-fixture-allocation-buying': 1,
+  'ai-item-repository':        1,
+  'size-pack-bq':              1,
+  'ap-tool-lineplan':          1,
+  'bam-collab-intent':         1,
+  'commitment-report-redesign':1,
+  'oneitem-expanded-sources':  2,
+  'bq-enterprise-service':     2,
+  'shared-item-repository':    2,
   'global-buying-platform':    3,
-
-  // ── Pillar-level IDs (not cards — included to pass ID coverage check) ──
   'strategy':  1,
   'design':    1,
   'buying':    1,
   'allocation':1,
-
-  // ── Allocation ──
   'unified-planning':          1,
   'bpe-seasonal':              1,
-  'tagging-pilot':             1,  // Build tagging foundations
+  'tagging-pilot':             1,
   'distrib-optimization':      1,
-  'enterprise-wave-planning':  1,  // New Store PO automation
+  'enterprise-wave-planning':  1,
   'enterprise-trend-api-inseason': 2,
-  'tag-based-recommendations': 2,  // Tag-based Recommendations + Swaps
-  'assort-product-phase2':     2,  // Shared Event Calendar + Unified Items
-  'fashion-fixture-tagging':   3,  // Tag-based Dynamic Placement
+  'tag-based-recommendations': 2,
+  'assort-product-phase2':     2,
+  'fashion-fixture-tagging':   3,
   'merch-financial':           3,
 };
 </script>
 <script>
-// data-goals.js — LLTT Transformation Goal details
-// Source: APREC Confluence — LLTT Work Management Dashboard (read Mar 2026)
-// https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
-
 const GOALS = {
   '1': {
     id: '1',
@@ -2444,148 +2165,108 @@ const GOALS = {
 };
 </script>
 <script>
-// exec-narratives.js — Scope-level editorial narratives for the Executive Status modal.
-// Each entry maps a scope key to a short, human-readable summary of the work.
-// Kept separate to stay under the 600-line rule and make content updates easy.
-// To update a narrative, just edit the paragraph strings below.
-
-/* global PHASE_DEFS */
-
 const EXEC_NARRATIVES = {
-
   overall: [
     'The E2E Fashion Transformation is modernizing how Walmart designs, buys, and ' +
     'allocates Fashion merchandise. We are connecting previously siloed tools — Centric PLM, ' +
     'AEX, AP Tool, BPE/DBP, and TTP — into a single integrated ecosystem where decisions in ' +
     'one system cascade automatically downstream, eliminating manual re-entry and sequential handoffs.',
-
     'The program runs across three phases: Phase 1 Setup & Integration (now through Oct 2026) ' +
     'lays the data and tool foundation; Phase 2 Recommend & Optimize (Aug 2026–Apr 2027) activates ' +
     'intelligent recommendations and dynamic redistribution; Phase 3 Automate (Feb–Oct 2027) shifts ' +
     'merchants from executing decisions to encoding strategy and letting the system generate scenarios.',
-
     'Key FY27 commitments include 90% of buys on the happy path, zero rekeys across the E2E ' +
     'workflow, and happy-path buying execution. The primary watchpoint is the Centric Visual Boards ' +
     'contract — a contract signature unlocks the 12-week onboarding window needed for the May 2026 pilot.',
   ],
-
   strategy: [
     'The Strategy workstream is the connective tissue of the entire E2E program, operating through ' +
     'the TTP (Trend-to-Product) hub. All financial targets, category priorities, and seasonal ' +
     'guardrails originate here and cascade automatically to Design, Buying, and Allocation.',
-
     'Active Q1 deliverables include the Strategy Hub as the shared source of truth for seasonal ' +
     'targets, the Trend API delivering macro trend signals into Centric and AEX, V1 Trend-to-Packaging ' +
     'Redesign workflow (in production), and the V1 Synthetic Consumer Panel (live with WMT Data ' +
     'Ventures) simulating customer response before production commitment.',
-
     'Looking ahead, the roadmap includes Forecast as Enterprise Service (Q2) — a single, trusted ' +
     'demand signal shared across Buying and Allocation — and a Shared Merch Strategy repository (Phase 3) ' +
     'that will power automated scenario generation and conceptual line plan creation.',
   ],
-
   design: [
     'The Design workstream is building the connected product creation lifecycle within Centric PLM, ' +
     'replacing fragmented tools (Bamboo Rose, Miro, Excel) with a single system of record for all ' +
     'Fashion product design, specification, sample management, and line planning.',
-
     'Active Q1 priorities include launching Centric as Design Hub, migrating line planning from AEX ' +
     'to the AP Tool Assortment List (eliminating Excel permanently), activating line planning and ' +
     'calendar management, and building product specifications natively in Centric. A 2-week ' +
     'spike (due Mar 16) will confirm scope and timeline for the AP Tool line plan migration.',
-
     'The primary watchpoint is Centric Visual Boards — a contract signature is required to secure ' +
     'the 12-week onboarding window needed for the May 2026 pilot. This is the critical path item ' +
     'for Phase 1 Design execution.',
   ],
-
   buying: [
     'The Buying workstream is the largest in scope — spanning AEX platform stability, automated ' +
     'item setup, buy quantity automation, AP Tool line plan integration, and visual rack planning. ' +
     'The goal is to move 90% of buys onto a fully automated happy path by the end of Phase 1.',
-
     'Active priorities include AEX Stability improvements through April, Auto Item Setup (3 pillars: ' +
     'Gen AI Data Enrichment, Parent Anchored Variant Groups, and Seamless AEX→Item Data Flow), ' +
     'Long-Term Buying execution, and the Item Repository / AI Item discovery work in active discovery. ' +
     'All active Buying items are currently Green.',
-
     'Q2 and Q3 priorities include Visual Rack Plan, BAM / Collaboration integration, Size & Pack BQ ' +
     'automation, and the AP Tool Line Plan integration — the latter being a critical Phase 1 ' +
     'deliverable connecting assortment decisions directly to buy execution without manual re-entry.',
   ],
-
   allocation: [
     'The Allocation workstream is building the planning and tagging foundations that power all ' +
     'downstream automation in Phase 2 and Phase 3. Without the tagging taxonomy in place, ' +
     'fixture-level recommendations, in-season swaps, and dynamic redistribution cannot activate.',
-
     'Active Q1 work includes Unified Planning Workflow (BPE as single source of truth for all ' +
     'planning decisions), BPE Seasonal Planning for 5 Fashion departments, and the Tagging & ' +
     'Affinity Graph pilot — using product tagging and affinity models to identify assortment gaps ' +
     'before in-season signals surface. The tagging pilot is the most strategically critical Q2 item.',
-
     'Upcoming roadmap work (Q2–Q3) includes Enterprise Wave Planning, Distrib Optimization, ' +
     'Tag-Based Recommendations for line and in-season swaps, and Dynamic PO Re-Distribution. ' +
     'These capabilities are dependent on the tagging foundation being validated in the Q2 pilot.',
   ],
-
   phase1: [
     'Phase 1 — Setup & Integration (Q1–Q3 FY27, Feb–Oct 2026) — is the foundation of the entire ' +
     'LLTT program. Every Phase 2 recommendation and Phase 3 automation depends on the integrations ' +
     'and data pipelines being built now.',
-
     'Phase 1 connects the core Fashion systems into a single workflow: AP Tool becomes the Fashion ' +
     'Line Plan (replacing Excel in AEX), Centric PLM becomes the Design Hub, BPE becomes the ' +
     'unified planning system of record, and the tagging taxonomy is built as the foundation for ' +
     'all future recommendation and automation capabilities.',
-
     'Key Phase 1 success metrics: 90% of buys on the happy path, zero rekeys across E2E workflow, ' +
     'and happy-path buying execution fully in place by Oct 2026.',
   ],
-
   phase2: [
     'Phase 2 — Recommend & Optimize (Q3 FY27–Q1 FY28, Aug 2026–Apr 2027) — activates intelligent ' +
     'recommendations across every workstream, powered by the integrations and tagging taxonomy ' +
     'built in Phase 1.',
-
     'Phase 2 deliverables include Forecast and Buy Quantification delivered as enterprise services ' +
     '(single, shared signals across all workstreams), Tag-Based Line Recommendations, Tag-Based ' +
     'In-Season Swaps, Dynamic PO Re-Distribution, and a Shared Event Calendar connecting all ' +
     'workstream timelines.',
-
     'Phase 2 goals: reduce trapped inventory, achieve 85% shop in-stock rate, achieve 90% PO ' +
     'redistribution coverage, and increase sell-through rate. All Phase 2 items are currently ' +
     'on the roadmap and scheduled to begin Q3 FY27.',
   ],
-
   phase3: [
     'Phase 3 — Automate (Q1–Q3 FY28, Feb–Oct 2027) — is the full vision of the LLTT program. ' +
     'Merchants shift from manually executing decisions to encoding strategy and goals, and the ' +
     'system generates, evaluates, and executes scenarios automatically.',
-
     'Phase 3 deliverables include a Strategy Repository (capturing strategic intent in structured ' +
     'form), Strategy-Based Conceptual Line Plan creation (generated from encoded strategy), ' +
     'Scenario Generation and Selection, and Tag-Based In-Season Dynamic Placement ' +
     '(fully automated in-season redistribution).',
-
     'Phase 3 goals align to the Phase 2 outcomes — further reducing trapped inventory, increasing ' +
     'sell-through, and achieving the full merchant hours reduction target (Goal #4) through automation. ' +
     'Phase 3 items are on the long-range roadmap, dependent on Phase 2 completion.',
   ],
 };
-
 </script>
 <script>
-// exec-summary.js — Unified Status + Filter Bar & 3-Section Executive Modal
-// Bar left side : status chips (overall + workstreams + phases) — click to drill-in
-// Bar right side: card-filter pills (Critical / R–Y / Done) + phase expand toggles
-// Modal sections : Scorecard | Narrative | At-Risk + Path-to-Green | All Programs
-// Depends on: data.js, data-*.js, exec-narratives.js, phase-view.js
-// Must init AFTER initPhaseView() so pmGetState() is available.
 (function () {
   'use strict';
-
-  // ── Status config ─────────────────────────────────────────────────────
   var PRIORITY = { roadmap: 0, completed: 1, green: 2, yellow: 3, red: 4 };
   var S = {
     red:       { dot: '#ea1100', label: 'At Risk',   cls: 'badge-red'       },
@@ -2602,8 +2283,6 @@ const EXEC_NARRATIVES = {
     completed: 'linear-gradient(135deg,#0053e2,#1a6fff)',
     roadmap:   'linear-gradient(135deg,#37474f,#546e7a)',
   };
-
-  // ── Scope definitions ───────────────────────────────────────────────────
   var SCOPES = [
     { key: 'overall',    type: 'overall',    label: 'E2E Overview',         icon: '🗺️' },
     { key: 'strategy',   type: 'workstream', label: 'Strategy',             icon: '🧭' },
@@ -2614,13 +2293,9 @@ const EXEC_NARRATIVES = {
     { key: 'phase2', type: 'phase', phaseNum: 2, label: 'Phase 2 · Recommend', icon: '🎯' },
     { key: 'phase3', type: 'phase', phaseNum: 3, label: 'Phase 3 · Automate',  icon: '🤖' },
   ];
-
-  // ── Data helpers ────────────────────────────────────────────────────────
-  // Use typeof guard — const globals are not on window in ES2015+
   function _cards() { return (typeof allCards !== 'undefined' ? allCards : []); }
   function _phaseMap() { return (typeof CARD_PHASE_MAP !== 'undefined' ? CARD_PHASE_MAP : {}); }
   function _qm() { return (typeof QUARTER_META !== 'undefined' ? QUARTER_META : {}); }
-
   function cardsForScope(scope) {
     var all = _cards();
     if (scope.type === 'overall')    return all;
@@ -2633,7 +2308,6 @@ const EXEC_NARRATIVES = {
     }
     return [];
   }
-
   function rollup(cards) {
     var counts = { red: 0, yellow: 0, green: 0, completed: 0, roadmap: 0 };
     var worst = 'roadmap';
@@ -2644,8 +2318,6 @@ const EXEC_NARRATIVES = {
     });
     return Object.assign({}, counts, { total: cards.length, worst: worst });
   }
-
-  // ── Status chip (left side of bar) ───────────────────────────────────
   function chipHTML(scope, stats) {
     var m = S[stats.worst] || S.roadmap;
     var cls = 'es-chip' + (scope.type === 'overall' ? ' es-chip--overall' : '');
@@ -2658,36 +2330,29 @@ const EXEC_NARRATIVES = {
       '<span class="es-chip-badge" style="background:' + m.dot + '20;color:' + m.dot + ';border-color:' + m.dot + '40;">' + m.label + '</span>' +
       '</button>';
   }
-
-  // ── Filter pills (right side of bar) ──────────────────────────────
   var RY_SVG = '<svg width="11" height="11" viewBox="0 0 10 10"' +
     ' style="vertical-align:-2px;margin-right:2px;flex-shrink:0;">'+
     '<path d="M5,0 A5,5 0 0,0 5,10 Z" fill="#ea1100"/>'+
     '<path d="M5,0 A5,5 0 0,1 5,10 Z" fill="#ffc220"/>'+
     '</svg>';
-
   var CARD_FILTERS = [
     { key: 'critical',  html: '&#11088; Critical' },
     { key: 'ry',        html: RY_SVG + 'R / Y'   },
     { key: 'completed', html: '&#9989; Done'      },
   ];
-
   function filterSectionHTML() {
     var state     = (typeof pmGetState === 'function') ? pmGetState() : null;
     var cf        = state ? state.cardFilters    : new Set();
     var ep        = state ? state.expandedPhases : new Set([1]);
     var phaseDefs = (typeof PHASE_DEFS !== 'undefined') ? PHASE_DEFS : [];
     var anyFilter = cf.size > 0;
-
     var cardPills = CARD_FILTERS.map(function (f) {
       return '<button class="es-filter-pill' + (cf.has(f.key) ? ' es-filter-active' : '') + '"' +
         ' onclick="pmToggleCardFilter(\'' + f.key + '\')">' + f.html + '</button>';
     }).join('');
-
     var clearBtn = anyFilter
       ? '<button class="es-filter-clear" onclick="pmClearFilters()" title="Clear all filters">&#10005;</button>'
       : '';
-
     var phasePills = phaseDefs.filter(function (ph) { return ph.num !== 1; }).map(function (ph) {
       var on = ep.has(ph.num);
       return '<button class="es-phase-pill' + (on ? ' es-phase-on' : '') + '"' +
@@ -2697,7 +2362,6 @@ const EXEC_NARRATIVES = {
         ph.emoji + ' Ph' + ph.num + ' ' + (on ? '&#9650;' : '&#9660;') +
         '</button>';
     }).join('');
-
     return '<div class="es-filter-group">' +
       '<span class="es-group-label">Show</span>' +
       cardPills + clearBtn +
@@ -2706,8 +2370,6 @@ const EXEC_NARRATIVES = {
       phasePills +
       '</div>';
   }
-
-  // ── Bar render ────────────────────────────────────────────────────────────
   function renderBar() {
     var el = document.getElementById('exec-bar');
     if (!el) return;
@@ -2729,16 +2391,12 @@ const EXEC_NARRATIVES = {
         filterSectionHTML() +
       '</div>';
   }
-
-  // ── Modal section 1: Status Scorecard ───────────────────────────────
   function scorecardHTML(stats) {
     var ORDER  = ['red','yellow','green','completed','roadmap'];
     var active = ORDER.filter(function (s) { return stats[s] > 0; });
-
     var bar = active.map(function (s) {
       return '<div style="flex:' + stats[s] + ';background:' + S[s].dot + ';height:100%;min-width:4px;" title="' + stats[s] + ' ' + S[s].label + '"></div>';
     }).join('');
-
     var pills = active.map(function (s) {
       return '<div style="display:flex;align-items:center;gap:5px;">' +
         '<span style="width:9px;height:9px;border-radius:50%;background:' + S[s].dot + ';flex-shrink:0;display:inline-block;"></span>' +
@@ -2746,15 +2404,12 @@ const EXEC_NARRATIVES = {
         '<span style="font-size:0.72rem;color:#64748b;">' + S[s].label + '</span>' +
         '</div>';
     }).join('');
-
     return '<div class="es-section">' +
       '<p class="es-section-label">📊 Program Snapshot — ' + stats.total + ' total deliverable' + (stats.total !== 1 ? 's' : '') + '</p>' +
       '<div style="display:flex;height:8px;border-radius:99px;overflow:hidden;gap:2px;margin-bottom:12px;">' + bar + '</div>' +
       '<div style="display:flex;flex-wrap:wrap;gap:14px;">' + pills + '</div>' +
       '</div>';
   }
-
-  // ── Modal section 2: Narrative ──────────────────────────────────────
   function narrativeHTML(scopeKey) {
     var paras = (typeof EXEC_NARRATIVES !== 'undefined' && EXEC_NARRATIVES[scopeKey]) ? EXEC_NARRATIVES[scopeKey] : [];
     if (!paras.length) return '';
@@ -2765,8 +2420,6 @@ const EXEC_NARRATIVES = {
       '<p class="es-section-label">📝 What We’re Working On</p>' +
       body + '</div>';
   }
-
-  // ── Modal section 3: At-Risk Programs ──────────────────────────────
   function atRiskHTML(cards) {
     var atRisk = cards.filter(function (c) { return c.status === 'red' || c.status === 'yellow'; });
     if (!atRisk.length) {
@@ -2777,11 +2430,9 @@ const EXEC_NARRATIVES = {
         '<span style="font-size:0.82rem;color:#166534;font-weight:600;">No at-risk programs in this scope.</span>' +
         '</div></div>';
     }
-
     var sorted = atRisk.slice().sort(function (a, b) {
       return (PRIORITY[b.status] || 0) - (PRIORITY[a.status] || 0);
     });
-
     var rows = sorted.map(function (c) {
       var m   = S[c.status];
       var ptg = c.pathToGreen || c.statusNote || null;
@@ -2802,17 +2453,13 @@ const EXEC_NARRATIVES = {
             '→ View full program details</button>' +
         '</div></div>';
     }).join('');
-
     return '<div class="es-section"><p class="es-section-label">🟡 At-Risk Programs — Path to Green</p>' + rows + '</div>';
   }
-
-  // ── Modal section 4: All Programs (collapsible) ────────────────────
   function programListHTML(cards) {
     var ORDER  = ['red','yellow','green','completed','roadmap'];
     var groups = ORDER.map(function (s) {
       return { status: s, items: cards.filter(function (c) { return c.status === s; }) };
     }).filter(function (g) { return g.items.length > 0; });
-
     var groupsHTML = groups.map(function (g) {
       var m = S[g.status];
       var rows = g.items.map(function (c) {
@@ -2826,14 +2473,12 @@ const EXEC_NARRATIVES = {
           '<span style="font-size:0.62rem;color:#94a3b8;white-space:nowrap;">' + c.workstream + '</span>' +
           qChip + '</div>';
       }).join('');
-
       return '<div style="margin-bottom:6px;">' +
         '<div class="es-group-header" style="color:' + m.dot + ';border-left:3px solid ' + m.dot + ';">' +
           '<span class="es-dot" style="background:' + m.dot + ';"></span>' + m.label +
           '<span style="margin-left:auto;font-size:0.62rem;font-weight:600;opacity:.7;">' + g.items.length + ' item' + (g.items.length !== 1 ? 's' : '') + '</span>' +
         '</div>' + rows + '</div>';
     }).join('');
-
     return '<div class="es-section" style="padding-bottom:4px;">' +
       '<details><summary class="es-section-label" style="cursor:pointer;user-select:none;list-style:none;display:flex;align-items:center;gap:6px;">' +
         '<span>📋 All Programs</span>' +
@@ -2841,8 +2486,6 @@ const EXEC_NARRATIVES = {
       '</summary>' +
       '<div style="margin-top:10px;">' + groupsHTML + '</div></details></div>';
   }
-
-  // ── Modal shell (built once) ──────────────────────────────────────────
   function buildModal() {
     if (document.getElementById('es-overlay')) return;
     var div = document.createElement('div');
@@ -2866,49 +2509,31 @@ const EXEC_NARRATIVES = {
       if (e.target === document.getElementById('es-overlay')) window._esClose();
     });
   }
-
-  // ── Open modal ─────────────────────────────────────────────────────────────
   function openModal(scopeKey) {
     var scope = SCOPES.filter(function (s) { return s.key === scopeKey; })[0];
     if (!scope) return;
     var cards = cardsForScope(scope);
     var stats = rollup(cards);
-
     document.getElementById('es-header').style.background = HDR[stats.worst] || HDR.roadmap;
     document.getElementById('es-title').textContent = scope.icon + ' ' + scope.label;
     document.getElementById('es-body').innerHTML =
       scorecardHTML(stats) + narrativeHTML(scope.key) + atRiskHTML(cards) + programListHTML(cards);
-
     document.getElementById('es-overlay').classList.add('open');
   }
-
-  // ── Public API ─────────────────────────────────────────────────────────────
   window._esOpenModal  = openModal;
   window._esClose      = function () {
     var el = document.getElementById('es-overlay');
     if (el) el.classList.remove('open');
   };
-  // Exposed so phase-view.js can re-render bar after filter state changes
   window._esRenderBar  = renderBar;
   window.initExecBar   = function () { buildModal(); renderBar(); };
 }());
-
 </script>
 <script>
-// roadmap-window.js — in-page roadmap popout modal
-// Two independent filter axes:
-//   _timeFilter  : 'all' | 'Q1'...'Q4' | 'ph1' | 'ph2' | 'ph3'
-//   _statusFilter: 'all' | 'critical' | 'ry' | 'completed'
-// Globals: PILLARS, QUARTER_META, QUARTER_ORDER, PILLAR_GRADIENTS,
-//          BADGE_CLASS, CARD_PHASE_MAP, PHASE_DEFS, openModal
-
 (function () {
-
   var _pillar       = null;
-  var _timeFilter   = 'all';   // quarter or phase
-  var _statusFilter = 'all';   // card attribute
-
-  // ── TIME FILTER DEFS (quarter + phase rows) ───────────
+  var _timeFilter   = 'all';
+  var _statusFilter = 'all';
   function _timeDefs() {
     var qDefs = [
       { q: 'all', label: 'All' },
@@ -2922,61 +2547,45 @@ const EXEC_NARRATIVES = {
     });
     return { quarters: qDefs, phases: phDefs };
   }
-
   var STATUS_DEFS = [
     { k: 'all',       label: 'All Status' },
     { k: 'critical',  label: '&#128308; Critical' },
     { k: 'ry',        label: '&#128993; Red / Yellow' },
     { k: 'completed', label: '&#9989; Completed' },
   ];
-
-  // ── PUBLIC: open modal ──────────────────────────────────
   window.openRoadmapWindow = function (pillarId) {
     _pillar       = PILLARS.find(function (x) { return x.id === pillarId; });
     if (!_pillar) return;
     _timeFilter   = 'all';
     _statusFilter = 'all';
-
     var gradient = PILLAR_GRADIENTS[_pillar.headerClass] || PILLAR_GRADIENTS['pillar-dark'];
     document.getElementById('rm-header').style.background = gradient;
     document.getElementById('rm-title').textContent    = _pillar.title + ' \u2014 Full Roadmap';
     document.getElementById('rm-subtitle').textContent = _pillar.subtitle + ' \u00b7 ' + _pillar.tool;
-
     _renderFilters();
     _renderCards();
     document.getElementById('rm-overlay').classList.add('open');
   };
-
-  // ── PUBLIC: close ───────────────────────────────────────
   window.closeRoadmapModal = function () {
     document.getElementById('rm-overlay').classList.remove('open');
   };
-
-  // ── FILTER ROWS ─────────────────────────────────────────
   function _renderFilters() {
     var defs = _timeDefs();
-
-    // Row 1: Status filters
     var statusRow = STATUS_DEFS.map(function (s) {
       var active = _statusFilter === s.k ? ' active' : '';
       return '<button class="rm-filter-btn' + active + '"' +
         ' onclick="_rmSetStatus(\'' + s.k + '\')">' + s.label + '</button>';
     }).join('');
-
-    // Row 2: Quarter filters
     var quarterRow = defs.quarters.map(function (f) {
       var active = _timeFilter === f.q ? ' active' : '';
       return '<button class="rm-filter-btn' + active + '"' +
         ' onclick="_rmSetTime(\'' + f.q + '\')">' + f.label + '</button>';
     }).join('');
-
-    // Row 3: Phase filters
     var phaseRow = defs.phases.map(function (f) {
       var active = _timeFilter === f.q ? ' active rm-filter-phase' : ' rm-filter-phase';
       return '<button class="rm-filter-btn' + active + '"' +
         ' onclick="_rmSetTime(\'' + f.q + '\')">' + f.label + '</button>';
     }).join('');
-
     document.getElementById('rm-filters').innerHTML = [
       '<div class="rm-filter-row">',
         '<span class="rm-filter-row-label">Status:</span>',
@@ -2991,13 +2600,9 @@ const EXEC_NARRATIVES = {
       '</div>',
     ].join('');
   }
-
-  // ── CARD GRID ───────────────────────────────────────────
   function _renderCards() {
     if (!_pillar) return;
     var allCards = _pillar.cards;
-
-    // Apply status filter
     var statusFiltered = allCards.filter(function (c) {
       if (_statusFilter === 'all')       return true;
       if (_statusFilter === 'critical')  return (c.tag || '').indexOf('Critical') > -1;
@@ -3005,27 +2610,20 @@ const EXEC_NARRATIVES = {
       if (_statusFilter === 'completed') return c.status === 'completed';
       return true;
     });
-
-    // Apply time filter — build quarter list or phase list
     var isPhaseFilter = _timeFilter.indexOf('ph') === 0;
     var qs;
-
     if (_timeFilter === 'all') {
-      // Group by quarter (existing behaviour)
       qs = QUARTER_ORDER.filter(function (q) {
         return statusFiltered.some(function (c) { return c.quarter === q; });
       });
       document.getElementById('rm-body').innerHTML = qs.map(function (q) {
         return _qSection(q, statusFiltered.filter(function (c) { return c.quarter === q; }));
       }).join('') + _sourceFooter();
-
     } else if (isPhaseFilter) {
-      // Group by phase — show all quarters but only cards in that phase
       var phNum = parseInt(_timeFilter.replace('ph', ''), 10);
       var phCards = statusFiltered.filter(function (c) {
         return (CARD_PHASE_MAP[c.id] || 1) === phNum;
       });
-      // Sort by quarter then render in quarter groups
       qs = QUARTER_ORDER.filter(function (q) {
         return phCards.some(function (c) { return c.quarter === q; });
       });
@@ -3040,16 +2638,13 @@ const EXEC_NARRATIVES = {
             return _qSection(q, phCards.filter(function (c) { return c.quarter === q; }));
           }).join('')
         : '<div class="rm-empty">No programs match this filter combination.</div>') + _sourceFooter();
-
     } else {
-      // Single quarter filter
       var qCards = statusFiltered.filter(function (c) { return c.quarter === _timeFilter; });
       document.getElementById('rm-body').innerHTML = (qCards.length
         ? _qSection(_timeFilter, qCards)
         : '<div class="rm-empty">No programs match this filter combination.</div>') + _sourceFooter();
     }
   }
-
   function _sourceFooter() {
     return '<p class="rm-source">&#128196; Source: ' +
       '<a href="https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard"' +
@@ -3057,7 +2652,6 @@ const EXEC_NARRATIVES = {
       ' &bull; <a href="https://opif.wal-mart.com" target="_blank" rel="noopener">OPIF Program Tracking</a>' +
       '</p>';
   }
-
   function _qSection(q, cards) {
     if (!cards.length) return '';
     var m = QUARTER_META[q] || QUARTER_META['Future'] || { label: q, color: '#64748b', bg: '#f1f5f9', border: '#cbd5e1' };
@@ -3071,7 +2665,6 @@ const EXEC_NARRATIVES = {
       '</div>' +
     '</div>';
   }
-
   function _cardHTML(c) {
     var badgeCls = BADGE_CLASS[c.status] || 'badge-roadmap';
     var tagHTML  = c.tag
@@ -3089,42 +2682,28 @@ const EXEC_NARRATIVES = {
       '</div>' +
     '</div>';
   }
-
-  // ── FILTER SETTERS (window-exposed for inline onclick) ──
   window._rmSetTime = function (q) {
     _timeFilter = q;
     _renderFilters();
     _renderCards();
   };
-
   window._rmSetStatus = function (k) {
     _statusFilter = k;
     _renderFilters();
     _renderCards();
   };
-
-  // ── EVENT DELEGATION: card click ────────────────────────
   document.getElementById('rm-body').addEventListener('click', function (e) {
     var el = e.target.closest('[data-card-id]');
     if (!el || !_pillar) return;
     openModal(el.dataset.cardId, _pillar.title, _pillar.tool);
   });
-
-  // ── CLOSE ON BACKDROP ───────────────────────────────────
   document.getElementById('rm-overlay').addEventListener('click', function (e) {
     if (e.target === document.getElementById('rm-overlay')) closeRoadmapModal();
   });
-
 }());
 </script>
 <script>
-// summary-modal.js — workstream header summary popout
-// Opens when user clicks a pillar header.
-// Globals from data.js: PILLARS, QUARTER_META, QUARTER_ORDER, PILLAR_GRADIENTS, BADGE_CLASS
-
 (function () {
-
-  // ---- Status visual config ----
   const SCFG = {
     completed: { color: '#0053e2', bg: '#eef2ff', label: 'Completed' },
     green:     { color: '#2a8703', bg: '#f0faf0', label: 'Active'    },
@@ -3132,14 +2711,10 @@ const EXEC_NARRATIVES = {
     red:       { color: '#ea1100', bg: '#fff0f0', label: 'Blocked'   },
     roadmap:   { color: '#64748b', bg: '#f1f5f9', label: 'Planned'   },
   };
-
   const STATUS_ORDER = ['completed', 'green', 'yellow', 'red', 'roadmap'];
-
-  // ---- PUBLIC ----
   window.openSummaryModal = function (pillarId) {
     const p = PILLARS.find(function (x) { return x.id === pillarId; });
     if (!p) return;
-
     const gradient = PILLAR_GRADIENTS[p.headerClass] || PILLAR_GRADIENTS['pillar-dark'];
     document.getElementById('sm-header').style.background = gradient;
     document.getElementById('sm-title').textContent    = p.title + ' — Status Summary';
@@ -3147,37 +2722,27 @@ const EXEC_NARRATIVES = {
     document.getElementById('sm-body').innerHTML       = _buildBody(p);
     document.getElementById('sm-overlay').classList.add('open');
   };
-
   window.closeSummaryModal = function () {
     document.getElementById('sm-overlay').classList.remove('open');
   };
-
-  // ---- BODY BUILDER ----
   function _buildBody(p) {
     const cards = p.cards;
     const total = cards.length;
-
-    // Count by status
     const counts = {};
     STATUS_ORDER.forEach(function (s) { counts[s] = 0; });
     cards.forEach(function (c) {
       if (counts[c.status] !== undefined) counts[c.status]++;
       else counts['roadmap']++;
     });
-
-    // Overall health signal
     const health = counts.red   > 0 ? { icon: '\uD83D\uDD34', label: 'Attention Needed', color: '#ea1100', bg: '#fff0f0', border: '#fca5a5' }
                  : counts.yellow > 0 ? { icon: '\uD83D\uDFE1', label: 'Mostly On Track',  color: '#d97706', bg: '#fffbeb', border: '#fcd34d' }
                  :                     { icon: '\uD83D\uDFE2', label: 'On Track',          color: '#2a8703', bg: '#f0faf0', border: '#86efac' };
-
     return [
       _sectionHealth(health, counts, total),
       _sectionStatusBar(counts, total),
       _sectionByQuarter(p),
     ].join('');
   }
-
-  // ---- SECTION: overall health pill + stat chips ---- 
   function _sectionHealth(health, counts, total) {
     const chips = STATUS_ORDER.map(function (s) {
       if (!counts[s]) return '';
@@ -3188,7 +2753,6 @@ const EXEC_NARRATIVES = {
         + '<span style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:' + sc.color + ';white-space:nowrap;">' + sc.label + '</span>'
         + '</div>';
     }).join('');
-
     return '<div style="padding:18px 22px 14px;">'
       + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">'
       + '<p style="font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;margin:0;">Overall Health</p>'
@@ -3202,8 +2766,6 @@ const EXEC_NARRATIVES = {
       + '<div style="display:flex;flex-wrap:wrap;gap:8px;">' + chips + '</div>'
       + '</div>';
   }
-
-  // ---- SECTION: stacked status bar ----
   function _sectionStatusBar(counts, total) {
     const segments = STATUS_ORDER.map(function (s) {
       if (!counts[s]) return '';
@@ -3211,40 +2773,31 @@ const EXEC_NARRATIVES = {
       return '<div title="' + SCFG[s].label + ': ' + counts[s] + '" style="flex:' + counts[s] + ';min-width:4px;'
         + 'background:' + SCFG[s].color + ';height:100%;transition:flex .3s;"></div>';
     }).join('');
-
     const legend = STATUS_ORDER.map(function (s) {
       if (!counts[s]) return '';
       return '<span style="display:inline-flex;align-items:center;gap:4px;font-size:0.68rem;font-weight:600;color:#64748b;">'
         + '<span style="width:8px;height:8px;border-radius:2px;background:' + SCFG[s].color + ';display:inline-block;"></span>'
         + counts[s] + ' ' + SCFG[s].label + '</span>';
     }).join('');
-
     return '<div style="padding:0 22px 16px;border-bottom:1px solid #f1f5f9;">'
       + '<div style="height:10px;border-radius:99px;overflow:hidden;display:flex;gap:2px;margin-bottom:8px;">'
       + segments + '</div>'
       + '<div style="display:flex;flex-wrap:wrap;gap:10px;">' + legend + '</div>'
       + '</div>';
   }
-
-  // ---- SECTION: by-quarter breakdown ----
   function _sectionByQuarter(p) {
     const cards = p.cards;
     const activeQs = QUARTER_ORDER.filter(function (q) {
       return cards.some(function (c) { return c.quarter === q; });
     });
-
     const sections = activeQs.map(function (q) {
       const qCards = cards.filter(function (c) { return c.quarter === q; });
       const m      = QUARTER_META[q] || QUARTER_META['Future'];
-
-      // Mini status tally for this quarter
       const qCounts = {};
       STATUS_ORDER.forEach(function (s) { qCounts[s] = 0; });
       qCards.forEach(function (c) {
         if (qCounts[c.status] !== undefined) qCounts[c.status]++;
       });
-
-      // One-line summary sentence
       const parts = [];
       if (qCounts.completed) parts.push(qCounts.completed + ' completed');
       if (qCounts.green)     parts.push(qCounts.green + ' active');
@@ -3252,7 +2805,6 @@ const EXEC_NARRATIVES = {
       if (qCounts.red)       parts.push(qCounts.red + ' blocked');
       if (qCounts.roadmap)   parts.push(qCounts.roadmap + ' planned');
       const summary = parts.join(', ');
-
       const rows = qCards.map(function (c) {
         const sc = SCFG[c.status] || SCFG.roadmap;
         return '<div class="sm-card-row">'
@@ -3262,7 +2814,6 @@ const EXEC_NARRATIVES = {
           + c.statusLabel + '</span>'
           + '</div>';
       }).join('');
-
       return '<div style="padding:16px 22px;border-bottom:1px solid #f1f5f9;">'
         + '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">'
         + '<span style="display:inline-flex;align-items:center;gap:5px;font-size:0.7rem;font-weight:800;'
@@ -3273,95 +2824,68 @@ const EXEC_NARRATIVES = {
         + '<div>' + rows + '</div>'
         + '</div>';
     }).join('');
-
     return '<div>'
       + '<div style="padding:14px 22px 6px;">'
       + '<p style="font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;margin:0;">By Quarter</p>'
       + '</div>'
       + sections
-      + '<div style="padding:14px 22px;">' // bottom breathing room
+      + '<div style="padding:14px 22px;">'
       + '</div></div>';
   }
-
-  // ---- Backdrop click ----
   document.getElementById('sm-overlay').addEventListener('click', function (e) {
     if (e.target === document.getElementById('sm-overlay')) closeSummaryModal();
   });
-
 }());
 </script>
 <script>
-// goal-modal.js — Goal detail popout modal
-// Reads from: data-goals.js (GOALS), data-phases.js (PHASE_DEFS)
-// Exposed globals: openGoalModal(goalId), closeGoalModal()
-
 (function () {
-
-  // Gradient per phase (matches phase sidebar colours)
   var PHASE_GRAD = {
     1: 'linear-gradient(135deg,#0053e2,#1a6fff)',
     2: 'linear-gradient(135deg,#1b5e20,#2a8703)',
     3: 'linear-gradient(135deg,#1a1a6e,#3b3ba3)',
   };
-
   var STATUS_CFG = {
     'in-progress': { label: '\uD83D\uDFE1 In Progress',  cls: 'gm-status-ip'   },
     'planned':     { label: '\uD83D\uDD2E Planned',       cls: 'gm-status-plan' },
     'completed':   { label: '\u2705 Completed',          cls: 'gm-status-done' },
   };
-
-  // ── PUBLIC ──────────────────────────────────────────────
   window.openGoalModal = function (goalId) {
     var goal = GOALS[String(goalId)];
     if (!goal) return;
     _render(goal);
     document.getElementById('gm-overlay').classList.add('open');
   };
-
   window.closeGoalModal = function () {
     document.getElementById('gm-overlay').classList.remove('open');
   };
-
-  // ── RENDER ──────────────────────────────────────────────
   function _render(goal) {
-    // Derive header gradient from first phase
     var grad    = PHASE_GRAD[goal.phases[0]] || PHASE_GRAD[1];
     var statCfg = STATUS_CFG[goal.status] || STATUS_CFG['planned'];
-
-    // Header
     var header = document.getElementById('gm-header');
     header.style.background = grad;
     document.getElementById('gm-icon').textContent  = goal.icon;
     document.getElementById('gm-num').textContent   = 'Goal #' + goal.id;
     document.getElementById('gm-title').textContent = goal.label;
-
-    // Status + phase chips in sub-bar
     var phasePills = goal.phases.map(function (n) {
       var ph = PHASE_DEFS[n - 1];
       return '<span class="gm-phase-pill" style="background:' + ph.bg +
         ';color:' + ph.color + ';border-color:' + ph.border + ';">' +
         ph.emoji + ' Phase ' + n + ' &mdash; ' + ph.label + '</span>';
     }).join('');
-
     document.getElementById('gm-subbar').innerHTML =
       '<span class="gm-status-badge ' + statCfg.cls + '">' + statCfg.label + '</span>' +
       phasePills;
-
-    // Body
     document.getElementById('gm-body').innerHTML = _bodyHTML(goal);
   }
-
   function _bodyHTML(goal) {
     return [
       _section('\uD83D\uDCCB Description', '<p class="gm-desc">' + _esc(goal.description) + '</p>'),
-
       _row(
         _section('\uD83C\uDFAF Target KPI',
           '<div class="gm-kpi-box">' + _esc(goal.target) + '</div>'),
         _section('\uD83D\uDCCA Current Baseline',
           '<div class="gm-baseline-box">' + _esc(goal.baseline) + '</div>')
       ),
-
       _section('\uD83D\uDD17 Key Programs &amp; Initiatives',
         '<ul class="gm-programs">' +
         goal.keyPrograms.map(function (p) {
@@ -3371,124 +2895,85 @@ const EXEC_NARRATIVES = {
             '</li>';
         }).join('') +
         '</ul>'),
-
       _section('\uD83C\uDFD7\uFE0F Workstreams Affected',
         '<div class="gm-ws-chips">' +
         goal.workstreams.map(function (ws) {
           return '<span class="gm-ws-chip">' + _esc(ws) + '</span>';
         }).join('') +
         '</div>'),
-
       '<p class="gm-source">&#128196; Source: <a href="https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard"' +
         ' target="_blank" rel="noopener">APREC — LLTT Work Management Dashboard</a></p>',
     ].join('');
   }
-
   function _section(heading, contentHTML) {
     return '<div class="gm-section"><div class="gm-section-title">' +
       heading + '</div>' + contentHTML + '</div>';
   }
-
   function _row(a, b) {
     return '<div class="gm-two-col">' + a + b + '</div>';
   }
-
   function _esc(s) {
     return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
-
-  // ── CLOSE HANDLERS ──────────────────────────────────────
   document.getElementById('gm-overlay').addEventListener('click', function (e) {
     if (e.target === document.getElementById('gm-overlay')) closeGoalModal();
   });
-
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') closeGoalModal();
   });
-
 }());
 </script>
 <script>
-// phase-view.js — Workstream-first Phase Matrix + Filter Bar
-// Phase 1 = always expanded (full cards)  |  Phase 2 & 3 = collapsed by default
-// Filter bar: card-attribute filters (Critical / Red-Yellow / Completed)
-//             + phase-expand toggles (Setup / Recommend / Automate)
-//
-// Depends on: data-phases.js (PHASE_DEFS, CARD_PHASE_MAP)
-//             data-allocation.js (PILLARS)
-//             data.js (BADGE_CLASS)
-//             index.html: openModal(), openSummaryModal(), openRoadmapWindow()
-
 (function () {
-
   var STATUS_PRIO = { completed:0, red:1, yellow:2, green:3, roadmap:4 };
-
-  // ── STATE ──────────────────────────────────────────────
-  var _cardFilters    = new Set();  // 'critical' | 'ry' | 'completed'
-  var _expandedPhases = new Set([1]); // Phase 1 always expanded
-
-  // Split-circle SVG: left-half red, right-half yellow
+  var _cardFilters    = new Set();
+  var _expandedPhases = new Set([1]);
   var RY_ICON = '<svg width="12" height="12" viewBox="0 0 10 10"' +
     ' style="vertical-align:-1px;margin-right:3px;flex-shrink:0;">'+
     '<path d="M5,0 A5,5 0 0,0 5,10 Z" fill="#ea1100"/>'+
     '<path d="M5,0 A5,5 0 0,1 5,10 Z" fill="#ffc220"/>'+
     '</svg>';
-
   var CARD_FILTER_DEFS = [
     { key:'critical',  label:'&#11088; Critical',       test: function(c){ return _isCrit(c); } },
     { key:'ry',        label: RY_ICON + 'Red / Yellow', test: function(c){ return c.status==='red'||c.status==='yellow'; } },
     { key:'completed', label:'&#9989; Completed',       test: function(c){ return c.status==='completed'; } },
   ];
-
-  // ── PUBLIC API ─────────────────────────────────────────
   window.initPhaseView = function () { _render(); };
-
-  // Expose filter state so exec-summary bar can read active filters
   window.pmGetState = function () {
     return { cardFilters: _cardFilters, expandedPhases: _expandedPhases };
   };
-
   window.pmToggleCardFilter = function (key) {
     if (_cardFilters.has(key)) _cardFilters.delete(key);
     else _cardFilters.add(key);
     _render();
     if (window._esRenderBar) window._esRenderBar();
   };
-
   window.pmTogglePhase = function (num) {
-    if (num === 1) return; // Phase 1 is always visible
+    if (num === 1) return;
     if (_expandedPhases.has(num)) _expandedPhases.delete(num);
     else _expandedPhases.add(num);
     _render();
     if (window._esRenderBar) window._esRenderBar();
   };
-
   window.pmClearFilters = function () {
     _cardFilters.clear();
     _render();
     if (window._esRenderBar) window._esRenderBar();
   };
-
-  // ── TOP-LEVEL RENDER ───────────────────────────────────
   function _render() {
     var wrap = document.getElementById('phase-grid-wrap');
     if (!wrap) return;
-    // Filter bar removed — controls live in the exec status bar (exec-summary.js)
     wrap.innerHTML = _matrixHTML();
   }
-
-  // ── FILTER BAR ─────────────────────────────────────────
   function _filterBarHTML() {
     var cardPills = CARD_FILTER_DEFS.map(function (f) {
       var active = _cardFilters.has(f.key) ? ' pmf-active' : '';
       return '<button class="pmf-pill' + active + '"' +
         ' onclick="pmToggleCardFilter(\'' + f.key + '\')">' + f.label + '</button>';
     }).join('');
-
     var clearBtn = _cardFilters.size
       ? '<button class="pmf-clear" onclick="pmClearFilters()">&#10005; Clear</button>'
       : '';
-
     var phasePills = PHASE_DEFS.map(function (ph) {
       var on = _expandedPhases.has(ph.num);
       return '<button class="pmf-phase-pill' + (on ? ' pmf-phase-on' : '') + '"' +
@@ -3497,7 +2982,6 @@ const EXEC_NARRATIVES = {
         (on ? '&#9660;' : '&#9654;') + ' ' + ph.shortLabel +
         '</button>';
     }).join('');
-
     return [
       '<div class="pmf-bar">',
         '<div class="pmf-group">',
@@ -3511,8 +2995,6 @@ const EXEC_NARRATIVES = {
       '</div>',
     ].join('');
   }
-
-  // ── MATRIX ─────────────────────────────────────────────
   function _matrixHTML() {
     return [
       '<div class="phase-matrix" role="region" aria-label="Workstream Phase Matrix">',
@@ -3521,8 +3003,6 @@ const EXEC_NARRATIVES = {
       '</div>',
     ].join('');
   }
-
-  // ── HEADER ROW (workstream column titles) ──────────────
   function _headerRow() {
     var wsHeaders = PILLARS.map(function (p) {
       return [
@@ -3534,7 +3014,6 @@ const EXEC_NARRATIVES = {
         '</div>',
       ].join('');
     }).join('');
-
     return [
       '<div class="pm-header-row">',
         '<div class="pm-corner">',
@@ -3545,8 +3024,6 @@ const EXEC_NARRATIVES = {
       '</div>',
     ].join('');
   }
-
-  // ── PHASE ROW ──────────────────────────────────────────
   function _phaseRow(ph) {
     var expanded = _expandedPhases.has(ph.num);
     var cells = PILLARS.map(function (p) {
@@ -3554,7 +3031,6 @@ const EXEC_NARRATIVES = {
     }).join('');
     var rowCls = 'pm-phase-row pm-phase-' + ph.num +
       (expanded ? ' pm-phase-expanded' : ' pm-phase-collapsed');
-
     return [
       '<div class="' + rowCls + '">',
         _sidebar(ph, expanded),
@@ -3562,10 +3038,6 @@ const EXEC_NARRATIVES = {
       '</div>',
     ].join('');
   }
-
-  // ── SIDEBAR ────────────────────────────────────────────
-  // Collapsed (Phase 2 & 3 default): name + window + expand button only
-  // Expanded / Phase 1: full detail — tagline, goals, collapse button
   function _sidebar(ph, expanded) {
     var isActive = ph.num === 1;
     var needsToggle = ph.num !== 1;
@@ -3574,9 +3046,7 @@ const EXEC_NARRATIVES = {
           (expanded ? '&#9650; Collapse' : '&#9660; Expand Programs') +
         '</button>'
       : '';
-
     if (!expanded && needsToggle) {
-      // ── COLLAPSED: minimal — just identity + toggle ──
       return [
         '<div class="pm-sidebar pm-sidebar-collapsed" style="background:' + ph.darkBg + ';">',
           '<div class="pm-phase-num">Phase ' + ph.num + '</div>',
@@ -3586,8 +3056,6 @@ const EXEC_NARRATIVES = {
         '</div>',
       ].join('');
     }
-
-    // ── EXPANDED (or always-on Phase 1): full detail ──
     var goalsHTML = ph.goals.map(function (g) {
       var num = g.id.replace('#', '');
       return '<div class="pm-goal-chip pm-goal-chip-btn"' +
@@ -3599,7 +3067,6 @@ const EXEC_NARRATIVES = {
         '<span class="pm-goal-arrow">&#8594;</span>' +
         '</div>';
     }).join('');
-
     return [
       '<div class="pm-sidebar" style="background:' + ph.darkBg + ';">',
         isActive ? '<div class="pm-active-pill">&#128994; Active Now</div>' : '',
@@ -3614,61 +3081,44 @@ const EXEC_NARRATIVES = {
       '</div>',
     ].join('');
   }
-
-  // ── EXPANDED CELL (cards for Ph1, chips for Ph2/3) ─────
   function _expandedCell(ph, pillar) {
     var allCards = _getCards(ph.num, pillar);
     var shown    = _cardFilters.size ? allCards.filter(_passesFilter) : allCards;
     var banner   = _valueBanner(ph, pillar);
     var empty    = _cardFilters.size ? 'No matching programs' : (ph.num === 1 ? 'No Phase 1 programs' : 'Roadmap \u2014 TBD');
-
     if (ph.num === 1) {
-      // Full program cards — critical first, max 5 shown
       var crit   = shown.filter(_isCrit);
       var rest   = shown.filter(function(c){ return !_isCrit(c); });
       var sliced = _dedupe(crit.concat(rest)).slice(0, 5);
       var overflow = shown.length - sliced.length;
-
       var cardsHTML = sliced.length
         ? sliced.map(function (c) { return _cardHTML(c, pillar); }).join('')
         : '<div class="pm-empty">' + empty + '</div>';
-
       var label = overflow > 0
         ? '&#128203; +' + overflow + ' more \u2014 Full Roadmap'
         : '&#128203; Full Roadmap';
       var btn = '<button class="roadmap-btn" style="margin-top:4px;"' +
         ' onclick="openRoadmapWindow(\'' + pillar.id + '\')">' + label + '</button>';
-
       return '<div class="pm-cell pm-cell-p1">' + banner + cardsHTML + btn + '</div>';
     }
-
-    // Capability chips for Phase 2 & 3
     var chipsHTML = shown.length
       ? shown.map(function (c) { return _capChip(c, pillar); }).join('')
       : '<div class="pm-empty">' + empty + '</div>';
-
     return '<div class="pm-cell pm-cell-future">' + banner + chipsHTML + '</div>';
   }
-
-  // ── COLLAPSED CELL (Phase 2 & 3 default) ───────────────
   function _collapsedCell(ph, pillar) {
     var allCards = _getCards(ph.num, pillar);
     var matched  = _cardFilters.size ? allCards.filter(_passesFilter) : allCards;
     var banner   = _valueBanner(ph, pillar);
-
     var countTxt = _cardFilters.size && matched.length !== allCards.length
       ? matched.length + ' of ' + allCards.length + ' programs match filter'
       : allCards.length + ' program' + (allCards.length === 1 ? '' : 's');
-
     var countPill = '<div class="pm-count-pill">' +
       '<span class="pm-count-num">' + (matched.length || allCards.length) + '</span>' +
       '<span class="pm-count-lbl">' + (matched.length < allCards.length ? ' match filter' : ' program' + (allCards.length === 1 ? '' : 's')) + '</span>' +
       '</div>';
-
     return '<div class="pm-cell pm-cell-collapsed">' + banner + countPill + '</div>';
   }
-
-  // ── VALUE BANNER (all phases) ──────────────────────────
   function _valueBanner(ph, pillar) {
     var label = ph.wsValue ? ph.wsValue[pillar.id] : '';
     if (!label) return '';
@@ -3676,8 +3126,6 @@ const EXEC_NARRATIVES = {
       ' style="border-color:' + ph.border + ';color:' + ph.color + ';background:' + ph.bg + ';">' +
       '&#10024; ' + label + '</div>';
   }
-
-  // ── FULL CARD (Phase 1) ────────────────────────────────
   function _cardHTML(card, pillar) {
     var badgeCls  = BADGE_CLASS[card.status] || 'badge-roadmap';
     var critStyle = _isCrit(card) ? 'border-left:3px solid #ffc220;' : '';
@@ -3703,8 +3151,6 @@ const EXEC_NARRATIVES = {
       '</div>',
     ].join('');
   }
-
-  // ── CAPABILITY CHIP (Phase 2 & 3) ─────────────────────
   function _capChip(card, pillar) {
     var badgeCls = BADGE_CLASS[card.status] || 'badge-roadmap';
     var safeWS = _safe(pillar.title), safeTool = _safe(pillar.tool);
@@ -3721,8 +3167,6 @@ const EXEC_NARRATIVES = {
       '</div>',
     ].join('');
   }
-
-  // ── HELPERS ────────────────────────────────────────────
   function _getCards(phaseNum, pillar) {
     return pillar.cards
       .filter(function (c) { return (CARD_PHASE_MAP[c.id] || 1) === phaseNum; })
@@ -3732,61 +3176,44 @@ const EXEC_NARRATIVES = {
         return (STATUS_PRIO[a.status] || 4) - (STATUS_PRIO[b.status] || 4);
       });
   }
-
   function _passesFilter(card) {
     if (_cardFilters.has('critical')  && _isCrit(card)) return true;
     if (_cardFilters.has('ry')        && (card.status === 'red' || card.status === 'yellow')) return true;
     if (_cardFilters.has('completed') && card.status === 'completed') return true;
     return false;
   }
-
   function _dedupe(arr) {
     var seen = {};
     return arr.filter(function (c) {
       if (seen[c.id]) return false; seen[c.id] = true; return true;
     });
   }
-
   function _isCrit(card) { return (card.tag || '').indexOf('Critical') > -1; }
   function _isWin(card)  { return (card.tag || '').indexOf('Win')      > -1; }
   function _safe(s)      { return (s || '').replace(/'/g, '\u0027'); }
-
 }());
 </script>
 <script>
-// card-links.js — Per-card Links tab (READ-ONLY)
-// Exposes: window.buildLinksTab(cardId, resources, workstreams)
-// No editing, no localStorage — all links come directly from data files.
-// Source of truth: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
-
 (function () {
-
   var WS_CFG = {
     strategy:   { label: 'Strategy',   emoji: '\uD83C\uDFDB\uFE0F', color: '#37474f', bg: '#eceff1', border: '#90a4ae' },
     design:     { label: 'Design',     emoji: '\uD83C\uDFA8', color: '#0053e2', bg: '#eef2ff', border: '#93c5fd' },
     buying:     { label: 'Buying',     emoji: '\uD83D\uDED2', color: '#b86000', bg: '#fff8ed', border: '#fcd34d' },
     allocation: { label: 'Allocation', emoji: '\uD83D\uDCE6', color: '#1a1a6e', bg: '#eef0ff', border: '#a5b4fc' },
   };
-
   var LINK_DEFS = [
     { field: 'opif',   icon: '\uD83D\uDCCB', label: 'OPIF',    sublabel: 'Opportunity / Initiative Framework (Jira)' },
     { field: 'brd',    icon: '\uD83D\uDCDD', label: 'BRD',     sublabel: 'Business Requirements Document'           },
     { field: 'prd',    icon: '\uD83D\uDCE6', label: 'PRD',     sublabel: 'Product Requirements Document'             },
     { field: 'uxDemo', icon: '\uD83C\uDFA8', label: 'UX Demo', sublabel: 'Design & UX walkthrough / prototype'      },
   ];
-
   var DASHBOARD_URL = 'https://confluence.walmart.com/display/APREC/' +
     'Long+Lead+Time+Transformation+Work+Management+Dashboard';
-
-  // ── Public entry ───────────────────────────────────────
   window.buildLinksTab = function (cardId, resources, workstreams) {
     var panel = document.getElementById('tab-links');
     if (!panel) return;
     panel.innerHTML = '';
-
     var wrap = _el('div', 'padding:20px 24px;display:flex;flex-direction:column;gap:14px;');
-
-    // ── Source of truth banner ──
     var banner = _el('a',
       'display:flex;align-items:center;gap:10px;padding:9px 14px;' +
       'background:#eef2ff;border:1.5px solid #c7d2fe;border-radius:10px;' +
@@ -3806,8 +3233,6 @@ const EXEC_NARRATIVES = {
     bArr.textContent = '\u2192';
     banner.appendChild(bIcon); banner.appendChild(bText); banner.appendChild(bArr);
     wrap.appendChild(banner);
-
-    // ── Workstream chips ──
     var ws = Array.isArray(workstreams) && workstreams.length ? workstreams : [];
     if (ws.length) {
       var wsWrap = _el('div', 'display:flex;flex-direction:column;gap:6px;');
@@ -3829,12 +3254,8 @@ const EXEC_NARRATIVES = {
       wsWrap.appendChild(wsLabel); wsWrap.appendChild(chips);
       wrap.appendChild(wsWrap);
     }
-
-    // ── Divider ──
     var div = _el('div', 'border-top:1px solid #f1f5f9;');
     wrap.appendChild(div);
-
-    // ── Standard link rows ──
     var hasAnyLink = false;
     var res = resources || {};
     LINK_DEFS.forEach(function (def) {
@@ -3843,8 +3264,6 @@ const EXEC_NARRATIVES = {
       hasAnyLink = true;
       wrap.appendChild(_linkRow(def.icon, def.label, def.sublabel, url));
     });
-
-    // ── Other / companion links ──
     var others = Array.isArray(res.other) ? res.other : [];
     if (others.length) {
       if (hasAnyLink) wrap.appendChild(_el('div', 'border-top:1px solid #f1f5f9;margin:2px 0;'));
@@ -3859,8 +3278,6 @@ const EXEC_NARRATIVES = {
       });
       hasAnyLink = true;
     }
-
-    // ── Empty state ──
     if (!hasAnyLink) {
       var empty = _el('div',
         'padding:28px;text-align:center;color:#94a3b8;font-size:0.8rem;' +
@@ -3869,11 +3286,8 @@ const EXEC_NARRATIVES = {
         '<span style="font-size:0.7rem;">See the LLTT Dashboard above for live OPIF status.</span>';
       wrap.appendChild(empty);
     }
-
     panel.appendChild(wrap);
   };
-
-  // ── Build one read-only link row ───────────────────────
   function _linkRow(icon, label, sublabel, url) {
     var outer = _el('a',
       'display:flex;align-items:center;gap:12px;padding:11px 14px;' +
@@ -3888,57 +3302,40 @@ const EXEC_NARRATIVES = {
     outer.addEventListener('mouseleave', function () {
       outer.style.borderColor = '#e2e8f0'; outer.style.background = '';
     });
-
     var iconEl = _el('span', 'font-size:1.25rem;flex-shrink:0;');
     iconEl.textContent = icon;
-
     var info = _el('div', 'flex:1;min-width:0;');
     var lbl  = _el('p', 'margin:0;font-size:0.82rem;font-weight:700;color:#1e293b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;');
     lbl.textContent = label;
     info.appendChild(lbl);
-
     if (sublabel) {
       var sub = _el('p', 'margin:2px 0 0;font-size:0.68rem;color:#94a3b8;');
       sub.textContent = sublabel;
       info.appendChild(sub);
     }
-
-    // Show short domain for context
     try {
       var host = new URL(url).hostname.replace('www.','');
       var domain = _el('p', 'margin:2px 0 0;font-size:0.64rem;color:#c7d2fe;font-family:monospace;');
       domain.textContent = host;
       info.appendChild(domain);
     } catch (e) {}
-
     var arr = _el('span', 'font-size:0.78rem;color:#0053e2;flex-shrink:0;font-weight:700;');
     arr.textContent = '\u2192';
-
     outer.appendChild(iconEl); outer.appendChild(info); outer.appendChild(arr);
     return outer;
   }
-
-  // ── Resolve placeholder URLs to null ──────────────────
   function _resolve(url) {
     if (!url || url === '#' || url.trim() === '') return null;
     return url.trim();
   }
-
-  // ── Mini DOM helper ───────────────────────────────────
   function _el(tag, css) {
     var el = document.createElement(tag);
     if (css) el.style.cssText = css;
     return el;
   }
-
 }());
 </script>
 <script>
-
-// ============================================================
-// ACTIVE QUARTER DETECTION (Walmart FY: Q1=Feb-Apr, Q2=May-Jul, Q3=Aug-Oct, Q4=Nov-Jan)
-// Show completed + any quarter whose window overlaps the next 90 days
-// ============================================================
 function getActiveQuarters() {
   const now = new Date();
   const yr  = now.getFullYear();
@@ -3956,29 +3353,18 @@ function getActiveQuarters() {
   return active;
 }
 const ACTIVE_QUARTERS = getActiveQuarters();
-
-// Returns active-quarter cards for a pillar (in quarter order)
 function getActiveCards(pillar) {
   return QUARTER_ORDER
     .filter(q => ACTIVE_QUARTERS.has(q))
     .flatMap(q => pillar.cards.filter(c => c.quarter === q));
 }
-
-// Per-pillar cap: show up to 6 active cards per pillar.
-// We do NOT tie pillars to each other's counts — each pillar shows
-// its own most-relevant cards (completed → Q1 → Q2 priority order).
-// The Full Roadmap button always shows everything.
 const CARD_LIMIT = 6;
-
-// ---- WORKSTREAM PHASE COLORS ----
 const PHASE_STYLES = {
   strategy:   { bg: '#37474f', text: '#ffffff', arrow: '#546e7a' },
   design:     { bg: '#0053e2', text: '#ffffff', arrow: '#4080ff' },
   buying:     { bg: '#d98c00', text: '#ffffff', arrow: '#e8a020' },
   allocation: { bg: '#1a1a6e', text: '#ffffff', arrow: '#3b3ba3' },
 };
-
-// ---- E2E PHASE FLOW BAR ----
 function renderPhases() {
   const bar = document.getElementById('phase-bar');
   bar.innerHTML = PHASES.map((p, i) => {
@@ -4001,8 +3387,6 @@ function renderPhases() {
       </div>`;
   }).join('');
 }
-
-// ---- SINGLE CARD — includes a small quarter chip for context ----
 function cardHTML(card, workstream, tool) {
   const badgeCls  = BADGE_CLASS[card.status] || 'badge-roadmap';
   const qMeta     = QUARTER_META[card.quarter];
@@ -4012,7 +3396,6 @@ function cardHTML(card, workstream, tool) {
     ? `<span style="font-size:0.62rem;font-weight:700;padding:1px 7px;border-radius:99px;
         background:${qMeta.bg};color:${qMeta.color};border:1px solid ${qMeta.border};
         white-space:nowrap;">${qMeta.label}</span>` : '';
-  // Show update pip if card has recent changelog entries (within 30 days)
   const recentLog = (card.changeLog || []).filter(e => {
     const d = new Date(e.date); const now = new Date();
     return (now - d) / 86400000 <= 30;
@@ -4038,42 +3421,29 @@ function cardHTML(card, workstream, tool) {
       </div>
     </div>`;
 }
-
-
-
-// ---- CARD INDEX for modal lookup ----
 const allCards = [];
 function buildCardIndex() {
   PILLARS.forEach(p =>
     p.cards.forEach(c => allCards.push({ ...c, workstream: p.title, tool: p.tool })));
 }
-
-// ---- MODAL ----
 function openModal(cardId, workstream, tool) {
   const card = allCards.find(c => c.id === cardId);
   if (!card) return;
-
   const qMeta   = QUARTER_META[card.quarter] || QUARTER_META['Future'];
   const isAtRisk = ['yellow', 'red'].includes(card.status);
   const owners   = card.owners || {};
   const res      = card.resources || {};
-
-  // --- header ---
   document.getElementById('modal-icon').textContent  = card.icon;
   document.getElementById('modal-title').textContent = card.title;
   document.getElementById('modal-tool').textContent  = `${workstream} \u00b7 ${tool}`;
   document.getElementById('modal-date').textContent  = card.targetDate ? `\uD83D\uDCC5 ${card.targetDate}` : '';
-
   const badgeEl = document.getElementById('modal-badge');
   badgeEl.textContent = card.statusLabel;
   badgeEl.className   = 'badge ' + (BADGE_CLASS[card.status] || 'badge-roadmap');
-
   const tagEl = document.getElementById('modal-tag');
   tagEl.textContent   = card.tag || '';
   tagEl.style.display = card.tag ? 'inline-block' : 'none';
   tagEl.className     = 'tag ' + (card.tag && card.tag.includes('Win') ? 'tag-win' : '');
-
-  // --- overview tab ---
   document.getElementById('tab-overview').innerHTML = `
     <div class="space-y-5 py-5 px-6">
       <div>
@@ -4093,9 +3463,6 @@ function openModal(cardId, workstream, tool) {
         <p class="text-sm text-gray-700 leading-relaxed">${card.successMetrics || 'TBD'}</p>
       </div>
     </div>`;
-
-  // --- status tab ---
-  // Build OPIF status details (no owners here — owners live in Inquiry tab)
   const opifIds = (card.techIntegration || '').match(/OPIF-\d+/g) || [];
   const primaryOpif = opifIds[0] || null;
   const opifBadge = primaryOpif
@@ -4107,7 +3474,6 @@ function openModal(cardId, workstream, tool) {
          &#128203; ${primaryOpif} &rarr;
        </a>`
     : '';
-
   const jiraStatusMap = {
     'Green \u2014 On Track':    { icon: '\uD83D\uDFE2', color: '#2a8703', bg: '#f0faf0', border: '#86efac' },
     'Work in Progress':          { icon: '\uD83D\uDD04', color: '#0053e2', bg: '#eef2ff', border: '#93c5fd' },
@@ -4120,7 +3486,6 @@ function openModal(cardId, workstream, tool) {
   };
   const jiraSt = card.jiraStatus || '';
   const jiraStCfg = jiraStatusMap[jiraSt] || { icon: '\u2139\uFE0F', color: '#64748b', bg: '#f1f5f9', border: '#e2e8f0' };
-
   const jiraStatusRow = jiraSt
     ? `<div class="flex items-center gap-3 p-3 rounded-xl mt-3"
             style="background:${jiraStCfg.bg};border:1px solid ${jiraStCfg.border};">
@@ -4132,37 +3497,30 @@ function openModal(cardId, workstream, tool) {
          ${opifBadge ? '<div class="ml-auto">' + opifBadge + '</div>' : ''}
        </div>`
     : (opifBadge ? `<div class="mt-3">${opifBadge}</div>` : '');
-
   const statusNote = card.statusNote
     ? `<div class="p-4 rounded-xl mt-1" style="background:#f8fafc;border:1.5px solid #e2e8f0;">
          <p class="text-xs font-bold uppercase tracking-wider mb-2" style="color:#475569;">&#128221; Status Notes</p>
          <p class="text-sm leading-relaxed text-gray-600">${card.statusNote}</p>
        </div>`
     : '';
-
   document.getElementById('tab-status').innerHTML = `
     <div class="space-y-4 py-5 px-6">
-
       <!-- Quarter + Portal Status -->
       <div class="flex items-center gap-3 p-3 rounded-xl" style="background:${qMeta.bg};border:1px solid ${qMeta.border};">
         <span class="text-xs font-bold uppercase tracking-wider" style="color:${qMeta.color};">${qMeta.label}</span>
         <span class="badge ${BADGE_CLASS[card.status] || 'badge-roadmap'}">${card.statusLabel}</span>
         <span class="text-sm text-gray-500 ml-auto">${card.targetDate || 'TBD'}</span>
       </div>
-
       <!-- Jira Status + OPIF link (if available) -->
       ${jiraStatusRow}
-
       <!-- Path to Green (at-risk only) -->
       ${isAtRisk ? `
       <div class="p-4 rounded-xl" style="background:#fffbeb;border:1.5px solid #f59e0b;">
         <p class="text-xs font-bold uppercase tracking-wider mb-2" style="color:#92400e;">&#128993; Path to Green</p>
         <p class="text-sm leading-relaxed" style="color:#78350f;">${card.pathToGreen || 'Path to green details TBD — please update.'}</p>
       </div>` : ''}
-
       <!-- Status Notes (optional per card) -->
       ${statusNote}
-
       <!-- Last Synced + Live OPIF Link -->
       ${primaryOpif ? `
       <div style="display:flex;align-items:center;justify-content:space-between;
@@ -4183,7 +3541,6 @@ function openModal(cardId, workstream, tool) {
           View live data in ${primaryOpif} &#8599;
         </a>
       </div>` : ''}
-
       <!-- Inquiry CTA -->
       <div class="p-3 rounded-xl flex items-center gap-3 cursor-pointer"
            style="background:#f5f3ff;border:1.5px dashed #c4b5fd;"
@@ -4195,14 +3552,8 @@ function openModal(cardId, workstream, tool) {
         </div>
         <span style="margin-left:auto;font-size:0.8rem;color:#7c3aed;font-weight:700;">&#8594;</span>
       </div>
-
     </div>`;
-
-  // --- links + workstreams tab (read-only, via card-links.js) ---
   buildLinksTab(card.id, res, card.workstreams || []);
-
-  // --- inquiry tab ---
-  // businessPartner is an array; all other roles are single { name, email, title } objects
   const bpList    = Array.isArray(owners.businessPartner) ? owners.businessPartner : [];
   const singleRoles = [
     { role: 'Technical Program Manager (TPM)', key: 'transformationLead', icon: '\uD83D\uDEE3\uFE0F' },
@@ -4210,8 +3561,6 @@ function openModal(cardId, workstream, tool) {
     { role: 'UX Lead',                         key: 'uxLead',             icon: '\uD83C\uDFA8' },
     { role: 'Engineering Lead',                key: 'softwareLead',       icon: '\uD83D\uDCBB' },
   ];
-
-  // ── Render a single person chip (used for both BP list + single roles) ──
   function _personRow(name, email, title, icon, roleLabel, isLast) {
     const emailLink = email
       ? `<a href="mailto:${email}" style="color:#7c3aed;font-size:0.72rem;font-weight:600;
@@ -4234,18 +3583,14 @@ function openModal(cardId, workstream, tool) {
       </div>
     </div>`;
   }
-
-  // Business & Transformation Lead block (supports 0..N people)
   const bpIcon = '\uD83C\uDFE2';
   const bpRows = bpList.length > 0
     ? bpList.map((p, i) =>
         _personRow(p.name, p.email, p.title, bpIcon,
-                   i === 0 ? 'Business &amp; Transformation Lead' : '\u00a0',  // label only on first row
+                   i === 0 ? 'Business &amp; Transformation Lead' : '\u00a0',
                    i === bpList.length - 1 && singleRoles.filter(r => (owners[r.key]||{}).name && (owners[r.key]||{}).name !== 'TBD').length === 0)
       ).join('')
     : '';
-
-  // Single-person role rows
   const visibleSingleRoles = singleRoles.filter(r => {
     const o = owners[r.key] || {};
     return o.name && o.name !== 'TBD';
@@ -4254,17 +3599,12 @@ function openModal(cardId, workstream, tool) {
     const o = owners[r.key] || {};
     return _personRow(o.name, o.email, o.title, r.icon, r.role, i === visibleSingleRoles.length - 1);
   }).join('');
-
   const recipientRows = (bpRows + singleRows) || '<p style="font-size:0.8rem;color:#94a3b8;padding:12px 0;">No owners assigned yet.</p>';
-
-  // Collect ALL valid TO addresses (BP array + single roles)
   const bpEmails     = bpList.map(p => p.email).filter(Boolean);
   const singleEmails = singleRoles.map(r => (owners[r.key] || {}).email).filter(Boolean);
   const toAddresses  = [...bpEmails, ...singleEmails].join(',') || 'fashion-transformation@walmart.com';
-
   document.getElementById('tab-inquiry').innerHTML = `
     <div style="padding:20px 24px;display:flex;flex-direction:column;gap:16px;">
-
       <!-- Header banner -->
       <div style="padding:12px 14px;border-radius:12px;background:#f5f3ff;border:1.5px solid #ddd6fe;">
         <p style="margin:0 0 4px;font-size:0.72rem;font-weight:800;text-transform:uppercase;
@@ -4272,7 +3612,6 @@ function openModal(cardId, workstream, tool) {
         <p style="margin:0;font-size:0.75rem;color:#6d28d9;">Clicking <strong>Open Email Draft</strong> opens
           a pre-filled email addressed directly to all listed owners of this deliverable.</p>
       </div>
-
       <!-- Recipients panel -->
       <div style="border-radius:12px;border:1.5px solid #e2e8f0;overflow:hidden;">
         <div style="padding:8px 14px;background:#f8fafc;border-bottom:1px solid #e2e8f0;
@@ -4285,7 +3624,6 @@ function openModal(cardId, workstream, tool) {
           ${recipientRows || '<p style="font-size:0.8rem;color:#94a3b8;padding:12px 0;">No owners assigned yet.</p>'}
         </div>
       </div>
-
       <!-- Email preview chip -->
       <div style="padding:8px 12px;border-radius:10px;background:#f0fdf4;border:1px solid #86efac;
                   display:flex;align-items:flex-start;gap:8px;">
@@ -4296,7 +3634,6 @@ function openModal(cardId, workstream, tool) {
           <p style="margin:2px 0 0;font-size:0.72rem;color:#166534;word-break:break-all;">${toAddresses.replace(/,/g, ', ')}</p>
         </div>
       </div>
-
       <!-- Source attribution notice -->
       <div style="padding:10px 12px;border-radius:10px;background:#f8fafc;border:1px solid #e2e8f0;
                   display:flex;align-items:flex-start;gap:8px;">
@@ -4315,7 +3652,6 @@ function openModal(cardId, workstream, tool) {
           <strong>TPM</strong> owners to update the OPIF directly.
         </div>
       </div>
-
       <!-- Message box -->
       <div>
         <label style="display:block;font-size:0.68rem;font-weight:800;text-transform:uppercase;
@@ -4328,7 +3664,6 @@ function openModal(cardId, workstream, tool) {
           onblur="this.style.borderColor='#e2e8f0';this.style.boxShadow='none'"
           placeholder="Type your question or feedback here..."></textarea>
       </div>
-
       <!-- CTA button -->
       <button onclick="sendInquiry('${card.id}','${workstream}','${tool}')"
         style="width:100%;padding:13px;border-radius:12px;font-weight:800;font-size:0.88rem;
@@ -4338,10 +3673,7 @@ function openModal(cardId, workstream, tool) {
         &#9993;&#65039;&nbsp; Open Email Draft
       </button>
       <p style="margin:0;font-size:0.68rem;text-align:center;color:#94a3b8;">Opens your default mail client with TO, subject, and body pre-filled.</p>
-
     </div>`;
-
-  // --- updates tab (changelog) ---
   const changeLog  = card.changeLog || [];
   const updatesBtn = document.getElementById('tab-btn-updates');
   if (changeLog.length) {
@@ -4382,27 +3714,21 @@ function openModal(cardId, workstream, tool) {
   } else {
     updatesBtn.style.display = 'none';
   }
-
   switchTab('overview');
   document.getElementById('modal-overlay').classList.add('open');
 }
-
 function sendInquiry(cardId, workstream, tool) {
   const card    = allCards.find(c => c.id === cardId);
   if (!card) return;
   const owners  = card.owners || {};
   const qMeta   = QUARTER_META[card.quarter] || QUARTER_META['Future'];
-
-  // businessPartner is an array; collect emails from all entries
   const bpEmails = (Array.isArray(owners.businessPartner) ? owners.businessPartner : [])
     .map(p => p.email).filter(Boolean);
   const singleEmails = ['transformationLead','productLead','uxLead','softwareLead']
     .map(k => (owners[k] || {}).email).filter(Boolean);
   const emailAddresses = [...bpEmails, ...singleEmails].join(',') || 'fashion-transformation@walmart.com';
-
   const userText = (document.getElementById('inquiry-text')?.value || '').trim()
     || '[No message entered]';
-
   const subject = encodeURIComponent(`[Fashion Portal] Question about: ${card.title}`);
   const body    = encodeURIComponent(
 `Deliverable: ${card.title}
@@ -4411,37 +3737,26 @@ Tool:        ${tool}
 Quarter:     ${qMeta.label}
 Status:      ${card.statusLabel}
 Target Date: ${card.targetDate || 'TBD'}
-
 ---
 My question / feedback:
-
 ${userText}
 `);
   window.location.href = `mailto:${emailAddresses}?subject=${subject}&body=${body}`;
 }
-
-
-
 function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
-
 function switchTab(name) {
   const names = ['overview','status','links','inquiry','updates'];
   document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', names[i] === name));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.getElementById('tab-' + name).classList.add('active');
 }
-
 document.getElementById('modal-overlay').addEventListener('click', e => {
   if (e.target === document.getElementById('modal-overlay')) closeModal();
 });
-
-// ---- INIT ----
-renderPhases();          // E2E process flow bar
-
-buildCardIndex();        // populate allCards[] for modal lookups
-initPhaseView();         // phase grid + exposes pmGetState() for the bar
-initExecBar();           // unified status + filter bar (requires pmGetState)
-
+renderPhases();
+buildCardIndex();
+initPhaseView();
+initExecBar();
 </script>
 </body>
 </html>

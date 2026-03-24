@@ -6,6 +6,18 @@ A lightweight, self-contained web portal. No build step. No server. No dependenc
 
 ---
 
+## 🔗 Canonical Published URLs
+
+> ⚠️ **These are the ONLY two links that should ever be shared or referenced.**
+> Do not create new slugs — always publish to one of these two.
+
+| Environment | URL | When to use |
+|---|---|---|
+| **PROD** | https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod | Daily scheduler, explicit publish requests |
+| **TEST** | https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test | Dev, QA, debugging, testing changes |
+
+---
+
 ## ✨ Features
 
 - **Four workstream pillars** (Strategy, Design, Buying, Allocation) with live status badges

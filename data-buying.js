@@ -39,7 +39,7 @@ const CARDS_BUYING = [
   },
   {
     id: 'auto-item-setup', title: 'Automated Item Setup', icon: '\u2699\uFE0F',
-    status: 'yellow', statusLabel: 'Yellow \u2014 Pending Sizing',
+    status: 'yellow', statusLabel: 'Yellow \u2014 Ready to Start (P1 \u26a0\ufe0f)',
     quarter: 'Q2', targetDate: 'April 30, 2026', tag: 'Critical Program',
     jiraStatus: 'Pending Sizing',
     priority: 'P1',
@@ -201,7 +201,7 @@ const CARDS_BUYING = [
   },
   {
     id: 'bq-enterprise-service', title: 'Buy Quantification as Enterprise Service', icon: '\uD83D\uDCCA',
-    status: 'roadmap', statusLabel: 'Roadmap \u2014 Recommend & Optimize Phase',
+    status: 'yellow', statusLabel: 'Yellow \u2014 Ready for Walkthrough',
     quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
     description: 'Buy Quantification and Flow delivered as a shared enterprise service — providing demand-driven buy quantity recommendations across all Fashion workstreams without each team running independent BQ calculations. Part of the Recommend & Optimize phase of the LLTT roadmap (Q3 FY27 – Q1 FY28). Includes rollup reporting, dynamic PO re-distribution, pack simplification, unified planner experience, and channel/placement-split forecasting. OPIF-325218 Status: Discovery in Progress. Assignee: Abhishek Jannawar. Reporter: Abhishek Jannawar. Component: US Omni Tech – MerchTools – AEX Buy Quantification.',
     businessBenefit: 'Single authoritative buy quantity signal across all Fashion buying teams. Replaces manual BQ spreadsheets and per-department workarounds. Enables dynamic redistribution of POs as in-season signals emerge. Channel and placement splits give eComm and store teams differentiated signals.',

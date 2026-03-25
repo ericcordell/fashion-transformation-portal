@@ -8,6 +8,8 @@
 <link rel="stylesheet" href="portal.css">
 <link rel="stylesheet" href="portal-goals.css">
 <link rel="stylesheet" href="exec-summary.css">
+<link rel="stylesheet" href="reviews.css">
+<link rel="stylesheet" href="control-panel.css">
 </head>
 <body>
 
@@ -22,51 +24,58 @@
   <div style="color:#a8c4ff" class="text-xs">March 2026 &bull; Confidential</div>
 </header>
 
-<div style="background:linear-gradient(90deg,#1b5e20,#2e7d32,#00695c)" class="text-white px-6 py-2 text-center text-sm font-semibold flex items-center justify-center gap-3">
-  <span>&#129302;</span>
-  <span><strong>AI &amp; Automation:</strong>&nbsp;Automated workflows, intelligent forecasting, and system-driven execution across the Fashion E2E lifecycle</span>
-  <span>&#129302;</span>
-</div>
+<!-- UNIFIED CONTROL PANEL - Sticky in banner area -->
+<div id="control-panel-banner"></div>
 
 <!-- phase bar removed from navbar — now lives inside main -->
 
 <main class="p-5 max-w-screen-2xl mx-auto">
 
+  <!-- BUSINESS REVIEWS CONTENT -->
+  <div id="business-reviews-wrap" style="display:none;">
+    <div id="review-content-wpr" class="review-content"></div>
+    <div id="review-content-mbr" class="review-content"></div>
+    <div id="review-content-strategy" class="review-content"></div>
+    <div id="review-content-design" class="review-content"></div>
+    <div id="review-content-buying" class="review-content"></div>
+    <div id="review-content-allocation" class="review-content"></div>
+  </div>
+
   <!-- E2E PHASE FLOW — centered, color-coded by workstream -->
-  <div class="bg-white rounded-2xl border border-gray-200 shadow-sm px-6 pt-5 pb-4 mb-4">
-    <p class="text-center text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">End-to-End Fashion Process Flow</p>
-    <div id="phase-bar" class="flex flex-wrap items-center justify-center gap-y-3 gap-x-0"></div>
+  <div class="bg-white rounded-xl border border-gray-200 shadow-sm px-4 pt-3 pb-3 mb-3">
+    <p class="text-center text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">E2E Process Flow</p>
+    <div id="phase-bar" class="flex flex-wrap items-center justify-center gap-y-2 gap-x-0"></div>
     <!-- legend -->
-    <div class="flex flex-wrap items-center justify-center gap-4 mt-4 pt-3 border-t border-gray-100">
-      <span class="flex items-center gap-1.5 text-xs font-semibold" style="color:#37474f;">
-        <span style="width:10px;height:10px;border-radius:3px;background:#37474f;display:inline-block;"></span>Strategy
+    <div class="flex flex-wrap items-center justify-center gap-3 mt-2 pt-2 border-t border-gray-100">
+      <span class="flex items-center gap-1 text-xs font-semibold" style="color:#37474f;">
+        <span style="width:8px;height:8px;border-radius:2px;background:#37474f;display:inline-block;"></span>Strategy
       </span>
-      <span class="flex items-center gap-1.5 text-xs font-semibold" style="color:#0053e2;">
-        <span style="width:10px;height:10px;border-radius:3px;background:#0053e2;display:inline-block;"></span>Design
+      <span class="flex items-center gap-1 text-xs font-semibold" style="color:#0053e2;">
+        <span style="width:8px;height:8px;border-radius:2px;background:#0053e2;display:inline-block;"></span>Design
       </span>
-      <span class="flex items-center gap-1.5 text-xs font-semibold" style="color:#b86000;">
-        <span style="width:10px;height:10px;border-radius:3px;background:#d98c00;display:inline-block;"></span>Buying
+      <span class="flex items-center gap-1 text-xs font-semibold" style="color:#b86000;">
+        <span style="width:8px;height:8px;border-radius:2px;background:#d98c00;display:inline-block;"></span>Buying
       </span>
-      <span class="flex items-center gap-1.5 text-xs font-semibold" style="color:#1a1a6e;">
-        <span style="width:10px;height:10px;border-radius:3px;background:#3b3ba3;display:inline-block;"></span>Allocation
+      <span class="flex items-center gap-1 text-xs font-semibold" style="color:#1a1a6e;">
+        <span style="width:8px;height:8px;border-radius:2px;background:#3b3ba3;display:inline-block;"></span>Allocation
       </span>
     </div>
   </div>
 
-  <!-- EXECUTIVE STATUS BAR — subtle RYG overview strip; click any chip to drill in -->
-  <div id="exec-bar"></div>
+  <!-- EXECUTIVE STATUS BAR — replaced by Control Panel (hidden by default) -->
+  <div id="exec-bar" style="display:none;"></div>
 
   <!-- STRATEGY UMBRELLA — ties all workstreams together -->
   <div class="strategy-umbrella mb-3" aria-label="Strategy Hub — connective tissue linking all workstreams">
     <div class="su-left">
       <span class="su-icon" aria-hidden="true">&#128279;</span>
       <div>
-        <div class="su-title">Strategy Workstream &mdash; Trend To Product (TTP) <span class="su-tool">&mdash; Strategy Hub</span></div>
-        <div class="su-sub">The connective tissue of E2E fashion &mdash; live strategy signals from TTP bind Design, Buying &amp; Allocation into one integrated, seamless system</div>
+        <div class="su-title">Strategy Workstream — Trend To Product (TTP) <span class="su-tool">— Strategy Hub</span></div>
+        <div class="su-sub">Connective tissue linking Design, Buying & Allocation into one integrated system</div>
       </div>
     </div>
     <div class="su-right">
-      <div class="su-spans-label">Connective tissue &mdash; linking all workstreams &#8595;</div>
+      <div class="su-spans-label">Links all workstreams &#8595;</div>
       <div class="su-spans-chips">
         <span class="su-chip su-chip-design">&#127912; Design</span>
         <span class="su-chip su-chip-buying">&#128722; Buying</span>
@@ -203,6 +212,8 @@
 <script src="goal-modal.js"></script>
 <script src="phase-view.js"></script>
 <script src="card-links.js"></script>
+<script src="control-panel.js"></script>
+<script src="business-reviews.js"></script>
 <script>
 
 // ============================================================

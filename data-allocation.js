@@ -6,6 +6,7 @@
 const CARDS_ALLOCATION = [
   {
     id: 'unified-planning', title: 'Unified Planning Workflow', icon: '\uD83D\uDD17',
+    critical: true,
     status: 'green', statusLabel: 'Active', quarter: 'Q1', targetDate: 'Feb\u2013Apr 2026',
     description: 'Consolidates competing planning tools into a single vertically-owned workflow. Decisions recorded once in BPE, surfaced everywhere — forecast overrides propagate without re-entry.',
     businessBenefit: 'Planners work in one environment instead of reconciling multiple competing tools. Forecast changes propagate automatically across BPE, DBP, and downstream systems.',
@@ -203,9 +204,12 @@ const PILLARS = [
   },
   {
     id: 'allocation', title: 'Allocation', subtitle: 'Inventory Management & Distribution',
-    tool: 'BPE / DBP / AP Tool', toolNote: 'All depts \u2014 all segments',
+    tool: 'BPE / DBP / AP Tool', toolNote: 'All depts — all segments',
     headerClass: 'pillar-navy',
     phases: ['Wave Plan', 'Distribution', 'Exits'],
     cards: CARDS_ALLOCATION,
   },
 ];
+
+// Make PILLARS globally accessible for business reviews module
+window.PILLARS = PILLARS;

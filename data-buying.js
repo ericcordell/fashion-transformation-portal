@@ -16,6 +16,7 @@ const CARDS_BUYING = [
   },
   {
     id: 'aex-stability', title: 'AEX Stability & Quality of Life', icon: '\uD83D\uDEE1\uFE0F',
+    critical: true,
     status: 'green', statusLabel: 'Green \u2014 Q1 Improvements',
     quarter: 'Q1', targetDate: 'April 30, 2026', tag: 'Critical Program',
     description: 'Q1 stability improvements delivering measurable impact across the AEX platform. Executing platform transition with zero data loss. Activating confirmation safeguards for fineline and style deletions — preventing accidental data loss. Unifying size ordering across Size & Pack and automating online item creation and new store POs. Of 24 prioritized OPIFs: 18 Green, 5 Yellow, 1 Red. Key MTAP tickets in WIP: MTAP-9154, MTAP-7474, MTAP-7438, MTAP-6808, MTAP-9541, MTAP-9570, MTAP-9543.',
@@ -39,6 +40,7 @@ const CARDS_BUYING = [
   },
   {
     id: 'auto-item-setup', title: 'Automated Item Setup', icon: '\u2699\uFE0F',
+    critical: true,
     status: 'yellow', statusLabel: 'Yellow \u2014 Ready to Start (P1 \u26a0\ufe0f)',
     quarter: 'Q2', targetDate: 'April 30, 2026', tag: 'Critical Program',
     jiraStatus: 'Pending Sizing',

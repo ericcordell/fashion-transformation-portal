@@ -27,10 +27,10 @@
   }
 
   var STATUS_DEFS = [
-    { k: 'all',       label: 'All Status' },
-    { k: 'critical',  label: '&#128308; Critical' },
-    { k: 'ry',        label: '&#128993; Red / Yellow' },
-    { k: 'completed', label: '&#9989; Completed' },
+    { k: 'all',       label: '📋 All' },
+    { k: 'critical',  label: '⭐ Critical' },
+    { k: 'ry',        label: '🚨 R/Y' },
+    { k: 'completed', label: '✅ Done' },
   ];
 
   // ── PUBLIC: open modal ──────────────────────────────────
@@ -82,7 +82,7 @@
 
     document.getElementById('rm-filters').innerHTML = [
       '<div class="rm-filter-row">',
-        '<span class="rm-filter-row-label">Status:</span>',
+        '<span class="rm-filter-row-label">Filters:</span>',
         statusRow,
       '</div>',
       '<div class="rm-filter-row" style="margin-top:6px;">',

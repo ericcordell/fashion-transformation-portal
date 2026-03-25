@@ -82,16 +82,11 @@
   }
 
   // ── Filter pills (right side of bar) ──────────────────────────────
-  var RY_SVG = '<svg width="11" height="11" viewBox="0 0 10 10"' +
-    ' style="vertical-align:-2px;margin-right:2px;flex-shrink:0;">'+
-    '<path d="M5,0 A5,5 0 0,0 5,10 Z" fill="#ea1100"/>'+
-    '<path d="M5,0 A5,5 0 0,1 5,10 Z" fill="#ffc220"/>'+
-    '</svg>';
-
   var CARD_FILTERS = [
-    { key: 'critical',  html: '&#11088; Critical' },
-    { key: 'ry',        html: RY_SVG + 'R / Y'   },
-    { key: 'completed', html: '&#9989; Done'      },
+    { key: 'all',      label: '📋 All',      color: '#0053e2' },
+    { key: 'critical', label: '⭐ Critical', color: '#ffc220' },
+    { key: 'ry',       label: '🚨 R/Y',     color: '#ea1100' },
+    { key: 'done',     label: '✅ Done',     color: '#2a8703' },
   ];
 
   function filterSectionHTML() {
@@ -99,16 +94,20 @@
     var cf        = state ? state.cardFilters    : new Set();
     var ep        = state ? state.expandedPhases : new Set([1]);
     var phaseDefs = (typeof PHASE_DEFS !== 'undefined') ? PHASE_DEFS : [];
-    var anyFilter = cf.size > 0;
+    
+    // Determine active filter (mutually exclusive)
+    var activeFilter = 'all';
+    if (cf.has('critical')) activeFilter = 'critical';
+    else if (cf.has('ry')) activeFilter = 'ry';
+    else if (cf.has('completed')) activeFilter = 'done';
 
     var cardPills = CARD_FILTERS.map(function (f) {
-      return '<button class="es-filter-pill' + (cf.has(f.key) ? ' es-filter-active' : '') + '"' +
-        ' onclick="pmToggleCardFilter(\'' + f.key + '\')">' + f.html + '</button>';
+      var isActive = activeFilter === f.key;
+      var style = isActive ? ' style="background:' + f.color + ';color:white;border-color:' + f.color + ';"' : '';
+      return '<button class="es-filter-pill' + (isActive ? ' es-filter-active' : '') + '"' +
+        style +
+        ' onclick="selectFilter(\'' + f.key + '\')">' + f.label + '</button>';
     }).join('');
-
-    var clearBtn = anyFilter
-      ? '<button class="es-filter-clear" onclick="pmClearFilters()" title="Clear all filters">&#10005;</button>'
-      : '';
 
     var phasePills = phaseDefs.filter(function (ph) { return ph.num !== 1; }).map(function (ph) {
       var on = ep.has(ph.num);
@@ -121,10 +120,10 @@
     }).join('');
 
     return '<div class="es-filter-group">' +
-      '<span class="es-group-label">Show</span>' +
-      cardPills + clearBtn +
+      '<span class="es-group-label">Filters:</span>' +
+      cardPills +
       '<div class="es-sep">|</div>' +
-      '<span class="es-group-label">Phases</span>' +
+      '<span class="es-group-label">Phases:</span>' +
       phasePills +
       '</div>';
   }

@@ -71,7 +71,7 @@
   border-left: 1px solid #e5e7eb;
 }
 
-/* Card filter pills (Critical / R-Y / Done) */
+/* Card filter pills (All / Critical / R/Y / Done) - matches control panel */
 .es-filter-pill {
   display: inline-flex;
   align-items: center;
@@ -88,38 +88,14 @@
   transition: all 0.12s;
 }
 .es-filter-pill:hover {
-  border-color: #0053e2;
-  color: #0053e2;
-  background: #eff6ff;
+  border-color: #cbd5e1;
+  background: #f1f5f9;
 }
 .es-filter-pill.es-filter-active {
-  background: #0053e2;
-  color: white;
-  border-color: #0053e2;
+  /* Color set inline based on filter type */
   font-weight: 700;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
 }
-
-/* Clear-all button */
-.es-filter-clear {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  font-size: 0.6rem;
-  font-weight: 700;
-  color: #ef4444;
-  background: #fee2e2;
-  border: 1px solid #fca5a5;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: all 0.12s;
-}
-.es-filter-clear:hover {
-  background: #ef4444;
-  color: white;
-  border-color: #ef4444;
 }
 
 /* Phase expand/collapse pills */

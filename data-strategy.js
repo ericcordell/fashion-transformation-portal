@@ -6,6 +6,7 @@
 const CARDS_STRATEGY = [
   {
     id: 'strategy-hub', title: 'Strategy Hub (TTP)', icon: '\uD83C\uDFDB\uFE0F',
+    critical: true,
     status: 'green', statusLabel: 'Active', quarter: 'Q1', targetDate: 'Feb\u2013Apr 2026',
     description: 'Central repository for all Fashion strategy, space, and cross-workstream decisions. Design, Buying, and Allocation align to the same financial targets and category priorities via TTP.',
     businessBenefit: 'Eliminates redundant strategy sessions and conflicting priorities. Single source for seasonal targets cascaded to all workstreams.',
@@ -51,6 +52,7 @@ const CARDS_STRATEGY = [
   },
   {
     id: 'forecast-enterprise-service', title: 'Forecast as Enterprise Service', icon: '\uD83E\uDDE0',
+    critical: true,
     status: 'yellow', statusLabel: 'Yellow \u2014 Ready for Walkthrough',
     quarter: 'Q2', targetDate: 'May\u2013Oct 2026',
     description: 'National forecasting capability delivered as a shared enterprise service — providing channel-level (eComm vs. store) and placement-split forecast outputs consumed by Buying, Allocation, and Planning teams. Enables AEX to consume forecasts aligned with AP service-based forecasting architecture. Includes model explainability and automated training pipelines. OPIF-325221 Status: Discovery in Progress. Assignee: Abhishek Jannawar. Reporter: Abhishek Jannawar. Component: US Omni Tech – MerchTools – AEX Buy Quantification. Related: OPIF-325218 (BQ as a Service), OPIF-325373 (Unified Planner Experience).',

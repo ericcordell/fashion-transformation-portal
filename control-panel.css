@@ -1,0 +1,320 @@
+/* Unified Control Panel - Business Reviews + Status + Filters */
+
+/* Sticky banner area */
+#control-panel-banner {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: linear-gradient(90deg,#1b5e20,#2e7d32,#00695c);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.control-panel-wrap {
+  background: transparent;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  padding: 8px 24px;
+  margin-bottom: 0;
+  max-width: 100%;
+}
+
+.control-panel-header {
+  display: none; /* Hide the header since we're in the banner */
+}
+
+.control-panel-sections {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: nowrap;
+}
+
+/* Section 1: Business Reviews */
+.cp-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.cp-section-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 0;
+  white-space: nowrap;
+}
+
+.cp-review-select {
+  position: relative;
+}
+
+.cp-review-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(255,255,255,0.15);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.cp-review-btn:hover {
+  background: rgba(255,255,255,0.25);
+  border-color: rgba(255,255,255,0.5);
+}
+
+.cp-review-btn.active {
+  background: #ffc220;
+  color: #1f2937;
+  border-color: #ffc220;
+}
+
+.cp-review-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  min-width: 280px;
+  z-index: 1000;
+  display: none;
+}
+
+.cp-review-dropdown.show {
+  display: block;
+}
+
+.cp-review-option {
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background 0.15s;
+  border-bottom: 1px solid #f3f4f6;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cp-review-option:last-child {
+  border-bottom: none;
+}
+
+.cp-review-option:hover {
+  background: #f9fafb;
+}
+
+.cp-review-option.active {
+  background: #eff6ff;
+  color: #0053e2;
+  font-weight: 600;
+}
+
+.cp-review-option.disabled {
+  opacity: 0.6;
+  cursor: pointer; /* Allow click to show alert */
+  color: #9ca3af;
+}
+
+.cp-review-option.disabled:hover {
+  background: white;
+}
+
+.cp-review-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.cp-review-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.cp-review-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.cp-review-option.disabled .cp-review-name {
+  color: #9ca3af;
+}
+
+.cp-review-desc {
+  font-size: 11px;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+.cp-review-badge {
+  padding: 2px 8px;
+  background: #ffc220;
+  color: #1f2937;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* Section 2: Quick Status */
+.cp-status-chips {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 6px;
+}
+
+.cp-status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.cp-status-chip:hover {
+  background: rgba(255,255,255,0.25);
+  border-color: rgba(255,255,255,0.5);
+}
+
+.cp-status-chip.overall {
+  background: rgba(255,255,255,0.25);
+  border-color: rgba(255,255,255,0.5);
+}
+
+.cp-status-chip.overall:hover {
+  background: rgba(255,255,255,0.35);
+}
+
+.cp-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.cp-status-badge {
+  display: none; /* Hidden - just show the dot */
+}
+
+/* Section 3: Filters */
+.cp-filters {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}
+
+.cp-filter-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: nowrap;
+}
+
+.cp-filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.cp-filter-pill:hover {
+  background: rgba(255,255,255,0.25);
+  border-color: rgba(255,255,255,0.5);
+}
+
+.cp-filter-pill.active {
+  /* Color set inline based on filter type */
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.cp-filter-clear {
+  padding: 6px 10px;
+  background: rgba(255,100,100,0.25);
+  border: 1px solid rgba(255,100,100,0.5);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffe0e0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cp-filter-clear:hover {
+  background: rgba(255,100,100,0.35);
+  border-color: rgba(255,100,100,0.7);
+}
+
+.cp-phase-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid var(--phc, rgba(255,255,255,0.3));
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.cp-phase-pill:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+.cp-phase-pill.active {
+  background: var(--phc, #ffc220);
+  color: white;
+  border-color: var(--phc, #ffc220);
+}
+
+.cp-sep {
+  width: 1px;
+  height: 20px;
+  background: rgba(255,255,255,0.3);
+  flex-shrink: 0;
+  margin: 0 4px;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .control-panel-sections {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .cp-sep {
+    display: none;
+  }
+}

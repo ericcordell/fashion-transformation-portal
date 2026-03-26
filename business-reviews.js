@@ -387,8 +387,10 @@ function getCardUpdate(card) {
   }
   
   // Check if card has any OPIF mapped
-  const hasOpif = card.resources?.some(r => 
-    r.url && r.url.includes('jira.walmart.com/browse/OPIF-')
+  // resources is an object: { opif, brd, prd, uxDemo, other }
+  const hasOpif = card.resources && (
+    (card.resources.opif && card.resources.opif !== '#') ||
+    (card.resources.other && card.resources.other.some(r => r.url && r.url.includes('OPIF-')))
   );
   
   if (!hasOpif) {

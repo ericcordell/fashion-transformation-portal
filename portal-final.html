@@ -5447,7 +5447,7 @@ if(allocationCards.length>0){html+=renderWPRSection('Allocation Workstream',allo
 contentDiv.innerHTML=html;}
 function getCardUpdate(card){if(window.OPIF_UPDATES&&window.OPIF_UPDATES[card.id]){return window.OPIF_UPDATES[card.id].summary;}
 if(card.recentUpdate){return card.recentUpdate;}
-const hasOpif=card.resources?.some(r=>r.url&&r.url.includes('jira.walmart.com/browse/OPIF-'));if(!hasOpif){return'<span style="color:#9ca3af;font-size:12px;font-style:italic;">No OPIF mapped</span>';}
+const hasOpif=card.resources&&((card.resources.opif&&card.resources.opif!=='#')||(card.resources.other&&card.resources.other.some(r=>r.url&&r.url.includes('OPIF-'))));if(!hasOpif){return'<span style="color:#9ca3af;font-size:12px;font-style:italic;">No OPIF mapped</span>';}
 return'<span style="color:#9ca3af;font-size:12px;font-style:italic;">Updates pending...</span>';}
 function renderWPRSection(title,cards,icon){if(cards.length===0){return`
       <div class="wpr-section"><div class="wpr-section-header"><div class="wpr-section-title"><span class="wpr-section-icon">${icon}</span>

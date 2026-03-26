@@ -492,6 +492,7 @@ font-size:0.8rem; margin-bottom:12px; line-height:1.5;
   border: none;
   color: white;
   font-size: 28px;
+  line-height: 1;
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -500,6 +501,8 @@ font-size:0.8rem; margin-bottom:12px; line-height:1.5;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
+  margin: 0;
 }
 
 .guide-close:hover {
@@ -1340,6 +1343,7 @@ padding-top:12px; border-top:1px solid #f1f5f9;
   border: none;
   color: white;
   font-size: 28px;
+  line-height: 1;
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -1348,6 +1352,8 @@ padding-top:12px; border-top:1px solid #f1f5f9;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
+  margin: 0;
 }
 
 .guide-close:hover {
@@ -2281,6 +2287,7 @@ details > summary::-webkit-details-marker { display: none; }
   border: none;
   color: white;
   font-size: 28px;
+  line-height: 1;
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -2289,6 +2296,8 @@ details > summary::-webkit-details-marker { display: none; }
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
+  margin: 0;
 }
 
 .guide-close:hover {
@@ -3563,6 +3572,7 @@ line-height: 1.6;
   border: none;
   color: white;
   font-size: 28px;
+  line-height: 1;
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -3571,6 +3581,8 @@ line-height: 1.6;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
+  margin: 0;
 }
 
 .guide-close:hover {
@@ -4551,6 +4563,7 @@ display: none;
   border: none;
   color: white;
   font-size: 28px;
+  line-height: 1;
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -4559,6 +4572,8 @@ display: none;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
+  margin: 0;
 }
 
 .guide-close:hover {
@@ -5683,39 +5698,30 @@ document.getElementById('modal-overlay').addEventListener('click',e=>{if(e.targe
         
         <!-- Status Logic Section -->
         <div id="section-status-logic" class="guide-section">
-          <h3>🚦 Status Logic Explained</h3>
-          <p>The status displayed on each portal card combines <strong>two OPIF fields</strong>:</p>
+          <h3>🚦 Status Logic</h3>
+          <p style="margin-bottom: 16px;">Portal status combines two OPIF fields:</p>
           
-          <table class="field-mapping-table" style="margin-top: 20px;">
-            <thead>
-              <tr>
-                <th>Field</th>
-                <th>Location</th>
-                <th>Options</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>Status Color</strong></td>
-                <td>OPIF sidebar</td>
-                <td>🟢 Green | 🟡 Yellow | 🔴 Red</td>
-              </tr>
-              <tr>
-                <td><strong>Ready to Start Field</strong></td>
-                <td>OPIF top header</td>
-                <td>Ready to Start | In Progress | Blocked | Cannot Commit | Backlog</td>
-              </tr>
-            </tbody>
-          </table>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;">
+            <div style="background: #f8f9fa; padding: 16px; border-radius: 8px; border-left: 3px solid #0053e2;">
+              <h4 style="margin: 0 0 8px 0; font-size: 14px; color: #0053e2; font-weight: 700;">Status Color</h4>
+              <p style="margin: 0; font-size: 13px; color: #666;">Location: OPIF sidebar</p>
+              <p style="margin: 8px 0 0 0; font-size: 13px;">🟢 Green | 🟡 Yellow | 🔴 Red</p>
+            </div>
+            <div style="background: #f8f9fa; padding: 16px; border-radius: 8px; border-left: 3px solid #0053e2;">
+              <h4 style="margin: 0 0 8px 0; font-size: 14px; color: #0053e2; font-weight: 700;">Ready to Start Field</h4>
+              <p style="margin: 0; font-size: 13px; color: #666;">Location: OPIF header</p>
+              <p style="margin: 8px 0 0 0; font-size: 13px;">Ready to Start | In Progress | Blocked | etc.</p>
+            </div>
+          </div>
           
-          <div class="result-box" style="margin-top: 24px;">
-            <h4>Combined Status Examples</h4>
-            <ul class="status-examples">
-              <li><span class="status-badge yellow">Yellow — Ready to Start</span></li>
-              <li><span class="status-badge green">Green — In Progress</span></li>
-              <li><span class="status-badge red">Red — Blocked</span></li>
-              <li><span class="status-badge roadmap">Roadmap — Backlog</span></li>
-            </ul>
+          <div style="background: #e8f5e9; padding: 16px; border-radius: 8px; border-left: 3px solid #2a8703;">
+            <h4 style="margin: 0 0 12px 0; font-size: 14px; color: #2a8703; font-weight: 700;">Examples:</h4>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <span class="status-badge yellow">Yellow — Ready to Start</span>
+              <span class="status-badge green">Green — In Progress</span>
+              <span class="status-badge red">Red — Blocked</span>
+              <span class="status-badge roadmap">Roadmap — Backlog</span>
+            </div>
           </div>
         </div>
         
@@ -5907,49 +5913,30 @@ document.getElementById('modal-overlay').addEventListener('click',e=>{if(e.targe
         <!-- Contact Section -->
         <div id="section-contact" class="guide-section">
           <h3>📞 Need Help?</h3>
-          <p><strong>Primary Contact: TPM Team by Workstream</strong></p>
+          <p style="margin-bottom: 20px;">Contact your TPM by workstream:</p>
           
-          <div class="contact-methods" style="margin-top: 20px;">
-            <div class="contact-card">
-              <div class="contact-icon" style="color: #667eea;">📊</div>
-              <h4>Strategy & Design</h4>
-              <p><strong>Lori Jordal</strong></p>
-              <a href="mailto:lori.jordal@walmart.com">lori.jordal@walmart.com</a>
+          <div style="display: grid; gap: 16px; margin-bottom: 24px;">
+            <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-left: 4px solid #667eea;">
+              <h4 style="margin: 0 0 12px 0; color: #667eea; font-size: 16px;">📊 Strategy & Design</h4>
+              <p style="margin: 0; font-size: 15px;"><a href="mailto:lori.jordal@walmart.com" style="color: #0053e2; text-decoration: none; font-weight: 600;">Lori Jordal</a></p>
             </div>
             
-            <div class="contact-card">
-              <div class="contact-icon" style="color: #f5576c;">🛒</div>
-              <h4>Buying & Allocation</h4>
-              <p><strong>Prashant Chalikandi</strong></p>
-              <a href="mailto:prashanth.chalikandi@walmart.com">prashanth.chalikandi@walmart.com</a>
-              <p style="margin-top: 12px;"><strong>Gaurav Chauhan</strong></p>
-              <a href="mailto:gaurav.chauhan@walmart.com">gaurav.chauhan@walmart.com</a>
+            <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-left: 4px solid #f5576c;">
+              <h4 style="margin: 0 0 12px 0; color: #f5576c; font-size: 16px;">🛒 Buying & Allocation</h4>
+              <p style="margin: 0 0 8px 0; font-size: 15px;"><a href="mailto:prashanth.chalikandi@walmart.com" style="color: #0053e2; text-decoration: none; font-weight: 600;">Prashant Chalikandi</a></p>
+              <p style="margin: 0; font-size: 15px;"><a href="mailto:gaurav.chauhan@walmart.com" style="color: #0053e2; text-decoration: none; font-weight: 600;">Gaurav Chauhan</a></p>
             </div>
             
-            <div class="contact-card">
-              <div class="contact-icon" style="color: #2a8703;">⭐</div>
-              <h4>E2E Fashion Support</h4>
-              <p style="font-size: 13px; color: #666;">(Any & All Workstreams)</p>
-              <p><strong>Chris Graves</strong></p>
-              <a href="mailto:christopher.graves0@walmart.com">christopher.graves0@walmart.com</a>
+            <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-left: 4px solid #2a8703;">
+              <h4 style="margin: 0 0 4px 0; color: #2a8703; font-size: 16px;">⭐ E2E Fashion Support</h4>
+              <p style="margin: 0 0 12px 0; font-size: 13px; color: #666; font-style: italic;">Any & All Workstreams</p>
+              <p style="margin: 0; font-size: 15px;"><a href="mailto:christopher.graves0@walmart.com" style="color: #0053e2; text-decoration: none; font-weight: 600;">Chris Graves</a></p>
             </div>
           </div>
           
-          <h4 style="margin-top: 32px; color: #0053e2;">Additional Resources</h4>
-          <div class="contact-methods">
-            <div class="contact-card">
-              <div class="contact-icon">💬</div>
-              <h4>Slack</h4>
-              <p>Join the discussion:</p>
-              <code>#e2e-fashion-portal</code>
-            </div>
-            
-            <div class="contact-card">
-              <div class="contact-icon">📖</div>
-              <h4>Confluence</h4>
-              <p>Full documentation:</p>
-              <a href="https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard" target="_blank">LLTT Dashboard</a>
-            </div>
+          <div style="background: #f8f9fa; padding: 16px; border-radius: 8px; border: 1px solid #e0e0e0;">
+            <h4 style="margin: 0 0 8px 0; color: #0053e2; font-size: 14px;">📖 Documentation</h4>
+            <p style="margin: 0; font-size: 14px;"><a href="https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard" target="_blank" style="color: #0053e2; text-decoration: none;">LLTT Dashboard on Confluence →</a></p>
           </div>
         </div>
       </div>

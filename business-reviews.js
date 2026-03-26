@@ -1,5 +1,24 @@
 // Business Reviews Module
 // Provides 5 different weekly review views for E2E Fashion Portal
+//
+// ========================================
+// CRITICAL RULES FOR WPR (Weekly Program Review):
+// ========================================
+// 1. "Critical Programs" = cards where (tag || '').indexOf('Critical') > -1
+//    Example: tag: 'Critical Program'
+//    - This MUST match the main portal roadmap filter logic
+//    - DO NOT use card.critical flag - use tag check only
+//
+// 2. Time Range = Programs landing in NEXT 90 DAYS (targetDate <= 90 days from today)
+//    - Do NOT include long-term initiatives (e.g., Q1'27 programs)
+//    - Filter: daysUntilTarget(card.targetDate) >= 0 && <= 90
+//
+// 3. WPR displays: (Critical Programs) OR (Next 90 Days) - union of both sets
+//
+// 4. When updating data files (data-*.js):
+//    - ONLY set critical: true if card also has tag: 'Critical Program'
+//    - Otherwise REMOVE the critical: true flag to avoid mismatch
+// ========================================
 
 const BUSINESS_REVIEWS = {
   wpr: {
@@ -88,9 +107,10 @@ function getReviewCards(reviewType) {
   
   switch(reviewType) {
     case 'wpr':
-      // WPR: Critical Programs + All programs landing in next 90 days
+      // WPR: Critical Programs (tag contains 'Critical') + All programs landing in next 90 days
+      // MUST match main portal roadmap logic: tag.indexOf('Critical') > -1
       return allCards.filter(card => {
-        const isCritical = card.critical === true;
+        const isCritical = (card.tag || '').indexOf('Critical') > -1;
         const days = daysUntilTarget(card.targetDate);
         const isNext90Days = days >= 0 && days <= 90;
         return isCritical || isNext90Days;
@@ -296,11 +316,14 @@ function renderReviewContent(reviewType) {
     }
   } else if (reviewType === 'wpr') {
     // WPR: Table-based layout organized by sections
-    const criticalCards = cards.filter(c => c.critical === true);
-    const strategyCards = cards.filter(c => !c.critical && c.workstreams?.includes('strategy'));
-    const designCards = cards.filter(c => !c.critical && c.workstreams?.includes('design'));
-    const buyingCards = cards.filter(c => !c.critical && c.workstreams?.includes('buying'));
-    const allocationCards = cards.filter(c => !c.critical && c.workstreams?.includes('allocation'));
+    // Critical = tag contains 'Critical' (matches main portal roadmap logic)
+    const isCriticalCard = c => (c.tag || '').indexOf('Critical') > -1;
+    
+    const criticalCards = cards.filter(isCriticalCard);
+    const strategyCards = cards.filter(c => !isCriticalCard(c) && c.workstreams?.includes('strategy'));
+    const designCards = cards.filter(c => !isCriticalCard(c) && c.workstreams?.includes('design'));
+    const buyingCards = cards.filter(c => !isCriticalCard(c) && c.workstreams?.includes('buying'));
+    const allocationCards = cards.filter(c => !isCriticalCard(c) && c.workstreams?.includes('allocation'));
     
     // Critical Programs Section
     if (criticalCards.length > 0) {
@@ -424,7 +447,7 @@ function renderReviewCard(card) {
           <div class="review-card-title">
             <span class="review-card-icon">${card.icon || '📌'}</span>
             ${card.title}
-            ${card.critical ? '<span class="review-critical-badge">⭐ Critical</span>' : ''}
+            ${((card.tag || '').indexOf('Critical') > -1) ? '<span class="review-critical-badge">⭐ Critical</span>' : ''}
           </div>
           <div class="review-card-meta">
             <span class="review-card-status ${card.status}">${card.statusLabel || card.status}</span>

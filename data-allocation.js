@@ -6,7 +6,6 @@
 const CARDS_ALLOCATION = [
   {
     id: 'unified-planning', title: 'Unified Planning Workflow', icon: '\uD83D\uDD17',
-    critical: true,
     status: 'green', statusLabel: 'Active', quarter: 'Q1', targetDate: 'Feb\u2013Apr 2026',
     description: 'Consolidates competing planning tools into a single vertically-owned workflow. Decisions recorded once in BPE, surfaced everywhere — forecast overrides propagate without re-entry.',
     businessBenefit: 'Planners work in one environment instead of reconciling multiple competing tools. Forecast changes propagate automatically across BPE, DBP, and downstream systems.',

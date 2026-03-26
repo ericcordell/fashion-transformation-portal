@@ -388,7 +388,731 @@ padding-top:12px; border-top:1px solid #f1f5f9;
 .rm-phase-banner {
 padding:8px 14px; border-radius:10px; border:1.5px solid;
 font-size:0.8rem; margin-bottom:12px; line-height:1.5;
-}</style>
+}
+
+/* ========== OPIF Field Mapping Guide Styles ========== */
+/* opif-guide-styles.css */
+/* Styles for the OPIF Field Mapping Guide */
+
+.guide-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: linear-gradient(135deg, #0053e2 0%, #0041b0 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 16px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 83, 226, 0.3);
+  transition: all 0.3s ease;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.guide-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 83, 226, 0.4);
+  background: linear-gradient(135deg, #0041b0 0%, #003080 100%);
+}
+
+.guide-button-icon {
+  font-size: 20px;
+}
+
+.guide-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.guide-modal-overlay.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.guide-modal {
+  background: white;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 1200px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.guide-header {
+  background: linear-gradient(135deg, #0053e2 0%, #0041b0 100%);
+  color: white;
+  padding: 30px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.guide-header h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.guide-header p {
+  margin: 8px 0 0 0;
+  opacity: 0.9;
+  font-size: 16px;
+}
+
+.guide-close {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 28px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.guide-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+.guide-body {
+  display: flex;
+  height: calc(90vh - 120px);
+  overflow: hidden;
+}
+
+.guide-sidebar {
+  width: 280px;
+  background: #f8f9fa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  padding: 20px 0;
+}
+
+.guide-nav-item {
+  padding: 14px 24px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-left: 3px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: #333;
+}
+
+.guide-nav-item:hover {
+  background: #e8f0fe;
+  border-left-color: #0053e2;
+}
+
+.guide-nav-item.active {
+  background: #e8f0fe;
+  border-left-color: #0053e2;
+  color: #0053e2;
+  font-weight: 600;
+}
+
+.guide-nav-icon {
+  font-size: 20px;
+}
+
+.guide-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 40px;
+}
+
+.guide-section {
+  display: none;
+}
+
+.guide-section.active {
+  display: block;
+  animation: fadeInContent 0.3s ease;
+}
+
+@keyframes fadeInContent {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.guide-section h3 {
+  font-size: 24px;
+  color: #0053e2;
+  margin: 0 0 20px 0;
+}
+
+/* Requirement Box */
+.requirement-box {
+  background: #fff3cd;
+  border-left: 4px solid #ffc220;
+  padding: 24px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.requirement-box h3 {
+  margin: 0 0 12px 0;
+  color: #995213;
+  font-size: 20px;
+}
+
+.highlight-text {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.highlight-text code {
+  background: #995213;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+}
+
+.how-to-add {
+  margin-top: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+.how-to-add h4 {
+  margin: 0 0 12px 0;
+  color: #333;
+}
+
+.how-to-add ol {
+  margin: 0;
+  padding-left: 24px;
+}
+
+.how-to-add li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+/* Mapping Table */
+.field-mapping-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.field-mapping-table thead {
+  background: linear-gradient(135deg, #0053e2 0%, #0041b0 100%);
+  color: white;
+}
+
+.field-mapping-table th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.field-mapping-table td {
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.field-mapping-table tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.field-mapping-table code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+}
+
+/* Status Explanation */
+.status-explanation h3 {
+  margin-bottom: 16px;
+}
+
+.field-combo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.field-box {
+  flex: 1;
+  min-width: 250px;
+  background: #f8f9fa;
+  padding: 24px;
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+}
+
+.field-box h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.field-box ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.field-box li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.field-location {
+  background: #fff3cd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 12px;
+  border-left: 3px solid #ffc220;
+}
+
+.plus-sign {
+  font-size: 32px;
+  color: #0053e2;
+  font-weight: 700;
+}
+
+.result-box {
+  background: #e8f5e9;
+  padding: 24px;
+  border-radius: 8px;
+  border: 2px solid #2a8703;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.result-box h4 {
+  margin: 0 0 16px 0;
+  color: #2a8703;
+  font-size: 18px;
+}
+
+.status-examples {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.status-examples li {
+  margin: 12px 0;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.status-badge.green {
+  background: #2a8703;
+  color: white;
+}
+
+.status-badge.yellow {
+  background: #ffc220;
+  color: #995213;
+}
+
+.status-badge.red {
+  background: #ea1100;
+  color: white;
+}
+
+.status-badge.roadmap {
+  background: #666;
+  color: white;
+}
+
+/* Workstream Mapping */
+.workstream-mapping {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 24px 0;
+}
+
+.workstream-item {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.workstream-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.workstream-header {
+  padding: 16px;
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+}
+
+.workstream-header.strategy {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.workstream-header.design {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.workstream-header.buying {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.workstream-header.allocation {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.workstream-item p {
+  padding: 16px;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #666;
+}
+
+.note-box {
+  background: #e8f0fe;
+  border-left: 4px solid #0053e2;
+  padding: 16px;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+
+/* Example Card */
+.example-split {
+  display: flex;
+  align-items: stretch;
+  gap: 30px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.opif-side,
+.portal-side {
+  flex: 1;
+  min-width: 300px;
+}
+
+.opif-side h4,
+.portal-side h4 {
+  margin: 0 0 16px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.example-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.example-table tr {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.example-table tr:last-child {
+  border-bottom: none;
+}
+
+.example-table td {
+  padding: 12px 16px;
+}
+
+.example-table td:first-child {
+  font-weight: 600;
+  color: #666;
+  width: 40%;
+  background: #f8f9fa;
+}
+
+.example-table code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+.arrow {
+  font-size: 48px;
+  color: #0053e2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portal-card-preview {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e0e0e0;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.opif-badge {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.card-title {
+  font-size: 20px;
+  color: #333;
+  margin: 0 0 20px 0;
+}
+
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.meta-item {
+  display: flex;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.meta-label {
+  color: #666;
+  font-weight: 600;
+}
+
+.meta-value {
+  color: #333;
+}
+
+/* FAQ Items */
+.faq-item {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #0053e2;
+}
+
+.faq-item h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.faq-item p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+.faq-item ul,
+.faq-item ol {
+  margin: 12px 0;
+  padding-left: 24px;
+}
+
+.faq-item li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.faq-item code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+/* Sync Schedule */
+.schedule-box {
+  margin: 20px 0;
+}
+
+.schedule-item {
+  display: flex;
+  gap: 20px;
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 2px solid #e0e0e0;
+}
+
+.schedule-icon {
+  font-size: 48px;
+  color: #0053e2;
+}
+
+.schedule-details h4 {
+  margin: 0 0 8px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.schedule-details p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+.time-detail {
+  background: #fff3cd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #995213;
+}
+
+.flow-chain {
+  font-family: 'Courier New', monospace;
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #0053e2;
+}
+
+.note-text {
+  font-size: 14px;
+  color: #666;
+  font-style: italic;
+}
+
+/* Contact Info */
+.contact-methods {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.contact-card {
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.contact-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.contact-card h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.contact-card p {
+  margin: 0 0 8px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.contact-card code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.contact-card a {
+  color: #0053e2;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.contact-card a:hover {
+  text-decoration: underline;
+}
+
+/* ====================================================== */
+</style>
 <style>.pm-goal-chip-btn {
 cursor:pointer;
 transition:transform 0.12s, box-shadow 0.12s, background 0.12s;
@@ -517,7 +1241,731 @@ background:#f1f5f9; border:1px solid #e2e8f0; color:#475569;
 font-size:0.68rem; color:#94a3b8; margin:0;
 padding-top:12px; border-top:1px solid #f1f5f9;
 }
-.gm-source a { color:#0053e2; text-decoration:underline; }</style>
+.gm-source a { color:#0053e2; text-decoration:underline; }
+
+/* ========== OPIF Field Mapping Guide Styles ========== */
+/* opif-guide-styles.css */
+/* Styles for the OPIF Field Mapping Guide */
+
+.guide-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: linear-gradient(135deg, #0053e2 0%, #0041b0 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 16px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 83, 226, 0.3);
+  transition: all 0.3s ease;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.guide-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 83, 226, 0.4);
+  background: linear-gradient(135deg, #0041b0 0%, #003080 100%);
+}
+
+.guide-button-icon {
+  font-size: 20px;
+}
+
+.guide-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.guide-modal-overlay.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.guide-modal {
+  background: white;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 1200px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.guide-header {
+  background: linear-gradient(135deg, #0053e2 0%, #0041b0 100%);
+  color: white;
+  padding: 30px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.guide-header h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.guide-header p {
+  margin: 8px 0 0 0;
+  opacity: 0.9;
+  font-size: 16px;
+}
+
+.guide-close {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 28px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.guide-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+.guide-body {
+  display: flex;
+  height: calc(90vh - 120px);
+  overflow: hidden;
+}
+
+.guide-sidebar {
+  width: 280px;
+  background: #f8f9fa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  padding: 20px 0;
+}
+
+.guide-nav-item {
+  padding: 14px 24px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-left: 3px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: #333;
+}
+
+.guide-nav-item:hover {
+  background: #e8f0fe;
+  border-left-color: #0053e2;
+}
+
+.guide-nav-item.active {
+  background: #e8f0fe;
+  border-left-color: #0053e2;
+  color: #0053e2;
+  font-weight: 600;
+}
+
+.guide-nav-icon {
+  font-size: 20px;
+}
+
+.guide-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 40px;
+}
+
+.guide-section {
+  display: none;
+}
+
+.guide-section.active {
+  display: block;
+  animation: fadeInContent 0.3s ease;
+}
+
+@keyframes fadeInContent {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.guide-section h3 {
+  font-size: 24px;
+  color: #0053e2;
+  margin: 0 0 20px 0;
+}
+
+/* Requirement Box */
+.requirement-box {
+  background: #fff3cd;
+  border-left: 4px solid #ffc220;
+  padding: 24px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.requirement-box h3 {
+  margin: 0 0 12px 0;
+  color: #995213;
+  font-size: 20px;
+}
+
+.highlight-text {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.highlight-text code {
+  background: #995213;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+}
+
+.how-to-add {
+  margin-top: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+.how-to-add h4 {
+  margin: 0 0 12px 0;
+  color: #333;
+}
+
+.how-to-add ol {
+  margin: 0;
+  padding-left: 24px;
+}
+
+.how-to-add li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+/* Mapping Table */
+.field-mapping-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.field-mapping-table thead {
+  background: linear-gradient(135deg, #0053e2 0%, #0041b0 100%);
+  color: white;
+}
+
+.field-mapping-table th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.field-mapping-table td {
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.field-mapping-table tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.field-mapping-table code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+}
+
+/* Status Explanation */
+.status-explanation h3 {
+  margin-bottom: 16px;
+}
+
+.field-combo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.field-box {
+  flex: 1;
+  min-width: 250px;
+  background: #f8f9fa;
+  padding: 24px;
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+}
+
+.field-box h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.field-box ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.field-box li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.field-location {
+  background: #fff3cd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 12px;
+  border-left: 3px solid #ffc220;
+}
+
+.plus-sign {
+  font-size: 32px;
+  color: #0053e2;
+  font-weight: 700;
+}
+
+.result-box {
+  background: #e8f5e9;
+  padding: 24px;
+  border-radius: 8px;
+  border: 2px solid #2a8703;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.result-box h4 {
+  margin: 0 0 16px 0;
+  color: #2a8703;
+  font-size: 18px;
+}
+
+.status-examples {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.status-examples li {
+  margin: 12px 0;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.status-badge.green {
+  background: #2a8703;
+  color: white;
+}
+
+.status-badge.yellow {
+  background: #ffc220;
+  color: #995213;
+}
+
+.status-badge.red {
+  background: #ea1100;
+  color: white;
+}
+
+.status-badge.roadmap {
+  background: #666;
+  color: white;
+}
+
+/* Workstream Mapping */
+.workstream-mapping {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 24px 0;
+}
+
+.workstream-item {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.workstream-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.workstream-header {
+  padding: 16px;
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+}
+
+.workstream-header.strategy {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.workstream-header.design {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.workstream-header.buying {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.workstream-header.allocation {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.workstream-item p {
+  padding: 16px;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #666;
+}
+
+.note-box {
+  background: #e8f0fe;
+  border-left: 4px solid #0053e2;
+  padding: 16px;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+
+/* Example Card */
+.example-split {
+  display: flex;
+  align-items: stretch;
+  gap: 30px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.opif-side,
+.portal-side {
+  flex: 1;
+  min-width: 300px;
+}
+
+.opif-side h4,
+.portal-side h4 {
+  margin: 0 0 16px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.example-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.example-table tr {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.example-table tr:last-child {
+  border-bottom: none;
+}
+
+.example-table td {
+  padding: 12px 16px;
+}
+
+.example-table td:first-child {
+  font-weight: 600;
+  color: #666;
+  width: 40%;
+  background: #f8f9fa;
+}
+
+.example-table code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+.arrow {
+  font-size: 48px;
+  color: #0053e2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portal-card-preview {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e0e0e0;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.opif-badge {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.card-title {
+  font-size: 20px;
+  color: #333;
+  margin: 0 0 20px 0;
+}
+
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.meta-item {
+  display: flex;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.meta-label {
+  color: #666;
+  font-weight: 600;
+}
+
+.meta-value {
+  color: #333;
+}
+
+/* FAQ Items */
+.faq-item {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #0053e2;
+}
+
+.faq-item h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.faq-item p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+.faq-item ul,
+.faq-item ol {
+  margin: 12px 0;
+  padding-left: 24px;
+}
+
+.faq-item li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.faq-item code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+/* Sync Schedule */
+.schedule-box {
+  margin: 20px 0;
+}
+
+.schedule-item {
+  display: flex;
+  gap: 20px;
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 2px solid #e0e0e0;
+}
+
+.schedule-icon {
+  font-size: 48px;
+  color: #0053e2;
+}
+
+.schedule-details h4 {
+  margin: 0 0 8px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.schedule-details p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+.time-detail {
+  background: #fff3cd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #995213;
+}
+
+.flow-chain {
+  font-family: 'Courier New', monospace;
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #0053e2;
+}
+
+.note-text {
+  font-size: 14px;
+  color: #666;
+  font-style: italic;
+}
+
+/* Contact Info */
+.contact-methods {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.contact-card {
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.contact-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.contact-card h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.contact-card p {
+  margin: 0 0 8px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.contact-card code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.contact-card a {
+  color: #0053e2;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.contact-card a:hover {
+  text-decoration: underline;
+}
+
+/* ====================================================== */
+</style>
 <style>#exec-bar {
 margin-bottom: 12px;
 }
@@ -739,7 +2187,731 @@ flex: 1;
 min-width: 0;
 }
 details > summary { list-style: none; }
-details > summary::-webkit-details-marker { display: none; }</style>
+details > summary::-webkit-details-marker { display: none; }
+
+/* ========== OPIF Field Mapping Guide Styles ========== */
+/* opif-guide-styles.css */
+/* Styles for the OPIF Field Mapping Guide */
+
+.guide-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: linear-gradient(135deg, #0053e2 0%, #0041b0 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 16px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 83, 226, 0.3);
+  transition: all 0.3s ease;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.guide-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 83, 226, 0.4);
+  background: linear-gradient(135deg, #0041b0 0%, #003080 100%);
+}
+
+.guide-button-icon {
+  font-size: 20px;
+}
+
+.guide-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.guide-modal-overlay.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.guide-modal {
+  background: white;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 1200px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.guide-header {
+  background: linear-gradient(135deg, #0053e2 0%, #0041b0 100%);
+  color: white;
+  padding: 30px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.guide-header h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.guide-header p {
+  margin: 8px 0 0 0;
+  opacity: 0.9;
+  font-size: 16px;
+}
+
+.guide-close {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 28px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.guide-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+.guide-body {
+  display: flex;
+  height: calc(90vh - 120px);
+  overflow: hidden;
+}
+
+.guide-sidebar {
+  width: 280px;
+  background: #f8f9fa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  padding: 20px 0;
+}
+
+.guide-nav-item {
+  padding: 14px 24px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-left: 3px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: #333;
+}
+
+.guide-nav-item:hover {
+  background: #e8f0fe;
+  border-left-color: #0053e2;
+}
+
+.guide-nav-item.active {
+  background: #e8f0fe;
+  border-left-color: #0053e2;
+  color: #0053e2;
+  font-weight: 600;
+}
+
+.guide-nav-icon {
+  font-size: 20px;
+}
+
+.guide-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 40px;
+}
+
+.guide-section {
+  display: none;
+}
+
+.guide-section.active {
+  display: block;
+  animation: fadeInContent 0.3s ease;
+}
+
+@keyframes fadeInContent {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.guide-section h3 {
+  font-size: 24px;
+  color: #0053e2;
+  margin: 0 0 20px 0;
+}
+
+/* Requirement Box */
+.requirement-box {
+  background: #fff3cd;
+  border-left: 4px solid #ffc220;
+  padding: 24px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.requirement-box h3 {
+  margin: 0 0 12px 0;
+  color: #995213;
+  font-size: 20px;
+}
+
+.highlight-text {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.highlight-text code {
+  background: #995213;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+}
+
+.how-to-add {
+  margin-top: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+.how-to-add h4 {
+  margin: 0 0 12px 0;
+  color: #333;
+}
+
+.how-to-add ol {
+  margin: 0;
+  padding-left: 24px;
+}
+
+.how-to-add li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+/* Mapping Table */
+.field-mapping-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.field-mapping-table thead {
+  background: linear-gradient(135deg, #0053e2 0%, #0041b0 100%);
+  color: white;
+}
+
+.field-mapping-table th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.field-mapping-table td {
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.field-mapping-table tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.field-mapping-table code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+}
+
+/* Status Explanation */
+.status-explanation h3 {
+  margin-bottom: 16px;
+}
+
+.field-combo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.field-box {
+  flex: 1;
+  min-width: 250px;
+  background: #f8f9fa;
+  padding: 24px;
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+}
+
+.field-box h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.field-box ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.field-box li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.field-location {
+  background: #fff3cd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 12px;
+  border-left: 3px solid #ffc220;
+}
+
+.plus-sign {
+  font-size: 32px;
+  color: #0053e2;
+  font-weight: 700;
+}
+
+.result-box {
+  background: #e8f5e9;
+  padding: 24px;
+  border-radius: 8px;
+  border: 2px solid #2a8703;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.result-box h4 {
+  margin: 0 0 16px 0;
+  color: #2a8703;
+  font-size: 18px;
+}
+
+.status-examples {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.status-examples li {
+  margin: 12px 0;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.status-badge.green {
+  background: #2a8703;
+  color: white;
+}
+
+.status-badge.yellow {
+  background: #ffc220;
+  color: #995213;
+}
+
+.status-badge.red {
+  background: #ea1100;
+  color: white;
+}
+
+.status-badge.roadmap {
+  background: #666;
+  color: white;
+}
+
+/* Workstream Mapping */
+.workstream-mapping {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 24px 0;
+}
+
+.workstream-item {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.workstream-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.workstream-header {
+  padding: 16px;
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+}
+
+.workstream-header.strategy {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.workstream-header.design {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.workstream-header.buying {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.workstream-header.allocation {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.workstream-item p {
+  padding: 16px;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #666;
+}
+
+.note-box {
+  background: #e8f0fe;
+  border-left: 4px solid #0053e2;
+  padding: 16px;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+
+/* Example Card */
+.example-split {
+  display: flex;
+  align-items: stretch;
+  gap: 30px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.opif-side,
+.portal-side {
+  flex: 1;
+  min-width: 300px;
+}
+
+.opif-side h4,
+.portal-side h4 {
+  margin: 0 0 16px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.example-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.example-table tr {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.example-table tr:last-child {
+  border-bottom: none;
+}
+
+.example-table td {
+  padding: 12px 16px;
+}
+
+.example-table td:first-child {
+  font-weight: 600;
+  color: #666;
+  width: 40%;
+  background: #f8f9fa;
+}
+
+.example-table code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+.arrow {
+  font-size: 48px;
+  color: #0053e2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portal-card-preview {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e0e0e0;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.opif-badge {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.card-title {
+  font-size: 20px;
+  color: #333;
+  margin: 0 0 20px 0;
+}
+
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.meta-item {
+  display: flex;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.meta-label {
+  color: #666;
+  font-weight: 600;
+}
+
+.meta-value {
+  color: #333;
+}
+
+/* FAQ Items */
+.faq-item {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #0053e2;
+}
+
+.faq-item h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.faq-item p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+.faq-item ul,
+.faq-item ol {
+  margin: 12px 0;
+  padding-left: 24px;
+}
+
+.faq-item li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.faq-item code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+/* Sync Schedule */
+.schedule-box {
+  margin: 20px 0;
+}
+
+.schedule-item {
+  display: flex;
+  gap: 20px;
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 2px solid #e0e0e0;
+}
+
+.schedule-icon {
+  font-size: 48px;
+  color: #0053e2;
+}
+
+.schedule-details h4 {
+  margin: 0 0 8px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.schedule-details p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+.time-detail {
+  background: #fff3cd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #995213;
+}
+
+.flow-chain {
+  font-family: 'Courier New', monospace;
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #0053e2;
+}
+
+.note-text {
+  font-size: 14px;
+  color: #666;
+  font-style: italic;
+}
+
+/* Contact Info */
+.contact-methods {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.contact-card {
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.contact-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.contact-card h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.contact-card p {
+  margin: 0 0 8px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.contact-card code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.contact-card a {
+  color: #0053e2;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.contact-card a:hover {
+  text-decoration: underline;
+}
+
+/* ====================================================== */
+</style>
 <style>.review-back-bar {
 margin-bottom: 20px;
 }
@@ -1302,7 +3474,731 @@ margin-bottom: 8px;
 font-size: 14px;
 color: #6b7280;
 line-height: 1.6;
-}</style>
+}
+
+/* ========== OPIF Field Mapping Guide Styles ========== */
+/* opif-guide-styles.css */
+/* Styles for the OPIF Field Mapping Guide */
+
+.guide-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: linear-gradient(135deg, #0053e2 0%, #0041b0 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 16px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 83, 226, 0.3);
+  transition: all 0.3s ease;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.guide-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 83, 226, 0.4);
+  background: linear-gradient(135deg, #0041b0 0%, #003080 100%);
+}
+
+.guide-button-icon {
+  font-size: 20px;
+}
+
+.guide-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.guide-modal-overlay.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.guide-modal {
+  background: white;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 1200px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.guide-header {
+  background: linear-gradient(135deg, #0053e2 0%, #0041b0 100%);
+  color: white;
+  padding: 30px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.guide-header h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.guide-header p {
+  margin: 8px 0 0 0;
+  opacity: 0.9;
+  font-size: 16px;
+}
+
+.guide-close {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 28px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.guide-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+.guide-body {
+  display: flex;
+  height: calc(90vh - 120px);
+  overflow: hidden;
+}
+
+.guide-sidebar {
+  width: 280px;
+  background: #f8f9fa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  padding: 20px 0;
+}
+
+.guide-nav-item {
+  padding: 14px 24px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-left: 3px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: #333;
+}
+
+.guide-nav-item:hover {
+  background: #e8f0fe;
+  border-left-color: #0053e2;
+}
+
+.guide-nav-item.active {
+  background: #e8f0fe;
+  border-left-color: #0053e2;
+  color: #0053e2;
+  font-weight: 600;
+}
+
+.guide-nav-icon {
+  font-size: 20px;
+}
+
+.guide-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 40px;
+}
+
+.guide-section {
+  display: none;
+}
+
+.guide-section.active {
+  display: block;
+  animation: fadeInContent 0.3s ease;
+}
+
+@keyframes fadeInContent {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.guide-section h3 {
+  font-size: 24px;
+  color: #0053e2;
+  margin: 0 0 20px 0;
+}
+
+/* Requirement Box */
+.requirement-box {
+  background: #fff3cd;
+  border-left: 4px solid #ffc220;
+  padding: 24px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.requirement-box h3 {
+  margin: 0 0 12px 0;
+  color: #995213;
+  font-size: 20px;
+}
+
+.highlight-text {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.highlight-text code {
+  background: #995213;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+}
+
+.how-to-add {
+  margin-top: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+.how-to-add h4 {
+  margin: 0 0 12px 0;
+  color: #333;
+}
+
+.how-to-add ol {
+  margin: 0;
+  padding-left: 24px;
+}
+
+.how-to-add li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+/* Mapping Table */
+.field-mapping-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.field-mapping-table thead {
+  background: linear-gradient(135deg, #0053e2 0%, #0041b0 100%);
+  color: white;
+}
+
+.field-mapping-table th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.field-mapping-table td {
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.field-mapping-table tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.field-mapping-table code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+}
+
+/* Status Explanation */
+.status-explanation h3 {
+  margin-bottom: 16px;
+}
+
+.field-combo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.field-box {
+  flex: 1;
+  min-width: 250px;
+  background: #f8f9fa;
+  padding: 24px;
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+}
+
+.field-box h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.field-box ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.field-box li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.field-location {
+  background: #fff3cd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 12px;
+  border-left: 3px solid #ffc220;
+}
+
+.plus-sign {
+  font-size: 32px;
+  color: #0053e2;
+  font-weight: 700;
+}
+
+.result-box {
+  background: #e8f5e9;
+  padding: 24px;
+  border-radius: 8px;
+  border: 2px solid #2a8703;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.result-box h4 {
+  margin: 0 0 16px 0;
+  color: #2a8703;
+  font-size: 18px;
+}
+
+.status-examples {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.status-examples li {
+  margin: 12px 0;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.status-badge.green {
+  background: #2a8703;
+  color: white;
+}
+
+.status-badge.yellow {
+  background: #ffc220;
+  color: #995213;
+}
+
+.status-badge.red {
+  background: #ea1100;
+  color: white;
+}
+
+.status-badge.roadmap {
+  background: #666;
+  color: white;
+}
+
+/* Workstream Mapping */
+.workstream-mapping {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 24px 0;
+}
+
+.workstream-item {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.workstream-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.workstream-header {
+  padding: 16px;
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+}
+
+.workstream-header.strategy {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.workstream-header.design {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.workstream-header.buying {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.workstream-header.allocation {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.workstream-item p {
+  padding: 16px;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #666;
+}
+
+.note-box {
+  background: #e8f0fe;
+  border-left: 4px solid #0053e2;
+  padding: 16px;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+
+/* Example Card */
+.example-split {
+  display: flex;
+  align-items: stretch;
+  gap: 30px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.opif-side,
+.portal-side {
+  flex: 1;
+  min-width: 300px;
+}
+
+.opif-side h4,
+.portal-side h4 {
+  margin: 0 0 16px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.example-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.example-table tr {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.example-table tr:last-child {
+  border-bottom: none;
+}
+
+.example-table td {
+  padding: 12px 16px;
+}
+
+.example-table td:first-child {
+  font-weight: 600;
+  color: #666;
+  width: 40%;
+  background: #f8f9fa;
+}
+
+.example-table code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+.arrow {
+  font-size: 48px;
+  color: #0053e2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portal-card-preview {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e0e0e0;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.opif-badge {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.card-title {
+  font-size: 20px;
+  color: #333;
+  margin: 0 0 20px 0;
+}
+
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.meta-item {
+  display: flex;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.meta-label {
+  color: #666;
+  font-weight: 600;
+}
+
+.meta-value {
+  color: #333;
+}
+
+/* FAQ Items */
+.faq-item {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #0053e2;
+}
+
+.faq-item h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.faq-item p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+.faq-item ul,
+.faq-item ol {
+  margin: 12px 0;
+  padding-left: 24px;
+}
+
+.faq-item li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.faq-item code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+/* Sync Schedule */
+.schedule-box {
+  margin: 20px 0;
+}
+
+.schedule-item {
+  display: flex;
+  gap: 20px;
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 2px solid #e0e0e0;
+}
+
+.schedule-icon {
+  font-size: 48px;
+  color: #0053e2;
+}
+
+.schedule-details h4 {
+  margin: 0 0 8px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.schedule-details p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+.time-detail {
+  background: #fff3cd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #995213;
+}
+
+.flow-chain {
+  font-family: 'Courier New', monospace;
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #0053e2;
+}
+
+.note-text {
+  font-size: 14px;
+  color: #666;
+  font-style: italic;
+}
+
+/* Contact Info */
+.contact-methods {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.contact-card {
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.contact-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.contact-card h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.contact-card p {
+  margin: 0 0 8px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.contact-card code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.contact-card a {
+  color: #0053e2;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.contact-card a:hover {
+  text-decoration: underline;
+}
+
+/* ====================================================== */
+</style>
 <style>#control-panel-banner {
 position: sticky;
 top: 0;
@@ -1571,7 +4467,731 @@ gap: 8px;
 .cp-sep {
 display: none;
 }
-}</style>
+}
+
+/* ========== OPIF Field Mapping Guide Styles ========== */
+/* opif-guide-styles.css */
+/* Styles for the OPIF Field Mapping Guide */
+
+.guide-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: linear-gradient(135deg, #0053e2 0%, #0041b0 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 16px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 83, 226, 0.3);
+  transition: all 0.3s ease;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.guide-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 83, 226, 0.4);
+  background: linear-gradient(135deg, #0041b0 0%, #003080 100%);
+}
+
+.guide-button-icon {
+  font-size: 20px;
+}
+
+.guide-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.guide-modal-overlay.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.guide-modal {
+  background: white;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 1200px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.guide-header {
+  background: linear-gradient(135deg, #0053e2 0%, #0041b0 100%);
+  color: white;
+  padding: 30px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.guide-header h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.guide-header p {
+  margin: 8px 0 0 0;
+  opacity: 0.9;
+  font-size: 16px;
+}
+
+.guide-close {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 28px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.guide-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+.guide-body {
+  display: flex;
+  height: calc(90vh - 120px);
+  overflow: hidden;
+}
+
+.guide-sidebar {
+  width: 280px;
+  background: #f8f9fa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  padding: 20px 0;
+}
+
+.guide-nav-item {
+  padding: 14px 24px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-left: 3px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: #333;
+}
+
+.guide-nav-item:hover {
+  background: #e8f0fe;
+  border-left-color: #0053e2;
+}
+
+.guide-nav-item.active {
+  background: #e8f0fe;
+  border-left-color: #0053e2;
+  color: #0053e2;
+  font-weight: 600;
+}
+
+.guide-nav-icon {
+  font-size: 20px;
+}
+
+.guide-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 40px;
+}
+
+.guide-section {
+  display: none;
+}
+
+.guide-section.active {
+  display: block;
+  animation: fadeInContent 0.3s ease;
+}
+
+@keyframes fadeInContent {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.guide-section h3 {
+  font-size: 24px;
+  color: #0053e2;
+  margin: 0 0 20px 0;
+}
+
+/* Requirement Box */
+.requirement-box {
+  background: #fff3cd;
+  border-left: 4px solid #ffc220;
+  padding: 24px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.requirement-box h3 {
+  margin: 0 0 12px 0;
+  color: #995213;
+  font-size: 20px;
+}
+
+.highlight-text {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.highlight-text code {
+  background: #995213;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+}
+
+.how-to-add {
+  margin-top: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+.how-to-add h4 {
+  margin: 0 0 12px 0;
+  color: #333;
+}
+
+.how-to-add ol {
+  margin: 0;
+  padding-left: 24px;
+}
+
+.how-to-add li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+/* Mapping Table */
+.field-mapping-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.field-mapping-table thead {
+  background: linear-gradient(135deg, #0053e2 0%, #0041b0 100%);
+  color: white;
+}
+
+.field-mapping-table th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.field-mapping-table td {
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.field-mapping-table tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.field-mapping-table code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+}
+
+/* Status Explanation */
+.status-explanation h3 {
+  margin-bottom: 16px;
+}
+
+.field-combo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.field-box {
+  flex: 1;
+  min-width: 250px;
+  background: #f8f9fa;
+  padding: 24px;
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+}
+
+.field-box h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.field-box ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.field-box li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.field-location {
+  background: #fff3cd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 12px;
+  border-left: 3px solid #ffc220;
+}
+
+.plus-sign {
+  font-size: 32px;
+  color: #0053e2;
+  font-weight: 700;
+}
+
+.result-box {
+  background: #e8f5e9;
+  padding: 24px;
+  border-radius: 8px;
+  border: 2px solid #2a8703;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.result-box h4 {
+  margin: 0 0 16px 0;
+  color: #2a8703;
+  font-size: 18px;
+}
+
+.status-examples {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.status-examples li {
+  margin: 12px 0;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.status-badge.green {
+  background: #2a8703;
+  color: white;
+}
+
+.status-badge.yellow {
+  background: #ffc220;
+  color: #995213;
+}
+
+.status-badge.red {
+  background: #ea1100;
+  color: white;
+}
+
+.status-badge.roadmap {
+  background: #666;
+  color: white;
+}
+
+/* Workstream Mapping */
+.workstream-mapping {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 24px 0;
+}
+
+.workstream-item {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.workstream-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.workstream-header {
+  padding: 16px;
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+}
+
+.workstream-header.strategy {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.workstream-header.design {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.workstream-header.buying {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.workstream-header.allocation {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.workstream-item p {
+  padding: 16px;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #666;
+}
+
+.note-box {
+  background: #e8f0fe;
+  border-left: 4px solid #0053e2;
+  padding: 16px;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+
+/* Example Card */
+.example-split {
+  display: flex;
+  align-items: stretch;
+  gap: 30px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.opif-side,
+.portal-side {
+  flex: 1;
+  min-width: 300px;
+}
+
+.opif-side h4,
+.portal-side h4 {
+  margin: 0 0 16px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.example-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.example-table tr {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.example-table tr:last-child {
+  border-bottom: none;
+}
+
+.example-table td {
+  padding: 12px 16px;
+}
+
+.example-table td:first-child {
+  font-weight: 600;
+  color: #666;
+  width: 40%;
+  background: #f8f9fa;
+}
+
+.example-table code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+.arrow {
+  font-size: 48px;
+  color: #0053e2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portal-card-preview {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e0e0e0;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.opif-badge {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.card-title {
+  font-size: 20px;
+  color: #333;
+  margin: 0 0 20px 0;
+}
+
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.meta-item {
+  display: flex;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.meta-label {
+  color: #666;
+  font-weight: 600;
+}
+
+.meta-value {
+  color: #333;
+}
+
+/* FAQ Items */
+.faq-item {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #0053e2;
+}
+
+.faq-item h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.faq-item p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+.faq-item ul,
+.faq-item ol {
+  margin: 12px 0;
+  padding-left: 24px;
+}
+
+.faq-item li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.faq-item code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+/* Sync Schedule */
+.schedule-box {
+  margin: 20px 0;
+}
+
+.schedule-item {
+  display: flex;
+  gap: 20px;
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 2px solid #e0e0e0;
+}
+
+.schedule-icon {
+  font-size: 48px;
+  color: #0053e2;
+}
+
+.schedule-details h4 {
+  margin: 0 0 8px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.schedule-details p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+.time-detail {
+  background: #fff3cd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #995213;
+}
+
+.flow-chain {
+  font-family: 'Courier New', monospace;
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #0053e2;
+}
+
+.note-text {
+  font-size: 14px;
+  color: #666;
+  font-style: italic;
+}
+
+/* Contact Info */
+.contact-methods {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.contact-card {
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.contact-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.contact-card h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.contact-card p {
+  margin: 0 0 8px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.contact-card code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.contact-card a {
+  color: #0053e2;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.contact-card a:hover {
+  text-decoration: underline;
+}
+
+/* ====================================================== */
+</style>
 </head>
 <body><header style="background:#0053e2" class="text-white px-6 py-4 flex items-center justify-between shadow-lg"><div class="flex items-center gap-3"><span style="color:#FFC220;font-size:1.8rem;font-weight:900;">&#9733;</span><div><h1 class="text-xl font-bold tracking-wide">E2E Fashion Transformation</h1><p style="color:#a8c4ff" class="text-xs">PLM &amp; Technology Portal &mdash; Fashion Leadership</p></div></div><div style="color:#a8c4ff" class="text-xs">March 2026 &bull; Confidential</div>
 </header><div id="control-panel-banner"></div><main class="p-5 max-w-screen-2xl mx-auto"><div id="business-reviews-wrap" style="display:none;"><div id="review-content-wpr" class="review-content"></div><div id="review-content-mbr" class="review-content"></div><div id="review-content-strategy" class="review-content"></div><div id="review-content-design" class="review-content"></div><div id="review-content-buying" class="review-content"></div><div id="review-content-allocation" class="review-content"></div></div><div class="bg-white rounded-xl border border-gray-200 shadow-sm px-4 pt-3 pb-3 mb-3"><p class="text-center text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">E2E Process Flow</p><div id="phase-bar" class="flex flex-wrap items-center justify-center gap-y-2 gap-x-0"></div><div class="flex flex-wrap items-center justify-center gap-3 mt-2 pt-2 border-t border-gray-100"><span class="flex items-center gap-1 text-xs font-semibold" style="color:#37474f;"><span style="width:8px;height:8px;border-radius:2px;background:#37474f;display:inline-block;"></span>Strategy
@@ -1955,5 +5575,432 @@ ${userText}
 function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
 function switchTab(name){const names=['overview','status','links','inquiry','updates'];document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',names[i]===name));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));document.getElementById('tab-'+name).classList.add('active');}
 document.getElementById('modal-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('modal-overlay'))closeModal();});renderPhases();buildCardIndex();initPhaseView();initExecBar();</script>
+
+
+<!-- ========== OPIF Field Mapping Guide ========== -->
+<!-- opif-guide-modal.html -->
+<!-- OPIF Field Mapping Guide Modal Component -->
+
+<!-- Floating Guide Button -->
+<button class="guide-button" onclick="openGuideModal()">
+  <span class="guide-button-icon">📖</span>
+  <span>OPIF Field Guide</span>
+</button>
+
+<!-- Guide Modal -->
+<div id="guideModalOverlay" class="guide-modal-overlay">
+  <div class="guide-modal">
+    <!-- Header -->
+    <div class="guide-header">
+      <div>
+        <h2>📖 OPIF Field Mapping Guide</h2>
+        <p>How to Update Your OPIF to Appear in the E2E Fashion Portal</p>
+      </div>
+      <button class="guide-close" onclick="closeGuideModal()">&times;</button>
+    </div>
+    
+    <!-- Body -->
+    <div class="guide-body">
+      <!-- Sidebar Navigation -->
+      <div class="guide-sidebar">
+        <div class="guide-nav-item active" onclick="showGuideSection('requirements')">
+          <span class="guide-nav-icon">✅</span>
+          <span>Requirements</span>
+        </div>
+        <div class="guide-nav-item" onclick="showGuideSection('field-mapping')">
+          <span class="guide-nav-icon">🗺️</span>
+          <span>Field Mapping</span>
+        </div>
+        <div class="guide-nav-item" onclick="showGuideSection('status-logic')">
+          <span class="guide-nav-icon">🚦</span>
+          <span>Status Logic</span>
+        </div>
+        <div class="guide-nav-item" onclick="showGuideSection('activity-type')">
+          <span class="guide-nav-icon">📍</span>
+          <span>Activity Type</span>
+        </div>
+        <div class="guide-nav-item" onclick="showGuideSection('example')">
+          <span class="guide-nav-icon">📝</span>
+          <span>Complete Example</span>
+        </div>
+        <div class="guide-nav-item" onclick="showGuideSection('troubleshooting')">
+          <span class="guide-nav-icon">🔧</span>
+          <span>Troubleshooting</span>
+        </div>
+        <div class="guide-nav-item" onclick="showGuideSection('sync-info')">
+          <span class="guide-nav-icon">🔄</span>
+          <span>Sync Schedule</span>
+        </div>
+        <div class="guide-nav-item" onclick="showGuideSection('contact')">
+          <span class="guide-nav-icon">📞</span>
+          <span>Need Help?</span>
+        </div>
+      </div>
+      
+      <!-- Content Area -->
+      <div class="guide-content">
+        <!-- Requirements Section -->
+        <div id="section-requirements" class="guide-section active">
+          <h3>✅ Requirements for Portal Inclusion</h3>
+          
+          <div class="requirement-box">
+            <h3>Primary Requirement: LLTT Label</h3>
+            <p class="highlight-text">Your OPIF <strong>MUST</strong> include the label <code>LLTT</code> to appear in this portal.</p>
+            <p class="highlight-text">This is the primary filter that determines whether an OPIF is tracked in the E2E Fashion Portal.</p>
+            
+            <div class="how-to-add">
+              <h4>How to Add the LLTT Label:</h4>
+              <ol>
+                <li>Open your OPIF in Jira (<a href="https://jira.walmart.com" target="_blank">jira.walmart.com</a>)</li>
+                <li>Look for the "Labels" field (usually in the right sidebar)</li>
+                <li>Click "+ Add" or click on the Labels field</li>
+                <li>Type <code>LLTT</code> and press Enter</li>
+                <li>Save the OPIF</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Field Mapping Section -->
+        <div id="section-field-mapping" class="guide-section">
+          <h3>🗺️ Field Mapping Reference</h3>
+          <p>This table shows exactly how OPIF fields map to portal card displays:</p>
+          
+          <table class="field-mapping-table">
+            <thead>
+              <tr>
+                <th>Portal Field</th>
+                <th>OPIF/Jira Field</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Card Title</strong></td>
+                <td><code>OPIF Epic Name</code></td>
+                <td>The main title/summary of your OPIF</td>
+              </tr>
+              <tr>
+                <td><strong>Status</strong></td>
+                <td><code>Status Color</code> + <code>Ready to Start Field</code></td>
+                <td>Combination creates status like "Yellow — Ready to Start"</td>
+              </tr>
+              <tr>
+                <td><strong>Primary Owner</strong></td>
+                <td><code>Assignee</code> (should match <code>Product Manager</code>)</td>
+                <td>Main person responsible for the OPIF</td>
+              </tr>
+              <tr>
+                <td><strong>Software Lead</strong></td>
+                <td><code>Engineering Lead</code></td>
+                <td>Technical lead for implementation</td>
+              </tr>
+              <tr>
+                <td><strong>Target Date</strong></td>
+                <td><code>Due Date</code></td>
+                <td>Expected completion date for the OPIF</td>
+              </tr>
+              <tr>
+                <td><strong>Workstream</strong></td>
+                <td><code>Activity Type</code></td>
+                <td>Determines portal section (Strategy, Design, Buying, Allocation)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Status Logic Section -->
+        <div id="section-status-logic" class="guide-section">
+          <h3>🚦 Status Logic Explained</h3>
+          <p>The status you see on each portal card is a combination of <strong>TWO fields</strong> in your OPIF:</p>
+          
+          <div class="field-combo">
+            <div class="field-box">
+              <h4>Field 1: Status Color</h4>
+              <ul>
+                <li>🟢 <strong>Green</strong> — On track</li>
+                <li>🟡 <strong>Yellow</strong> — At risk / needs attention</li>
+                <li>🔴 <strong>Red</strong> — Blocked / critical issues</li>
+              </ul>
+            </div>
+            
+            <div class="plus-sign">+</div>
+            
+            <div class="field-box">
+              <h4>Field 2: Ready to Start Field</h4>
+              <p class="field-location">📍 Located in the <strong>top header</strong> of OPIF</p>
+              <ul>
+                <li>Ready to Start</li>
+                <li>Cannot Commit</li>
+                <li>In Progress</li>
+                <li>Blocked</li>
+                <li>Backlog</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="result-box">
+            <h4>= Portal Status</h4>
+            <p><strong>Examples:</strong></p>
+            <ul class="status-examples">
+              <li><span class="status-badge yellow">Yellow — Ready to Start</span></li>
+              <li><span class="status-badge green">Green — In Progress</span></li>
+              <li><span class="status-badge red">Red — Blocked</span></li>
+              <li><span class="status-badge roadmap">Roadmap — Backlog</span></li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Activity Type Section -->
+        <div id="section-activity-type" class="guide-section">
+          <h3>📍 Activity Type & Workstream Mapping</h3>
+          <p>The <code>Activity Type</code> field in your OPIF determines which workstream section your card appears in:</p>
+          
+          <div class="workstream-mapping">
+            <div class="workstream-item">
+              <div class="workstream-header strategy">📊 Strategy</div>
+              <p>Activity Types: Planning, Forecasting, Strategic Initiatives</p>
+            </div>
+            
+            <div class="workstream-item">
+              <div class="workstream-header design">🎨 Design</div>
+              <p>Activity Types: Product Design, UX/UI, Conceptualization</p>
+            </div>
+            
+            <div class="workstream-item">
+              <div class="workstream-header buying">🛒 Buying</div>
+              <p>Activity Types: Procurement, Vendor Management, Buy Planning</p>
+            </div>
+            
+            <div class="workstream-item">
+              <div class="workstream-header allocation">📦 Allocation</div>
+              <p>Activity Types: Distribution, Inventory, Allocation Planning</p>
+            </div>
+          </div>
+          
+          <div class="note-box">
+            <strong>📌 Note:</strong> If Activity Type indicates "Backlog", your OPIF will appear in the Roadmap view regardless of workstream.
+          </div>
+        </div>
+        
+        <!-- Example Section -->
+        <div id="section-example" class="guide-section">
+          <h3>📝 Complete Example</h3>
+          <p>Here's a real example showing how OPIF fields translate to portal display:</p>
+          
+          <div class="example-split">
+            <div class="opif-side">
+              <h4>OPIF Fields (Jira)</h4>
+              <table class="example-table">
+                <tr>
+                  <td>Labels</td>
+                  <td><code>LLTT</code></td>
+                </tr>
+                <tr>
+                  <td>Epic Name</td>
+                  <td>AEX - Automated Item Set Up</td>
+                </tr>
+                <tr>
+                  <td>Status Color</td>
+                  <td>🟡 Yellow</td>
+                </tr>
+                <tr>
+                  <td>Ready to Start</td>
+                  <td>Ready to Start</td>
+                </tr>
+                <tr>
+                  <td>Assignee</td>
+                  <td>Abhishek Jannawar</td>
+                </tr>
+                <tr>
+                  <td>Product Manager</td>
+                  <td>Abhishek Jannawar</td>
+                </tr>
+                <tr>
+                  <td>Engineering Lead</td>
+                  <td>Aravind Chiruvelli</td>
+                </tr>
+                <tr>
+                  <td>Due Date</td>
+                  <td>Apr 30, 2026</td>
+                </tr>
+                <tr>
+                  <td>Activity Type</td>
+                  <td>Product Discovery</td>
+                </tr>
+              </table>
+            </div>
+            
+            <div class="arrow">→</div>
+            
+            <div class="portal-side">
+              <h4>Portal Card Display</h4>
+              <div class="portal-card-preview">
+                <div class="card-header">
+                  <span class="opif-badge">OPIF-344926</span>
+                  <span class="status-badge yellow">Yellow — Ready to Start</span>
+                </div>
+                <h3 class="card-title">AEX - Automated Item Set Up</h3>
+                <div class="card-meta">
+                  <div class="meta-item">
+                    <span class="meta-label">Owner:</span>
+                    <span class="meta-value">Abhishek Jannawar</span>
+                  </div>
+                  <div class="meta-item">
+                    <span class="meta-label">Tech Lead:</span>
+                    <span class="meta-value">Aravind Chiruvelli</span>
+                  </div>
+                  <div class="meta-item">
+                    <span class="meta-label">Target:</span>
+                    <span class="meta-value">Apr 30, 2026</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Troubleshooting Section -->
+        <div id="section-troubleshooting" class="guide-section">
+          <h3>🔧 Troubleshooting</h3>
+          <p>Common issues and solutions:</p>
+          
+          <div class="faq-item">
+            <h4>Q: My OPIF isn't showing up in the portal</h4>
+            <p><strong>A:</strong> Check the following:</p>
+            <ol>
+              <li>Verify the <code>LLTT</code> label is added to your OPIF</li>
+              <li>Wait 24 hours for the next automated sync</li>
+              <li>Ensure your OPIF is in an active status (not Closed/Done)</li>
+              <li>Check that your OPIF appears on the <a href="https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard" target="_blank">Confluence dashboard</a></li>
+            </ol>
+          </div>
+          
+          <div class="faq-item">
+            <h4>Q: My status/date is outdated in the portal</h4>
+            <p><strong>A:</strong> The portal syncs daily from Confluence. Updates made in Jira will appear in the portal within 24 hours after the next automated sync runs (typically early morning).</p>
+          </div>
+          
+          <div class="faq-item">
+            <h4>Q: Which field should I update to change my status?</h4>
+            <p><strong>A:</strong> Update BOTH fields:</p>
+            <ul>
+              <li><code>Status Color</code> (Green/Yellow/Red) — visible in the OPIF sidebar</li>
+              <li><code>Ready to Start Field</code> in the top header (Ready to Start, In Progress, Blocked, etc.)</li>
+            </ul>
+          </div>
+          
+          <div class="faq-item">
+            <h4>Q: My Assignee and Product Manager don't match</h4>
+            <p><strong>A:</strong> They should be the same person. Update the <code>Assignee</code> field to match your <code>Product Manager</code> for consistency. The portal uses the Assignee field as the primary owner.</p>
+          </div>
+          
+          <div class="faq-item">
+            <h4>Q: How do I change which workstream my OPIF appears in?</h4>
+            <p><strong>A:</strong> Update the <code>Activity Type</code> field in your OPIF to the appropriate category (Strategy, Design, Buying, or Allocation related activity).</p>
+          </div>
+        </div>
+        
+        <!-- Sync Info Section -->
+        <div id="section-sync-info" class="guide-section">
+          <h3>🔄 Sync Schedule</h3>
+          <p>Understanding when your updates will appear in the portal:</p>
+          
+          <div class="schedule-box">
+            <div class="schedule-item">
+              <div class="schedule-icon">📅</div>
+              <div class="schedule-details">
+                <h4>Daily Automated Sync</h4>
+                <p>The portal automatically syncs with Confluence <strong>every morning</strong>.</p>
+                <p class="time-detail">⏰ Changes you make in Jira today will appear in the portal tomorrow morning.</p>
+              </div>
+            </div>
+            
+            <div class="schedule-item">
+              <div class="schedule-icon">⚡</div>
+              <div class="schedule-details">
+                <h4>Data Flow</h4>
+                <p class="flow-chain">Jira OPIF → Confluence Dashboard → E2E Fashion Portal</p>
+                <p class="note-text">📌 Make sure your OPIF is visible on the Confluence dashboard to ensure it syncs to the portal.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Contact Section -->
+        <div id="section-contact" class="guide-section">
+          <h3>📞 Need Help?</h3>
+          <p>Get support from the E2E Fashion Portal team:</p>
+          
+          <div class="contact-methods">
+            <div class="contact-card">
+              <div class="contact-icon">💬</div>
+              <h4>Slack</h4>
+              <p>Join the discussion:</p>
+              <code>#e2e-fashion-portal</code>
+            </div>
+            
+            <div class="contact-card">
+              <div class="contact-icon">📖</div>
+              <h4>Confluence</h4>
+              <p>Full documentation:</p>
+              <a href="https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard" target="_blank">LLTT Dashboard</a>
+            </div>
+            
+            <div class="contact-card">
+              <div class="contact-icon">🐛</div>
+              <h4>Report an Issue</h4>
+              <p>Found a bug or have feedback?</p>
+              <code>Submit via Slack</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Guide Modal Functions
+function openGuideModal() {
+  document.getElementById('guideModalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeGuideModal() {
+  document.getElementById('guideModalOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function showGuideSection(sectionId) {
+  // Hide all sections
+  const sections = document.querySelectorAll('.guide-section');
+  sections.forEach(section => section.classList.remove('active'));
+  
+  // Show selected section
+  document.getElementById('section-' + sectionId).classList.add('active');
+  
+  // Update nav items
+  const navItems = document.querySelectorAll('.guide-nav-item');
+  navItems.forEach(item => item.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+
+// Close modal when clicking outside
+document.getElementById('guideModalOverlay').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeGuideModal();
+  }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeGuideModal();
+  }
+});
+</script>
+
+<!-- ============================================== -->
 </body>
 </html>

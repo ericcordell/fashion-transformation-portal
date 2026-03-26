@@ -1,0 +1,422 @@
+<!-- opif-guide-modal.html -->
+<!-- OPIF Field Mapping Guide Modal Component -->
+
+<!-- Floating Guide Button -->
+<button class="guide-button" onclick="openGuideModal()">
+  <span class="guide-button-icon">📖</span>
+  <span>OPIF Field Guide</span>
+</button>
+
+<!-- Guide Modal -->
+<div id="guideModalOverlay" class="guide-modal-overlay">
+  <div class="guide-modal">
+    <!-- Header -->
+    <div class="guide-header">
+      <div>
+        <h2>📖 OPIF Field Mapping Guide</h2>
+        <p>How to Update Your OPIF to Appear in the E2E Fashion Portal</p>
+      </div>
+      <button class="guide-close" onclick="closeGuideModal()">&times;</button>
+    </div>
+    
+    <!-- Body -->
+    <div class="guide-body">
+      <!-- Sidebar Navigation -->
+      <div class="guide-sidebar">
+        <div class="guide-nav-item active" onclick="showGuideSection('requirements')">
+          <span class="guide-nav-icon">✅</span>
+          <span>Requirements</span>
+        </div>
+        <div class="guide-nav-item" onclick="showGuideSection('field-mapping')">
+          <span class="guide-nav-icon">🗺️</span>
+          <span>Field Mapping</span>
+        </div>
+        <div class="guide-nav-item" onclick="showGuideSection('status-logic')">
+          <span class="guide-nav-icon">🚦</span>
+          <span>Status Logic</span>
+        </div>
+        <div class="guide-nav-item" onclick="showGuideSection('activity-type')">
+          <span class="guide-nav-icon">📍</span>
+          <span>Activity Type</span>
+        </div>
+        <div class="guide-nav-item" onclick="showGuideSection('example')">
+          <span class="guide-nav-icon">📝</span>
+          <span>Complete Example</span>
+        </div>
+        <div class="guide-nav-item" onclick="showGuideSection('troubleshooting')">
+          <span class="guide-nav-icon">🔧</span>
+          <span>Troubleshooting</span>
+        </div>
+        <div class="guide-nav-item" onclick="showGuideSection('sync-info')">
+          <span class="guide-nav-icon">🔄</span>
+          <span>Sync Schedule</span>
+        </div>
+        <div class="guide-nav-item" onclick="showGuideSection('contact')">
+          <span class="guide-nav-icon">📞</span>
+          <span>Need Help?</span>
+        </div>
+      </div>
+      
+      <!-- Content Area -->
+      <div class="guide-content">
+        <!-- Requirements Section -->
+        <div id="section-requirements" class="guide-section active">
+          <h3>✅ Requirements for Portal Inclusion</h3>
+          
+          <div class="requirement-box">
+            <h3>Primary Requirement: LLTT Label</h3>
+            <p class="highlight-text">Your OPIF <strong>MUST</strong> include the label <code>LLTT</code> to appear in this portal.</p>
+            <p class="highlight-text">This is the primary filter that determines whether an OPIF is tracked in the E2E Fashion Portal.</p>
+            
+            <div class="how-to-add">
+              <h4>How to Add the LLTT Label:</h4>
+              <ol>
+                <li>Open your OPIF in Jira (<a href="https://jira.walmart.com" target="_blank">jira.walmart.com</a>)</li>
+                <li>Look for the "Labels" field (usually in the right sidebar)</li>
+                <li>Click "+ Add" or click on the Labels field</li>
+                <li>Type <code>LLTT</code> and press Enter</li>
+                <li>Save the OPIF</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Field Mapping Section -->
+        <div id="section-field-mapping" class="guide-section">
+          <h3>🗺️ Field Mapping Reference</h3>
+          <p>This table shows exactly how OPIF fields map to portal card displays:</p>
+          
+          <table class="field-mapping-table">
+            <thead>
+              <tr>
+                <th>Portal Field</th>
+                <th>OPIF/Jira Field</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Card Title</strong></td>
+                <td><code>OPIF Epic Name</code></td>
+                <td>The main title/summary of your OPIF</td>
+              </tr>
+              <tr>
+                <td><strong>Status</strong></td>
+                <td><code>Status Color</code> + <code>Ready to Start Field</code></td>
+                <td>Combination creates status like "Yellow — Ready to Start"</td>
+              </tr>
+              <tr>
+                <td><strong>Primary Owner</strong></td>
+                <td><code>Assignee</code> (should match <code>Product Manager</code>)</td>
+                <td>Main person responsible for the OPIF</td>
+              </tr>
+              <tr>
+                <td><strong>Software Lead</strong></td>
+                <td><code>Engineering Lead</code></td>
+                <td>Technical lead for implementation</td>
+              </tr>
+              <tr>
+                <td><strong>Target Date</strong></td>
+                <td><code>Due Date</code></td>
+                <td>Expected completion date for the OPIF</td>
+              </tr>
+              <tr>
+                <td><strong>Workstream</strong></td>
+                <td><code>Activity Type</code></td>
+                <td>Determines portal section (Strategy, Design, Buying, Allocation)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Status Logic Section -->
+        <div id="section-status-logic" class="guide-section">
+          <h3>🚦 Status Logic Explained</h3>
+          <p>The status you see on each portal card is a combination of <strong>TWO fields</strong> in your OPIF:</p>
+          
+          <div class="field-combo">
+            <div class="field-box">
+              <h4>Field 1: Status Color</h4>
+              <ul>
+                <li>🟢 <strong>Green</strong> — On track</li>
+                <li>🟡 <strong>Yellow</strong> — At risk / needs attention</li>
+                <li>🔴 <strong>Red</strong> — Blocked / critical issues</li>
+              </ul>
+            </div>
+            
+            <div class="plus-sign">+</div>
+            
+            <div class="field-box">
+              <h4>Field 2: Ready to Start Field</h4>
+              <p class="field-location">📍 Located in the <strong>top header</strong> of OPIF</p>
+              <ul>
+                <li>Ready to Start</li>
+                <li>Cannot Commit</li>
+                <li>In Progress</li>
+                <li>Blocked</li>
+                <li>Backlog</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="result-box">
+            <h4>= Portal Status</h4>
+            <p><strong>Examples:</strong></p>
+            <ul class="status-examples">
+              <li><span class="status-badge yellow">Yellow — Ready to Start</span></li>
+              <li><span class="status-badge green">Green — In Progress</span></li>
+              <li><span class="status-badge red">Red — Blocked</span></li>
+              <li><span class="status-badge roadmap">Roadmap — Backlog</span></li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Activity Type Section -->
+        <div id="section-activity-type" class="guide-section">
+          <h3>📍 Activity Type & Workstream Mapping</h3>
+          <p>The <code>Activity Type</code> field in your OPIF determines which workstream section your card appears in:</p>
+          
+          <div class="workstream-mapping">
+            <div class="workstream-item">
+              <div class="workstream-header strategy">📊 Strategy</div>
+              <p>Activity Types: Planning, Forecasting, Strategic Initiatives</p>
+            </div>
+            
+            <div class="workstream-item">
+              <div class="workstream-header design">🎨 Design</div>
+              <p>Activity Types: Product Design, UX/UI, Conceptualization</p>
+            </div>
+            
+            <div class="workstream-item">
+              <div class="workstream-header buying">🛒 Buying</div>
+              <p>Activity Types: Procurement, Vendor Management, Buy Planning</p>
+            </div>
+            
+            <div class="workstream-item">
+              <div class="workstream-header allocation">📦 Allocation</div>
+              <p>Activity Types: Distribution, Inventory, Allocation Planning</p>
+            </div>
+          </div>
+          
+          <div class="note-box">
+            <strong>📌 Note:</strong> If Activity Type indicates "Backlog", your OPIF will appear in the Roadmap view regardless of workstream.
+          </div>
+        </div>
+        
+        <!-- Example Section -->
+        <div id="section-example" class="guide-section">
+          <h3>📝 Complete Example</h3>
+          <p>Here's a real example showing how OPIF fields translate to portal display:</p>
+          
+          <div class="example-split">
+            <div class="opif-side">
+              <h4>OPIF Fields (Jira)</h4>
+              <table class="example-table">
+                <tr>
+                  <td>Labels</td>
+                  <td><code>LLTT</code></td>
+                </tr>
+                <tr>
+                  <td>Epic Name</td>
+                  <td>AEX - Automated Item Set Up</td>
+                </tr>
+                <tr>
+                  <td>Status Color</td>
+                  <td>🟡 Yellow</td>
+                </tr>
+                <tr>
+                  <td>Ready to Start</td>
+                  <td>Ready to Start</td>
+                </tr>
+                <tr>
+                  <td>Assignee</td>
+                  <td>Abhishek Jannawar</td>
+                </tr>
+                <tr>
+                  <td>Product Manager</td>
+                  <td>Abhishek Jannawar</td>
+                </tr>
+                <tr>
+                  <td>Engineering Lead</td>
+                  <td>Aravind Chiruvelli</td>
+                </tr>
+                <tr>
+                  <td>Due Date</td>
+                  <td>Apr 30, 2026</td>
+                </tr>
+                <tr>
+                  <td>Activity Type</td>
+                  <td>Product Discovery</td>
+                </tr>
+              </table>
+            </div>
+            
+            <div class="arrow">→</div>
+            
+            <div class="portal-side">
+              <h4>Portal Card Display</h4>
+              <div class="portal-card-preview">
+                <div class="card-header">
+                  <span class="opif-badge">OPIF-344926</span>
+                  <span class="status-badge yellow">Yellow — Ready to Start</span>
+                </div>
+                <h3 class="card-title">AEX - Automated Item Set Up</h3>
+                <div class="card-meta">
+                  <div class="meta-item">
+                    <span class="meta-label">Owner:</span>
+                    <span class="meta-value">Abhishek Jannawar</span>
+                  </div>
+                  <div class="meta-item">
+                    <span class="meta-label">Tech Lead:</span>
+                    <span class="meta-value">Aravind Chiruvelli</span>
+                  </div>
+                  <div class="meta-item">
+                    <span class="meta-label">Target:</span>
+                    <span class="meta-value">Apr 30, 2026</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Troubleshooting Section -->
+        <div id="section-troubleshooting" class="guide-section">
+          <h3>🔧 Troubleshooting</h3>
+          <p>Common issues and solutions:</p>
+          
+          <div class="faq-item">
+            <h4>Q: My OPIF isn't showing up in the portal</h4>
+            <p><strong>A:</strong> Check the following:</p>
+            <ol>
+              <li>Verify the <code>LLTT</code> label is added to your OPIF</li>
+              <li>Wait 24 hours for the next automated sync</li>
+              <li>Ensure your OPIF is in an active status (not Closed/Done)</li>
+              <li>Check that your OPIF appears on the <a href="https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard" target="_blank">Confluence dashboard</a></li>
+            </ol>
+          </div>
+          
+          <div class="faq-item">
+            <h4>Q: My status/date is outdated in the portal</h4>
+            <p><strong>A:</strong> The portal syncs daily from Confluence. Updates made in Jira will appear in the portal within 24 hours after the next automated sync runs (typically early morning).</p>
+          </div>
+          
+          <div class="faq-item">
+            <h4>Q: Which field should I update to change my status?</h4>
+            <p><strong>A:</strong> Update BOTH fields:</p>
+            <ul>
+              <li><code>Status Color</code> (Green/Yellow/Red) — visible in the OPIF sidebar</li>
+              <li><code>Ready to Start Field</code> in the top header (Ready to Start, In Progress, Blocked, etc.)</li>
+            </ul>
+          </div>
+          
+          <div class="faq-item">
+            <h4>Q: My Assignee and Product Manager don't match</h4>
+            <p><strong>A:</strong> They should be the same person. Update the <code>Assignee</code> field to match your <code>Product Manager</code> for consistency. The portal uses the Assignee field as the primary owner.</p>
+          </div>
+          
+          <div class="faq-item">
+            <h4>Q: How do I change which workstream my OPIF appears in?</h4>
+            <p><strong>A:</strong> Update the <code>Activity Type</code> field in your OPIF to the appropriate category (Strategy, Design, Buying, or Allocation related activity).</p>
+          </div>
+        </div>
+        
+        <!-- Sync Info Section -->
+        <div id="section-sync-info" class="guide-section">
+          <h3>🔄 Sync Schedule</h3>
+          <p>Understanding when your updates will appear in the portal:</p>
+          
+          <div class="schedule-box">
+            <div class="schedule-item">
+              <div class="schedule-icon">📅</div>
+              <div class="schedule-details">
+                <h4>Daily Automated Sync</h4>
+                <p>The portal automatically syncs with Confluence <strong>every morning</strong>.</p>
+                <p class="time-detail">⏰ Changes you make in Jira today will appear in the portal tomorrow morning.</p>
+              </div>
+            </div>
+            
+            <div class="schedule-item">
+              <div class="schedule-icon">⚡</div>
+              <div class="schedule-details">
+                <h4>Data Flow</h4>
+                <p class="flow-chain">Jira OPIF → Confluence Dashboard → E2E Fashion Portal</p>
+                <p class="note-text">📌 Make sure your OPIF is visible on the Confluence dashboard to ensure it syncs to the portal.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Contact Section -->
+        <div id="section-contact" class="guide-section">
+          <h3>📞 Need Help?</h3>
+          <p>Get support from the E2E Fashion Portal team:</p>
+          
+          <div class="contact-methods">
+            <div class="contact-card">
+              <div class="contact-icon">💬</div>
+              <h4>Slack</h4>
+              <p>Join the discussion:</p>
+              <code>#e2e-fashion-portal</code>
+            </div>
+            
+            <div class="contact-card">
+              <div class="contact-icon">📖</div>
+              <h4>Confluence</h4>
+              <p>Full documentation:</p>
+              <a href="https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard" target="_blank">LLTT Dashboard</a>
+            </div>
+            
+            <div class="contact-card">
+              <div class="contact-icon">🐛</div>
+              <h4>Report an Issue</h4>
+              <p>Found a bug or have feedback?</p>
+              <code>Submit via Slack</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Guide Modal Functions
+function openGuideModal() {
+  document.getElementById('guideModalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeGuideModal() {
+  document.getElementById('guideModalOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function showGuideSection(sectionId) {
+  // Hide all sections
+  const sections = document.querySelectorAll('.guide-section');
+  sections.forEach(section => section.classList.remove('active'));
+  
+  // Show selected section
+  document.getElementById('section-' + sectionId).classList.add('active');
+  
+  // Update nav items
+  const navItems = document.querySelectorAll('.guide-nav-item');
+  navItems.forEach(item => item.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+
+// Close modal when clicking outside
+document.getElementById('guideModalOverlay').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeGuideModal();
+  }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeGuideModal();
+  }
+});
+</script>

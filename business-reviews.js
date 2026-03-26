@@ -374,6 +374,31 @@ function renderReviewContent(reviewType) {
   contentDiv.innerHTML = html;
 }
 
+// Get recent update summary for a card (from OPIF history)
+function getCardUpdate(card) {
+  // Check if we have OPIF updates loaded
+  if (window.OPIF_UPDATES && window.OPIF_UPDATES[card.id]) {
+    return window.OPIF_UPDATES[card.id].summary;
+  }
+  
+  // Check if card has recentUpdate property (manual updates)
+  if (card.recentUpdate) {
+    return card.recentUpdate;
+  }
+  
+  // Check if card has any OPIF mapped
+  const hasOpif = card.resources?.some(r => 
+    r.url && r.url.includes('jira.walmart.com/browse/OPIF-')
+  );
+  
+  if (!hasOpif) {
+    return '<span style="color:#9ca3af;font-size:12px;font-style:italic;">No OPIF mapped</span>';
+  }
+  
+  // OPIF exists but no updates fetched yet
+  return '<span style="color:#9ca3af;font-size:12px;font-style:italic;">Updates pending...</span>';
+}
+
 // Render WPR section as a table
 function renderWPRSection(title, cards, icon) {
   if (cards.length === 0) {
@@ -400,6 +425,9 @@ function renderWPRSection(title, cards, icon) {
     let statusClass = card.status || 'roadmap';
     let statusLabel = card.statusLabel || card.status || 'Roadmap';
     
+    // Get recent update summary (from OPIF history)
+    const updateText = getCardUpdate(card);
+    
     return `
       <tr onclick="openCardModal('${card.id}')">
         <td class="wpr-program-cell">
@@ -414,6 +442,7 @@ function renderWPRSection(title, cards, icon) {
         </td>
         <td class="wpr-owner-cell">${owner}</td>
         <td class="wpr-date-cell">${card.targetDate || 'TBD'}</td>
+        <td class="wpr-update-cell">${updateText}</td>
         <td>
           <div class="wpr-workstreams">${wsLabels || '<span style="color:#9ca3af;font-size:12px;">—</span>'}</div>
         </td>
@@ -437,6 +466,7 @@ function renderWPRSection(title, cards, icon) {
             <th>Status</th>
             <th>Owner</th>
             <th>Target Date</th>
+            <th style="width: 30%;">Update (Last 14 Days)</th>
             <th>Workstreams</th>
           </tr>
         </thead>

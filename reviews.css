@@ -455,6 +455,20 @@
   white-space: nowrap;
 }
 
+.wpr-update-cell {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #374151;
+  max-width: 400px;
+}
+
+.wpr-update-cell em,
+.wpr-update-cell i {
+  color: #9ca3af;
+  font-style: italic;
+  font-size: 11px;
+}
+
 .wpr-workstreams {
   display: flex;
   gap: 4px;

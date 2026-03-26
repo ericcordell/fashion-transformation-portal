@@ -47,6 +47,19 @@ def inject_guide():
     
     portal_html = portal_html.replace('</body>', html_injection + '</body>')
     
+    # Inject the guide button into the header (right side)
+    header_button = '''<button class="guide-button" onclick="openGuideModal()" style="margin-left: 16px;">
+  <span class="guide-button-icon">ℹ️</span>
+  <span>OPIF Field Guide</span>
+</button>'''
+    
+    # Find the header closing div and inject button before it
+    # The header has: ... March 2026 &bull; Confidential</div>\n</header>
+    portal_html = portal_html.replace(
+        '<div style="color:#a8c4ff" class="text-xs">March 2026 &bull; Confidential</div>',
+        '<div class="flex items-center gap-3"><div style="color:#a8c4ff" class="text-xs">March 2026 &bull; Confidential</div>' + header_button + '</div>'
+    )
+    
     # Write back
     portal_file.write_text(portal_html)
     

@@ -1,11 +1,5 @@
 <!-- opif-guide-modal.html -->
-<!-- OPIF Field Mapping Guide Modal Component -->
-
-<!-- Floating Guide Button -->
-<button class="guide-button" onclick="openGuideModal()">
-  <span class="guide-button-icon">📖</span>
-  <span>OPIF Field Guide</span>
-</button>
+<!-- OPIF Guide Modal Component -->
 
 <!-- Guide Modal -->
 <div id="guideModalOverlay" class="guide-modal-overlay">
@@ -35,9 +29,9 @@
           <span class="guide-nav-icon">🚦</span>
           <span>Status Logic</span>
         </div>
-        <div class="guide-nav-item" onclick="showGuideSection('activity-type')">
-          <span class="guide-nav-icon">📍</span>
-          <span>Activity Type</span>
+        <div class="guide-nav-item" onclick="showGuideSection('workstream-logic')">
+          <span class="guide-nav-icon">🔄</span>
+          <span>Workstream Logic</span>
         </div>
         <div class="guide-nav-item" onclick="showGuideSection('example')">
           <span class="guide-nav-icon">📝</span>
@@ -108,7 +102,7 @@
               <tr>
                 <td><strong>Primary Owner</strong></td>
                 <td><code>Assignee</code> (should match <code>Product Manager</code>)</td>
-                <td>Main person responsible for the OPIF</td>
+                <td>Main person responsible for the OPIF<br><em style="font-size: 12px; color: #666;">Fallback: If Assignee is empty, uses Confluence page owner mapping</em></td>
               </tr>
               <tr>
                 <td><strong>Software Lead</strong></td>
@@ -132,36 +126,32 @@
         <!-- Status Logic Section -->
         <div id="section-status-logic" class="guide-section">
           <h3>🚦 Status Logic Explained</h3>
-          <p>The status you see on each portal card is a combination of <strong>TWO fields</strong> in your OPIF:</p>
+          <p>The status displayed on each portal card combines <strong>two OPIF fields</strong>:</p>
           
-          <div class="field-combo">
-            <div class="field-box">
-              <h4>Field 1: Status Color</h4>
-              <ul>
-                <li>🟢 <strong>Green</strong> — On track</li>
-                <li>🟡 <strong>Yellow</strong> — At risk / needs attention</li>
-                <li>🔴 <strong>Red</strong> — Blocked / critical issues</li>
-              </ul>
-            </div>
-            
-            <div class="plus-sign">+</div>
-            
-            <div class="field-box">
-              <h4>Field 2: Ready to Start Field</h4>
-              <p class="field-location">📍 Located in the <strong>top header</strong> of OPIF</p>
-              <ul>
-                <li>Ready to Start</li>
-                <li>Cannot Commit</li>
-                <li>In Progress</li>
-                <li>Blocked</li>
-                <li>Backlog</li>
-              </ul>
-            </div>
-          </div>
+          <table class="field-mapping-table" style="margin-top: 20px;">
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Location</th>
+                <th>Options</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Status Color</strong></td>
+                <td>OPIF sidebar</td>
+                <td>🟢 Green | 🟡 Yellow | 🔴 Red</td>
+              </tr>
+              <tr>
+                <td><strong>Ready to Start Field</strong></td>
+                <td>OPIF top header</td>
+                <td>Ready to Start | In Progress | Blocked | Cannot Commit | Backlog</td>
+              </tr>
+            </tbody>
+          </table>
           
-          <div class="result-box">
-            <h4>= Portal Status</h4>
-            <p><strong>Examples:</strong></p>
+          <div class="result-box" style="margin-top: 24px;">
+            <h4>Combined Status Examples</h4>
             <ul class="status-examples">
               <li><span class="status-badge yellow">Yellow — Ready to Start</span></li>
               <li><span class="status-badge green">Green — In Progress</span></li>
@@ -171,35 +161,43 @@
           </div>
         </div>
         
-        <!-- Activity Type Section -->
-        <div id="section-activity-type" class="guide-section">
-          <h3>📍 Activity Type & Workstream Mapping</h3>
-          <p>The <code>Activity Type</code> field in your OPIF determines which workstream section your card appears in:</p>
+        <!-- Workstream Logic Section -->
+        <div id="section-workstream-logic" class="guide-section">
+          <h3>🔄 Workstream Assignment Logic</h3>
+          <p><strong>Important:</strong> The workstream (Strategy, Design, Buying, Allocation) displayed in the portal is <strong>NOT</strong> directly determined by the Activity Type field.</p>
           
+          <div class="note-box" style="margin: 20px 0;">
+            <strong>🧠 How Workstreams Are Assigned:</strong>
+            <p style="margin-top: 12px;">The portal analyzes the <strong>entire OPIF content</strong> including epic name, description, labels, and context to intelligently assign the appropriate workstream based on predefined business rules.</p>
+          </div>
+          
+          <h4 style="margin-top: 24px; color: #0053e2;">Workstream Categories:</h4>
           <div class="workstream-mapping">
             <div class="workstream-item">
               <div class="workstream-header strategy">📊 Strategy</div>
-              <p>Activity Types: Planning, Forecasting, Strategic Initiatives</p>
+              <p>Strategic initiatives, planning, forecasting, and transformation programs that span multiple workstreams</p>
             </div>
             
             <div class="workstream-item">
               <div class="workstream-header design">🎨 Design</div>
-              <p>Activity Types: Product Design, UX/UI, Conceptualization</p>
+              <p>Product design, UX/UI, PLM (Centric), conceptualization, and creative development activities</p>
             </div>
             
             <div class="workstream-item">
               <div class="workstream-header buying">🛒 Buying</div>
-              <p>Activity Types: Procurement, Vendor Management, Buy Planning</p>
+              <p>Procurement, vendor management, buy planning (BPE/DBP), assortment planning, and purchasing</p>
             </div>
             
             <div class="workstream-item">
               <div class="workstream-header allocation">📦 Allocation</div>
-              <p>Activity Types: Distribution, Inventory, Allocation Planning</p>
+              <p>Distribution, inventory management, allocation planning (AEX), and fulfillment optimization</p>
             </div>
           </div>
           
-          <div class="note-box">
-            <strong>📌 Note:</strong> If Activity Type indicates "Backlog", your OPIF will appear in the Roadmap view regardless of workstream.
+          <div class="note-box" style="margin-top: 24px;">
+            <strong>📌 Note on Activity Type:</strong>
+            <p style="margin-top: 8px;">The <code>Activity Type</code> field in your OPIF is <strong>one of many signals</strong> used for workstream assignment, but it's not the sole determinant. The portal uses intelligent inference based on the overall OPIF context.</p>
+            <p style="margin-top: 8px;">If your OPIF's workstream assignment seems incorrect, please contact the E2E Fashion Portal support team (see "Need Help?" section).</p>
           </div>
         </div>
         
@@ -331,8 +329,9 @@
               <div class="schedule-icon">📅</div>
               <div class="schedule-details">
                 <h4>Daily Automated Sync</h4>
-                <p>The portal automatically syncs with Confluence <strong>every morning</strong>.</p>
-                <p class="time-detail">⏰ Changes you make in Jira today will appear in the portal tomorrow morning.</p>
+                <p>The portal automatically syncs with Confluence <strong>every business day (Monday - Friday)</strong>.</p>
+                <p class="time-detail">⏰ Changes you make in Jira today will appear in the portal the next business day morning.</p>
+                <p class="note-text" style="margin-top: 8px;">📌 Weekend updates will appear on Monday morning.</p>
               </div>
             </div>
             
@@ -350,8 +349,35 @@
         <!-- Contact Section -->
         <div id="section-contact" class="guide-section">
           <h3>📞 Need Help?</h3>
-          <p>Get support from the E2E Fashion Portal team:</p>
+          <p><strong>Primary Contact: TPM Team by Workstream</strong></p>
           
+          <div class="contact-methods" style="margin-top: 20px;">
+            <div class="contact-card">
+              <div class="contact-icon" style="color: #667eea;">📊</div>
+              <h4>Strategy & Design</h4>
+              <p><strong>Lori Jordal</strong></p>
+              <a href="mailto:lori.jordal@walmart.com">lori.jordal@walmart.com</a>
+            </div>
+            
+            <div class="contact-card">
+              <div class="contact-icon" style="color: #f5576c;">🛒</div>
+              <h4>Buying & Allocation</h4>
+              <p><strong>Prashant Chalikandi</strong></p>
+              <a href="mailto:prashanth.chalikandi@walmart.com">prashanth.chalikandi@walmart.com</a>
+              <p style="margin-top: 12px;"><strong>Gaurav Chauhan</strong></p>
+              <a href="mailto:gaurav.chauhan@walmart.com">gaurav.chauhan@walmart.com</a>
+            </div>
+            
+            <div class="contact-card">
+              <div class="contact-icon" style="color: #2a8703;">⭐</div>
+              <h4>E2E Fashion Support</h4>
+              <p style="font-size: 13px; color: #666;">(Any & All Workstreams)</p>
+              <p><strong>Chris Graves</strong></p>
+              <a href="mailto:christopher.graves0@walmart.com">christopher.graves0@walmart.com</a>
+            </div>
+          </div>
+          
+          <h4 style="margin-top: 32px; color: #0053e2;">Additional Resources</h4>
           <div class="contact-methods">
             <div class="contact-card">
               <div class="contact-icon">💬</div>
@@ -365,13 +391,6 @@
               <h4>Confluence</h4>
               <p>Full documentation:</p>
               <a href="https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard" target="_blank">LLTT Dashboard</a>
-            </div>
-            
-            <div class="contact-card">
-              <div class="contact-icon">🐛</div>
-              <h4>Report an Issue</h4>
-              <p>Found a bug or have feedback?</p>
-              <code>Submit via Slack</code>
             </div>
           </div>
         </div>

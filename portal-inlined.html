@@ -5302,17 +5302,32 @@ let currentReviewMode = null;
 function daysUntilTarget(targetDate) {
   if (!targetDate || targetDate === 'TBD') return 999;
   
-  // Handle quarter-based dates
-  const quarterMap = {
-    'Q1': new Date('2026-04-30'),  // End of Q1
-    'Q2': new Date('2026-07-31'),  // End of Q2
-    'Q3': new Date('2026-10-31'),  // End of Q3
-    'Q4': new Date('2027-01-31'),  // End of Q4
+  // Handle quarter-based dates with fiscal year support
+  // Walmart fiscal year: FY26 = Feb 2025 - Jan 2026, FY27 = Feb 2026 - Jan 2027, etc.
+  const quarterMapFY26 = {
+    'Q1': new Date('2026-04-30'),  // End of Q1 FY26
+    'Q2': new Date('2026-07-31'),  // End of Q2 FY26
+    'Q3': new Date('2026-10-31'),  // End of Q3 FY26
+    'Q4': new Date('2027-01-31'),  // End of Q4 FY26
   };
   
-  // Check if it's a quarter reference
-  for (const [q, date] of Object.entries(quarterMap)) {
-    if (targetDate.includes(q)) {
+  const quarterMapFY27 = {
+    'Q1': new Date('2027-04-30'),  // End of Q1 FY27
+    'Q2': new Date('2027-07-31'),  // End of Q2 FY27
+    'Q3': new Date('2027-10-31'),  // End of Q3 FY27
+    'Q4': new Date('2028-01-31'),  // End of Q4 FY27
+  };
+  
+  // Check for fiscal year indicator
+  const isFY27 = targetDate.includes('FY27') || targetDate.includes('FY 27');
+  const quarterMap = isFY27 ? quarterMapFY27 : quarterMapFY26;
+  
+  // Check if it's a quarter reference (Q1, Q2, Q3, Q4)
+  const quarterMatch = targetDate.match(/\b(Q[1-4])\b/);
+  if (quarterMatch) {
+    const quarter = quarterMatch[1];
+    const date = quarterMap[quarter];
+    if (date) {
       const diff = date - new Date();
       return Math.ceil(diff / (1000 * 60 * 60 * 24));
     }
@@ -5622,7 +5637,7 @@ function renderWPRSection(title, cards, icon) {
           <div class="wpr-program-name">
             <span class="wpr-program-icon">${card.icon || '📌'}</span>
             <span>${card.title}</span>
-            ${card.critical ? '<span class="wpr-critical-badge">⭐ CRITICAL</span>' : ''}
+            ${((card.tag || '').indexOf('Critical') > -1) ? '<span class="wpr-critical-badge">⭐ CRITICAL</span>' : ''}
           </div>
         </td>
         <td>

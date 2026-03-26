@@ -374,6 +374,107 @@ function renderReviewContent(reviewType) {
   contentDiv.innerHTML = html;
 }
 
+// Extract all OPIF links from a card's resources
+function getCardOPIFs(card) {
+  const opifs = [];
+  
+  if (!card.resources) return opifs;
+  
+  // Primary OPIF from resources.opif
+  if (card.resources.opif && card.resources.opif !== '#' && card.resources.opif.includes('OPIF-')) {
+    const match = card.resources.opif.match(/OPIF-\d+/);
+    if (match) {
+      opifs.push({
+        id: match[0],
+        url: card.resources.opif,
+        isPrimary: true
+      });
+    }
+  }
+  
+  // Additional OPIFs from resources.other array
+  if (card.resources.other && Array.isArray(card.resources.other)) {
+    card.resources.other.forEach(item => {
+      if (item.url && item.url.includes('OPIF-')) {
+        const match = item.url.match(/OPIF-\d+/);
+        if (match) {
+          // Don't duplicate the primary OPIF
+          const isDuplicate = opifs.some(o => o.id === match[0]);
+          if (!isDuplicate) {
+            opifs.push({
+              id: match[0],
+              url: item.url,
+              label: item.label || match[0],
+              isPrimary: false
+            });
+          }
+        }
+      }
+    });
+  }
+  
+  return opifs;
+}
+
+// Toggle WPR row expansion to show OPIFs
+function toggleWPRRow(cardId) {
+  const mainRow = document.querySelector(`tr[data-card-id="${cardId}"]`);
+  if (!mainRow) return;
+  
+  const existingExpandRow = mainRow.nextElementSibling;
+  
+  // If already expanded, collapse it
+  if (existingExpandRow && existingExpandRow.classList.contains('wpr-expand-row')) {
+    existingExpandRow.remove();
+    mainRow.classList.remove('wpr-row-expanded');
+    return;
+  }
+  
+  // Find the card data
+  const card = window.PILLARS.flatMap(p => p.cards || []).find(c => c.id === cardId);
+  if (!card) return;
+  
+  // Get all OPIFs
+  const opifs = getCardOPIFs(card);
+  
+  // Create expand row
+  const colspan = mainRow.cells.length;
+  const expandRow = document.createElement('tr');
+  expandRow.className = 'wpr-expand-row';
+  
+  let expandContent = '';
+  
+  if (opifs.length === 0) {
+    expandContent = '<div class="wpr-expand-content"><div class="wpr-no-opifs">No OPIFs mapped to this program</div></div>';
+  } else {
+    const opifLinks = opifs.map(opif => {
+      const badge = opif.isPrimary ? '<span class="wpr-opif-primary-badge">Primary</span>' : '';
+      return `
+        <a href="${opif.url}" target="_blank" class="wpr-opif-link">
+          <span class="wpr-opif-icon">🔗</span>
+          <span class="wpr-opif-id">${opif.id}</span>
+          ${badge}
+        </a>
+      `;
+    }).join('');
+    
+    expandContent = `
+      <div class="wpr-expand-content">
+        <div class="wpr-expand-header">📋 Related OPIFs (${opifs.length})</div>
+        <div class="wpr-opif-links">
+          ${opifLinks}
+        </div>
+      </div>
+    `;
+  }
+  
+  expandRow.innerHTML = `<td colspan="${colspan}">${expandContent}</td>`;
+  
+  // Insert after main row
+  mainRow.parentNode.insertBefore(expandRow, mainRow.nextSibling);
+  mainRow.classList.add('wpr-row-expanded');
+}
+
 // Get recent update summary for a card (from OPIF history)
 function getCardUpdate(card) {
   // Check if we have OPIF updates loaded
@@ -431,7 +532,7 @@ function renderWPRSection(title, cards, icon) {
     const updateText = getCardUpdate(card);
     
     return `
-      <tr onclick="openCardModal('${card.id}')">
+      <tr class="wpr-row" data-card-id="${card.id}" onclick="toggleWPRRow('${card.id}')">
         <td class="wpr-program-cell">
           <div class="wpr-program-name">
             <span class="wpr-program-icon">${card.icon || '📌'}</span>

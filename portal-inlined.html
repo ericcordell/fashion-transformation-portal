@@ -5854,6 +5854,14 @@ function getCardUpdate(card) {
 
 // Render WPR section as a table
 function renderWPRSection(title, cards, icon) {
+  // Sort cards by target date ascending — earliest date on top
+  const sorted = [...cards].sort((a, b) => {
+    const dA = daysUntilTarget(a.targetDate);
+    const dB = daysUntilTarget(b.targetDate);
+    return dA - dB;
+  });
+  cards = sorted;
+
   if (cards.length === 0) {
     return `
       <div class="wpr-section">

@@ -25,15 +25,12 @@ const CARDS_BUYING = [
     successMetrics: 'All 24 OPIFs resolved or committed. Merchant satisfaction score improves. Support ticket volume continues downward trend from Neo baseline.',
     owners: pptOwners('Brett Reid', 'Chris Graves', 'Ryan Henderson', 'Robbie Dutta', 'Mike Dunn'),
     resources: res(
-      'https://jira.walmart.com/browse/OPIF-344926',
       '#',
-      'https://confluence.walmart.com/display/APREC/Automated+Item+Set+Up+for+AEX+Intents',
+      '#',
+      '#',
       '#',
       [
-        { label: 'OPIF-344926 — AEX Automated Item Set Up (Q1 Featured — Primary)', url: 'https://jira.walmart.com/browse/OPIF-344926' },
-        { label: 'OPIF-325602 — Tagging & Affinity Graph (Q1 Featured)', url: 'https://jira.walmart.com/browse/OPIF-325602' },
-        { label: 'OPIF-325568 — Move Fashion LP to AP Tool (Q1 Featured)', url: 'https://jira.walmart.com/browse/OPIF-325568' },
-        { label: 'LLTT Dashboard (all 24 Stability OPIFs)', url: 'https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard' },
+        { label: 'LLTT Dashboard — All 24 AEX Stability OPIFs', url: 'https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard' },
       ]
     ),
     workstreams: ['buying'],

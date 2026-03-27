@@ -592,6 +592,16 @@
   font-style: italic;
   padding: 8px 0;
 }
+
+.wpr-dashboard-link {
+  border-color: #6b7280 !important;
+  color: #374151 !important;
+}
+
+.wpr-dashboard-link:hover {
+  background: #374151 !important;
+  color: white !important;
+}
 .wpr-ws-badge.stores { background: #f0fdf4; color: #15803d; }
 .wpr-ws-badge.supply { background: #fae8ff; color: #86198f; }
 

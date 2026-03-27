@@ -377,9 +377,10 @@ function renderReviewContent(reviewType) {
 // Extract all OPIF links from a card's resources
 function getCardOPIFs(card) {
   const opifs = [];
-  
-  if (!card.resources) return opifs;
-  
+  const otherLinks = [];
+
+  if (!card.resources) return { opifs, otherLinks };
+
   // Primary OPIF from resources.opif
   if (card.resources.opif && card.resources.opif !== '#' && card.resources.opif.includes('OPIF-')) {
     const match = card.resources.opif.match(/OPIF-\d+/);
@@ -391,29 +392,29 @@ function getCardOPIFs(card) {
       });
     }
   }
-  
-  // Additional OPIFs from resources.other array
+
+  // Additional items from resources.other array
   if (card.resources.other && Array.isArray(card.resources.other)) {
     card.resources.other.forEach(item => {
-      if (item.url && item.url.includes('OPIF-')) {
+      if (!item.url) return;
+      if (item.url.includes('OPIF-')) {
         const match = item.url.match(/OPIF-\d+/);
-        if (match) {
-          // Don't duplicate the primary OPIF
-          const isDuplicate = opifs.some(o => o.id === match[0]);
-          if (!isDuplicate) {
-            opifs.push({
-              id: match[0],
-              url: item.url,
-              label: item.label || match[0],
-              isPrimary: false
-            });
-          }
+        if (match && !opifs.some(o => o.id === match[0])) {
+          opifs.push({
+            id: match[0],
+            url: item.url,
+            label: item.label || match[0],
+            isPrimary: false
+          });
         }
+      } else {
+        // Non-OPIF links (e.g. Confluence dashboard) — show as fallback
+        otherLinks.push({ label: item.label || 'Reference', url: item.url });
       }
     });
   }
-  
-  return opifs;
+
+  return { opifs, otherLinks };
 }
 
 // Toggle WPR row expansion to show OPIFs
@@ -435,7 +436,7 @@ function toggleWPRRow(cardId) {
   if (!card) return;
   
   // Get all OPIFs
-  const opifs = getCardOPIFs(card);
+  const { opifs, otherLinks } = getCardOPIFs(card);
   
   // Create expand row
   const colspan = mainRow.cells.length;
@@ -444,26 +445,43 @@ function toggleWPRRow(cardId) {
   
   let expandContent = '';
   
-  if (opifs.length === 0) {
-    expandContent = '<div class="wpr-expand-content"><div class="wpr-no-opifs">No OPIFs mapped to this program</div></div>';
+  if (opifs.length === 0 && otherLinks.length === 0) {
+    expandContent = '<div class="wpr-expand-content"><div class="wpr-no-opifs">📋 No OPIFs directly mapped to this program</div></div>';
   } else {
-    const opifLinks = opifs.map(opif => {
-      const badge = opif.isPrimary ? '<span class="wpr-opif-primary-badge">Primary</span>' : '';
-      return `
-        <a href="${opif.url}" target="_blank" class="wpr-opif-link">
-          <span class="wpr-opif-icon">🔗</span>
-          <span class="wpr-opif-id">${opif.id}</span>
-          ${badge}
+    let linksHTML = '';
+
+    if (opifs.length > 0) {
+      const opifLinks = opifs.map(opif => {
+        const badge = opif.isPrimary ? '<span class="wpr-opif-primary-badge">Primary</span>' : '';
+        return `
+          <a href="${opif.url}" target="_blank" class="wpr-opif-link" onclick="event.stopPropagation()">
+            <span class="wpr-opif-icon">🔗</span>
+            <span class="wpr-opif-id">${opif.id}</span>
+            ${badge}
+          </a>
+        `;
+      }).join('');
+      linksHTML += `<div class="wpr-opif-links">${opifLinks}</div>`;
+    }
+
+    if (otherLinks.length > 0) {
+      const dashLinks = otherLinks.map(link => `
+        <a href="${link.url}" target="_blank" class="wpr-opif-link wpr-dashboard-link" onclick="event.stopPropagation()">
+          <span class="wpr-opif-icon">📊</span>
+          <span>${link.label}</span>
         </a>
-      `;
-    }).join('');
-    
+      `).join('');
+      linksHTML += `<div class="wpr-opif-links">${dashLinks}</div>`;
+    }
+
+    const sectionLabel = opifs.length > 0
+      ? `📋 Related OPIFs (${opifs.length})`
+      : `📋 References`;
+
     expandContent = `
       <div class="wpr-expand-content">
-        <div class="wpr-expand-header">📋 Related OPIFs (${opifs.length})</div>
-        <div class="wpr-opif-links">
-          ${opifLinks}
-        </div>
+        <div class="wpr-expand-header">${sectionLabel}</div>
+        ${linksHTML}
       </div>
     `;
   }

@@ -78,18 +78,38 @@ function ganttDeco() {
   return stripes + divs + todayEl;
 }
 
-// Cards for a phase, respecting workstream filter
-function ganttPhaseCards(phaseNum) {
-  const cards  = window.PILLARS ? window.PILLARS.flatMap(p => p.cards || []) : [];
-  const pm     = typeof CARD_PHASE_MAP !== 'undefined' ? CARD_PHASE_MAP : {};
+// All cards by ID lookup
+function ganttCardIndex() {
+  const cards = window.PILLARS ? window.PILLARS.flatMap(p => p.cards || []) : [];
+  return Object.fromEntries(cards.map(c => [c.id, c]));
+}
+
+// Cards mapped to a specific goal, respecting workstream filter
+function ganttGoalCards(goalId) {
+  const map     = window.GOAL_CARD_MAP || {};
+  const ids     = map[String(goalId)] || [];
+  const index   = ganttCardIndex();
   const showAll = ganttActiveWS.has('all');
-  return cards
-    .filter(c => pm[c.id] === phaseNum && (showAll || (c.workstreams || []).some(ws => ganttActiveWS.has(ws))))
+  return ids
+    .map(id => index[id])
+    .filter(c => c && (showAll || (c.workstreams || []).some(ws => ganttActiveWS.has(ws))))
     .sort((a, b) => {
       const da = ganttParseDate(a.targetDate), db = ganttParseDate(b.targetDate);
       if (!da && !db) return 0; if (!da) return 1; if (!db) return -1;
       return da - db;
     });
+}
+
+// Total mapped cards for a phase (for the phase header count)
+function ganttPhaseCardCount(phaseNum) {
+  const phases = typeof PHASE_DEFS !== 'undefined' ? PHASE_DEFS : [];
+  const phase  = phases.find(p => p.num === phaseNum);
+  if (!phase) return 0;
+  const seen   = new Set();
+  (phase.goals || []).forEach(g => {
+    ganttGoalCards(String(g.id).replace('#', '')).forEach(c => seen.add(c.id));
+  });
+  return seen.size;
 }
 
 // ── Toggle handlers ───────────────────────────────────────────────────────────
@@ -126,7 +146,7 @@ window.renderGanttChart = function() {
     const pe       = new Date(phase.end);
     const phL      = ganttPct(ps).toFixed(2);
     const phW      = Math.max(1, ganttPct(pe) - ganttPct(ps)).toFixed(2);
-    const phCards  = ganttPhaseCards(phase.num);
+    const phCount  = ganttPhaseCardCount(phase.num);
 
     // ── Phase header ──
     html += `
@@ -135,7 +155,7 @@ window.renderGanttChart = function() {
           <span class="gantt-phase-emoji">${phase.emoji}</span>
           <div>
             <div class="gantt-phase-name">Phase ${phase.num}: ${phase.label}</div>
-            <div class="gantt-phase-win">${phase.window} &nbsp;·&nbsp; ${phCards.length} program${phCards.length !== 1 ? 's' : ''}</div>
+            <div class="gantt-phase-win">${phase.window} &nbsp;·&nbsp; ${phCount} mapped program${phCount !== 1 ? 's' : ''}</div>
           </div>
         </div>
         <div class="gantt-track">
@@ -151,6 +171,8 @@ window.renderGanttChart = function() {
       const goalId  = String(goal.id).replace('#', '');
       const key     = `${phase.num}-${goalId}`;
       const open    = ganttExpandedGoals.has(key);
+      const gCards  = ganttGoalCards(goalId);
+      const cCount  = gCards.length;
 
       html += `
         <div class="gantt-goal-row${open ? ' gantt-goal-open' : ''}" onclick="ganttToggleGoal('${key}')">
@@ -160,7 +182,7 @@ window.renderGanttChart = function() {
               <span class="gantt-goal-badge" style="background:${phase.color}20;color:${phase.color}">${goal.id}</span>
               <span class="gantt-label-text">${goal.label}</span>
             </div>
-            <div class="gantt-label-ws">${phCards.length} program${phCards.length!==1?'s':''} &nbsp;&bull;&nbsp; click to ${open?'collapse':'expand'}</div>
+            <div class="gantt-label-ws">${cCount} program${cCount!==1?'s':''} &nbsp;&bull;&nbsp; click to ${open?'collapse':'expand'}</div>
           </div>
           <div class="gantt-track">
             ${deco}
@@ -172,10 +194,10 @@ window.renderGanttChart = function() {
 
       // ── Expanded card rows ──
       if (open) {
-        if (phCards.length === 0) {
+        if (cCount === 0) {
           html += `<div class="gantt-card-empty">No programs match the active workstream filter.</div>`;
         } else {
-          phCards.forEach(card => {
+          gCards.forEach(card => {
             const start      = ganttQStart(card.quarter);
             const end        = ganttParseDate(card.targetDate);
             const geom       = ganttGeom(start, end);

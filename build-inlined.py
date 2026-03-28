@@ -31,6 +31,7 @@ JS_ORDER = [
     'data-allocation.js',
     'data-phases.js',
     'data-goals.js',
+    'data-goal-map.js',   # goal → card mappings for gantt
     'exec-narratives.js',
     'exec-summary.js',
     'roadmap-window.js',

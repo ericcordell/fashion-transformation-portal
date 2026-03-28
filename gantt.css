@@ -85,33 +85,54 @@
   min-width: 900px;
 }
 
-/* ── Quarter header ───────────────────────────────────────────────────────── */
+/* ── Two-row header: Quarter + Month ─────────────────────────────────────── */
 .gantt-header {
-  display: flex;
   margin-left: 220px;
-  margin-bottom: 0;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+/* Quarter row */
+.gantt-header-qrow {
+  display: flex;
 }
 
 .gantt-qcol {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 8px 0;
-  font-size: 12px;
+  padding: 6px 0;
+  font-size: 11px;
   font-weight: 700;
   color: #374151;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.6px;
   border-left: 1px solid #e5e7eb;
-  background: #f9fafb;
+  background: #f0f4fa;
 }
 
 .gantt-qcol:first-child { border-left: none; }
 
-.gantt-qsub {
-  display: none; /* sub-label hidden; label is enough */
+/* Month row */
+.gantt-header-mrow {
+  display: flex;
+  border-top: 1px solid #e5e7eb;
 }
+
+.gantt-mcol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 0;
+  font-size: 10px;
+  font-weight: 500;
+  color: #9ca3af;
+  border-left: 1px solid #f3f4f6;
+  background: #f9fafb;
+  letter-spacing: 0.2px;
+}
+
+.gantt-mcol:first-child  { border-left: none; }
+.gantt-mcol.gantt-mcol-qstart { border-left: 1px solid #d1d5db; color: #6b7280; font-weight: 600; }
 
 /* ── Phase header rows ────────────────────────────────────────────────────── */
 .gantt-phase-header {
@@ -285,7 +306,17 @@
   top: 0;
   height: 100%;
   width: 1px;
-  background: #e5e7eb;
+  background: #d1d5db;
+  pointer-events: none;
+}
+
+/* Subtle inner-month dividers */
+.gantt-month-divider {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 1px;
+  background: #f0f0f0;
   pointer-events: none;
 }
 

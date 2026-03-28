@@ -311,15 +311,7 @@ function renderReviewContent(reviewType) {
       </div>
     `;
 
-    // Build the quarter header
-    const qHeaderEl = document.getElementById('gantt-qheader');
-    if (qHeaderEl) {
-      qHeaderEl.innerHTML = GANTT_FY.quarters.map(q => {
-        const w = ((q.end - q.start) / GANTT_TOTAL_MS * 100).toFixed(2);
-        return `<div class="gantt-qcol" style="width:${w}%">${q.label}</div>`;
-      }).join('');
-    }
-
+    // Header is built inside renderGanttChart() via buildGanttHeader()
     renderGanttChart();
     return;
   }

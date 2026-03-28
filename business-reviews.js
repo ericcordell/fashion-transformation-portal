@@ -262,7 +262,7 @@ function renderReviewContent(reviewType) {
   if (reviewType === 'gantt') {
     const wsButtons = ['all','strategy','design','buying','allocation'].map(ws => {
       const cfg = GANTT_WS_CONFIG[ws];
-      return `<button class="gantt-ws-btn ws-${ws} ${ws === 'all' ? 'active' : ''}" onclick="ganttToggleWS('${ws}')">${cfg.label}</button>`;
+      return `<button class="gantt-ws-btn ws-${ws} ${ws === 'all' ? 'active' : ''}" data-ws="${ws}" onclick="ganttToggleWS('${ws}')">${cfg.label}</button>`;
     }).join('');
 
     const legendItems = Object.entries(GANTT_WS_CONFIG).filter(([k]) => k !== 'all').map(([, cfg]) =>

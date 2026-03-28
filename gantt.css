@@ -113,6 +113,102 @@
   display: none; /* sub-label hidden; label is enough */
 }
 
+/* ── Phase header rows ────────────────────────────────────────────────────── */
+.gantt-phase-header {
+  display: flex;
+  align-items: center;
+  background: #f0f6ff;
+  border-bottom: 1px solid #e5e7eb;
+  min-height: 42px;
+  margin-top: 8px;
+}
+
+.gantt-phase-header:first-child { margin-top: 0; }
+
+.gantt-phase-label-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.gantt-phase-emoji  { font-size: 18px; flex-shrink: 0; }
+.gantt-phase-name   { font-size: 13px; font-weight: 700; color: #1f2937; }
+.gantt-phase-win    { font-size: 10px; color: #6b7280; margin-top: 1px; }
+
+.gantt-phase-bar {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 26px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  z-index: 2;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* ── Goal rows ─────────────────────────────────────────────────────────────── */
+.gantt-goal-row {
+  display: flex;
+  align-items: center;
+  min-height: 36px;
+  border-bottom: 1px solid #f3f4f6;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.gantt-goal-row:hover { background: #fafafa; }
+.gantt-goal-open      { background: #f0f9ff; }
+
+.gantt-expand-icon {
+  font-size: 10px;
+  color: #6b7280;
+  flex-shrink: 0;
+  margin-right: 2px;
+}
+
+.gantt-goal-badge {
+  flex-shrink: 0;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 2px 5px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.gantt-goal-bar {
+  opacity: 0.75;
+}
+
+/* ── Card rows (expanded under a goal) ─────────────────────────────────────── */
+.gantt-card-row {
+  background: #fafeff;
+  min-height: 32px;
+}
+
+.gantt-card-row:hover { background: #f0f9ff; }
+
+.gantt-card-label {
+  padding-left: 32px !important;
+}
+
+.gantt-card-bar {
+  opacity: 0.85;
+  height: 16px !important;
+}
+
+.gantt-card-empty {
+  padding: 8px 12px 8px 48px;
+  font-size: 12px;
+  color: #9ca3af;
+  font-style: italic;
+  background: #fafeff;
+  border-bottom: 1px solid #f3f4f6;
+}
+
 /* ── Rows ─────────────────────────────────────────────────────────────────── */
 .gantt-row {
   display: flex;

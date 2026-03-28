@@ -5390,6 +5390,84 @@ background: #f9fafb;
 .gantt-qsub {
 display: none;
 }
+.gantt-phase-header {
+display: flex;
+align-items: center;
+background: #f0f6ff;
+border-bottom: 1px solid #e5e7eb;
+min-height: 42px;
+margin-top: 8px;
+}
+.gantt-phase-header:first-child { margin-top: 0; }
+.gantt-phase-label-cell {
+display: flex;
+align-items: center;
+gap: 10px;
+}
+.gantt-phase-emoji  { font-size: 18px; flex-shrink: 0; }
+.gantt-phase-name   { font-size: 13px; font-weight: 700; color: #1f2937; }
+.gantt-phase-win    { font-size: 10px; color: #6b7280; margin-top: 1px; }
+.gantt-phase-bar {
+position: absolute;
+top: 50%;
+transform: translateY(-50%);
+height: 26px;
+border-radius: 5px;
+display: flex;
+align-items: center;
+padding: 0 8px;
+z-index: 2;
+white-space: nowrap;
+overflow: hidden;
+}
+.gantt-goal-row {
+display: flex;
+align-items: center;
+min-height: 36px;
+border-bottom: 1px solid #f3f4f6;
+cursor: pointer;
+transition: background 0.12s;
+}
+.gantt-goal-row:hover { background: #fafafa; }
+.gantt-goal-open      { background: #f0f9ff; }
+.gantt-expand-icon {
+font-size: 10px;
+color: #6b7280;
+flex-shrink: 0;
+margin-right: 2px;
+}
+.gantt-goal-badge {
+flex-shrink: 0;
+font-size: 9px;
+font-weight: 800;
+padding: 2px 5px;
+border-radius: 4px;
+text-transform: uppercase;
+letter-spacing: 0.3px;
+}
+.gantt-goal-bar {
+opacity: 0.75;
+}
+.gantt-card-row {
+background: #fafeff;
+min-height: 32px;
+}
+.gantt-card-row:hover { background: #f0f9ff; }
+.gantt-card-label {
+padding-left: 32px !important;
+}
+.gantt-card-bar {
+opacity: 0.85;
+height: 16px !important;
+}
+.gantt-card-empty {
+padding: 8px 12px 8px 48px;
+font-size: 12px;
+color: #9ca3af;
+font-style: italic;
+background: #fafeff;
+border-bottom: 1px solid #f3f4f6;
+}
 .gantt-row {
 display: flex;
 align-items: center;
@@ -6489,7 +6567,7 @@ function getReviewCards(reviewType){if(!window.PILLARS)return[];const allCards=w
 function getReviewStats(cards){const stats={total:cards.length,green:0,yellow:0,red:0,completed:0,};cards.forEach(card=>{if(card.status==='green')stats.green++;else if(card.status==='yellow')stats.yellow++;else if(card.status==='red')stats.red++;else if(card.status==='completed')stats.completed++;});return stats;}
 function showReview(reviewType){currentReviewMode=reviewType;const phaseGrid=document.getElementById('phase-grid-wrap');const execBar=document.getElementById('exec-bar');const phaseBar=document.getElementById('phase-bar')?.parentElement;const strategyUmbrella=document.querySelector('.strategy-umbrella');if(phaseGrid)phaseGrid.style.display='none';if(execBar)execBar.style.display='none';if(phaseBar)phaseBar.style.display='none';if(strategyUmbrella)strategyUmbrella.style.display='none';const reviewsWrap=document.getElementById('business-reviews-wrap');if(reviewsWrap)reviewsWrap.style.display='block';Object.keys(BUSINESS_REVIEWS).forEach(key=>{const contentDiv=document.getElementById(`review-content-${key}`);if(contentDiv){contentDiv.classList.toggle('active',key===reviewType);}});renderReviewContent(reviewType);}
 function exitReviewMode(){currentReviewMode=null;const reviewsWrap=document.getElementById('business-reviews-wrap');if(reviewsWrap)reviewsWrap.style.display='none';const phaseGrid=document.getElementById('phase-grid-wrap');const execBar=document.getElementById('exec-bar');const phaseBar=document.getElementById('phase-bar')?.parentElement;const strategyUmbrella=document.querySelector('.strategy-umbrella');if(phaseGrid)phaseGrid.style.display='block';if(execBar)execBar.style.display='none';if(phaseBar)phaseBar.style.display='block';if(strategyUmbrella)strategyUmbrella.style.display='block';}
-function renderReviewContent(reviewType){const review=BUSINESS_REVIEWS[reviewType];if(!review)return;const contentDiv=document.getElementById(`review-content-${reviewType}`);if(!contentDiv)return;if(reviewType==='gantt'){const wsButtons=['all','strategy','design','buying','allocation'].map(ws=>{const cfg=GANTT_WS_CONFIG[ws];return`<button class="gantt-ws-btn ws-${ws} ${ws === 'all' ? 'active' : ''}" onclick="ganttToggleWS('${ws}')">${cfg.label}</button>`;}).join('');const legendItems=Object.entries(GANTT_WS_CONFIG).filter(([k])=>k!=='all').map(([,cfg])=>`<div class="gantt-legend-item"><div class="gantt-legend-dot" style="background:${cfg.color}"></div>${cfg.label}</div>`).join('');contentDiv.innerHTML=`
+function renderReviewContent(reviewType){const review=BUSINESS_REVIEWS[reviewType];if(!review)return;const contentDiv=document.getElementById(`review-content-${reviewType}`);if(!contentDiv)return;if(reviewType==='gantt'){const wsButtons=['all','strategy','design','buying','allocation'].map(ws=>{const cfg=GANTT_WS_CONFIG[ws];return`<button class="gantt-ws-btn ws-${ws} ${ws === 'all' ? 'active' : ''}" data-ws="${ws}" onclick="ganttToggleWS('${ws}')">${cfg.label}</button>`;}).join('');const legendItems=Object.entries(GANTT_WS_CONFIG).filter(([k])=>k!=='all').map(([,cfg])=>`<div class="gantt-legend-item"><div class="gantt-legend-dot" style="background:${cfg.color}"></div>${cfg.label}</div>`).join('');contentDiv.innerHTML=`
       <div class="review-back-bar"><button class="review-back-button" onclick="clearBusinessReview()">← Back</button></div><div class="review-header"><div class="review-header-title"><span class="review-header-icon">${review.icon}</span>
           ${review.title}
         </div><div class="review-header-subtitle">${review.subtitle}</div></div><div class="gantt-toolbar"><div class="gantt-ws-filters"><span class="gantt-ws-label">Workstream:</span>
@@ -6572,28 +6650,33 @@ function renderReviewCard(card){const owner=card.owners?.productLead?.name||card
   `;}
 function initBusinessReviews(){console.log('🐶 Initializing Business Reviews...',{hasPillars:!!window.PILLARS,pillarCount:window.PILLARS?window.PILLARS.length:0,totalCards:window.PILLARS?window.PILLARS.flatMap(p=>p.cards||[]).length:0});Object.keys(BUSINESS_REVIEWS).forEach(reviewType=>{renderReviewContent(reviewType);});console.log('✅ Business Reviews initialized!');}
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',()=>{const checkPillars=setInterval(()=>{if(window.PILLARS){clearInterval(checkPillars);initBusinessReviews();}},100);});}else{const checkPillars=setInterval(()=>{if(window.PILLARS){clearInterval(checkPillars);initBusinessReviews();}},100);}</script>
-<script>const GANTT_FY={start:new Date(2026,1,1),end:new Date(2027,1,1),quarters:[{label:'Q1 FY27',short:'Q1',start:new Date(2026,1,1),end:new Date(2026,4,1),color:'#e0eaff'},{label:'Q2 FY27',short:'Q2',start:new Date(2026,4,1),end:new Date(2026,7,1),color:'#f0f9ff'},{label:'Q3 FY27',short:'Q3',start:new Date(2026,7,1),end:new Date(2026,10,1),color:'#e0eaff'},{label:'Q4 FY27',short:'Q4',start:new Date(2026,10,1),end:new Date(2027,1,1),color:'#f0f9ff'},],};const GANTT_TOTAL_MS=GANTT_FY.end-GANTT_FY.start;const GANTT_WS_CONFIG={all:{label:'All Workstreams',color:'#6366f1'},strategy:{label:'Strategy',color:'#6366f1'},design:{label:'Design',color:'#0053e2'},buying:{label:'Buying',color:'#f59e0b'},allocation:{label:'Allocation',color:'#2a8703'},};const GANTT_STATUS_COLOR={completed:'#2a8703',green:'#2a8703',yellow:'#f59e0b',red:'#ea1100',roadmap:'#9ca3af',};let ganttActiveWS=new Set(['all']);function ganttQuarterStart(q){if(!q||q==='completed')return new Date(2026,1,1);const n=String(q).replace(/\D/g,'')[0];const map={'1':new Date(2026,1,1),'2':new Date(2026,4,1),'3':new Date(2026,7,1),'4':new Date(2026,10,1)};return map[n]||new Date(2026,1,1);}
-function ganttParseDate(str){if(!str||str==='TBD')return null;const qMatch=str.match(/Q([1-4])/);if(qMatch){const ends={'1':new Date(2026,3,30),'2':new Date(2026,6,31),'3':new Date(2026,9,31),'4':new Date(2027,0,31)};return ends[qMatch[1]]||null;}
-const rangeMatch=str.match(/([A-Za-z]+)[–\-]([A-Za-z]+)\s+(\d{4})/);if(rangeMatch){const d=new Date(`${rangeMatch[2]} 1, ${rangeMatch[3]}`);if(!isNaN(d))return new Date(d.getFullYear(),d.getMonth()+1,0);}
+<script>const GANTT_FY={start:new Date(2026,1,1),end:new Date(2027,1,1),quarters:[{label:'Q1 FY27',short:'Feb–Apr',start:new Date(2026,1,1),end:new Date(2026,4,1),stripe:'#eef4ff'},{label:'Q2 FY27',short:'May–Jul',start:new Date(2026,4,1),end:new Date(2026,7,1),stripe:'#f8faff'},{label:'Q3 FY27',short:'Aug–Oct',start:new Date(2026,7,1),end:new Date(2026,10,1),stripe:'#eef4ff'},{label:'Q4 FY27',short:'Nov–Jan',start:new Date(2026,10,1),end:new Date(2027,1,1),stripe:'#f8faff'},],};const GANTT_TOTAL_MS=GANTT_FY.end-GANTT_FY.start;const GANTT_WS_CONFIG={all:{label:'All Workstreams',color:'#6366f1'},strategy:{label:'Strategy',color:'#6366f1'},design:{label:'Design',color:'#0053e2'},buying:{label:'Buying',color:'#f59e0b'},allocation:{label:'Allocation',color:'#2a8703'},};const GANTT_STATUS_COLOR={completed:'#2a8703',green:'#2a8703',yellow:'#f59e0b',red:'#ea1100',roadmap:'#9ca3af',};let ganttActiveWS=new Set(['all']);let ganttExpandedGoals=new Set();function ganttPct(date){const clamped=Math.max(+GANTT_FY.start,Math.min(+GANTT_FY.end,+date));return((clamped-GANTT_FY.start)/GANTT_TOTAL_MS)*100;}
+function ganttParseDate(str){if(!str||str==='TBD'||str==='completed')return null;const qm=str.match(/Q([1-4])/);if(qm){const ends={'1':new Date(2026,3,30),'2':new Date(2026,6,31),'3':new Date(2026,9,31),'4':new Date(2027,0,31)};return ends[qm[1]]||null;}
+const rm=str.match(/([A-Za-z]+)[\u2013\-]([A-Za-z]+)\s+(\d{4})/);if(rm){const d=new Date(`${rm[2]} 1 ${rm[3]}`);return isNaN(d)?null:new Date(d.getFullYear(),d.getMonth()+1,0);}
 const d=new Date(str);return isNaN(d)?null:d;}
-function ganttPct(date){const clamped=Math.max(GANTT_FY.start,Math.min(GANTT_FY.end,date));return((clamped-GANTT_FY.start)/GANTT_TOTAL_MS)*100;}
-function ganttBarGeom(card){const start=ganttQuarterStart(card.quarter);const end=ganttParseDate(card.targetDate);if(!end)return null;const clampedEnd=end<GANTT_FY.start?GANTT_FY.start:end>GANTT_FY.end?GANTT_FY.end:end;const left=ganttPct(start);const right=ganttPct(clampedEnd);const width=Math.max(1,right-left);return{left,width};}
-function ganttFilteredCards(){const all=window.PILLARS?window.PILLARS.flatMap(p=>p.cards||[]):[];const showAll=ganttActiveWS.has('all');return all.filter(card=>{if(card.status==='completed')return true;if(showAll)return true;return(card.workstreams||[]).some(ws=>ganttActiveWS.has(ws));}).sort((a,b)=>{if(a.status==='completed'&&b.status!=='completed')return 1;if(b.status==='completed'&&a.status!=='completed')return-1;return ganttQuarterStart(a.quarter)-ganttQuarterStart(b.quarter);});}
-window.ganttToggleWS=function(ws){if(ws==='all'){ganttActiveWS=new Set(['all']);}else{ganttActiveWS.delete('all');if(ganttActiveWS.has(ws)){ganttActiveWS.delete(ws);if(ganttActiveWS.size===0)ganttActiveWS=new Set(['all']);}else{ganttActiveWS.add(ws);}}
-document.querySelectorAll('.gantt-ws-btn').forEach(btn=>{const id=btn.classList[1]?.replace('ws-','');btn.classList.toggle('active',!!id&&ganttActiveWS.has(id));});renderGanttChart();};window.renderGanttChart=function(){const wrap=document.getElementById('gantt-body');if(!wrap)return;const cards=ganttFilteredCards();const totalDays=GANTT_TOTAL_MS/86400000;const qHeaders=GANTT_FY.quarters.map(q=>{const w=((q.end-q.start)/GANTT_TOTAL_MS*100).toFixed(2);return`<div class="gantt-qcol" style="width:${w}%">${q.label}<span class="gantt-qsub">Feb–Apr / May–Jul / Aug–Oct / Nov–Jan</span></div>`;}).join('');const stripes=GANTT_FY.quarters.map(q=>{const l=ganttPct(q.start).toFixed(2);const w=((q.end-q.start)/GANTT_TOTAL_MS*100).toFixed(2);return`<div class="gantt-stripe" style="left:${l}%;width:${w}%;background:${q.color}"></div>`;}).join('');const today=new Date();const todayPct=ganttPct(today).toFixed(2);const todayMarker=today>=GANTT_FY.start&&today<=GANTT_FY.end?`<div class="gantt-today" style="left:${todayPct}%"><span class="gantt-today-label">Today</span></div>`:'';const dividers=GANTT_FY.quarters.slice(1).map(q=>{const l=ganttPct(q.start).toFixed(2);return`<div class="gantt-divider" style="left:${l}%"></div>`;}).join('');const rows=cards.map(card=>{const geom=ganttBarGeom(card);const wsColor=(card.workstreams||[]).length?(GANTT_WS_CONFIG[card.workstreams[0]]||GANTT_WS_CONFIG.all).color:'#9ca3af';const statusColor=GANTT_STATUS_COLOR[card.status]||'#9ca3af';const isCritical=(card.tag||'').includes('Critical');const barColor=card.status==='completed'?'#2a8703':wsColor;const bar=geom?`<div class="gantt-bar" style="left:${geom.left.toFixed(2)}%;width:${geom.width.toFixed(2)}%;background:${barColor}" title="${card.title}: ${card.targetDate || 'TBD'}"><span class="gantt-bar-label">${card.targetDate || ''}</span></div>`:`<div class="gantt-bar gantt-bar-tbd">TBD</div>`;const statusDot=`<span class="gantt-dot" style="background:${statusColor}"></span>`;const criticalStar=isCritical?'<span class="gantt-star">⭐</span>':'';return`
-      <div class="gantt-row"><div class="gantt-label"><div class="gantt-label-inner">
-            ${statusDot}
-            <span class="gantt-label-text">${card.icon || ''} ${card.title}</span>
-            ${criticalStar}
-          </div><div class="gantt-label-ws">${(card.workstreams || []).join(', ')}</div></div><div class="gantt-track">
-          ${stripes}
-          ${dividers}
-          ${todayMarker}
-          ${bar}
-        </div></div>`;}).join('');wrap.innerHTML=rows||'<div class="gantt-empty">No programs match the selected filters.</div>';};window.downloadGanttPPTX=function(){const btn=document.getElementById('gantt-dl-btn');if(btn){btn.textContent='⏳ Generating...';btn.disabled=true;}
-function doExport(pptxgen){const pres=new pptxgen();pres.layout='LAYOUT_WIDE';const slide=pres.addSlide();slide.background={color:'FFFFFF'};slide.addText('E2E Fashion Portal — Gantt Chart',{x:0.3,y:0.15,w:12.5,h:0.5,fontSize:20,bold:true,color:'0053e2',});slide.addText(`FY27 Roadmap  •  Generated ${new Date().toLocaleDateString()}`,{x:0.3,y:0.6,w:12.5,h:0.3,fontSize:11,color:'6b7280',});const trackX=3.2,trackW=9.8,rowH=0.28,startY=1.1;const qColors=['dbeafe','f0f9ff','dbeafe','f0f9ff'];GANTT_FY.quarters.forEach((q,i)=>{const pct=(q.end-q.start)/GANTT_TOTAL_MS;const x=trackX+(ganttPct(q.start)/100)*trackW;const w=pct*trackW;slide.addShape(pres.ShapeType.rect,{x,y:startY-0.32,w,h:0.28,fill:{color:qColors[i]},line:{color:'e5e7eb',pt:0.5}});slide.addText(q.label,{x,y:startY-0.32,w,h:0.28,fontSize:8,bold:true,color:'374151',align:'center',valign:'middle'});});const cards=ganttFilteredCards();cards.forEach((card,idx)=>{const y=startY+idx*rowH;const rowBg=idx%2===0?'f9fafb':'ffffff';slide.addShape(pres.ShapeType.rect,{x:0.2,y,w:12.9,h:rowH,fill:{color:rowBg},line:{color:'f3f4f6',pt:0.3}});const labelText=`${card.icon || ''} ${card.title}`;slide.addText(labelText,{x:0.25,y:y+0.02,w:2.9,h:rowH-0.04,fontSize:7,color:'1f2937',valign:'middle'});const geom=ganttBarGeom(card);if(geom){const wsColor=(card.workstreams||[]).length?(GANTT_WS_CONFIG[card.workstreams[0]]||GANTT_WS_CONFIG.all).color.replace('#',''):'9ca3af';const barColor=card.status==='completed'?'2a8703':wsColor;const bx=trackX+(geom.left/100)*trackW;const bw=Math.max(0.1,(geom.width/100)*trackW);slide.addShape(pres.ShapeType.rect,{x:bx,y:y+0.04,w:bw,h:rowH-0.08,fill:{color:barColor},line:{color:barColor,pt:0},rectRadius:0.05});if(bw>0.5){slide.addText(card.targetDate||'',{x:bx+0.05,y:y+0.04,w:bw-0.05,h:rowH-0.08,fontSize:5.5,color:'FFFFFF',valign:'middle'});}}});const legendY=startY+cards.length*rowH+0.15;const wsEntries=Object.entries(GANTT_WS_CONFIG).filter(([k])=>k!=='all');wsEntries.forEach(([key,cfg],i)=>{const lx=0.3+i*2.2;slide.addShape(pres.ShapeType.rect,{x:lx,y:legendY,w:0.18,h:0.13,fill:{color:cfg.color.replace('#','')}});slide.addText(cfg.label,{x:lx+0.22,y:legendY,w:1.8,h:0.13,fontSize:7,color:'374151',valign:'middle'});});pres.writeFile({fileName:`E2E-Fashion-Gantt-FY27-${Date.now()}.pptx`});if(btn){btn.textContent='📥 Download PPTX';btn.disabled=false;}}
+function ganttQStart(q){if(!q||q==='completed')return GANTT_FY.start;const n=String(q).replace(/\D/g,'')[0];const m={'1':new Date(2026,1,1),'2':new Date(2026,4,1),'3':new Date(2026,7,1),'4':new Date(2026,10,1)};return m[n]||GANTT_FY.start;}
+function ganttGeom(startDate,endDate){if(!endDate)return null;const l=ganttPct(startDate);const r=ganttPct(endDate);return{left:l.toFixed(2),width:Math.max(1.5,r-l).toFixed(2)};}
+function ganttDeco(){const stripes=GANTT_FY.quarters.map(q=>{const l=ganttPct(q.start).toFixed(2);const w=((q.end-q.start)/GANTT_TOTAL_MS*100).toFixed(2);return`<div class="gantt-stripe" style="left:${l}%;width:${w}%;background:${q.stripe}"></div>`;}).join('');const divs=GANTT_FY.quarters.slice(1).map(q=>`<div class="gantt-divider" style="left:${ganttPct(q.start).toFixed(2)}%"></div>`).join('');const now=new Date();const todayEl=(now>=GANTT_FY.start&&now<=GANTT_FY.end)?`<div class="gantt-today" style="left:${ganttPct(now).toFixed(2)}%"><span class="gantt-today-label">Today</span></div>`:'';return stripes+divs+todayEl;}
+function ganttPhaseCards(phaseNum){const cards=window.PILLARS?window.PILLARS.flatMap(p=>p.cards||[]):[];const pm=typeof CARD_PHASE_MAP!=='undefined'?CARD_PHASE_MAP:{};const showAll=ganttActiveWS.has('all');return cards.filter(c=>pm[c.id]===phaseNum&&(showAll||(c.workstreams||[]).some(ws=>ganttActiveWS.has(ws)))).sort((a,b)=>{const da=ganttParseDate(a.targetDate),db=ganttParseDate(b.targetDate);if(!da&&!db)return 0;if(!da)return 1;if(!db)return-1;return da-db;});}
+window.ganttToggleGoal=function(key){ganttExpandedGoals.has(key)?ganttExpandedGoals.delete(key):ganttExpandedGoals.add(key);renderGanttChart();};window.ganttToggleWS=function(ws){if(ws==='all'){ganttActiveWS=new Set(['all']);}else{ganttActiveWS.delete('all');ganttActiveWS.has(ws)?ganttActiveWS.delete(ws):ganttActiveWS.add(ws);if(ganttActiveWS.size===0)ganttActiveWS=new Set(['all']);}
+document.querySelectorAll('.gantt-ws-btn').forEach(btn=>{btn.classList.toggle('active',ganttActiveWS.has(btn.dataset.ws));});renderGanttChart();};window.renderGanttChart=function(){const wrap=document.getElementById('gantt-body');if(!wrap)return;const phases=typeof PHASE_DEFS!=='undefined'?PHASE_DEFS:[];const deco=ganttDeco();let html='';phases.forEach(phase=>{const ps=new Date(phase.start);const pe=new Date(phase.end);const phL=ganttPct(ps).toFixed(2);const phW=Math.max(1,ganttPct(pe)-ganttPct(ps)).toFixed(2);const phCards=ganttPhaseCards(phase.num);html+=`
+      <div class="gantt-phase-header" style="border-left:4px solid ${phase.color}"><div class="gantt-label gantt-phase-label-cell"><span class="gantt-phase-emoji">${phase.emoji}</span><div><div class="gantt-phase-name">Phase ${phase.num}: ${phase.label}</div><div class="gantt-phase-win">${phase.window} &nbsp;·&nbsp; ${phCards.length} program${phCards.length !== 1 ? 's' : ''}</div></div></div><div class="gantt-track">
+          ${deco}
+          <div class="gantt-phase-bar" style="left:${phL}%;width:${phW}%;border:1.5px solid ${phase.color}40;background:${phase.color}14"><span style="color:${phase.color};font-weight:700;font-size:11px">${phase.label}</span></div></div></div>`;(phase.goals||[]).forEach(goal=>{const goalId=String(goal.id).replace('#','');const key=`${phase.num}-${goalId}`;const open=ganttExpandedGoals.has(key);html+=`
+        <div class="gantt-goal-row${open ? ' gantt-goal-open' : ''}" onclick="ganttToggleGoal('${key}')"><div class="gantt-label"><div class="gantt-label-inner"><span class="gantt-expand-icon">${open ? '\u25be' : '\u25b8'}</span><span class="gantt-goal-badge" style="background:${phase.color}20;color:${phase.color}">${goal.id}</span><span class="gantt-label-text">${goal.label}</span></div><div class="gantt-label-ws">${phCards.length} program${phCards.length!==1?'s':''} &nbsp;&bull;&nbsp; click to ${open?'collapse':'expand'}</div></div><div class="gantt-track">
+            ${deco}
+            <div class="gantt-bar gantt-goal-bar" style="left:${phL}%;width:${phW}%;background:${phase.color}"><span class="gantt-bar-label">${goal.label}</span></div></div></div>`;if(open){if(phCards.length===0){html+=`<div class="gantt-card-empty">No programs match the active workstream filter.</div>`;}else{phCards.forEach(card=>{const start=ganttQStart(card.quarter);const end=ganttParseDate(card.targetDate);const geom=ganttGeom(start,end);const wsKey=(card.workstreams||[])[0]||'all';const barColor=card.status==='completed'?'#2a8703':(GANTT_WS_CONFIG[wsKey]||GANTT_WS_CONFIG.all).color;const statusColor=GANTT_STATUS_COLOR[card.status]||'#9ca3af';const isCritical=(card.tag||'').includes('Critical');html+=`
+              <div class="gantt-row gantt-card-row"><div class="gantt-label gantt-card-label"><div class="gantt-label-inner"><span class="gantt-dot" style="background:${statusColor}"></span><span class="gantt-label-text">${card.icon || ''} ${card.title}</span>
+                    ${isCritical ? '<span class="gantt-star">\u2b50</span>' : ''}
+                  </div><div class="gantt-label-ws">${(card.workstreams||[]).join(', ')} &middot; ${card.targetDate||'TBD'}</div></div><div class="gantt-track">
+                  ${deco}
+                  ${geom
+                    ? `<div class="gantt-bar gantt-card-bar"style="left:${geom.left}%;width:${geom.width}%;background:${barColor}"><span class="gantt-bar-label">${card.targetDate||''}</span></div>`
+                    : '<div class="gantt-bar gantt-bar-tbd">TBD</div>'}
+                </div></div>`;});}}});});wrap.innerHTML=html||'<div class="gantt-empty">No phases defined.</div>';};window.downloadGanttPPTX=function(){const btn=document.getElementById('gantt-dl-btn');if(btn){btn.textContent='\u23f3 Generating...';btn.disabled=true;}
+function doExport(pptxgen){const pres=new pptxgen();pres.layout='LAYOUT_WIDE';const slide=pres.addSlide();slide.background={color:'FFFFFF'};slide.addText('E2E Fashion Portal \u2014 Gantt Chart FY27',{x:0.3,y:0.15,w:12.5,h:0.45,fontSize:20,bold:true,color:'0053e2'});slide.addText(`Generated ${new Date().toLocaleDateString()}`,{x:0.3,y:0.58,w:12.5,h:0.25,fontSize:10,color:'6b7280'});const trackX=3.1,trackW=10,rowH=0.28,startY=1.05;GANTT_FY.quarters.forEach((q,i)=>{const l=trackX+(ganttPct(q.start)/100)*trackW;const w=((q.end-q.start)/GANTT_TOTAL_MS)*trackW;slide.addShape(pres.ShapeType.rect,{x:l,y:startY-0.3,w,h:0.26,fill:{color:i%2?'f0f9ff':'dbeafe'},line:{color:'e5e7eb',pt:0.5}});slide.addText(q.label,{x:l,y:startY-0.3,w,h:0.26,fontSize:8,bold:true,color:'374151',align:'center',valign:'middle'});});const phases=typeof PHASE_DEFS!=='undefined'?PHASE_DEFS:[];let row=0;phases.forEach(phase=>{const ps=new Date(phase.start),pe=new Date(phase.end);const phL=trackX+(ganttPct(ps)/100)*trackW;const phW=Math.max(0.1,(ganttPct(pe)-ganttPct(ps))/100*trackW);const y=startY+row*rowH;row++;slide.addShape(pres.ShapeType.rect,{x:0.2,y,w:12.9,h:rowH,fill:{color:phase.color.replace('#','')+'18'},line:{color:phase.color.replace('#','')+'40',pt:0.5}});slide.addText(`Phase ${phase.num}: ${phase.label}`,{x:0.25,y:y+0.02,w:2.8,h:rowH-0.04,fontSize:8,bold:true,color:phase.color.replace('#',''),valign:'middle'});slide.addShape(pres.ShapeType.rect,{x:phL,y:y+0.05,w:phW,h:rowH-0.1,fill:{color:phase.color.replace('#','')+'30'},line:{color:phase.color.replace('#',''),pt:0.5}});(phase.goals||[]).forEach(goal=>{const gy=startY+row*rowH;row++;slide.addShape(pres.ShapeType.rect,{x:0.2,y:gy,w:12.9,h:rowH,fill:{color:'f9fafb'},line:{color:'f3f4f6',pt:0.3}});slide.addText(`  ${goal.id} ${goal.label}`,{x:0.25,y:gy+0.02,w:2.8,h:rowH-0.04,fontSize:7,color:'374151',valign:'middle'});slide.addShape(pres.ShapeType.rect,{x:phL,y:gy+0.06,w:phW,h:rowH-0.12,fill:{color:phase.color.replace('#','')},line:{color:phase.color.replace('#',''),pt:0}});if(phW>0.6)slide.addText(goal.label,{x:phL+0.05,y:gy+0.06,w:phW,h:rowH-0.12,fontSize:6,color:'FFFFFF',valign:'middle'});});});pres.writeFile({fileName:`E2E-Fashion-Gantt-FY27-${Date.now()}.pptx`});if(btn){btn.textContent='\ud83d\udce5 Download PPTX';btn.disabled=false;}}
 if(window.PptxGenJS){doExport(window.PptxGenJS);return;}
-const script=document.createElement('script');script.src='https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js';script.onload=()=>doExport(window.PptxGenJS);script.onerror=()=>{alert('⚠️ Could not load PPTX library. Check your network connection and try again.');if(btn){btn.textContent='📥 Download PPTX';btn.disabled=false;}};document.head.appendChild(script);};</script>
+const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js';s.onload=()=>doExport(window.PptxGenJS);s.onerror=()=>{alert('\u26a0\ufe0f Could not load PPTX library. Check your network and try again.');if(btn){btn.textContent='\ud83d\udce5 Download PPTX';btn.disabled=false;}};document.head.appendChild(s);};</script>
 <script>function getActiveQuarters(){const now=new Date();const yr=now.getFullYear();const windows={Q1:[new Date(yr,1,1),new Date(yr,3,30)],Q2:[new Date(yr,4,1),new Date(yr,6,31)],Q3:[new Date(yr,7,1),new Date(yr,9,31)],Q4:[new Date(yr,10,1),new Date(yr+1,0,31)],};const horizon=new Date(now.getTime()+90*24*60*60*1000);const active=new Set(['completed']);for(const[q,[start,end]]of Object.entries(windows)){if(start<=horizon&&end>=now)active.add(q);}
 return active;}
 const ACTIVE_QUARTERS=getActiveQuarters();function getActiveCards(pillar){return QUARTER_ORDER.filter(q=>ACTIVE_QUARTERS.has(q)).flatMap(q=>pillar.cards.filter(c=>c.quarter===q));}

@@ -298,7 +298,16 @@ function renderReviewContent(reviewType) {
       <div class="gantt-legend">
         <span class="gantt-legend-title">Workstream:</span>
         ${legendItems}
-        <div class="gantt-legend-item"><div class="gantt-legend-dot" style="background:#ea1100;width:2px;height:16px;border-radius:0"></div>Today</div>
+        <div class="gantt-legend-item"><div style="width:14px;height:14px;border-radius:3px;background:#ea1100"></div>Today</div>
+        <div class="gantt-legend-item" style="margin-left:12px">
+          <div style="width:24px;height:10px;border-radius:3px;background:#6366f1;opacity:0.9"></div>In Progress
+        </div>
+        <div class="gantt-legend-item">
+          <div style="width:24px;height:10px;border-radius:3px;background:#6366f128;border:1.5px dashed #6366f1"></div>Delivery Window
+        </div>
+        <div class="gantt-legend-item">
+          <div style="width:24px;height:4px;border-radius:2px;background:#6366f1;opacity:0.3"></div>Live / Deployed
+        </div>
       </div>
     `;
 

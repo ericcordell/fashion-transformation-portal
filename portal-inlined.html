@@ -2340,24 +2340,34 @@ details > summary::-webkit-details-marker { display: none; }
   pointer-events: none;
 }
 
-.gantt-today {
+/* Today: single full-height overlay on gantt-body, not per-row */
+#gantt-body {
+  position: relative;
+}
+
+.gantt-today-overlay {
   position: absolute;
   top: 0;
-  height: 100%;
+  bottom: 0;
   width: 2px;
   background: #ea1100;
-  z-index: 3;
+  z-index: 10;
   pointer-events: none;
+  transform: translateX(-1px);
 }
 
 .gantt-today-label {
   position: absolute;
-  top: 2px;
-  left: 3px;
+  top: 4px;
+  left: 4px;
   font-size: 9px;
-  font-weight: 700;
+  font-weight: 800;
   color: #ea1100;
   white-space: nowrap;
+  background: white;
+  padding: 1px 3px;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(234,17,0,.15);
 }
 
 /* ── Bars ─────────────────────────────────────────────────────────────────── */
@@ -2378,6 +2388,57 @@ details > summary::-webkit-details-marker { display: none; }
 }
 
 .gantt-bar:hover { opacity: 1; }
+
+/* Zone 1: solid "work in progress" bar */
+.gantt-bar-inflight {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 20px;
+  border-radius: 4px 0 0 4px;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  z-index: 2;
+  overflow: hidden;
+  opacity: 0.9;
+}
+
+/* Zone 2: dashed delivery window bar */
+.gantt-bar-window {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 20px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  z-index: 2;
+  overflow: hidden;
+}
+
+/* Zone 3: thin "deployed & live" line */
+.gantt-bar-deployed {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 4px;
+  border-radius: 0 2px 2px 0;
+  opacity: 0.3;
+  z-index: 1;
+}
+
+/* Point delivery tick mark */
+.gantt-bar-tick {
+  position: absolute;
+  top: 20%;
+  height: 60%;
+  width: 3px;
+  border-radius: 1px;
+  border-left: 3px solid;
+  z-index: 3;
+}
 
 .gantt-bar-label {
   font-size: 10px;
@@ -6207,7 +6268,16 @@ function renderReviewContent(reviewType) {
       <div class="gantt-legend">
         <span class="gantt-legend-title">Workstream:</span>
         ${legendItems}
-        <div class="gantt-legend-item"><div class="gantt-legend-dot" style="background:#ea1100;width:2px;height:16px;border-radius:0"></div>Today</div>
+        <div class="gantt-legend-item"><div style="width:14px;height:14px;border-radius:3px;background:#ea1100"></div>Today</div>
+        <div class="gantt-legend-item" style="margin-left:12px">
+          <div style="width:24px;height:10px;border-radius:3px;background:#6366f1;opacity:0.9"></div>In Progress
+        </div>
+        <div class="gantt-legend-item">
+          <div style="width:24px;height:10px;border-radius:3px;background:#6366f128;border:1.5px dashed #6366f1"></div>Delivery Window
+        </div>
+        <div class="gantt-legend-item">
+          <div style="width:24px;height:4px;border-radius:2px;background:#6366f1;opacity:0.3"></div>Live / Deployed
+        </div>
       </div>
     `;
 
@@ -6663,13 +6733,14 @@ const GANTT_FY = {
   start: new Date(2026, 1, 1),   // Feb 1 2026
   end:   new Date(2027, 1, 1),   // Feb 1 2027
   quarters: [
-    { label: 'Q1 FY27', short: 'Feb–Apr', start: new Date(2026,  1, 1), end: new Date(2026,  4, 1), stripe: '#eef4ff' },
-    { label: 'Q2 FY27', short: 'May–Jul', start: new Date(2026,  4, 1), end: new Date(2026,  7, 1), stripe: '#f8faff' },
-    { label: 'Q3 FY27', short: 'Aug–Oct', start: new Date(2026,  7, 1), end: new Date(2026, 10, 1), stripe: '#eef4ff' },
-    { label: 'Q4 FY27', short: 'Nov–Jan', start: new Date(2026, 10, 1), end: new Date(2027,  1, 1), stripe: '#f8faff' },
+    { label: 'Q1 FY27', start: new Date(2026,  1, 1), end: new Date(2026,  4, 1), stripe: '#eef4ff' },
+    { label: 'Q2 FY27', start: new Date(2026,  4, 1), end: new Date(2026,  7, 1), stripe: '#f8faff' },
+    { label: 'Q3 FY27', start: new Date(2026,  7, 1), end: new Date(2026, 10, 1), stripe: '#eef4ff' },
+    { label: 'Q4 FY27', start: new Date(2026, 10, 1), end: new Date(2027,  1, 1), stripe: '#f8faff' },
   ],
 };
 const GANTT_TOTAL_MS = GANTT_FY.end - GANTT_FY.start;
+const GANTT_LABEL_W  = 220; // px — must match .gantt-label width in CSS
 
 const GANTT_WS_CONFIG = {
   all:        { label: 'All Workstreams', color: '#6366f1' },
@@ -6679,47 +6750,132 @@ const GANTT_WS_CONFIG = {
   allocation: { label: 'Allocation',      color: '#2a8703' },
 };
 
-const GANTT_STATUS_COLOR = {
-  completed: '#2a8703', green: '#2a8703', yellow: '#f59e0b', red: '#ea1100', roadmap: '#9ca3af',
-};
+let ganttActiveWS      = new Set(['all']);
+let ganttExpandedGoals = new Set();
 
-let ganttActiveWS       = new Set(['all']);
-let ganttExpandedGoals  = new Set();
-
-// ── Helpers ───────────────────────────────────────────────────────────────────
+// ── Date helpers ─────────────────────────────────────────────────────────────
 function ganttPct(date) {
   const clamped = Math.max(+GANTT_FY.start, Math.min(+GANTT_FY.end, +date));
   return ((clamped - GANTT_FY.start) / GANTT_TOTAL_MS) * 100;
 }
 
-function ganttParseDate(str) {
-  if (!str || str === 'TBD' || str === 'completed') return null;
-  const qm = str.match(/Q([1-4])/);
-  if (qm) {
-    const ends = { '1': new Date(2026,3,30), '2': new Date(2026,6,31), '3': new Date(2026,9,31), '4': new Date(2027,0,31) };
-    return ends[qm[1]] || null;
-  }
-  const rm = str.match(/([A-Za-z]+)[\u2013\-]([A-Za-z]+)\s+(\d{4})/);
-  if (rm) { const d = new Date(`${rm[2]} 1 ${rm[3]}`); return isNaN(d) ? null : new Date(d.getFullYear(), d.getMonth()+1, 0); }
-  const d = new Date(str);
-  return isNaN(d) ? null : d;
-}
-
+// Quarter start date from a quarter string like 'Q2' or 'Q3'
 function ganttQStart(q) {
   if (!q || q === 'completed') return GANTT_FY.start;
   const n = String(q).replace(/\D/g, '')[0];
-  const m = { '1': new Date(2026,1,1), '2': new Date(2026,4,1), '3': new Date(2026,7,1), '4': new Date(2026,10,1) };
-  return m[n] || GANTT_FY.start;
+  return ({ '1': new Date(2026,1,1), '2': new Date(2026,4,1), '3': new Date(2026,7,1), '4': new Date(2026,10,1) })[n] || GANTT_FY.start;
 }
 
-function ganttGeom(startDate, endDate) {
-  if (!endDate) return null;
-  const l = ganttPct(startDate);
-  const r = ganttPct(endDate);
-  return { left: l.toFixed(2), width: Math.max(1.5, r - l).toFixed(2) };
+// Parse a targetDate string into { start, end, isRange }
+// start = earliest possible delivery; end = guaranteed-by date
+function ganttParseRange(str) {
+  if (!str || str === 'TBD' || str === 'completed') return null;
+
+  // Cross-year range: "Nov 2026–Jan 2027"
+  let m = str.match(/([A-Za-z]+)\s+(\d{4})[\u2013\-]+([A-Za-z]+)\s+(\d{4})/);
+  if (m) {
+    const s = new Date(`${m[1]} 1 ${m[2]}`);
+    const e = new Date(`${m[3]} 1 ${m[4]}`);
+    if (!isNaN(s) && !isNaN(e))
+      return { start: s, end: new Date(e.getFullYear(), e.getMonth() + 1, 0), isRange: true };
+  }
+
+  // Same-year range: "Aug–Oct 2026" or "May–Oct 2026"
+  m = str.match(/([A-Za-z]+)[\u2013\-]+([A-Za-z]+)\s+(\d{4})/);
+  if (m) {
+    const s = new Date(`${m[1]} 1 ${m[3]}`);
+    const e = new Date(`${m[2]} 1 ${m[3]}`);
+    if (!isNaN(s) && !isNaN(e))
+      return { start: s, end: new Date(e.getFullYear(), e.getMonth() + 1, 0), isRange: true };
+  }
+
+  // Quarter range: "Q1–Q2 FY27"
+  m = str.match(/Q([1-4])[\u2013\-]+Q([1-4])/);
+  if (m) {
+    const qs = { '1': new Date(2026,1,1),  '2': new Date(2026,4,1),  '3': new Date(2026,7,1),  '4': new Date(2026,10,1) };
+    const qe = { '1': new Date(2026,3,30), '2': new Date(2026,6,31), '3': new Date(2026,9,31), '4': new Date(2027,0,31) };
+    return { start: qs[m[1]], end: qe[m[2]], isRange: true };
+  }
+
+  // Single quarter: "Q1 FY27"
+  m = str.match(/Q([1-4])/);
+  if (m) {
+    const qe = { '1': new Date(2026,3,30), '2': new Date(2026,6,31), '3': new Date(2026,9,31), '4': new Date(2027,0,31) };
+    const d = qe[m[1]];
+    return d ? { start: d, end: d, isRange: false } : null;
+  }
+
+  // Specific date: "April 30, 2026" / "Jul 31, 2026"
+  const d = new Date(str.replace(/,/, ''));
+  if (!isNaN(d)) return { start: d, end: d, isRange: false };
+
+  return null;
 }
 
-// Track decoration: stripes + quarter dividers + today line
+// ── Three-zone bar rendering ─────────────────────────────────────────────────
+// Zone 1 (solid):   qStart  →  deliveryWindow.start  — "work in progress"
+// Zone 2 (dashed):  window.start  →  window.end      — "could land here" (range only)
+// Zone 3 (thin):    window.end  →  chart end          — "deployed & live"
+function ganttBars(card) {
+  const range  = ganttParseRange(card.targetDate);
+  const wsKey  = (card.workstreams || [])[0] || 'all';
+  const color  = card.status === 'completed'
+    ? '#2a8703'
+    : (GANTT_WS_CONFIG[wsKey] || GANTT_WS_CONFIG.all).color;
+
+  if (!range) {
+    return `<div class="gantt-bar gantt-bar-tbd" style="left:0%;width:100%">TBD</div>`;
+  }
+
+  const qStart  = ganttQStart(card.quarter);
+  // Anchor: earliest of qStart and deliveryWindow start
+  const anchor  = new Date(Math.min(+qStart, +range.start));
+  const winEnd  = range.end;
+  let html = '';
+
+  // Zone 1: solid in-flight bar (anchor → range.start)
+  // Skip if anchor == range.start (work starts exactly at delivery window)
+  if (+range.start > +anchor) {
+    const l = ganttPct(anchor).toFixed(2);
+    const w = (ganttPct(range.start) - ganttPct(anchor)).toFixed(2);
+    if (parseFloat(w) > 0.3) {
+      html += `<div class="gantt-bar gantt-bar-inflight" style="left:${l}%;width:${w}%;background:${color}">
+        <span class="gantt-bar-label">${range.isRange ? '' : card.targetDate}</span>
+      </div>`;
+    }
+  }
+
+  // Zone 2: delivery window (range.start → range.end), lighter + dashed if isRange
+  if (range.isRange) {
+    const l = ganttPct(range.start).toFixed(2);
+    const w = Math.max(1.5, ganttPct(range.end) - ganttPct(range.start)).toFixed(2);
+    html += `<div class="gantt-bar gantt-bar-window" style="left:${l}%;width:${w}%;background:${color}28;border:1.5px dashed ${color}">
+      <span class="gantt-bar-label" style="color:${color}80">${card.targetDate}</span>
+    </div>`;
+  } else {
+    // Point delivery: show a vertical tick at the target date
+    const l = ganttPct(range.end).toFixed(2);
+    html += `<div class="gantt-bar-tick" style="left:${l}%;border-color:${color}"></div>`;
+  }
+
+  // Zone 3: deployed line (range.end → chart end)
+  const deployPct = ganttPct(winEnd);
+  if (deployPct < 99.5) {
+    const l = deployPct.toFixed(2);
+    const w = Math.max(0.5, 100 - deployPct).toFixed(2);
+    html += `<div class="gantt-bar-deployed" style="left:${l}%;width:${w}%;background:${color}"></div>`;
+  }
+
+  // Fallback if nothing rendered (anchor == range.end and already at chart end)
+  if (!html) {
+    const l = Math.max(0, ganttPct(anchor) - 1).toFixed(2);
+    html = `<div class="gantt-bar gantt-bar-inflight" style="left:${l}%;width:2%;background:${color}"></div>`;
+  }
+
+  return html;
+}
+
+// ── Row track decorations (stripes + dividers only — NO today line) ───────────
 function ganttDeco() {
   const stripes = GANTT_FY.quarters.map(q => {
     const l = ganttPct(q.start).toFixed(2);
@@ -6729,40 +6885,53 @@ function ganttDeco() {
   const divs = GANTT_FY.quarters.slice(1).map(q =>
     `<div class="gantt-divider" style="left:${ganttPct(q.start).toFixed(2)}%"></div>`
   ).join('');
-  const now = new Date();
-  const todayEl = (now >= GANTT_FY.start && now <= GANTT_FY.end)
-    ? `<div class="gantt-today" style="left:${ganttPct(now).toFixed(2)}%"><span class="gantt-today-label">Today</span></div>` : '';
-  return stripes + divs + todayEl;
+  return stripes + divs;
 }
 
-// All cards by ID lookup
+// Today overlay — single full-height line injected ONCE into gantt-body after render
+function ganttInjectToday() {
+  document.querySelectorAll('.gantt-today-overlay').forEach(el => el.remove());
+  const body = document.getElementById('gantt-body');
+  if (!body) return;
+  const now = new Date();
+  if (now < GANTT_FY.start || now > GANTT_FY.end) return;
+  const pct = (now - GANTT_FY.start) / GANTT_TOTAL_MS;
+  // Within gantt-body the label col is GANTT_LABEL_W px wide, track is the rest.
+  // left = label_w + pct * (100% - label_w)
+  //      = label_w * (1 - pct) + pct * 100%
+  const overlay = document.createElement('div');
+  overlay.className = 'gantt-today-overlay';
+  overlay.style.left = `calc(${(GANTT_LABEL_W * (1 - pct)).toFixed(1)}px + ${(pct * 100).toFixed(3)}%)`;
+  overlay.innerHTML = '<span class="gantt-today-label">Today</span>';
+  body.appendChild(overlay);
+}
+
+// ── Card lookups ─────────────────────────────────────────────────────────────
 function ganttCardIndex() {
   const cards = window.PILLARS ? window.PILLARS.flatMap(p => p.cards || []) : [];
   return Object.fromEntries(cards.map(c => [c.id, c]));
 }
 
-// Cards mapped to a specific goal, respecting workstream filter
 function ganttGoalCards(goalId) {
-  const map     = window.GOAL_CARD_MAP || {};
-  const ids     = map[String(goalId)] || [];
+  const ids     = (window.GOAL_CARD_MAP || {})[String(goalId)] || [];
   const index   = ganttCardIndex();
   const showAll = ganttActiveWS.has('all');
   return ids
     .map(id => index[id])
     .filter(c => c && (showAll || (c.workstreams || []).some(ws => ganttActiveWS.has(ws))))
     .sort((a, b) => {
-      const da = ganttParseDate(a.targetDate), db = ganttParseDate(b.targetDate);
+      const ra = ganttParseRange(a.targetDate), rb = ganttParseRange(b.targetDate);
+      const da = ra && ra.end, db = rb && rb.end;
       if (!da && !db) return 0; if (!da) return 1; if (!db) return -1;
       return da - db;
     });
 }
 
-// Total mapped cards for a phase (for the phase header count)
 function ganttPhaseCardCount(phaseNum) {
   const phases = typeof PHASE_DEFS !== 'undefined' ? PHASE_DEFS : [];
   const phase  = phases.find(p => p.num === phaseNum);
   if (!phase) return 0;
-  const seen   = new Set();
+  const seen = new Set();
   (phase.goals || []).forEach(g => {
     ganttGoalCards(String(g.id).replace('#', '')).forEach(c => seen.add(c.id));
   });
@@ -6799,11 +6968,11 @@ window.renderGanttChart = function() {
   let html = '';
 
   phases.forEach(phase => {
-    const ps       = new Date(phase.start);
-    const pe       = new Date(phase.end);
-    const phL      = ganttPct(ps).toFixed(2);
-    const phW      = Math.max(1, ganttPct(pe) - ganttPct(ps)).toFixed(2);
-    const phCount  = ganttPhaseCardCount(phase.num);
+    const ps      = new Date(phase.start);
+    const pe      = new Date(phase.end);
+    const phL     = ganttPct(ps).toFixed(2);
+    const phW     = Math.max(1, ganttPct(pe) - ganttPct(ps)).toFixed(2);
+    const phCount = ganttPhaseCardCount(phase.num);
 
     // ── Phase header ──
     html += `
@@ -6812,7 +6981,7 @@ window.renderGanttChart = function() {
           <span class="gantt-phase-emoji">${phase.emoji}</span>
           <div>
             <div class="gantt-phase-name">Phase ${phase.num}: ${phase.label}</div>
-            <div class="gantt-phase-win">${phase.window} &nbsp;·&nbsp; ${phCount} mapped program${phCount !== 1 ? 's' : ''}</div>
+            <div class="gantt-phase-win">${phase.window} &nbsp;&middot;&nbsp; ${phCount} program${phCount !== 1 ? 's' : ''}</div>
           </div>
         </div>
         <div class="gantt-track">
@@ -6825,11 +6994,10 @@ window.renderGanttChart = function() {
 
     // ── Goal rows ──
     (phase.goals || []).forEach(goal => {
-      const goalId  = String(goal.id).replace('#', '');
-      const key     = `${phase.num}-${goalId}`;
-      const open    = ganttExpandedGoals.has(key);
-      const gCards  = ganttGoalCards(goalId);
-      const cCount  = gCards.length;
+      const goalId = String(goal.id).replace('#', '');
+      const key    = `${phase.num}-${goalId}`;
+      const open   = ganttExpandedGoals.has(key);
+      const gCards = ganttGoalCards(goalId);
 
       html += `
         <div class="gantt-goal-row${open ? ' gantt-goal-open' : ''}" onclick="ganttToggleGoal('${key}')">
@@ -6839,7 +7007,7 @@ window.renderGanttChart = function() {
               <span class="gantt-goal-badge" style="background:${phase.color}20;color:${phase.color}">${goal.id}</span>
               <span class="gantt-label-text">${goal.label}</span>
             </div>
-            <div class="gantt-label-ws">${cCount} program${cCount!==1?'s':''} &nbsp;&bull;&nbsp; click to ${open?'collapse':'expand'}</div>
+            <div class="gantt-label-ws">${gCards.length} program${gCards.length !== 1 ? 's' : ''} &bull; click to ${open ? 'collapse' : 'expand'}</div>
           </div>
           <div class="gantt-track">
             ${deco}
@@ -6851,35 +7019,27 @@ window.renderGanttChart = function() {
 
       // ── Expanded card rows ──
       if (open) {
-        if (cCount === 0) {
+        if (gCards.length === 0) {
           html += `<div class="gantt-card-empty">No programs match the active workstream filter.</div>`;
         } else {
           gCards.forEach(card => {
-            const start      = ganttQStart(card.quarter);
-            const end        = ganttParseDate(card.targetDate);
-            const geom       = ganttGeom(start, end);
             const wsKey      = (card.workstreams || [])[0] || 'all';
-            const barColor   = card.status === 'completed' ? '#2a8703' : (GANTT_WS_CONFIG[wsKey] || GANTT_WS_CONFIG.all).color;
-            const statusColor = GANTT_STATUS_COLOR[card.status] || '#9ca3af';
-            const isCritical = (card.tag || '').includes('Critical');
+            const dotColor   = { completed:'#2a8703', green:'#2a8703', yellow:'#f59e0b', red:'#ea1100', roadmap:'#9ca3af' }[card.status] || '#9ca3af';
+            const isCritical = card.critical || (card.tag || '').toLowerCase().includes('critical');
 
             html += `
               <div class="gantt-row gantt-card-row">
                 <div class="gantt-label gantt-card-label">
                   <div class="gantt-label-inner">
-                    <span class="gantt-dot" style="background:${statusColor}"></span>
+                    <span class="gantt-dot" style="background:${dotColor}"></span>
                     <span class="gantt-label-text">${card.icon || ''} ${card.title}</span>
                     ${isCritical ? '<span class="gantt-star">\u2b50</span>' : ''}
                   </div>
-                  <div class="gantt-label-ws">${(card.workstreams||[]).join(', ')} &middot; ${card.targetDate||'TBD'}</div>
+                  <div class="gantt-label-ws">${(card.workstreams || []).join(', ')} &middot; ${card.targetDate || 'TBD'}</div>
                 </div>
                 <div class="gantt-track">
                   ${deco}
-                  ${geom
-                    ? `<div class="gantt-bar gantt-card-bar" style="left:${geom.left}%;width:${geom.width}%;background:${barColor}">
-                         <span class="gantt-bar-label">${card.targetDate||''}</span>
-                       </div>`
-                    : '<div class="gantt-bar gantt-bar-tbd">TBD</div>'}
+                  ${ganttBars(card)}
                 </div>
               </div>`;
           });
@@ -6889,6 +7049,8 @@ window.renderGanttChart = function() {
   });
 
   wrap.innerHTML = html || '<div class="gantt-empty">No phases defined.</div>';
+  // Inject the single full-height today line after DOM update
+  ganttInjectToday();
 };
 
 // ── PPTX download ─────────────────────────────────────────────────────────────
@@ -6898,14 +7060,13 @@ window.downloadGanttPPTX = function() {
 
   function doExport(pptxgen) {
     const pres  = new pptxgen();
-    pres.layout = 'LAYOUT_WIDE';
-    const slide = pres.addSlide();
+    pres.layout  = 'LAYOUT_WIDE';
+    const slide  = pres.addSlide();
     slide.background = { color: 'FFFFFF' };
     slide.addText('E2E Fashion Portal \u2014 Gantt Chart FY27', { x:0.3, y:0.15, w:12.5, h:0.45, fontSize:20, bold:true, color:'0053e2' });
     slide.addText(`Generated ${new Date().toLocaleDateString()}`, { x:0.3, y:0.58, w:12.5, h:0.25, fontSize:10, color:'6b7280' });
 
     const trackX=3.1, trackW=10, rowH=0.28, startY=1.05;
-    // Quarter headers
     GANTT_FY.quarters.forEach((q,i) => {
       const l = trackX + (ganttPct(q.start)/100)*trackW;
       const w = ((q.end-q.start)/GANTT_TOTAL_MS)*trackW;
@@ -6941,7 +7102,7 @@ window.downloadGanttPPTX = function() {
   const s = document.createElement('script');
   s.src = 'https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js';
   s.onload = () => doExport(window.PptxGenJS);
-  s.onerror = () => { alert('\u26a0\ufe0f Could not load PPTX library. Check your network and try again.'); if(btn){btn.textContent='\ud83d\udce5 Download PPTX';btn.disabled=false;} };
+  s.onerror = () => { alert('\u26a0\ufe0f Could not load PPTX library.'); if(btn){btn.textContent='\ud83d\udce5 Download PPTX';btn.disabled=false;} };
   document.head.appendChild(s);
 };
 </script>

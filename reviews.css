@@ -334,6 +334,7 @@
 .wpr-table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
 }
 
 .wpr-table thead {
@@ -394,15 +395,12 @@
 .wpr-critical-badge {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 2px 6px;
+  justify-content: center;
+  padding: 2px 5px;
   background: #ffc220;
   color: #1f2937;
   border-radius: 4px;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
+  font-size: 11px;
   margin-left: 4px;
 }
 

@@ -560,7 +560,7 @@ function renderWPRSection(title, cards, icon) {
           <div class="wpr-program-name">
             <span class="wpr-program-icon">${card.icon || '📌'}</span>
             <span>${card.title}</span>
-            ${((card.tag || '').indexOf('Critical') > -1) ? '<span class="wpr-critical-badge">⭐ CRITICAL</span>' : ''}
+            ${((card.tag || '').indexOf('Critical') > -1) ? '<span class="wpr-critical-badge">⭐</span>' : ''}
           </div>
         </td>
         <td>
@@ -586,13 +586,21 @@ function renderWPRSection(title, cards, icon) {
         <span class="wpr-section-count">${cards.length} program${cards.length === 1 ? '' : 's'}</span>
       </div>
       <table class="wpr-table">
+        <colgroup>
+          <col style="width: 26%">
+          <col style="width: 14%">
+          <col style="width: 13%">
+          <col style="width: 11%">
+          <col style="width: 26%">
+          <col style="width: 10%">
+        </colgroup>
         <thead>
           <tr>
             <th>Program</th>
             <th>Status</th>
             <th>Owner</th>
             <th>Target Date</th>
-            <th style="width: 30%;">Update (Last 14 Days)</th>
+            <th>Update (Last 14 Days)</th>
             <th>Workstreams</th>
           </tr>
         </thead>

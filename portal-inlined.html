@@ -1258,6 +1258,7 @@ details > summary::-webkit-details-marker { display: none; }
 .wpr-table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
 }
 
 .wpr-table thead {
@@ -1318,15 +1319,12 @@ details > summary::-webkit-details-marker { display: none; }
 .wpr-critical-badge {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 2px 6px;
+  justify-content: center;
+  padding: 2px 5px;
   background: #ffc220;
   color: #1f2937;
   border-radius: 4px;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
+  font-size: 11px;
   margin-left: 4px;
 }
 
@@ -5924,7 +5922,7 @@ function renderWPRSection(title, cards, icon) {
           <div class="wpr-program-name">
             <span class="wpr-program-icon">${card.icon || '📌'}</span>
             <span>${card.title}</span>
-            ${((card.tag || '').indexOf('Critical') > -1) ? '<span class="wpr-critical-badge">⭐ CRITICAL</span>' : ''}
+            ${((card.tag || '').indexOf('Critical') > -1) ? '<span class="wpr-critical-badge">⭐</span>' : ''}
           </div>
         </td>
         <td>
@@ -5950,13 +5948,21 @@ function renderWPRSection(title, cards, icon) {
         <span class="wpr-section-count">${cards.length} program${cards.length === 1 ? '' : 's'}</span>
       </div>
       <table class="wpr-table">
+        <colgroup>
+          <col style="width: 26%">
+          <col style="width: 14%">
+          <col style="width: 13%">
+          <col style="width: 11%">
+          <col style="width: 26%">
+          <col style="width: 10%">
+        </colgroup>
         <thead>
           <tr>
             <th>Program</th>
             <th>Status</th>
             <th>Owner</th>
             <th>Target Date</th>
-            <th style="width: 30%;">Update (Last 14 Days)</th>
+            <th>Update (Last 14 Days)</th>
             <th>Workstreams</th>
           </tr>
         </thead>

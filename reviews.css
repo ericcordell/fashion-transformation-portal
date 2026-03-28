@@ -540,30 +540,36 @@
 
 .wpr-opif-links {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
 }
 
 .wpr-opif-link {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 14px;
+  padding: 6px 12px;
   background: white;
-  border: 1.5px solid #0053e2;
+  border: 1.5px solid #b8cef5;
   border-radius: 8px;
   color: #0053e2;
   text-decoration: none;
   font-size: 13px;
   font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
   transition: all 0.15s;
 }
 
 .wpr-opif-link:hover {
   background: #0053e2;
   color: white;
+  border-color: #0053e2;
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0, 83, 226, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 83, 226, 0.15);
 }
 
 .wpr-opif-icon {
@@ -594,13 +600,14 @@
 }
 
 .wpr-dashboard-link {
-  border-color: #6b7280 !important;
+  border-color: #d1d5db !important;
   color: #374151 !important;
 }
 
 .wpr-dashboard-link:hover {
   background: #374151 !important;
   color: white !important;
+  border-color: #374151 !important;
 }
 .wpr-ws-badge.stores { background: #f0fdf4; color: #15803d; }
 .wpr-ws-badge.supply { background: #fae8ff; color: #86198f; }

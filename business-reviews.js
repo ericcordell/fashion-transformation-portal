@@ -448,30 +448,26 @@ function toggleWPRRow(cardId) {
   if (opifs.length === 0 && otherLinks.length === 0) {
     expandContent = '<div class="wpr-expand-content"><div class="wpr-no-opifs">📋 No OPIFs directly mapped to this program</div></div>';
   } else {
-    let linksHTML = '';
+    let allLinksHTML = '';
 
     if (opifs.length > 0) {
-      const opifLinks = opifs.map(opif => {
+      allLinksHTML += opifs.map(opif => {
         const badge = opif.isPrimary ? '<span class="wpr-opif-primary-badge">Primary</span>' : '';
-        return `
-          <a href="${opif.url}" target="_blank" class="wpr-opif-link" onclick="event.stopPropagation()">
+        return `<a href="${opif.url}" target="_blank" class="wpr-opif-link" onclick="event.stopPropagation()">
             <span class="wpr-opif-icon">🔗</span>
             <span class="wpr-opif-id">${opif.id}</span>
             ${badge}
-          </a>
-        `;
+          </a>`;
       }).join('');
-      linksHTML += `<div class="wpr-opif-links">${opifLinks}</div>`;
     }
 
     if (otherLinks.length > 0) {
-      const dashLinks = otherLinks.map(link => `
-        <a href="${link.url}" target="_blank" class="wpr-opif-link wpr-dashboard-link" onclick="event.stopPropagation()">
-          <span class="wpr-opif-icon">📊</span>
-          <span>${link.label}</span>
-        </a>
-      `).join('');
-      linksHTML += `<div class="wpr-opif-links">${dashLinks}</div>`;
+      allLinksHTML += otherLinks.map(link => 
+        `<a href="${link.url}" target="_blank" class="wpr-opif-link wpr-dashboard-link" onclick="event.stopPropagation()">
+            <span class="wpr-opif-icon">📊</span>
+            <span>${link.label}</span>
+          </a>`
+      ).join('');
     }
 
     const sectionLabel = opifs.length > 0
@@ -481,7 +477,7 @@ function toggleWPRRow(cardId) {
     expandContent = `
       <div class="wpr-expand-content">
         <div class="wpr-expand-header">${sectionLabel}</div>
-        ${linksHTML}
+        <div class="wpr-opif-links">${allLinksHTML}</div>
       </div>
     `;
   }

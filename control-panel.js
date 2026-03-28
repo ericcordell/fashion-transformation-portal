@@ -23,6 +23,13 @@ const REVIEW_OPTIONS = [
     desc: 'Coming Soon',
     enabled: false,
   },
+  {
+    id: 'gantt',
+    icon: '📊',
+    name: 'Gantt Chart',
+    desc: 'FY27 roadmap by quarter',
+    enabled: true,
+  },
 ];
 
 // Status scopes (from exec-summary.js)

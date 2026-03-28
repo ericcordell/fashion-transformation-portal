@@ -1,0 +1,294 @@
+/* gantt.css — Gantt Chart view styles */
+
+/* ── Toolbar ──────────────────────────────────────────────────────────────── */
+.gantt-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px 24px;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.gantt-ws-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.gantt-ws-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-right: 4px;
+}
+
+.gantt-ws-btn {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1.5px solid #d1d5db;
+  background: white;
+  color: #374151;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.gantt-ws-btn:hover {
+  border-color: #0053e2;
+  color: #0053e2;
+}
+
+.gantt-ws-btn.active {
+  background: #0053e2;
+  border-color: #0053e2;
+  color: white;
+}
+
+.gantt-ws-btn.ws-strategy.active  { background: #6366f1; border-color: #6366f1; }
+.gantt-ws-btn.ws-design.active    { background: #0053e2; border-color: #0053e2; }
+.gantt-ws-btn.ws-buying.active    { background: #f59e0b; border-color: #f59e0b; color: #1f2937; }
+.gantt-ws-btn.ws-allocation.active{ background: #2a8703; border-color: #2a8703; }
+
+.gantt-dl-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: #0053e2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.gantt-dl-btn:hover   { background: #0047c8; transform: translateY(-1px); }
+.gantt-dl-btn:disabled { background: #93b4f5; cursor: wait; }
+
+/* ── Chart wrapper ────────────────────────────────────────────────────────── */
+.gantt-wrap {
+  padding: 0 0 32px;
+  overflow-x: auto;
+}
+
+.gantt-chart {
+  min-width: 900px;
+}
+
+/* ── Quarter header ───────────────────────────────────────────────────────── */
+.gantt-header {
+  display: flex;
+  margin-left: 220px;
+  margin-bottom: 0;
+}
+
+.gantt-qcol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: #374151;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-left: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.gantt-qcol:first-child { border-left: none; }
+
+.gantt-qsub {
+  display: none; /* sub-label hidden; label is enough */
+}
+
+/* ── Rows ─────────────────────────────────────────────────────────────────── */
+.gantt-row {
+  display: flex;
+  align-items: center;
+  min-height: 38px;
+  border-bottom: 1px solid #f3f4f6;
+  transition: background 0.1s;
+}
+
+.gantt-row:hover { background: #f9fafb; }
+.gantt-row:nth-child(even) { background: #fafafa; }
+.gantt-row:nth-child(even):hover { background: #f3f4f6; }
+
+.gantt-label {
+  flex-shrink: 0;
+  width: 220px;
+  padding: 6px 12px;
+  overflow: hidden;
+}
+
+.gantt-label-inner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow: hidden;
+}
+
+.gantt-dot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.gantt-label-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1f2937;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gantt-star {
+  flex-shrink: 0;
+  font-size: 10px;
+}
+
+.gantt-label-ws {
+  font-size: 10px;
+  color: #9ca3af;
+  margin-top: 1px;
+  text-transform: capitalize;
+  padding-left: 14px;
+}
+
+/* ── Track (the timeline area) ────────────────────────────────────────────── */
+.gantt-track {
+  position: relative;
+  flex: 1;
+  height: 38px;
+  overflow: hidden;
+}
+
+.gantt-stripe {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  pointer-events: none;
+}
+
+.gantt-divider {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 1px;
+  background: #e5e7eb;
+  pointer-events: none;
+}
+
+.gantt-today {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 2px;
+  background: #ea1100;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.gantt-today-label {
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  font-size: 9px;
+  font-weight: 700;
+  color: #ea1100;
+  white-space: nowrap;
+}
+
+/* ── Bars ─────────────────────────────────────────────────────────────────── */
+.gantt-bar {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 20px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  z-index: 2;
+  white-space: nowrap;
+  overflow: hidden;
+  opacity: 0.88;
+  transition: opacity 0.15s;
+}
+
+.gantt-bar:hover { opacity: 1; }
+
+.gantt-bar-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gantt-bar-tbd {
+  background: #e5e7eb;
+  color: #9ca3af;
+  font-size: 10px;
+  font-weight: 600;
+  left: 0;
+  width: 60px;
+}
+
+/* ── Legend ───────────────────────────────────────────────────────────────── */
+.gantt-legend {
+  display: flex;
+  gap: 20px;
+  padding: 12px 24px;
+  border-top: 1px solid #f3f4f6;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.gantt-legend-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-right: 4px;
+}
+
+.gantt-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #374151;
+}
+
+.gantt-legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/* ── Empty state ──────────────────────────────────────────────────────────── */
+.gantt-empty {
+  padding: 40px;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 14px;
+}

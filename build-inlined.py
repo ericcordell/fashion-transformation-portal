@@ -40,10 +40,11 @@ JS_ORDER = [
     'card-links.js',
     'control-panel.js',      # unified control panel
     'business-reviews.js',  # business review modules
+    'gantt.js',             # gantt chart view
     'data-changelog.js',  # must come AFTER allCards is defined
 ]
 
-CSS_FILES = ['portal.css', 'portal-goals.css', 'exec-summary.css', 'reviews.css', 'control-panel.css']
+CSS_FILES = ['portal.css', 'portal-goals.css', 'exec-summary.css', 'reviews.css', 'control-panel.css', 'gantt.css']
 
 
 def inline_css(html):

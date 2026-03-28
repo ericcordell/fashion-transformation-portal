@@ -35,6 +35,13 @@ const BUSINESS_REVIEWS = {
     icon: '📅',
     description: 'Coming Soon',
   },
+  gantt: {
+    id: 'gantt',
+    title: 'Gantt Chart — FY27 Roadmap',
+    subtitle: 'Full E2E Fashion roadmap by quarter — filter by workstream, view timeline, download as PowerPoint',
+    icon: '📊',
+    description: 'FY27 · All Workstreams',
+  },
   strategy: {
     id: 'strategy',
     title: 'Weekly Strategy Review',
@@ -247,10 +254,67 @@ function exitReviewMode() {
 function renderReviewContent(reviewType) {
   const review = BUSINESS_REVIEWS[reviewType];
   if (!review) return;
-  
+
   const contentDiv = document.getElementById(`review-content-${reviewType}`);
   if (!contentDiv) return;
-  
+
+  // ── Gantt has its own layout, bypass the standard card/stats rendering ──
+  if (reviewType === 'gantt') {
+    const wsButtons = ['all','strategy','design','buying','allocation'].map(ws => {
+      const cfg = GANTT_WS_CONFIG[ws];
+      return `<button class="gantt-ws-btn ws-${ws} ${ws === 'all' ? 'active' : ''}" onclick="ganttToggleWS('${ws}')">${cfg.label}</button>`;
+    }).join('');
+
+    const legendItems = Object.entries(GANTT_WS_CONFIG).filter(([k]) => k !== 'all').map(([, cfg]) =>
+      `<div class="gantt-legend-item"><div class="gantt-legend-dot" style="background:${cfg.color}"></div>${cfg.label}</div>`
+    ).join('');
+
+    contentDiv.innerHTML = `
+      <div class="review-back-bar">
+        <button class="review-back-button" onclick="clearBusinessReview()">← Back</button>
+      </div>
+      <div class="review-header">
+        <div class="review-header-title">
+          <span class="review-header-icon">${review.icon}</span>
+          ${review.title}
+        </div>
+        <div class="review-header-subtitle">${review.subtitle}</div>
+      </div>
+      <div class="gantt-toolbar">
+        <div class="gantt-ws-filters">
+          <span class="gantt-ws-label">Workstream:</span>
+          ${wsButtons}
+        </div>
+        <button id="gantt-dl-btn" class="gantt-dl-btn" onclick="downloadGanttPPTX()">
+          📥 Download PPTX
+        </button>
+      </div>
+      <div class="gantt-wrap">
+        <div class="gantt-chart">
+          <div class="gantt-header" id="gantt-qheader"></div>
+          <div id="gantt-body"></div>
+        </div>
+      </div>
+      <div class="gantt-legend">
+        <span class="gantt-legend-title">Workstream:</span>
+        ${legendItems}
+        <div class="gantt-legend-item"><div class="gantt-legend-dot" style="background:#ea1100;width:2px;height:16px;border-radius:0"></div>Today</div>
+      </div>
+    `;
+
+    // Build the quarter header
+    const qHeaderEl = document.getElementById('gantt-qheader');
+    if (qHeaderEl) {
+      qHeaderEl.innerHTML = GANTT_FY.quarters.map(q => {
+        const w = ((q.end - q.start) / GANTT_TOTAL_MS * 100).toFixed(2);
+        return `<div class="gantt-qcol" style="width:${w}%">${q.label}</div>`;
+      }).join('');
+    }
+
+    renderGanttChart();
+    return;
+  }
+
   const cards = getReviewCards(reviewType);
   const stats = getReviewStats(cards);
   

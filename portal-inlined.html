@@ -6494,7 +6494,7 @@ function ganttBarGeom(card) {
 
 // ── Filter cards for Gantt ───────────────────────────────────────────────────
 function ganttFilteredCards() {
-  const all = window.allCards || [];
+  const all = window.PILLARS ? window.PILLARS.flatMap(p => p.cards || []) : [];
   const showAll = ganttActiveWS.has('all');
   return all
     .filter(card => {

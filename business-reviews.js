@@ -421,15 +421,16 @@ function getCardOPIFs(card) {
 function toggleWPRRow(cardId) {
   const mainRow = document.querySelector(`tr[data-card-id="${cardId}"]`);
   if (!mainRow) return;
-  
+
   const existingExpandRow = mainRow.nextElementSibling;
-  
-  // If already expanded, collapse it
-  if (existingExpandRow && existingExpandRow.classList.contains('wpr-expand-row')) {
-    existingExpandRow.remove();
-    mainRow.classList.remove('wpr-row-expanded');
-    return;
-  }
+  const isAlreadyOpen = existingExpandRow && existingExpandRow.classList.contains('wpr-expand-row');
+
+  // Collapse any currently open expand row
+  document.querySelectorAll('.wpr-expand-row').forEach(row => row.remove());
+  document.querySelectorAll('.wpr-row-expanded').forEach(row => row.classList.remove('wpr-row-expanded'));
+
+  // If this row was already open, just close it (toggle off)
+  if (isAlreadyOpen) return;
   
   // Find the card data
   const card = window.PILLARS.flatMap(p => p.cards || []).find(c => c.id === cardId);

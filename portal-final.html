@@ -5598,68 +5598,51 @@ z-index: 2;
 white-space: nowrap;
 overflow: hidden;
 opacity: 0.88;
-transition: opacity 0.15s;
 }
-.gantt-bar:hover { opacity: 1; }
-.gantt-bar-inflight {
+.gantt-bar-available {
 position: absolute;
 top: 50%;
 transform: translateY(-50%);
-height: 20px;
-border-radius: 4px 0 0 4px;
-display: flex;
-align-items: center;
-padding: 0 6px;
+height: 18px;
+border-radius: 4px;
 z-index: 2;
-overflow: hidden;
-opacity: 0.9;
+opacity: 0.85;
 }
 .gantt-bar-window {
 position: absolute;
 top: 50%;
 transform: translateY(-50%);
-height: 20px;
+height: 18px;
 border-radius: 4px;
 display: flex;
 align-items: center;
 padding: 0 6px;
 z-index: 2;
+background: transparent;
+border: 1.5px dashed;
 overflow: hidden;
 }
-.gantt-bar-deployed {
+.gantt-bar-tbd {
 position: absolute;
 top: 50%;
 transform: translateY(-50%);
-height: 4px;
-border-radius: 0 2px 2px 0;
-opacity: 0.3;
-z-index: 1;
-}
-.gantt-bar-tick {
-position: absolute;
-top: 20%;
-height: 60%;
-width: 3px;
-border-radius: 1px;
-border-left: 3px solid;
-z-index: 3;
-}
-.gantt-bar-label {
-font-size: 10px;
-font-weight: 600;
-color: white;
-text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-overflow: hidden;
-text-overflow: ellipsis;
-white-space: nowrap;
-}
-.gantt-bar-tbd {
+height: 18px;
+border-radius: 4px;
+display: flex;
+align-items: center;
+padding: 0 8px;
 background: #e5e7eb;
 color: #9ca3af;
 font-size: 10px;
 font-weight: 600;
-left: 0;
-width: 60px;
+z-index: 2;
+}
+.gantt-bar-label {
+font-size: 10px;
+font-weight: 600;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
 }
 .gantt-legend {
 display: flex;
@@ -6652,10 +6635,7 @@ function renderReviewContent(reviewType){const review=BUSINESS_REVIEWS[reviewTyp
           📥 Download PPTX
         </button></div><div class="gantt-wrap"><div class="gantt-chart"><div class="gantt-header" id="gantt-qheader"></div><div id="gantt-body"></div></div></div><div class="gantt-legend"><span class="gantt-legend-title">Workstream:</span>
         ${legendItems}
-        <div class="gantt-legend-item"><div style="width:14px;height:14px;border-radius:3px;background:#ea1100"></div>Today</div><div class="gantt-legend-item" style="margin-left:12px"><div style="width:24px;height:10px;border-radius:3px;background:#6366f1;opacity:0.9"></div>In Progress
-        </div><div class="gantt-legend-item"><div style="width:24px;height:10px;border-radius:3px;background:#6366f128;border:1.5px dashed #6366f1"></div>Delivery Window
-        </div><div class="gantt-legend-item"><div style="width:24px;height:4px;border-radius:2px;background:#6366f1;opacity:0.3"></div>Live / Deployed
-        </div></div>
+        <div style="margin-left:12px;display:flex;align-items:center;gap:16px"><div class="gantt-legend-item"><div style="width:14px;height:14px;border-radius:3px;background:#ea1100"></div>Today</div><div class="gantt-legend-item"><div style="width:28px;height:12px;border-radius:3px;background:#6366f1;opacity:0.85"></div>Available to users</div><div class="gantt-legend-item"><div style="width:28px;height:12px;border-radius:3px;border:1.5px dashed #6366f1"></div>Delivery window</div></div></div>
     `;renderGanttChart();return;}
 const cards=getReviewCards(reviewType);const stats=getReviewStats(cards);let html=`
     <div class="review-back-bar"><button class="review-back-button" onclick="clearBusinessReview()">
@@ -6730,7 +6710,7 @@ function initBusinessReviews(){console.log('🐶 Initializing Business Reviews..
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',()=>{const checkPillars=setInterval(()=>{if(window.PILLARS){clearInterval(checkPillars);initBusinessReviews();}},100);});}else{const checkPillars=setInterval(()=>{if(window.PILLARS){clearInterval(checkPillars);initBusinessReviews();}},100);}</script>
 <script>const GANTT_FY={start:new Date(2026,1,1),end:new Date(2027,1,1),quarters:[{label:'Q1 FY27',start:new Date(2026,1,1),end:new Date(2026,4,1),stripe:'#eef4ff'},{label:'Q2 FY27',start:new Date(2026,4,1),end:new Date(2026,7,1),stripe:'#f8faff'},{label:'Q3 FY27',start:new Date(2026,7,1),end:new Date(2026,10,1),stripe:'#eef4ff'},{label:'Q4 FY27',start:new Date(2026,10,1),end:new Date(2027,1,1),stripe:'#f8faff'},],};const GANTT_TOTAL_MS=GANTT_FY.end-GANTT_FY.start;const GANTT_LABEL_W=220;const GANTT_MONTHS=[{label:'Feb',start:new Date(2026,1,1),end:new Date(2026,2,1)},{label:'Mar',start:new Date(2026,2,1),end:new Date(2026,3,1)},{label:'Apr',start:new Date(2026,3,1),end:new Date(2026,4,1)},{label:'May',start:new Date(2026,4,1),end:new Date(2026,5,1)},{label:'Jun',start:new Date(2026,5,1),end:new Date(2026,6,1)},{label:'Jul',start:new Date(2026,6,1),end:new Date(2026,7,1)},{label:'Aug',start:new Date(2026,7,1),end:new Date(2026,8,1)},{label:'Sep',start:new Date(2026,8,1),end:new Date(2026,9,1)},{label:'Oct',start:new Date(2026,9,1),end:new Date(2026,10,1)},{label:'Nov',start:new Date(2026,10,1),end:new Date(2026,11,1)},{label:'Dec',start:new Date(2026,11,1),end:new Date(2027,0,1)},{label:'Jan',start:new Date(2027,0,1),end:new Date(2027,1,1)},];const GANTT_WS_CONFIG={all:{label:'All Workstreams',color:'#6366f1'},strategy:{label:'Strategy',color:'#6366f1'},design:{label:'Design',color:'#0053e2'},buying:{label:'Buying',color:'#f59e0b'},allocation:{label:'Allocation',color:'#2a8703'},};let ganttActiveWS=new Set(['all']);let ganttExpandedGoals=new Set();function ganttPct(date){const clamped=Math.max(+GANTT_FY.start,Math.min(+GANTT_FY.end,+date));return((clamped-GANTT_FY.start)/GANTT_TOTAL_MS)*100;}
 function ganttQStart(q){if(!q||q==='completed')return GANTT_FY.start;const n=String(q).replace(/\D/g,'')[0];return({'1':new Date(2026,1,1),'2':new Date(2026,4,1),'3':new Date(2026,7,1),'4':new Date(2026,10,1)})[n]||GANTT_FY.start;}
-function ganttNextMonthStart(date){const d=new Date(date);return new Date(d.getFullYear(),d.getMonth()+1,1);}
+function ganttFirstAvailableMonth(date){const d=new Date(date);if(d.getDate()===1)return new Date(d.getFullYear(),d.getMonth(),1);return new Date(d.getFullYear(),d.getMonth()+1,1);}
 function ganttParseRange(str){if(!str||str==='TBD'||str==='completed')return null;let m=str.match(/([A-Za-z]+)\s+(\d{4})[\u2013\-]+([A-Za-z]+)\s+(\d{4})/);if(m){const s=new Date(`${m[1]} 1 ${m[2]}`),e=new Date(`${m[3]} 1 ${m[4]}`);if(!isNaN(s)&&!isNaN(e))
 return{start:s,end:new Date(e.getFullYear(),e.getMonth()+1,0),isRange:true};}
 m=str.match(/([A-Za-z]+)[\u2013\-]+([A-Za-z]+)\s+(\d{4})/);if(m){const s=new Date(`${m[1]} 1 ${m[3]}`),e=new Date(`${m[2]} 1 ${m[3]}`);if(!isNaN(s)&&!isNaN(e))
@@ -6738,12 +6718,10 @@ return{start:s,end:new Date(e.getFullYear(),e.getMonth()+1,0),isRange:true};}
 m=str.match(/Q([1-4])[\u2013\-]+Q([1-4])/);if(m){const qs={'1':new Date(2026,1,1),'2':new Date(2026,4,1),'3':new Date(2026,7,1),'4':new Date(2026,10,1)};const qe={'1':new Date(2026,3,30),'2':new Date(2026,6,31),'3':new Date(2026,9,31),'4':new Date(2027,0,31)};return{start:qs[m[1]],end:qe[m[2]],isRange:true};}
 m=str.match(/Q([1-4])/);if(m){const qe={'1':new Date(2026,3,30),'2':new Date(2026,6,31),'3':new Date(2026,9,31),'4':new Date(2027,0,31)};const d=qe[m[1]];return d?{start:d,end:d,isRange:false}:null;}
 const d=new Date(str.replace(/,/,''));if(!isNaN(d))return{start:d,end:d,isRange:false};return null;}
-function ganttBars(card){const range=ganttParseRange(card.targetDate);const wsKey=(card.workstreams||[])[0]||'all';const color=card.status==='completed'?'#2a8703':(GANTT_WS_CONFIG[wsKey]||GANTT_WS_CONFIG.all).color;if(!range){return`<div class="gantt-bar gantt-bar-tbd" style="left:2%;width:10%">TBD</div>`;}
-const qStart=ganttQStart(card.quarter);const anchor=new Date(Math.min(+qStart,+range.start));const deliveryEnd=range.end;const deployStart=ganttNextMonthStart(deliveryEnd);let html='';if(+range.start>+anchor){const l=ganttPct(anchor).toFixed(2);const w=Math.max(0.5,ganttPct(range.start)-ganttPct(anchor)).toFixed(2);html+=`<div class="gantt-bar-inflight" style="left:${l}%;width:${w}%;background:${color}"><span class="gantt-bar-label">${range.isRange ? '' : card.targetDate}</span></div>`;}
-if(range.isRange){const l=ganttPct(range.start).toFixed(2);const w=Math.max(1,ganttPct(range.end)-ganttPct(range.start)).toFixed(2);html+=`<div class="gantt-bar-window" style="left:${l}%;width:${w}%;border-color:${color}"><span class="gantt-bar-label" style="color:${color}">${card.targetDate}</span></div>`;}else{const l=ganttPct(range.end).toFixed(2);html+=`<div class="gantt-bar-tick" style="left:${l}%;border-color:${color}" title="Target: ${card.targetDate}"></div>`;}
-const deployPct=ganttPct(deployStart);if(deployPct<99.5){const l=deployPct.toFixed(2);const w=Math.max(0.5,100-deployPct).toFixed(2);html+=`<div class="gantt-bar-deployed" style="left:${l}%;width:${w}%;background:${color}"></div>`;}
-if(!html){const l=Math.max(0,ganttPct(anchor)).toFixed(2);html=`<div class="gantt-bar-inflight" style="left:${l}%;width:2%;background:${color}"></div>`;}
-return html;}
+function ganttBars(card){const range=ganttParseRange(card.targetDate);const wsKey=(card.workstreams||[])[0]||'all';const color=card.status==='completed'?'#2a8703':(GANTT_WS_CONFIG[wsKey]||GANTT_WS_CONFIG.all).color;if(!range){return`<div class="gantt-bar-tbd" style="left:2%;width:8%">TBD</div>`;}
+const availableFrom=ganttFirstAvailableMonth(range.end);let html='';if(range.isRange){const winStart=ganttFirstAvailableMonth(range.start);const l=ganttPct(winStart).toFixed(2);const w=Math.max(1,ganttPct(availableFrom)-ganttPct(winStart)).toFixed(2);if(parseFloat(w)>0.3){html+=`<div class="gantt-bar-window" style="left:${l}%;width:${w}%;border-color:${color}"><span class="gantt-bar-label" style="color:${color}">${card.targetDate}</span></div>`;}}
+const deployPct=ganttPct(availableFrom);if(deployPct<99.5){const w=Math.max(0.5,100-deployPct).toFixed(2);html+=`<div class="gantt-bar-available" style="left:${deployPct.toFixed(2)}%;width:${w}%;background:${color}"></div>`;}
+return html||`<div class="gantt-bar-tbd" style="left:${Math.max(0,ganttPct(range.end)-2).toFixed(2)}%;width:3%">\u2714</div>`;}
 function ganttDeco(){const stripes=GANTT_FY.quarters.map(q=>{const l=ganttPct(q.start).toFixed(2);const w=((q.end-q.start)/GANTT_TOTAL_MS*100).toFixed(2);return`<div class="gantt-stripe" style="left:${l}%;width:${w}%;background:${q.stripe}"></div>`;}).join('');const divs=GANTT_MONTHS.map((mo,i)=>{if(i===0)return'';const isQBoundary=i%3===0;return`<div class="${isQBoundary ? 'gantt-divider' : 'gantt-month-divider'}" style="left:${ganttPct(mo.start).toFixed(2)}%"></div>`;}).join('');return stripes+divs;}
 function buildGanttHeader(){const el=document.getElementById('gantt-qheader');if(!el)return;const qRow=GANTT_FY.quarters.map(q=>{const w=((q.end-q.start)/GANTT_TOTAL_MS*100).toFixed(2);return`<div class="gantt-qcol" style="width:${w}%">${q.label}</div>`;}).join('');const mRow=GANTT_MONTHS.map((mo,i)=>{const w=((mo.end-mo.start)/GANTT_TOTAL_MS*100).toFixed(2);const isQBoundary=i%3===0;return`<div class="gantt-mcol${isQBoundary ? ' gantt-mcol-qstart' : ''}" style="width:${w}%">${mo.label}</div>`;}).join('');el.innerHTML=`
     <div class="gantt-header-qrow">${qRow}</div><div class="gantt-header-mrow">${mRow}</div>

@@ -54,9 +54,11 @@ function ganttQStart(q) {
   return ({ '1': new Date(2026,1,1), '2': new Date(2026,4,1), '3': new Date(2026,7,1), '4': new Date(2026,10,1) })[n] || GANTT_FY.start;
 }
 
-// First day of the month AFTER a given date — "when users first have full access"
-function ganttNextMonthStart(date) {
+// First full month a feature is AVAILABLE TO USERS after a delivery date.
+// If the date is already the 1st, that month counts. Otherwise round up.
+function ganttFirstAvailableMonth(date) {
   const d = new Date(date);
+  if (d.getDate() === 1) return new Date(d.getFullYear(), d.getMonth(), 1);
   return new Date(d.getFullYear(), d.getMonth() + 1, 1);
 }
 
@@ -104,65 +106,51 @@ function ganttParseRange(str) {
   return null;
 }
 
-// ── 3-zone bar rendering ──────────────────────────────────────────────────────
-// Zone 1 (solid):  qStart → window.start     "work in progress"
-// Zone 2 (dashed): window.start → window.end  "delivery window" (ranges only)
-// Zone 3 (thin):   nextMonthStart(window.end) → chart end  "deployed & live"
+// Bar rendering — answers "when can users USE this?"
+//
+// Point date (e.g. 'Jul 31, 2026'):
+//   [============ available from Aug 1 onwards =============]
+//
+// Range date (e.g. 'Aug\u2013Oct 2026'):
+//   [\u2012 \u2012 delivery window Aug-Oct \u2012 \u2012][=== available from Nov 1 ===]
+//
+// No in-flight zone — bars only show when the feature is live for users.
 function ganttBars(card) {
-  const range  = ganttParseRange(card.targetDate);
-  const wsKey  = (card.workstreams || [])[0] || 'all';
-  const color  = card.status === 'completed'
+  const range = ganttParseRange(card.targetDate);
+  const wsKey = (card.workstreams || [])[0] || 'all';
+  const color = card.status === 'completed'
     ? '#2a8703'
     : (GANTT_WS_CONFIG[wsKey] || GANTT_WS_CONFIG.all).color;
 
   if (!range) {
-    return `<div class="gantt-bar gantt-bar-tbd" style="left:2%;width:10%">TBD</div>`;
+    return `<div class="gantt-bar-tbd" style="left:2%;width:8%">TBD</div>`;
   }
 
-  const qStart      = ganttQStart(card.quarter);
-  const anchor      = new Date(Math.min(+qStart, +range.start));
-  const deliveryEnd = range.end;                          // last day of commitment
-  const deployStart = ganttNextMonthStart(deliveryEnd);   // first FULL month users have access
-
+  // The first full month users have access = first available month after delivery end
+  const availableFrom = ganttFirstAvailableMonth(range.end);
   let html = '';
 
-  // Zone 1: solid in-flight bar (anchor → range.start)
-  if (+range.start > +anchor) {
-    const l = ganttPct(anchor).toFixed(2);
-    const w = Math.max(0.5, ganttPct(range.start) - ganttPct(anchor)).toFixed(2);
-    html += `<div class="gantt-bar-inflight" style="left:${l}%;width:${w}%;background:${color}">
-      <span class="gantt-bar-label">${range.isRange ? '' : card.targetDate}</span>
-    </div>`;
-  }
-
-  // Zone 2a: dashed window (range.start → range.end) for range dates
+  // Range window: dashed bar from window.start \u2192 window.end
+  // Shows the uncertainty window before hard availability date
   if (range.isRange) {
-    const l = ganttPct(range.start).toFixed(2);
-    const w = Math.max(1, ganttPct(range.end) - ganttPct(range.start)).toFixed(2);
-    html += `<div class="gantt-bar-window" style="left:${l}%;width:${w}%;border-color:${color}">
-      <span class="gantt-bar-label" style="color:${color}">${card.targetDate}</span>
-    </div>`;
-  } else {
-    // Zone 2b: vertical tick at exact delivery date
-    const l = ganttPct(range.end).toFixed(2);
-    html += `<div class="gantt-bar-tick" style="left:${l}%;border-color:${color}" title="Target: ${card.targetDate}"></div>`;
+    const winStart = ganttFirstAvailableMonth(range.start);
+    const l = ganttPct(winStart).toFixed(2);
+    const w = Math.max(1, ganttPct(availableFrom) - ganttPct(winStart)).toFixed(2);
+    if (parseFloat(w) > 0.3) {
+      html += `<div class="gantt-bar-window" style="left:${l}%;width:${w}%;border-color:${color}">
+        <span class="gantt-bar-label" style="color:${color}">${card.targetDate}</span>
+      </div>`;
+    }
   }
 
-  // Zone 3: thin deployed line — starts first FULL month AFTER delivery
-  const deployPct = ganttPct(deployStart);
+  // Solid available bar: availableFrom \u2192 chart end
+  const deployPct = ganttPct(availableFrom);
   if (deployPct < 99.5) {
-    const l = deployPct.toFixed(2);
     const w = Math.max(0.5, 100 - deployPct).toFixed(2);
-    html += `<div class="gantt-bar-deployed" style="left:${l}%;width:${w}%;background:${color}"></div>`;
+    html += `<div class="gantt-bar-available" style="left:${deployPct.toFixed(2)}%;width:${w}%;background:${color}"></div>`;
   }
 
-  // Fallback: nothing at all rendered (e.g. delivery at chart end)
-  if (!html) {
-    const l = Math.max(0, ganttPct(anchor)).toFixed(2);
-    html = `<div class="gantt-bar-inflight" style="left:${l}%;width:2%;background:${color}"></div>`;
-  }
-
-  return html;
+  return html || `<div class="gantt-bar-tbd" style="left:${Math.max(0,ganttPct(range.end)-2).toFixed(2)}%;width:3%">\u2714</div>`;
 }
 
 // ── Row track decoration: stripes + month dividers (NO today line here) ───────

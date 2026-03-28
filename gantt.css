@@ -351,6 +351,8 @@
 }
 
 /* ── Bars ─────────────────────────────────────────────────────────────────── */
+
+/* Base — used only by the phase/goal summary bars */
 .gantt-bar {
   position: absolute;
   top: 50%;
@@ -364,79 +366,58 @@
   white-space: nowrap;
   overflow: hidden;
   opacity: 0.88;
-  transition: opacity 0.15s;
 }
 
-.gantt-bar:hover { opacity: 1; }
-
-/* Zone 1: solid "work in progress" bar */
-.gantt-bar-inflight {
+/* Solid: feature is AVAILABLE — starts first full month after launch date */
+.gantt-bar-available {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  height: 20px;
-  border-radius: 4px 0 0 4px;
-  display: flex;
-  align-items: center;
-  padding: 0 6px;
+  height: 18px;
+  border-radius: 4px;
   z-index: 2;
-  overflow: hidden;
-  opacity: 0.9;
+  opacity: 0.85;
 }
 
-/* Zone 2: dashed delivery window bar */
+/* Dashed: delivery window for range dates (could launch any time in here) */
 .gantt-bar-window {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  height: 20px;
+  height: 18px;
   border-radius: 4px;
   display: flex;
   align-items: center;
   padding: 0 6px;
   z-index: 2;
+  background: transparent;
+  border: 1.5px dashed;
   overflow: hidden;
 }
 
-/* Zone 3: thin "deployed & live" line */
-.gantt-bar-deployed {
+/* TBD placeholder */
+.gantt-bar-tbd {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  height: 4px;
-  border-radius: 0 2px 2px 0;
-  opacity: 0.3;
-  z-index: 1;
-}
-
-/* Point delivery tick mark */
-.gantt-bar-tick {
-  position: absolute;
-  top: 20%;
-  height: 60%;
-  width: 3px;
-  border-radius: 1px;
-  border-left: 3px solid;
-  z-index: 3;
+  height: 18px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  background: #e5e7eb;
+  color: #9ca3af;
+  font-size: 10px;
+  font-weight: 600;
+  z-index: 2;
 }
 
 .gantt-bar-label {
   font-size: 10px;
   font-weight: 600;
-  color: white;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.gantt-bar-tbd {
-  background: #e5e7eb;
-  color: #9ca3af;
-  font-size: 10px;
-  font-weight: 600;
-  left: 0;
-  width: 60px;
 }
 
 /* ── Legend ───────────────────────────────────────────────────────────────── */

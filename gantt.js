@@ -76,10 +76,13 @@ function ganttQStart(q) {
 }
 
 // First full month a feature is AVAILABLE TO USERS after a delivery date.
-// If the date is already the 1st, that month counts. Otherwise round up.
+// First month users have full access:
+//   day < 15  → same month ("launched early enough to count")
+//   day >= 15 → next month ("too late in the month, round up")
+//   day === 1 → same month (already the 1st)
 function ganttFirstAvailableMonth(date) {
   const d = new Date(date);
-  if (d.getDate() === 1) return new Date(d.getFullYear(), d.getMonth(), 1);
+  if (d.getDate() < 15) return new Date(d.getFullYear(), d.getMonth(), 1);
   return new Date(d.getFullYear(), d.getMonth() + 1, 1);
 }
 
@@ -138,6 +141,15 @@ function ganttParseRange(str) {
   return null;
 }
 
+// Status pill shown inside the available bar
+const GANTT_STATUS_LABEL = {
+  completed: '\u2713 Complete',
+  green:     '\u25cf On Track',
+  yellow:    '\u26a0 At Risk',
+  red:       '\u2715 Off Track',
+  roadmap:   '\u25cb Planned',
+};
+
 // Bar rendering — answers "when can users USE this?"
 //
 // Point date (e.g. 'Jul 31, 2026'):
@@ -153,6 +165,8 @@ function ganttBars(card) {
   const color = card.status === 'completed'
     ? '#2a8703'
     : (GANTT_WS_CONFIG[wsKey] || GANTT_WS_CONFIG.all).color;
+
+  const statusLabel = GANTT_STATUS_LABEL[card.status] || GANTT_STATUS_LABEL.roadmap;
 
   if (!range) {
     return `<div class="gantt-bar-tbd" style="left:2%;width:8%">TBD</div>`;
@@ -179,7 +193,9 @@ function ganttBars(card) {
   const deployPct = ganttPct(availableFrom);
   if (deployPct < 99.5) {
     const w = Math.max(0.5, 100 - deployPct).toFixed(2);
-    html += `<div class="gantt-bar-available" style="left:${deployPct.toFixed(2)}%;width:${w}%;background:${color}"></div>`;
+    html += `<div class="gantt-bar-available" style="left:${deployPct.toFixed(2)}%;width:${w}%;background:${color}">
+      <span class="gantt-bar-status">${statusLabel}</span>
+    </div>`;
   }
 
   return html || `<div class="gantt-bar-tbd" style="left:${Math.max(0,ganttPct(range.end)-2).toFixed(2)}%;width:3%">\u2714</div>`;

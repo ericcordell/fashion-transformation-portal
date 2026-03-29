@@ -56,24 +56,6 @@
 .gantt-ws-btn.ws-buying.active    { background: #f59e0b; border-color: #f59e0b; color: #1f2937; }
 .gantt-ws-btn.ws-allocation.active{ background: #2a8703; border-color: #2a8703; }
 
-.gantt-dl-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  background: #0053e2;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.15s;
-  white-space: nowrap;
-}
-
-.gantt-dl-btn:hover   { background: #0047c8; transform: translateY(-1px); }
-.gantt-dl-btn:disabled { background: #93b4f5; cursor: wait; }
 
 /* ── Chart wrapper ────────────────────────────────────────────────────────── */
 .gantt-wrap {

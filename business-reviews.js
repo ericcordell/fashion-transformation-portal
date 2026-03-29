@@ -285,9 +285,6 @@ function renderReviewContent(reviewType) {
           <span class="gantt-ws-label">Workstream:</span>
           ${wsButtons}
         </div>
-        <button id="gantt-dl-btn" class="gantt-dl-btn" onclick="downloadGanttPPTX()">
-          📥 Download PPTX
-        </button>
       </div>
       <div class="gantt-wrap">
         <div class="gantt-chart">

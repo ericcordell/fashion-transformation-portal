@@ -26,8 +26,8 @@ const REVIEW_OPTIONS = [
   {
     id: 'gantt',
     icon: '📊',
-    name: 'Gantt Chart',
-    desc: 'FY27 roadmap by quarter',
+    name: 'E2E Timelines',
+    desc: 'FY27–FY28 program timeline by workstream',
     enabled: true,
     wip: true,
   },

@@ -37,8 +37,8 @@ const BUSINESS_REVIEWS = {
   },
   gantt: {
     id: 'gantt',
-    title: 'Gantt Chart — FY27 Roadmap',
-    subtitle: 'Full E2E Fashion roadmap by quarter — filter by workstream, view timeline, download as PowerPoint',
+    title: 'E2E Fashion & Long Lead Timelines',
+    subtitle: 'Full E2E Fashion program timeline by workstream — filter by workstream, click any program to view details',
     icon: '📊',
     description: 'FY27 · All Workstreams',
   },

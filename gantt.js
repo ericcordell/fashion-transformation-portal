@@ -201,23 +201,30 @@ function ganttBars(card) {
   return html || `<div class="gantt-bar-tbd" style="left:${Math.max(0,ganttPct(range.end)-2).toFixed(2)}%;width:3%">\u2714</div>`;
 }
 
-// ── Row track decoration: stripes + month dividers (NO today line here) ───────
+// Row track decoration: stripes + month dividers + today tick
+// Injected into EVERY .gantt-track so overflow:hidden clips it cleanly
+// to the track area — today line never touches the label column or row gaps.
 function ganttDeco() {
-  // Quarter stripes
   const stripes = GANTT_FY.quarters.map(q => {
     const l = ganttPct(q.start).toFixed(2);
     const w = ((q.end - q.start) / GANTT_TOTAL_MS * 100).toFixed(2);
     return `<div class="gantt-stripe" style="left:${l}%;width:${w}%;background:${q.stripe}"></div>`;
   }).join('');
 
-  // Month dividers — subtle for inner months, stronger for quarter boundaries
   const divs = GANTT_MONTHS.map((mo, i) => {
-    if (i === 0) return ''; // no divider before the first month
+    if (i === 0) return '';
     const isQBoundary = i % 3 === 0;
     return `<div class="${isQBoundary ? 'gantt-divider' : 'gantt-month-divider'}" style="left:${ganttPct(mo.start).toFixed(2)}%"></div>`;
   }).join('');
 
-  return stripes + divs;
+  // Today tick — clipped to track width by overflow:hidden on .gantt-track
+  let todayTick = '';
+  const now = new Date();
+  if (now >= GANTT_FY.start && now <= GANTT_FY.end) {
+    todayTick = `<div class="gantt-today-track" style="left:${ganttPct(now).toFixed(2)}%"></div>`;
+  }
+
+  return stripes + divs + todayTick;
 }
 
 // Two-row header with a sticky stub on the left that matches the frozen label column
@@ -249,20 +256,7 @@ function buildGanttHeader() {
   `;
 }
 
-// ── Single full-height Today line injected once into #gantt-body ─────────────
-function ganttInjectToday() {
-  document.querySelectorAll('.gantt-today-overlay').forEach(el => el.remove());
-  const body = document.getElementById('gantt-body');
-  if (!body) return;
-  const now = new Date();
-  if (now < GANTT_FY.start || now > GANTT_FY.end) return;
-  const pct = (now - GANTT_FY.start) / GANTT_TOTAL_MS;
-  const overlay = document.createElement('div');
-  overlay.className = 'gantt-today-overlay';
-  overlay.style.left = `calc(${(GANTT_LABEL_W * (1 - pct)).toFixed(1)}px + ${(pct * 100).toFixed(3)}%)`;
-  overlay.innerHTML = '<span class="gantt-today-label">Today</span>';
-  body.appendChild(overlay);
-}
+
 
 // ── Card click → same modal as the main portal ──────────────────────────────
 // Resolves pillar title + tool from window.PILLARS so the modal header
@@ -413,5 +407,4 @@ window.renderGanttChart = function() {
   });
 
   body.innerHTML = html || '<div class="gantt-empty">No phases defined.</div>';
-  ganttInjectToday();
 };

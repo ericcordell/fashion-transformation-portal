@@ -5592,31 +5592,15 @@ width: 1px;
 background: #f0f0f0;
 pointer-events: none;
 }
-#gantt-body {
-position: relative;
-}
-.gantt-today-overlay {
+.gantt-today-track {
 position: absolute;
 top: 0;
-bottom: 0;
+height: 100%;
 width: 2px;
 background: #ea1100;
 z-index: 3;
 pointer-events: none;
 transform: translateX(-1px);
-}
-.gantt-today-label {
-position: absolute;
-top: 4px;
-left: 4px;
-font-size: 9px;
-font-weight: 800;
-color: #ea1100;
-white-space: nowrap;
-background: white;
-padding: 1px 3px;
-border-radius: 2px;
-box-shadow: 0 1px 3px rgba(234,17,0,.15);
 }
 .gantt-bar {
 position: absolute;
@@ -6767,11 +6751,11 @@ const GANTT_STATUS_LABEL={completed:'\u2713 Complete',green:'\u25cf On Track',ye
 const availableFrom=ganttFirstAvailableMonth(range.end);let html='';if(range.isRange){const winStart=ganttFirstAvailableMonth(range.start);const l=ganttPct(winStart).toFixed(2);const w=Math.max(1,ganttPct(availableFrom)-ganttPct(winStart)).toFixed(2);if(parseFloat(w)>0.3){html+=`<div class="gantt-bar-window" style="left:${l}%;width:${w}%;background:${color}"><span class="gantt-bar-label" style="color:white">${card.targetDate}</span></div>`;}}
 const deployPct=ganttPct(availableFrom);if(deployPct<99.5){const w=Math.max(0.5,100-deployPct).toFixed(2);html+=`<div class="gantt-bar-available" style="left:${deployPct.toFixed(2)}%;width:${w}%;background:${color}"><span class="gantt-bar-status">${statusLabel}</span></div>`;}
 return html||`<div class="gantt-bar-tbd" style="left:${Math.max(0,ganttPct(range.end)-2).toFixed(2)}%;width:3%">\u2714</div>`;}
-function ganttDeco(){const stripes=GANTT_FY.quarters.map(q=>{const l=ganttPct(q.start).toFixed(2);const w=((q.end-q.start)/GANTT_TOTAL_MS*100).toFixed(2);return`<div class="gantt-stripe" style="left:${l}%;width:${w}%;background:${q.stripe}"></div>`;}).join('');const divs=GANTT_MONTHS.map((mo,i)=>{if(i===0)return'';const isQBoundary=i%3===0;return`<div class="${isQBoundary ? 'gantt-divider' : 'gantt-month-divider'}" style="left:${ganttPct(mo.start).toFixed(2)}%"></div>`;}).join('');return stripes+divs;}
+function ganttDeco(){const stripes=GANTT_FY.quarters.map(q=>{const l=ganttPct(q.start).toFixed(2);const w=((q.end-q.start)/GANTT_TOTAL_MS*100).toFixed(2);return`<div class="gantt-stripe" style="left:${l}%;width:${w}%;background:${q.stripe}"></div>`;}).join('');const divs=GANTT_MONTHS.map((mo,i)=>{if(i===0)return'';const isQBoundary=i%3===0;return`<div class="${isQBoundary ? 'gantt-divider' : 'gantt-month-divider'}" style="left:${ganttPct(mo.start).toFixed(2)}%"></div>`;}).join('');let todayTick='';const now=new Date();if(now>=GANTT_FY.start&&now<=GANTT_FY.end){todayTick=`<div class="gantt-today-track" style="left:${ganttPct(now).toFixed(2)}%"></div>`;}
+return stripes+divs+todayTick;}
 function buildGanttHeader(){const el=document.getElementById('gantt-qheader');if(!el)return;const qRow=GANTT_FY.quarters.map(q=>{const w=((q.end-q.start)/GANTT_TOTAL_MS*100).toFixed(2);const isFY28=q.label.includes('FY28');return`<div class="gantt-qcol${isFY28 ? ' gantt-qcol-fy28' : ''}" style="width:${w}%">${q.label}</div>`;}).join('');const mRow=GANTT_MONTHS.map((mo,i)=>{const isQBoundary=i%3===0;const isFY28Start=i===12;const cls=['gantt-mcol',isQBoundary?'gantt-mcol-qstart':'',isFY28Start?'gantt-mcol-fy28start':''].filter(Boolean).join(' ');const w=((mo.end-mo.start)/GANTT_TOTAL_MS*100).toFixed(2);return`<div class="${cls}" style="width:${w}%">${mo.label}</div>`;}).join('');el.innerHTML=`
     <div class="gantt-header-stub"></div><div class="gantt-header-timeline"><div class="gantt-header-qrow">${qRow}</div><div class="gantt-header-mrow">${mRow}</div></div>
   `;}
-function ganttInjectToday(){document.querySelectorAll('.gantt-today-overlay').forEach(el=>el.remove());const body=document.getElementById('gantt-body');if(!body)return;const now=new Date();if(now<GANTT_FY.start||now>GANTT_FY.end)return;const pct=(now-GANTT_FY.start)/GANTT_TOTAL_MS;const overlay=document.createElement('div');overlay.className='gantt-today-overlay';overlay.style.left=`calc(${(GANTT_LABEL_W * (1 - pct)).toFixed(1)}px + ${(pct * 100).toFixed(3)}%)`;overlay.innerHTML='<span class="gantt-today-label">Today</span>';body.appendChild(overlay);}
 window.ganttOpenCard=function(cardId){const pillar=(window.PILLARS||[]).find(p=>(p.cards||[]).some(c=>c.id===cardId));const ws=pillar?(pillar.title||''):'';const tool=pillar?(pillar.tool||''):'';if(typeof openModal==='function')openModal(cardId,ws,tool);};function ganttCardIndex(){const cards=window.PILLARS?window.PILLARS.flatMap(p=>p.cards||[]):[];return Object.fromEntries(cards.map(c=>[c.id,c]));}
 function ganttGoalCards(goalId){const ids=(window.GOAL_CARD_MAP||{})[String(goalId)]||[];const index=ganttCardIndex();const showAll=ganttActiveWS.has('all');return ids.map(id=>index[id]).filter(c=>c&&(showAll||(c.workstreams||[]).some(ws=>ganttActiveWS.has(ws)))).sort((a,b)=>{const ra=ganttParseRange(a.targetDate),rb=ganttParseRange(b.targetDate);const da=ra&&ra.end,db=rb&&rb.end;if(!da&&!db)return 0;if(!da)return 1;if(!db)return-1;return da-db;});}
 function ganttPhaseCardCount(phaseNum){const phases=typeof PHASE_DEFS!=='undefined'?PHASE_DEFS:[];const phase=phases.find(p=>p.num===phaseNum);if(!phase)return 0;const seen=new Set();(phase.goals||[]).forEach(g=>ganttGoalCards(String(g.id).replace('#','')).forEach(c=>seen.add(c.id)));return seen.size;}
@@ -6785,7 +6769,7 @@ document.querySelectorAll('.gantt-ws-btn').forEach(btn=>btn.classList.toggle('ac
             <div class="gantt-bar gantt-goal-bar" style="left:${phL}%;width:${phW}%;background:${phase.color}"><span class="gantt-bar-label">${goal.label}</span></div></div></div>`;if(open){if(gCards.length===0){html+=`<div class="gantt-card-empty">No programs match the active workstream filter.</div>`;}else{gCards.forEach(card=>{const dotColor=({completed:'#2a8703',green:'#2a8703',yellow:'#f59e0b',red:'#ea1100',roadmap:'#9ca3af'})[card.status]||'#9ca3af';const isCritical=card.critical||(card.tag||'').toLowerCase().includes('critical');html+=`
               <div class="gantt-row gantt-card-row" onclick="ganttOpenCard('${card.id}')" title="Click to view details" style="cursor:pointer"><div class="gantt-label gantt-card-label"><div class="gantt-label-inner"><span class="gantt-dot" style="background:${dotColor}"></span><span class="gantt-label-text">${card.icon || ''} ${card.title}</span>
                     ${isCritical ? '<span class="gantt-star">⭐</span>' : ''}
-                  </div><div class="gantt-label-ws">${(card.workstreams || []).join(', ')} &middot; ${card.targetDate || 'TBD'}</div></div><div class="gantt-track">${deco}${ganttBars(card)}</div></div>`;});}}});});body.innerHTML=html||'<div class="gantt-empty">No phases defined.</div>';ganttInjectToday();};</script>
+                  </div><div class="gantt-label-ws">${(card.workstreams || []).join(', ')} &middot; ${card.targetDate || 'TBD'}</div></div><div class="gantt-track">${deco}${ganttBars(card)}</div></div>`;});}}});});body.innerHTML=html||'<div class="gantt-empty">No phases defined.</div>';};</script>
 <script>function getActiveQuarters(){const now=new Date();const yr=now.getFullYear();const windows={Q1:[new Date(yr,1,1),new Date(yr,3,30)],Q2:[new Date(yr,4,1),new Date(yr,6,31)],Q3:[new Date(yr,7,1),new Date(yr,9,31)],Q4:[new Date(yr,10,1),new Date(yr+1,0,31)],};const horizon=new Date(now.getTime()+90*24*60*60*1000);const active=new Set(['completed']);for(const[q,[start,end]]of Object.entries(windows)){if(start<=horizon&&end>=now)active.add(q);}
 return active;}
 const ACTIVE_QUARTERS=getActiveQuarters();function getActiveCards(pillar){return QUARTER_ORDER.filter(q=>ACTIVE_QUARTERS.has(q)).flatMap(q=>pillar.cards.filter(c=>c.quarter===q));}

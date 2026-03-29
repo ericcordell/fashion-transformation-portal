@@ -355,34 +355,17 @@
   pointer-events: none;
 }
 
-/* Today: single full-height overlay on gantt-body, not per-row */
-#gantt-body {
-  position: relative;
-}
-
-.gantt-today-overlay {
+/* Today: rendered per-track via ganttDeco() so overflow:hidden clips it
+   exactly to the track area — no bleed into labels or row gaps. */
+.gantt-today-track {
   position: absolute;
   top: 0;
-  bottom: 0;
+  height: 100%;
   width: 2px;
   background: #ea1100;
-  z-index: 3;             /* below sticky labels (z-index:4) → line hides behind frozen column */
+  z-index: 3;
   pointer-events: none;
   transform: translateX(-1px);
-}
-
-.gantt-today-label {
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  font-size: 9px;
-  font-weight: 800;
-  color: #ea1100;
-  white-space: nowrap;
-  background: white;
-  padding: 1px 3px;
-  border-radius: 2px;
-  box-shadow: 0 1px 3px rgba(234,17,0,.15);
 }
 
 /* ── Bars ─────────────────────────────────────────────────────────────────── */

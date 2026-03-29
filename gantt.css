@@ -61,10 +61,19 @@
 .gantt-wrap {
   padding: 0 0 32px;
   overflow-x: auto;
+  /* Custom scrollbar — subtle but visible */
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
 }
 
+.gantt-wrap::-webkit-scrollbar        { height: 8px; }
+.gantt-wrap::-webkit-scrollbar-track  { background: #f1f5f9; border-radius: 4px; }
+.gantt-wrap::-webkit-scrollbar-thumb  { background: #cbd5e1; border-radius: 4px; }
+.gantt-wrap::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
 .gantt-chart {
-  min-width: 900px;
+  /* 220px label + ~95px × 21 months ≈ 2215px — forces horizontal scroll */
+  min-width: 2220px;
 }
 
 /* ── Two-row header: Quarter + Month ─────────────────────────────────────── */
@@ -115,6 +124,15 @@
 
 .gantt-mcol:first-child  { border-left: none; }
 .gantt-mcol.gantt-mcol-qstart { border-left: 1px solid #d1d5db; color: #6b7280; font-weight: 600; }
+
+/* FY28 distinction — subtle green tint on quarter headers + bold boundary on month row */
+.gantt-qcol.gantt-qcol-fy28       { background: #f0faf0; color: #2a6b00; }
+.gantt-mcol.gantt-mcol-fy28start  {
+  border-left: 2px solid #2a8703;
+  color: #2a6b00;
+  font-weight: 700;
+  background: #f0faf0;
+}
 
 /* ── Phase header rows ────────────────────────────────────────────────────── */
 .gantt-phase-header {

@@ -2124,10 +2124,19 @@ details > summary::-webkit-details-marker { display: none; }
 .gantt-wrap {
   padding: 0 0 32px;
   overflow-x: auto;
+  /* Custom scrollbar — subtle but visible */
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
 }
 
+.gantt-wrap::-webkit-scrollbar        { height: 8px; }
+.gantt-wrap::-webkit-scrollbar-track  { background: #f1f5f9; border-radius: 4px; }
+.gantt-wrap::-webkit-scrollbar-thumb  { background: #cbd5e1; border-radius: 4px; }
+.gantt-wrap::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
 .gantt-chart {
-  min-width: 900px;
+  /* 220px label + ~95px × 21 months ≈ 2215px — forces horizontal scroll */
+  min-width: 2220px;
 }
 
 /* ── Two-row header: Quarter + Month ─────────────────────────────────────── */
@@ -2178,6 +2187,15 @@ details > summary::-webkit-details-marker { display: none; }
 
 .gantt-mcol:first-child  { border-left: none; }
 .gantt-mcol.gantt-mcol-qstart { border-left: 1px solid #d1d5db; color: #6b7280; font-weight: 600; }
+
+/* FY28 distinction — subtle green tint on quarter headers + bold boundary on month row */
+.gantt-qcol.gantt-qcol-fy28       { background: #f0faf0; color: #2a6b00; }
+.gantt-mcol.gantt-mcol-fy28start  {
+  border-left: 2px solid #2a8703;
+  color: #2a6b00;
+  font-weight: 700;
+  background: #f0faf0;
+}
 
 /* ── Phase header rows ────────────────────────────────────────────────────── */
 .gantt-phase-header {
@@ -6720,22 +6738,29 @@ if (document.readyState === 'loading') {
 // gantt.js — Gantt Chart: Phase → Goal → Cards
 // Walmart FY27: Q1=Feb-Apr, Q2=May-Jul, Q3=Aug-Oct, Q4=Nov-Jan
 
-// ── FY27 timeline constants ───────────────────────────────────────────────────
+// ── Timeline constants — FY27 + FY28 (Feb 2026 → Nov 2027) ──────────────────
+// Covers Phase 1 (Q1-Q3 FY27), Phase 2 (Q3 FY27-Q1 FY28), Phase 3 (Q1-Q3 FY28)
 const GANTT_FY = {
-  start: new Date(2026, 1, 1),   // Feb 1 2026
-  end:   new Date(2027, 1, 1),   // Feb 1 2027
+  start: new Date(2026,  1,  1),  // Feb  1 2026
+  end:   new Date(2027, 10,  1),  // Nov  1 2027 (end of Q3 FY28)
   quarters: [
+    // ── FY27 ──
     { label: 'Q1 FY27', start: new Date(2026,  1, 1), end: new Date(2026,  4, 1), stripe: '#eef4ff' },
     { label: 'Q2 FY27', start: new Date(2026,  4, 1), end: new Date(2026,  7, 1), stripe: '#f8faff' },
     { label: 'Q3 FY27', start: new Date(2026,  7, 1), end: new Date(2026, 10, 1), stripe: '#eef4ff' },
     { label: 'Q4 FY27', start: new Date(2026, 10, 1), end: new Date(2027,  1, 1), stripe: '#f8faff' },
+    // ── FY28 ──
+    { label: 'Q1 FY28', start: new Date(2027,  1, 1), end: new Date(2027,  4, 1), stripe: '#f0f8ee' },
+    { label: 'Q2 FY28', start: new Date(2027,  4, 1), end: new Date(2027,  7, 1), stripe: '#fafffe' },
+    { label: 'Q3 FY28', start: new Date(2027,  7, 1), end: new Date(2027, 10, 1), stripe: '#f0f8ee' },
   ],
 };
-const GANTT_TOTAL_MS = GANTT_FY.end - GANTT_FY.start;
+const GANTT_TOTAL_MS = GANTT_FY.end - GANTT_FY.start;  // ~21 months
 const GANTT_LABEL_W  = 220; // px — must match .gantt-label width in CSS
 
-// All 12 months of the FY27 window
+// All 21 months: Feb 2026 → Oct 2027
 const GANTT_MONTHS = [
+  // FY27
   { label: 'Feb', start: new Date(2026,  1, 1), end: new Date(2026,  2, 1) },
   { label: 'Mar', start: new Date(2026,  2, 1), end: new Date(2026,  3, 1) },
   { label: 'Apr', start: new Date(2026,  3, 1), end: new Date(2026,  4, 1) },
@@ -6748,6 +6773,16 @@ const GANTT_MONTHS = [
   { label: 'Nov', start: new Date(2026, 10, 1), end: new Date(2026, 11, 1) },
   { label: 'Dec', start: new Date(2026, 11, 1), end: new Date(2027,  0, 1) },
   { label: 'Jan', start: new Date(2027,  0, 1), end: new Date(2027,  1, 1) },
+  // FY28
+  { label: 'Feb', start: new Date(2027,  1, 1), end: new Date(2027,  2, 1) },
+  { label: 'Mar', start: new Date(2027,  2, 1), end: new Date(2027,  3, 1) },
+  { label: 'Apr', start: new Date(2027,  3, 1), end: new Date(2027,  4, 1) },
+  { label: 'May', start: new Date(2027,  4, 1), end: new Date(2027,  5, 1) },
+  { label: 'Jun', start: new Date(2027,  5, 1), end: new Date(2027,  6, 1) },
+  { label: 'Jul', start: new Date(2027,  6, 1), end: new Date(2027,  7, 1) },
+  { label: 'Aug', start: new Date(2027,  7, 1), end: new Date(2027,  8, 1) },
+  { label: 'Sep', start: new Date(2027,  8, 1), end: new Date(2027,  9, 1) },
+  { label: 'Oct', start: new Date(2027,  9, 1), end: new Date(2027, 10, 1) },
 ];
 
 const GANTT_WS_CONFIG = {
@@ -6769,8 +6804,12 @@ function ganttPct(date) {
 
 function ganttQStart(q) {
   if (!q || q === 'completed') return GANTT_FY.start;
-  const n = String(q).replace(/\D/g, '')[0];
-  return ({ '1': new Date(2026,1,1), '2': new Date(2026,4,1), '3': new Date(2026,7,1), '4': new Date(2026,10,1) })[n] || GANTT_FY.start;
+  const s    = String(q);
+  const n    = s.match(/([1-4])/)?.[1];
+  const fy28 = /FY28/i.test(s);
+  const map27 = { '1':new Date(2026,1,1), '2':new Date(2026,4,1), '3':new Date(2026,7,1), '4':new Date(2026,10,1) };
+  const map28 = { '1':new Date(2027,1,1), '2':new Date(2027,4,1), '3':new Date(2027,7,1), '4':new Date(2027,10,1) };
+  return (fy28 ? map28 : map27)[n] || GANTT_FY.start;
 }
 
 // First full month a feature is AVAILABLE TO USERS after a delivery date.
@@ -6802,19 +6841,30 @@ function ganttParseRange(str) {
       return { start: s, end: new Date(e.getFullYear(), e.getMonth() + 1, 0), isRange: true };
   }
 
-  // Quarter range: "Q1–Q2 FY27"
-  m = str.match(/Q([1-4])[\u2013\-]+Q([1-4])/);
+  // Quarter range: "Q1–Q2 FY27" or "Q3 FY27–Q1 FY28" (cross-FY)
+  m = str.match(/Q([1-4])(?:\s*(FY2[78]))?[\u2013\-]+Q([1-4])(?:\s*(FY2[78]))?/);
   if (m) {
-    const qs = { '1':new Date(2026,1,1),  '2':new Date(2026,4,1),  '3':new Date(2026,7,1),  '4':new Date(2026,10,1) };
-    const qe = { '1':new Date(2026,3,30), '2':new Date(2026,6,31), '3':new Date(2026,9,31), '4':new Date(2027,0,31) };
-    return { start: qs[m[1]], end: qe[m[2]], isRange: true };
+    const qStarts = {
+      FY27: { '1':new Date(2026,1,1),  '2':new Date(2026,4,1),  '3':new Date(2026,7,1),  '4':new Date(2026,10,1) },
+      FY28: { '1':new Date(2027,1,1),  '2':new Date(2027,4,1),  '3':new Date(2027,7,1),  '4':new Date(2027,10,1) },
+    };
+    const qEnds = {
+      FY27: { '1':new Date(2026,3,30), '2':new Date(2026,6,31), '3':new Date(2026,9,31), '4':new Date(2027,0,31) },
+      FY28: { '1':new Date(2027,3,30), '2':new Date(2027,6,31), '3':new Date(2027,9,31), '4':new Date(2028,0,31) },
+    };
+    const fy1 = m[2] || 'FY27', fy2 = m[4] || fy1;
+    return { start: qStarts[fy1][m[1]], end: qEnds[fy2][m[3]], isRange: true };
   }
 
-  // Single quarter: "Q2 FY27"
-  m = str.match(/Q([1-4])/);
+  // Single quarter: "Q2 FY27" or "Q1 FY28"
+  m = str.match(/Q([1-4])(?:\s*(FY2[78]))?/);
   if (m) {
-    const qe = { '1':new Date(2026,3,30), '2':new Date(2026,6,31), '3':new Date(2026,9,31), '4':new Date(2027,0,31) };
-    const d = qe[m[1]];
+    const fy = m[2] || 'FY27';
+    const qEnds = {
+      FY27: { '1':new Date(2026,3,30), '2':new Date(2026,6,31), '3':new Date(2026,9,31), '4':new Date(2027,0,31) },
+      FY28: { '1':new Date(2027,3,30), '2':new Date(2027,6,31), '3':new Date(2027,9,31), '4':new Date(2028,0,31) },
+    };
+    const d = qEnds[fy]?.[m[1]];
     return d ? { start: d, end: d, isRange: false } : null;
   }
 
@@ -6891,22 +6941,31 @@ function ganttDeco() {
   return stripes + divs;
 }
 
-// ── Two-row header: [Q1 FY27 | Q2 FY27 | …] / [Feb|Mar|Apr|May|…] ───────────
+// Two-row header: [Q1 FY27 … Q4 FY27 | Q1 FY28 … Q3 FY28] / [Feb|Mar…|Oct]
+// A subtle FY divider line separates the two fiscal years.
 function buildGanttHeader() {
   const el = document.getElementById('gantt-qheader');
   if (!el) return;
 
-  // Row 1: quarter labels
+  // Quarter row — FY28 columns get a slightly different bg tint
   const qRow = GANTT_FY.quarters.map(q => {
-    const w = ((q.end - q.start) / GANTT_TOTAL_MS * 100).toFixed(2);
-    return `<div class="gantt-qcol" style="width:${w}%">${q.label}</div>`;
+    const w    = ((q.end - q.start) / GANTT_TOTAL_MS * 100).toFixed(2);
+    const isFY28 = q.label.includes('FY28');
+    return `<div class="gantt-qcol${isFY28 ? ' gantt-qcol-fy28' : ''}" style="width:${w}%">${q.label}</div>`;
   }).join('');
 
-  // Row 2: individual month labels
+  // Month row — quarter-start months get a stronger border;
+  // the first FY28 month (index 12) gets the year-boundary class
   const mRow = GANTT_MONTHS.map((mo, i) => {
+    const isQBoundary  = i % 3 === 0;
+    const isFY28Start  = i === 12; // Feb 2027 = first FY28 month
+    const cls = [
+      'gantt-mcol',
+      isQBoundary  ? 'gantt-mcol-qstart'  : '',
+      isFY28Start  ? 'gantt-mcol-fy28start' : '',
+    ].filter(Boolean).join(' ');
     const w = ((mo.end - mo.start) / GANTT_TOTAL_MS * 100).toFixed(2);
-    const isQBoundary = i % 3 === 0;
-    return `<div class="gantt-mcol${isQBoundary ? ' gantt-mcol-qstart' : ''}" style="width:${w}%">${mo.label}</div>`;
+    return `<div class="${cls}" style="width:${w}%">${mo.label}</div>`;
   }).join('');
 
   el.innerHTML = `

@@ -220,36 +220,32 @@ function ganttDeco() {
   return stripes + divs;
 }
 
-// Two-row header: [Q1 FY27 … Q4 FY27 | Q1 FY28 … Q3 FY28] / [Feb|Mar…|Oct]
-// A subtle FY divider line separates the two fiscal years.
+// Two-row header with a sticky stub on the left that matches the frozen label column
 function buildGanttHeader() {
   const el = document.getElementById('gantt-qheader');
   if (!el) return;
 
-  // Quarter row — FY28 columns get a slightly different bg tint
   const qRow = GANTT_FY.quarters.map(q => {
-    const w    = ((q.end - q.start) / GANTT_TOTAL_MS * 100).toFixed(2);
+    const w     = ((q.end - q.start) / GANTT_TOTAL_MS * 100).toFixed(2);
     const isFY28 = q.label.includes('FY28');
     return `<div class="gantt-qcol${isFY28 ? ' gantt-qcol-fy28' : ''}" style="width:${w}%">${q.label}</div>`;
   }).join('');
 
-  // Month row — quarter-start months get a stronger border;
-  // the first FY28 month (index 12) gets the year-boundary class
   const mRow = GANTT_MONTHS.map((mo, i) => {
-    const isQBoundary  = i % 3 === 0;
-    const isFY28Start  = i === 12; // Feb 2027 = first FY28 month
-    const cls = [
-      'gantt-mcol',
-      isQBoundary  ? 'gantt-mcol-qstart'  : '',
-      isFY28Start  ? 'gantt-mcol-fy28start' : '',
-    ].filter(Boolean).join(' ');
-    const w = ((mo.end - mo.start) / GANTT_TOTAL_MS * 100).toFixed(2);
+    const isQBoundary = i % 3 === 0;
+    const isFY28Start = i === 12;
+    const cls = ['gantt-mcol', isQBoundary ? 'gantt-mcol-qstart' : '', isFY28Start ? 'gantt-mcol-fy28start' : ''].filter(Boolean).join(' ');
+    const w   = ((mo.end - mo.start) / GANTT_TOTAL_MS * 100).toFixed(2);
     return `<div class="${cls}" style="width:${w}%">${mo.label}</div>`;
   }).join('');
 
+  // Stub div occupies the same 220px as .gantt-label and sticks with it
   el.innerHTML = `
-    <div class="gantt-header-qrow">${qRow}</div>
-    <div class="gantt-header-mrow">${mRow}</div>
+    <div class="gantt-header-stub"></div>
+    <div class="gantt-header-timeline">
+      <div class="gantt-header-qrow">${qRow}</div>
+      <div class="gantt-header-mrow">${mRow}</div>
+    </div>
   `;
 }
 
@@ -351,8 +347,8 @@ window.renderGanttChart = function() {
     const phCount = ganttPhaseCardCount(phase.num);
 
     html += `
-      <div class="gantt-phase-header" style="border-left:4px solid ${phase.color}">
-        <div class="gantt-label gantt-phase-label-cell">
+      <div class="gantt-phase-header">
+        <div class="gantt-label gantt-phase-label-cell" style="border-left:4px solid ${phase.color};background:#f0f6ff">
           <span class="gantt-phase-emoji">${phase.emoji}</span>
           <div>
             <div class="gantt-phase-name">Phase ${phase.num}: ${phase.label}</div>

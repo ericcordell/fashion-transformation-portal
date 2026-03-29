@@ -2141,8 +2141,25 @@ details > summary::-webkit-details-marker { display: none; }
 
 /* ── Two-row header: Quarter + Month ─────────────────────────────────────── */
 .gantt-header {
-  margin-left: 220px;
+  display: flex;          /* stub + timeline side by side */
   border-bottom: 2px solid #e5e7eb;
+}
+
+/* Sticky placeholder that occupies the same 220px as .gantt-label */
+.gantt-header-stub {
+  flex-shrink: 0;
+  width: 220px;
+  position: sticky;
+  left: 0;
+  z-index: 6;             /* above track content and labels */
+  background: white;
+  border-right: 1px solid #e5e7eb;
+}
+
+/* Timeline columns fill the remaining scrollable width */
+.gantt-header-timeline {
+  flex: 1;
+  min-width: 0;
 }
 
 /* Quarter row */
@@ -2312,7 +2329,24 @@ details > summary::-webkit-details-marker { display: none; }
   width: 220px;
   padding: 6px 12px;
   overflow: hidden;
+  /* ── Sticky column ── */
+  position: sticky;
+  left: 0;
+  z-index: 4;
+  background: white;      /* default; overridden per row type below */
+  border-right: 1px solid #e5e7eb;
 }
+
+/* Per-row sticky label backgrounds — must match the row’s own bg exactly */
+.gantt-phase-header  > .gantt-label { background: #f0f6ff; }
+.gantt-goal-row      > .gantt-label { background: white; }
+.gantt-goal-open     > .gantt-label { background: #f0f9ff; }
+.gantt-card-row      > .gantt-label { background: #fafeff; }
+.gantt-row:nth-child(even) > .gantt-label { background: #fafafa; }
+
+/* Hover states — keep the label in sync with the row highlight */
+.gantt-goal-row:hover  > .gantt-label { background: #fafafa; }
+.gantt-card-row:hover  > .gantt-label { background: #e8f4ff; }
 
 .gantt-label-inner {
   display: flex;
@@ -6973,36 +7007,32 @@ function ganttDeco() {
   return stripes + divs;
 }
 
-// Two-row header: [Q1 FY27 … Q4 FY27 | Q1 FY28 … Q3 FY28] / [Feb|Mar…|Oct]
-// A subtle FY divider line separates the two fiscal years.
+// Two-row header with a sticky stub on the left that matches the frozen label column
 function buildGanttHeader() {
   const el = document.getElementById('gantt-qheader');
   if (!el) return;
 
-  // Quarter row — FY28 columns get a slightly different bg tint
   const qRow = GANTT_FY.quarters.map(q => {
-    const w    = ((q.end - q.start) / GANTT_TOTAL_MS * 100).toFixed(2);
+    const w     = ((q.end - q.start) / GANTT_TOTAL_MS * 100).toFixed(2);
     const isFY28 = q.label.includes('FY28');
     return `<div class="gantt-qcol${isFY28 ? ' gantt-qcol-fy28' : ''}" style="width:${w}%">${q.label}</div>`;
   }).join('');
 
-  // Month row — quarter-start months get a stronger border;
-  // the first FY28 month (index 12) gets the year-boundary class
   const mRow = GANTT_MONTHS.map((mo, i) => {
-    const isQBoundary  = i % 3 === 0;
-    const isFY28Start  = i === 12; // Feb 2027 = first FY28 month
-    const cls = [
-      'gantt-mcol',
-      isQBoundary  ? 'gantt-mcol-qstart'  : '',
-      isFY28Start  ? 'gantt-mcol-fy28start' : '',
-    ].filter(Boolean).join(' ');
-    const w = ((mo.end - mo.start) / GANTT_TOTAL_MS * 100).toFixed(2);
+    const isQBoundary = i % 3 === 0;
+    const isFY28Start = i === 12;
+    const cls = ['gantt-mcol', isQBoundary ? 'gantt-mcol-qstart' : '', isFY28Start ? 'gantt-mcol-fy28start' : ''].filter(Boolean).join(' ');
+    const w   = ((mo.end - mo.start) / GANTT_TOTAL_MS * 100).toFixed(2);
     return `<div class="${cls}" style="width:${w}%">${mo.label}</div>`;
   }).join('');
 
+  // Stub div occupies the same 220px as .gantt-label and sticks with it
   el.innerHTML = `
-    <div class="gantt-header-qrow">${qRow}</div>
-    <div class="gantt-header-mrow">${mRow}</div>
+    <div class="gantt-header-stub"></div>
+    <div class="gantt-header-timeline">
+      <div class="gantt-header-qrow">${qRow}</div>
+      <div class="gantt-header-mrow">${mRow}</div>
+    </div>
   `;
 }
 
@@ -7104,8 +7134,8 @@ window.renderGanttChart = function() {
     const phCount = ganttPhaseCardCount(phase.num);
 
     html += `
-      <div class="gantt-phase-header" style="border-left:4px solid ${phase.color}">
-        <div class="gantt-label gantt-phase-label-cell">
+      <div class="gantt-phase-header">
+        <div class="gantt-label gantt-phase-label-cell" style="border-left:4px solid ${phase.color};background:#f0f6ff">
           <span class="gantt-phase-emoji">${phase.emoji}</span>
           <div>
             <div class="gantt-phase-name">Phase ${phase.num}: ${phase.label}</div>

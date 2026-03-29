@@ -78,8 +78,25 @@
 
 /* ── Two-row header: Quarter + Month ─────────────────────────────────────── */
 .gantt-header {
-  margin-left: 220px;
+  display: flex;          /* stub + timeline side by side */
   border-bottom: 2px solid #e5e7eb;
+}
+
+/* Sticky placeholder that occupies the same 220px as .gantt-label */
+.gantt-header-stub {
+  flex-shrink: 0;
+  width: 220px;
+  position: sticky;
+  left: 0;
+  z-index: 6;             /* above track content and labels */
+  background: white;
+  border-right: 1px solid #e5e7eb;
+}
+
+/* Timeline columns fill the remaining scrollable width */
+.gantt-header-timeline {
+  flex: 1;
+  min-width: 0;
 }
 
 /* Quarter row */
@@ -249,7 +266,24 @@
   width: 220px;
   padding: 6px 12px;
   overflow: hidden;
+  /* ── Sticky column ── */
+  position: sticky;
+  left: 0;
+  z-index: 4;
+  background: white;      /* default; overridden per row type below */
+  border-right: 1px solid #e5e7eb;
 }
+
+/* Per-row sticky label backgrounds — must match the row’s own bg exactly */
+.gantt-phase-header  > .gantt-label { background: #f0f6ff; }
+.gantt-goal-row      > .gantt-label { background: white; }
+.gantt-goal-open     > .gantt-label { background: #f0f9ff; }
+.gantt-card-row      > .gantt-label { background: #fafeff; }
+.gantt-row:nth-child(even) > .gantt-label { background: #fafafa; }
+
+/* Hover states — keep the label in sync with the row highlight */
+.gantt-goal-row:hover  > .gantt-label { background: #fafafa; }
+.gantt-card-row:hover  > .gantt-label { background: #e8f4ff; }
 
 .gantt-label-inner {
   display: flex;

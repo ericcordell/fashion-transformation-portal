@@ -5368,8 +5368,21 @@ scrollbar-color: #cbd5e1 #f1f5f9;
 min-width: 2220px;
 }
 .gantt-header {
-margin-left: 220px;
+display: flex;
 border-bottom: 2px solid #e5e7eb;
+}
+.gantt-header-stub {
+flex-shrink: 0;
+width: 220px;
+position: sticky;
+left: 0;
+z-index: 6;
+background: white;
+border-right: 1px solid #e5e7eb;
+}
+.gantt-header-timeline {
+flex: 1;
+min-width: 0;
 }
 .gantt-header-qrow {
 display: flex;
@@ -5507,7 +5520,19 @@ flex-shrink: 0;
 width: 220px;
 padding: 6px 12px;
 overflow: hidden;
+position: sticky;
+left: 0;
+z-index: 4;
+background: white;
+border-right: 1px solid #e5e7eb;
 }
+.gantt-phase-header  > .gantt-label { background: #f0f6ff; }
+.gantt-goal-row      > .gantt-label { background: white; }
+.gantt-goal-open     > .gantt-label { background: #f0f9ff; }
+.gantt-card-row      > .gantt-label { background: #fafeff; }
+.gantt-row:nth-child(even) > .gantt-label { background: #fafafa; }
+.gantt-goal-row:hover  > .gantt-label { background: #fafafa; }
+.gantt-card-row:hover  > .gantt-label { background: #e8f4ff; }
 .gantt-label-inner {
 display: flex;
 align-items: center;
@@ -6743,8 +6768,8 @@ const availableFrom=ganttFirstAvailableMonth(range.end);let html='';if(range.isR
 const deployPct=ganttPct(availableFrom);if(deployPct<99.5){const w=Math.max(0.5,100-deployPct).toFixed(2);html+=`<div class="gantt-bar-available" style="left:${deployPct.toFixed(2)}%;width:${w}%;background:${color}"><span class="gantt-bar-status">${statusLabel}</span></div>`;}
 return html||`<div class="gantt-bar-tbd" style="left:${Math.max(0,ganttPct(range.end)-2).toFixed(2)}%;width:3%">\u2714</div>`;}
 function ganttDeco(){const stripes=GANTT_FY.quarters.map(q=>{const l=ganttPct(q.start).toFixed(2);const w=((q.end-q.start)/GANTT_TOTAL_MS*100).toFixed(2);return`<div class="gantt-stripe" style="left:${l}%;width:${w}%;background:${q.stripe}"></div>`;}).join('');const divs=GANTT_MONTHS.map((mo,i)=>{if(i===0)return'';const isQBoundary=i%3===0;return`<div class="${isQBoundary ? 'gantt-divider' : 'gantt-month-divider'}" style="left:${ganttPct(mo.start).toFixed(2)}%"></div>`;}).join('');return stripes+divs;}
-function buildGanttHeader(){const el=document.getElementById('gantt-qheader');if(!el)return;const qRow=GANTT_FY.quarters.map(q=>{const w=((q.end-q.start)/GANTT_TOTAL_MS*100).toFixed(2);const isFY28=q.label.includes('FY28');return`<div class="gantt-qcol${isFY28 ? ' gantt-qcol-fy28' : ''}" style="width:${w}%">${q.label}</div>`;}).join('');const mRow=GANTT_MONTHS.map((mo,i)=>{const isQBoundary=i%3===0;const isFY28Start=i===12;const cls=['gantt-mcol',isQBoundary?'gantt-mcol-qstart':'',isFY28Start?'gantt-mcol-fy28start':'',].filter(Boolean).join(' ');const w=((mo.end-mo.start)/GANTT_TOTAL_MS*100).toFixed(2);return`<div class="${cls}" style="width:${w}%">${mo.label}</div>`;}).join('');el.innerHTML=`
-    <div class="gantt-header-qrow">${qRow}</div><div class="gantt-header-mrow">${mRow}</div>
+function buildGanttHeader(){const el=document.getElementById('gantt-qheader');if(!el)return;const qRow=GANTT_FY.quarters.map(q=>{const w=((q.end-q.start)/GANTT_TOTAL_MS*100).toFixed(2);const isFY28=q.label.includes('FY28');return`<div class="gantt-qcol${isFY28 ? ' gantt-qcol-fy28' : ''}" style="width:${w}%">${q.label}</div>`;}).join('');const mRow=GANTT_MONTHS.map((mo,i)=>{const isQBoundary=i%3===0;const isFY28Start=i===12;const cls=['gantt-mcol',isQBoundary?'gantt-mcol-qstart':'',isFY28Start?'gantt-mcol-fy28start':''].filter(Boolean).join(' ');const w=((mo.end-mo.start)/GANTT_TOTAL_MS*100).toFixed(2);return`<div class="${cls}" style="width:${w}%">${mo.label}</div>`;}).join('');el.innerHTML=`
+    <div class="gantt-header-stub"></div><div class="gantt-header-timeline"><div class="gantt-header-qrow">${qRow}</div><div class="gantt-header-mrow">${mRow}</div></div>
   `;}
 function ganttInjectToday(){document.querySelectorAll('.gantt-today-overlay').forEach(el=>el.remove());const body=document.getElementById('gantt-body');if(!body)return;const now=new Date();if(now<GANTT_FY.start||now>GANTT_FY.end)return;const pct=(now-GANTT_FY.start)/GANTT_TOTAL_MS;const overlay=document.createElement('div');overlay.className='gantt-today-overlay';overlay.style.left=`calc(${(GANTT_LABEL_W * (1 - pct)).toFixed(1)}px + ${(pct * 100).toFixed(3)}%)`;overlay.innerHTML='<span class="gantt-today-label">Today</span>';body.appendChild(overlay);}
 window.ganttOpenCard=function(cardId){const pillar=(window.PILLARS||[]).find(p=>(p.cards||[]).some(c=>c.id===cardId));const ws=pillar?(pillar.title||''):'';const tool=pillar?(pillar.tool||''):'';if(typeof openModal==='function')openModal(cardId,ws,tool);};function ganttCardIndex(){const cards=window.PILLARS?window.PILLARS.flatMap(p=>p.cards||[]):[];return Object.fromEntries(cards.map(c=>[c.id,c]));}
@@ -6752,7 +6777,7 @@ function ganttGoalCards(goalId){const ids=(window.GOAL_CARD_MAP||{})[String(goal
 function ganttPhaseCardCount(phaseNum){const phases=typeof PHASE_DEFS!=='undefined'?PHASE_DEFS:[];const phase=phases.find(p=>p.num===phaseNum);if(!phase)return 0;const seen=new Set();(phase.goals||[]).forEach(g=>ganttGoalCards(String(g.id).replace('#','')).forEach(c=>seen.add(c.id)));return seen.size;}
 window.ganttToggleGoal=function(key){ganttExpandedGoals.has(key)?ganttExpandedGoals.delete(key):ganttExpandedGoals.add(key);renderGanttChart();};window.ganttToggleWS=function(ws){if(ws==='all'){ganttActiveWS=new Set(['all']);}else{ganttActiveWS.delete('all');ganttActiveWS.has(ws)?ganttActiveWS.delete(ws):ganttActiveWS.add(ws);if(ganttActiveWS.size===0)ganttActiveWS=new Set(['all']);}
 document.querySelectorAll('.gantt-ws-btn').forEach(btn=>btn.classList.toggle('active',ganttActiveWS.has(btn.dataset.ws)));renderGanttChart();};window.renderGanttChart=function(){const body=document.getElementById('gantt-body');if(!body)return;buildGanttHeader();const phases=typeof PHASE_DEFS!=='undefined'?PHASE_DEFS:[];const deco=ganttDeco();let html='';phases.forEach(phase=>{const ps=new Date(phase.start);const pe=new Date(phase.end);const phL=ganttPct(ps).toFixed(2);const phW=Math.max(1,ganttPct(pe)-ganttPct(ps)).toFixed(2);const phCount=ganttPhaseCardCount(phase.num);html+=`
-      <div class="gantt-phase-header" style="border-left:4px solid ${phase.color}"><div class="gantt-label gantt-phase-label-cell"><span class="gantt-phase-emoji">${phase.emoji}</span><div><div class="gantt-phase-name">Phase ${phase.num}: ${phase.label}</div><div class="gantt-phase-win">${phase.window} &middot; ${phCount} program${phCount !== 1 ? 's' : ''}</div></div></div><div class="gantt-track">
+      <div class="gantt-phase-header"><div class="gantt-label gantt-phase-label-cell" style="border-left:4px solid ${phase.color};background:#f0f6ff"><span class="gantt-phase-emoji">${phase.emoji}</span><div><div class="gantt-phase-name">Phase ${phase.num}: ${phase.label}</div><div class="gantt-phase-win">${phase.window} &middot; ${phCount} program${phCount !== 1 ? 's' : ''}</div></div></div><div class="gantt-track">
           ${deco}
           <div class="gantt-phase-bar" style="left:${phL}%;width:${phW}%;border:1.5px solid ${phase.color}40;background:${phase.color}14"><span style="color:${phase.color};font-weight:700;font-size:11px">${phase.label}</span></div></div></div>`;(phase.goals||[]).forEach(goal=>{const goalId=String(goal.id).replace('#','');const key=`${phase.num}-${goalId}`;const open=ganttExpandedGoals.has(key);const gCards=ganttGoalCards(goalId);html+=`
         <div class="gantt-goal-row${open ? ' gantt-goal-open' : ''}" onclick="ganttToggleGoal('${key}')"><div class="gantt-label"><div class="gantt-label-inner"><span class="gantt-expand-icon">${open ? '▾' : '▸'}</span><span class="gantt-goal-badge" style="background:${phase.color}20;color:${phase.color}">${goal.id}</span><span class="gantt-label-text">${goal.label}</span></div><div class="gantt-label-ws">${gCards.length} program${gCards.length !== 1 ? 's' : ''} &bull; click to ${open ? 'collapse' : 'expand'}</div></div><div class="gantt-track">

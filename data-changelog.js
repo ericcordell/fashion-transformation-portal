@@ -6,9 +6,20 @@
  *
  * Last sync: March 23, 2026
  */
-const LAST_SYNC_DATE = 'March 23, 2026';
+const LAST_SYNC_DATE = 'March 25, 2026';
 
 const CARD_CHANGELOG = {
+  'ap-tool-lineplan': [
+    {
+      date: '2026-03-25',
+      field: 'status',
+      from: 'yellow',
+      to: 'green',
+      fromLabel: 'Yellow \u2014 Work in Progress',
+      toLabel: 'Green \u2014 On Track',
+      note: 'OPIF-325568 updated to Green. Scope confirmed following Mar 16 spike completion. Development actively underway. Assignee: Ashwin Chidambaram.',
+    },
+  ],
   'forecast-enterprise-service': [
     {
       date: '2026-03-23',

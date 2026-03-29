@@ -137,8 +137,8 @@ function ganttBars(card) {
     const l = ganttPct(winStart).toFixed(2);
     const w = Math.max(1, ganttPct(availableFrom) - ganttPct(winStart)).toFixed(2);
     if (parseFloat(w) > 0.3) {
-      html += `<div class="gantt-bar-window" style="left:${l}%;width:${w}%;border-color:${color}">
-        <span class="gantt-bar-label" style="color:${color}">${card.targetDate}</span>
+      html += `<div class="gantt-bar-window" style="left:${l}%;width:${w}%;background:${color}">
+        <span class="gantt-bar-label" style="color:white">${card.targetDate}</span>
       </div>`;
     }
   }

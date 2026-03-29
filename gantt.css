@@ -379,7 +379,7 @@
   opacity: 0.85;
 }
 
-/* Dashed: delivery window for range dates (could launch any time in here) */
+/* Delivery window: semi-transparent fill of the workstream color */
 .gantt-bar-window {
   position: absolute;
   top: 50%;
@@ -390,8 +390,7 @@
   align-items: center;
   padding: 0 6px;
   z-index: 2;
-  background: transparent;
-  border: 1.5px dashed;
+  opacity: 0.35;
   overflow: hidden;
 }
 

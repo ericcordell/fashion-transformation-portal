@@ -5618,8 +5618,7 @@ display: flex;
 align-items: center;
 padding: 0 6px;
 z-index: 2;
-background: transparent;
-border: 1.5px dashed;
+opacity: 0.35;
 overflow: hidden;
 }
 .gantt-bar-tbd {
@@ -6635,7 +6634,7 @@ function renderReviewContent(reviewType){const review=BUSINESS_REVIEWS[reviewTyp
           📥 Download PPTX
         </button></div><div class="gantt-wrap"><div class="gantt-chart"><div class="gantt-header" id="gantt-qheader"></div><div id="gantt-body"></div></div></div><div class="gantt-legend"><span class="gantt-legend-title">Workstream:</span>
         ${legendItems}
-        <div style="margin-left:12px;display:flex;align-items:center;gap:16px"><div class="gantt-legend-item"><div style="width:14px;height:14px;border-radius:3px;background:#ea1100"></div>Today</div><div class="gantt-legend-item"><div style="width:28px;height:12px;border-radius:3px;background:#6366f1;opacity:0.85"></div>Available to users</div><div class="gantt-legend-item"><div style="width:28px;height:12px;border-radius:3px;border:1.5px dashed #6366f1"></div>Delivery window</div></div></div>
+        <div style="margin-left:12px;display:flex;align-items:center;gap:16px"><div class="gantt-legend-item"><div style="width:14px;height:14px;border-radius:3px;background:#ea1100"></div>Today</div><div class="gantt-legend-item"><div style="width:28px;height:12px;border-radius:3px;background:#6366f1;opacity:0.85"></div>Available to users</div><div class="gantt-legend-item"><div style="width:28px;height:12px;border-radius:3px;background:#6366f1;opacity:0.35"></div>Delivery window</div></div></div>
     `;renderGanttChart();return;}
 const cards=getReviewCards(reviewType);const stats=getReviewStats(cards);let html=`
     <div class="review-back-bar"><button class="review-back-button" onclick="clearBusinessReview()">
@@ -6719,7 +6718,7 @@ m=str.match(/Q([1-4])[\u2013\-]+Q([1-4])/);if(m){const qs={'1':new Date(2026,1,1
 m=str.match(/Q([1-4])/);if(m){const qe={'1':new Date(2026,3,30),'2':new Date(2026,6,31),'3':new Date(2026,9,31),'4':new Date(2027,0,31)};const d=qe[m[1]];return d?{start:d,end:d,isRange:false}:null;}
 const d=new Date(str.replace(/,/,''));if(!isNaN(d))return{start:d,end:d,isRange:false};return null;}
 function ganttBars(card){const range=ganttParseRange(card.targetDate);const wsKey=(card.workstreams||[])[0]||'all';const color=card.status==='completed'?'#2a8703':(GANTT_WS_CONFIG[wsKey]||GANTT_WS_CONFIG.all).color;if(!range){return`<div class="gantt-bar-tbd" style="left:2%;width:8%">TBD</div>`;}
-const availableFrom=ganttFirstAvailableMonth(range.end);let html='';if(range.isRange){const winStart=ganttFirstAvailableMonth(range.start);const l=ganttPct(winStart).toFixed(2);const w=Math.max(1,ganttPct(availableFrom)-ganttPct(winStart)).toFixed(2);if(parseFloat(w)>0.3){html+=`<div class="gantt-bar-window" style="left:${l}%;width:${w}%;border-color:${color}"><span class="gantt-bar-label" style="color:${color}">${card.targetDate}</span></div>`;}}
+const availableFrom=ganttFirstAvailableMonth(range.end);let html='';if(range.isRange){const winStart=ganttFirstAvailableMonth(range.start);const l=ganttPct(winStart).toFixed(2);const w=Math.max(1,ganttPct(availableFrom)-ganttPct(winStart)).toFixed(2);if(parseFloat(w)>0.3){html+=`<div class="gantt-bar-window" style="left:${l}%;width:${w}%;background:${color}"><span class="gantt-bar-label" style="color:white">${card.targetDate}</span></div>`;}}
 const deployPct=ganttPct(availableFrom);if(deployPct<99.5){const w=Math.max(0.5,100-deployPct).toFixed(2);html+=`<div class="gantt-bar-available" style="left:${deployPct.toFixed(2)}%;width:${w}%;background:${color}"></div>`;}
 return html||`<div class="gantt-bar-tbd" style="left:${Math.max(0,ganttPct(range.end)-2).toFixed(2)}%;width:3%">\u2714</div>`;}
 function ganttDeco(){const stripes=GANTT_FY.quarters.map(q=>{const l=ganttPct(q.start).toFixed(2);const w=((q.end-q.start)/GANTT_TOTAL_MS*100).toFixed(2);return`<div class="gantt-stripe" style="left:${l}%;width:${w}%;background:${q.stripe}"></div>`;}).join('');const divs=GANTT_MONTHS.map((mo,i)=>{if(i===0)return'';const isQBoundary=i%3===0;return`<div class="${isQBoundary ? 'gantt-divider' : 'gantt-month-divider'}" style="left:${ganttPct(mo.start).toFixed(2)}%"></div>`;}).join('');return stripes+divs;}

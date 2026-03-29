@@ -2430,7 +2430,7 @@ details > summary::-webkit-details-marker { display: none; }
   opacity: 0.85;
 }
 
-/* Dashed: delivery window for range dates (could launch any time in here) */
+/* Delivery window: semi-transparent fill of the workstream color */
 .gantt-bar-window {
   position: absolute;
   top: 50%;
@@ -2441,8 +2441,7 @@ details > summary::-webkit-details-marker { display: none; }
   align-items: center;
   padding: 0 6px;
   z-index: 2;
-  background: transparent;
-  border: 1.5px dashed;
+  opacity: 0.35;
   overflow: hidden;
 }
 
@@ -6283,7 +6282,7 @@ function renderReviewContent(reviewType) {
         <div style="margin-left:12px;display:flex;align-items:center;gap:16px">
           <div class="gantt-legend-item"><div style="width:14px;height:14px;border-radius:3px;background:#ea1100"></div>Today</div>
           <div class="gantt-legend-item"><div style="width:28px;height:12px;border-radius:3px;background:#6366f1;opacity:0.85"></div>Available to users</div>
-          <div class="gantt-legend-item"><div style="width:28px;height:12px;border-radius:3px;border:1.5px dashed #6366f1"></div>Delivery window</div>
+          <div class="gantt-legend-item"><div style="width:28px;height:12px;border-radius:3px;background:#6366f1;opacity:0.35"></div>Delivery window</div>
         </div>
       </div>
     `;
@@ -6863,8 +6862,8 @@ function ganttBars(card) {
     const l = ganttPct(winStart).toFixed(2);
     const w = Math.max(1, ganttPct(availableFrom) - ganttPct(winStart)).toFixed(2);
     if (parseFloat(w) > 0.3) {
-      html += `<div class="gantt-bar-window" style="left:${l}%;width:${w}%;border-color:${color}">
-        <span class="gantt-bar-label" style="color:${color}">${card.targetDate}</span>
+      html += `<div class="gantt-bar-window" style="left:${l}%;width:${w}%;background:${color}">
+        <span class="gantt-bar-label" style="color:white">${card.targetDate}</span>
       </div>`;
     }
   }

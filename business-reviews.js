@@ -301,7 +301,7 @@ function renderReviewContent(reviewType) {
         <div style="margin-left:12px;display:flex;align-items:center;gap:16px">
           <div class="gantt-legend-item"><div style="width:14px;height:14px;border-radius:3px;background:#ea1100"></div>Today</div>
           <div class="gantt-legend-item"><div style="width:28px;height:12px;border-radius:3px;background:#6366f1;opacity:0.85"></div>Available to users</div>
-          <div class="gantt-legend-item"><div style="width:28px;height:12px;border-radius:3px;border:1.5px dashed #6366f1"></div>Delivery window</div>
+          <div class="gantt-legend-item"><div style="width:28px;height:12px;border-radius:3px;background:#6366f1;opacity:0.35"></div>Delivery window</div>
         </div>
       </div>
     `;

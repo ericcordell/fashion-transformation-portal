@@ -366,7 +366,7 @@
   bottom: 0;
   width: 2px;
   background: #ea1100;
-  z-index: 10;
+  z-index: 3;             /* below sticky labels (z-index:4) → line hides behind frozen column */
   pointer-events: none;
   transform: translateX(-1px);
 }

@@ -210,7 +210,8 @@
   min-height: 32px;
 }
 
-.gantt-card-row:hover { background: #f0f9ff; }
+.gantt-card-row:hover { background: #e8f4ff; }
+.gantt-card-row:hover .gantt-label-text { color: #0053e2; }
 
 .gantt-card-label {
   padding-left: 32px !important;

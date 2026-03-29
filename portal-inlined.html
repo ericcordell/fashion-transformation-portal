@@ -1894,6 +1894,18 @@ details > summary::-webkit-details-marker { display: none; }
   letter-spacing: 0.3px;
 }
 
+.cp-review-badge-wip {
+  padding: 2px 8px;
+  background: #eff6ff;
+  color: #0053e2;
+  border: 1px solid #bfdbfe;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
 /* Section 2: Quick Status */
 .cp-status-chips {
   display: flex;
@@ -2261,7 +2273,8 @@ details > summary::-webkit-details-marker { display: none; }
   min-height: 32px;
 }
 
-.gantt-card-row:hover { background: #f0f9ff; }
+.gantt-card-row:hover { background: #e8f4ff; }
+.gantt-card-row:hover .gantt-label-text { color: #0053e2; }
 
 .gantt-card-label {
   padding-left: 32px !important;
@@ -5694,6 +5707,7 @@ const REVIEW_OPTIONS = [
     name: 'Gantt Chart',
     desc: 'FY27 roadmap by quarter',
     enabled: true,
+    wip: true,
   },
 ];
 
@@ -5779,6 +5793,7 @@ function renderControlPanel() {
                   <div class="cp-review-desc">${review.desc}</div>
                 </div>
                 ${!review.enabled ? '<span class="cp-review-badge">Soon</span>' : ''}
+                ${review.wip ? '<span class="cp-review-badge-wip">WIP</span>' : ''}
               </div>
             `).join('')}
           </div>
@@ -6936,6 +6951,18 @@ function ganttInjectToday() {
   body.appendChild(overlay);
 }
 
+// ── Card click → same modal as the main portal ──────────────────────────────
+// Resolves pillar title + tool from window.PILLARS so the modal header
+// shows the correct workstream context, then delegates to openModal().
+window.ganttOpenCard = function(cardId) {
+  const pillar = (window.PILLARS || []).find(p =>
+    (p.cards || []).some(c => c.id === cardId)
+  );
+  const ws   = pillar ? (pillar.title || '') : '';
+  const tool = pillar ? (pillar.tool  || '') : '';
+  if (typeof openModal === 'function') openModal(cardId, ws, tool);
+};
+
 // ── Card data helpers ─────────────────────────────────────────────────────────
 function ganttCardIndex() {
   const cards = window.PILLARS ? window.PILLARS.flatMap(p => p.cards || []) : [];
@@ -7055,7 +7082,7 @@ window.renderGanttChart = function() {
             const dotColor   = ({ completed:'#2a8703', green:'#2a8703', yellow:'#f59e0b', red:'#ea1100', roadmap:'#9ca3af' })[card.status] || '#9ca3af';
             const isCritical = card.critical || (card.tag || '').toLowerCase().includes('critical');
             html += `
-              <div class="gantt-row gantt-card-row">
+              <div class="gantt-row gantt-card-row" onclick="ganttOpenCard('${card.id}')" title="Click to view details" style="cursor:pointer">
                 <div class="gantt-label gantt-card-label">
                   <div class="gantt-label-inner">
                     <span class="gantt-dot" style="background:${dotColor}"></span>

@@ -166,6 +166,18 @@
   letter-spacing: 0.3px;
 }
 
+.cp-review-badge-wip {
+  padding: 2px 8px;
+  background: #eff6ff;
+  color: #0053e2;
+  border: 1px solid #bfdbfe;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
 /* Section 2: Quick Status */
 .cp-status-chips {
   display: flex;

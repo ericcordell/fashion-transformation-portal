@@ -29,6 +29,7 @@ const REVIEW_OPTIONS = [
     name: 'Gantt Chart',
     desc: 'FY27 roadmap by quarter',
     enabled: true,
+    wip: true,
   },
 ];
 
@@ -114,6 +115,7 @@ function renderControlPanel() {
                   <div class="cp-review-desc">${review.desc}</div>
                 </div>
                 ${!review.enabled ? '<span class="cp-review-badge">Soon</span>' : ''}
+                ${review.wip ? '<span class="cp-review-badge-wip">WIP</span>' : ''}
               </div>
             `).join('')}
           </div>

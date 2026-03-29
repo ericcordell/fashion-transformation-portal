@@ -211,6 +211,18 @@ function ganttInjectToday() {
   body.appendChild(overlay);
 }
 
+// ── Card click → same modal as the main portal ──────────────────────────────
+// Resolves pillar title + tool from window.PILLARS so the modal header
+// shows the correct workstream context, then delegates to openModal().
+window.ganttOpenCard = function(cardId) {
+  const pillar = (window.PILLARS || []).find(p =>
+    (p.cards || []).some(c => c.id === cardId)
+  );
+  const ws   = pillar ? (pillar.title || '') : '';
+  const tool = pillar ? (pillar.tool  || '') : '';
+  if (typeof openModal === 'function') openModal(cardId, ws, tool);
+};
+
 // ── Card data helpers ─────────────────────────────────────────────────────────
 function ganttCardIndex() {
   const cards = window.PILLARS ? window.PILLARS.flatMap(p => p.cards || []) : [];
@@ -330,7 +342,7 @@ window.renderGanttChart = function() {
             const dotColor   = ({ completed:'#2a8703', green:'#2a8703', yellow:'#f59e0b', red:'#ea1100', roadmap:'#9ca3af' })[card.status] || '#9ca3af';
             const isCritical = card.critical || (card.tag || '').toLowerCase().includes('critical');
             html += `
-              <div class="gantt-row gantt-card-row">
+              <div class="gantt-row gantt-card-row" onclick="ganttOpenCard('${card.id}')" title="Click to view details" style="cursor:pointer">
                 <div class="gantt-label gantt-card-label">
                   <div class="gantt-label-inner">
                     <span class="gantt-dot" style="background:${dotColor}"></span>

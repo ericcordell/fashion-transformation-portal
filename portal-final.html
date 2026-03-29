@@ -4444,6 +4444,17 @@ font-weight: 700;
 text-transform: uppercase;
 letter-spacing: 0.3px;
 }
+.cp-review-badge-wip {
+padding: 2px 8px;
+background: #eff6ff;
+color: #0053e2;
+border: 1px solid #bfdbfe;
+border-radius: 4px;
+font-size: 10px;
+font-weight: 700;
+text-transform: uppercase;
+letter-spacing: 0.3px;
+}
 .cp-status-chips {
 display: flex;
 flex-wrap: nowrap;
@@ -5468,7 +5479,8 @@ opacity: 0.75;
 background: #fafeff;
 min-height: 32px;
 }
-.gantt-card-row:hover { background: #f0f9ff; }
+.gantt-card-row:hover { background: #e8f4ff; }
+.gantt-card-row:hover .gantt-label-text { color: #0053e2; }
 .gantt-card-label {
 padding-left: 32px !important;
 }
@@ -6560,7 +6572,7 @@ try{var host=new URL(url).hostname.replace('www.','');var domain=_el('p','margin
 var arr=_el('span','font-size:0.78rem;color:#0053e2;flex-shrink:0;font-weight:700;');arr.textContent='\u2192';outer.appendChild(iconEl);outer.appendChild(info);outer.appendChild(arr);return outer;}
 function _resolve(url){if(!url||url==='#'||url.trim()==='')return null;return url.trim();}
 function _el(tag,css){var el=document.createElement(tag);if(css)el.style.cssText=css;return el;}}());</script>
-<script>const CONTROL_PANEL={currentReview:null,dropdownOpen:false,activeFilter:'all',};const REVIEW_OPTIONS=[{id:'wpr',icon:'🎯',name:'Weekly Program Review (WPR)',desc:'Critical programs + next 90 days',enabled:true,},{id:'mbr',icon:'📅',name:'Monthly Business Review (MBR)',desc:'Coming Soon',enabled:false,},{id:'gantt',icon:'📊',name:'Gantt Chart',desc:'FY27 roadmap by quarter',enabled:true,},];const STATUS_SCOPES=[{key:'overall',type:'overall',label:'E2E Overview',icon:'🗺️'},{key:'strategy',type:'workstream',label:'Strategy',icon:'🧭'},{key:'design',type:'workstream',label:'Design',icon:'🎨'},{key:'buying',type:'workstream',label:'Buying',icon:'🛒'},{key:'allocation',type:'workstream',label:'Allocation',icon:'📦'},];const CARD_FILTERS_DEF=[{key:'all',label:'📋 All',color:'#0053e2'},{key:'critical',label:'⭐ Critical',color:'#ffc220'},{key:'ry',label:'🚨 R/Y',color:'#ea1100'},{key:'done',label:'✅ Done',color:'#2a8703'},];function getFilterState(){if(typeof pmGetState==='function'){return pmGetState();}
+<script>const CONTROL_PANEL={currentReview:null,dropdownOpen:false,activeFilter:'all',};const REVIEW_OPTIONS=[{id:'wpr',icon:'🎯',name:'Weekly Program Review (WPR)',desc:'Critical programs + next 90 days',enabled:true,},{id:'mbr',icon:'📅',name:'Monthly Business Review (MBR)',desc:'Coming Soon',enabled:false,},{id:'gantt',icon:'📊',name:'Gantt Chart',desc:'FY27 roadmap by quarter',enabled:true,wip:true,},];const STATUS_SCOPES=[{key:'overall',type:'overall',label:'E2E Overview',icon:'🗺️'},{key:'strategy',type:'workstream',label:'Strategy',icon:'🧭'},{key:'design',type:'workstream',label:'Design',icon:'🎨'},{key:'buying',type:'workstream',label:'Buying',icon:'🛒'},{key:'allocation',type:'workstream',label:'Allocation',icon:'📦'},];const CARD_FILTERS_DEF=[{key:'all',label:'📋 All',color:'#0053e2'},{key:'critical',label:'⭐ Critical',color:'#ffc220'},{key:'ry',label:'🚨 R/Y',color:'#ea1100'},{key:'done',label:'✅ Done',color:'#2a8703'},];function getFilterState(){if(typeof pmGetState==='function'){return pmGetState();}
 return{cardFilters:new Set(),expandedPhases:new Set([1])};}
 function calculateStatus(scope){const allCards=window.PILLARS?window.PILLARS.flatMap(p=>p.cards||[]):[];let cards=allCards;if(scope.type==='workstream'){cards=allCards.filter(c=>(c.workstreams||[]).includes(scope.key));}else if(scope.type==='phase'){const phaseMap=window.CARD_PHASE_MAP||{};cards=allCards.filter(c=>phaseMap[c.id]===scope.phaseNum);}
 const counts={red:0,yellow:0,green:0,completed:0,roadmap:0,total:cards.length};const priority={roadmap:0,completed:1,green:2,yellow:3,red:4};let worst='roadmap';cards.forEach(c=>{const status=c.status||'roadmap';if(counts[status]!==undefined)counts[status]++;if((priority[status]||0)>(priority[worst]||0))worst=status;});return{...counts,worst};}
@@ -6570,7 +6582,8 @@ function renderControlPanel(){const wrap=document.getElementById('control-panel-
             ${currentReviewObj ? currentReviewObj.icon : '📋'} Reviews ${CONTROL_PANEL.currentReview ? '✓' : '▼'}
           </button><div class="cp-review-dropdown ${CONTROL_PANEL.dropdownOpen ? 'show' : ''}" id="review-dropdown">
             ${REVIEW_OPTIONS.map(review => `<div class="cp-review-option ${review.id === CONTROL_PANEL.currentReview ? 'active' : ''} ${!review.enabled ? 'disabled' : ''}"
-onclick="selectBusinessReview('${review.id}')"><span class="cp-review-icon">${review.icon}</span><div class="cp-review-text"><div class="cp-review-name">${review.name}</div><div class="cp-review-desc">${review.desc}</div></div>${!review.enabled?'<span class="cp-review-badge">Soon</span>':''}</div>`).join('')}
+onclick="selectBusinessReview('${review.id}')"><span class="cp-review-icon">${review.icon}</span><div class="cp-review-text"><div class="cp-review-name">${review.name}</div><div class="cp-review-desc">${review.desc}</div></div>${!review.enabled?'<span class="cp-review-badge">Soon</span>':''}
+${review.wip?'<span class="cp-review-badge-wip">WIP</span>':''}</div>`).join('')}
           </div></div></div><span class="cp-sep"></span><div class="cp-section"><div class="cp-section-label">Quick Status:</div><div class="cp-status-chips">
           ${STATUS_SCOPES.map(scope => {
             const stats = calculateStatus(scope);
@@ -6726,7 +6739,7 @@ function buildGanttHeader(){const el=document.getElementById('gantt-qheader');if
     <div class="gantt-header-qrow">${qRow}</div><div class="gantt-header-mrow">${mRow}</div>
   `;}
 function ganttInjectToday(){document.querySelectorAll('.gantt-today-overlay').forEach(el=>el.remove());const body=document.getElementById('gantt-body');if(!body)return;const now=new Date();if(now<GANTT_FY.start||now>GANTT_FY.end)return;const pct=(now-GANTT_FY.start)/GANTT_TOTAL_MS;const overlay=document.createElement('div');overlay.className='gantt-today-overlay';overlay.style.left=`calc(${(GANTT_LABEL_W * (1 - pct)).toFixed(1)}px + ${(pct * 100).toFixed(3)}%)`;overlay.innerHTML='<span class="gantt-today-label">Today</span>';body.appendChild(overlay);}
-function ganttCardIndex(){const cards=window.PILLARS?window.PILLARS.flatMap(p=>p.cards||[]):[];return Object.fromEntries(cards.map(c=>[c.id,c]));}
+window.ganttOpenCard=function(cardId){const pillar=(window.PILLARS||[]).find(p=>(p.cards||[]).some(c=>c.id===cardId));const ws=pillar?(pillar.title||''):'';const tool=pillar?(pillar.tool||''):'';if(typeof openModal==='function')openModal(cardId,ws,tool);};function ganttCardIndex(){const cards=window.PILLARS?window.PILLARS.flatMap(p=>p.cards||[]):[];return Object.fromEntries(cards.map(c=>[c.id,c]));}
 function ganttGoalCards(goalId){const ids=(window.GOAL_CARD_MAP||{})[String(goalId)]||[];const index=ganttCardIndex();const showAll=ganttActiveWS.has('all');return ids.map(id=>index[id]).filter(c=>c&&(showAll||(c.workstreams||[]).some(ws=>ganttActiveWS.has(ws)))).sort((a,b)=>{const ra=ganttParseRange(a.targetDate),rb=ganttParseRange(b.targetDate);const da=ra&&ra.end,db=rb&&rb.end;if(!da&&!db)return 0;if(!da)return 1;if(!db)return-1;return da-db;});}
 function ganttPhaseCardCount(phaseNum){const phases=typeof PHASE_DEFS!=='undefined'?PHASE_DEFS:[];const phase=phases.find(p=>p.num===phaseNum);if(!phase)return 0;const seen=new Set();(phase.goals||[]).forEach(g=>ganttGoalCards(String(g.id).replace('#','')).forEach(c=>seen.add(c.id)));return seen.size;}
 window.ganttToggleGoal=function(key){ganttExpandedGoals.has(key)?ganttExpandedGoals.delete(key):ganttExpandedGoals.add(key);renderGanttChart();};window.ganttToggleWS=function(ws){if(ws==='all'){ganttActiveWS=new Set(['all']);}else{ganttActiveWS.delete('all');ganttActiveWS.has(ws)?ganttActiveWS.delete(ws):ganttActiveWS.add(ws);if(ganttActiveWS.size===0)ganttActiveWS=new Set(['all']);}
@@ -6737,7 +6750,7 @@ document.querySelectorAll('.gantt-ws-btn').forEach(btn=>btn.classList.toggle('ac
         <div class="gantt-goal-row${open ? ' gantt-goal-open' : ''}" onclick="ganttToggleGoal('${key}')"><div class="gantt-label"><div class="gantt-label-inner"><span class="gantt-expand-icon">${open ? '▾' : '▸'}</span><span class="gantt-goal-badge" style="background:${phase.color}20;color:${phase.color}">${goal.id}</span><span class="gantt-label-text">${goal.label}</span></div><div class="gantt-label-ws">${gCards.length} program${gCards.length !== 1 ? 's' : ''} &bull; click to ${open ? 'collapse' : 'expand'}</div></div><div class="gantt-track">
             ${deco}
             <div class="gantt-bar gantt-goal-bar" style="left:${phL}%;width:${phW}%;background:${phase.color}"><span class="gantt-bar-label">${goal.label}</span></div></div></div>`;if(open){if(gCards.length===0){html+=`<div class="gantt-card-empty">No programs match the active workstream filter.</div>`;}else{gCards.forEach(card=>{const dotColor=({completed:'#2a8703',green:'#2a8703',yellow:'#f59e0b',red:'#ea1100',roadmap:'#9ca3af'})[card.status]||'#9ca3af';const isCritical=card.critical||(card.tag||'').toLowerCase().includes('critical');html+=`
-              <div class="gantt-row gantt-card-row"><div class="gantt-label gantt-card-label"><div class="gantt-label-inner"><span class="gantt-dot" style="background:${dotColor}"></span><span class="gantt-label-text">${card.icon || ''} ${card.title}</span>
+              <div class="gantt-row gantt-card-row" onclick="ganttOpenCard('${card.id}')" title="Click to view details" style="cursor:pointer"><div class="gantt-label gantt-card-label"><div class="gantt-label-inner"><span class="gantt-dot" style="background:${dotColor}"></span><span class="gantt-label-text">${card.icon || ''} ${card.title}</span>
                     ${isCritical ? '<span class="gantt-star">⭐</span>' : ''}
                   </div><div class="gantt-label-ws">${(card.workstreams || []).join(', ')} &middot; ${card.targetDate || 'TBD'}</div></div><div class="gantt-track">${deco}${ganttBars(card)}</div></div>`;});}}});});body.innerHTML=html||'<div class="gantt-empty">No phases defined.</div>';ganttInjectToday();};window.downloadGanttPPTX=function(){const btn=document.getElementById('gantt-dl-btn');if(btn){btn.textContent='⏳ Generating...';btn.disabled=true;}
 function doExport(pptxgen){const pres=new pptxgen();pres.layout='LAYOUT_WIDE';const slide=pres.addSlide();slide.background={color:'FFFFFF'};slide.addText('E2E Fashion Portal — Gantt Chart FY27',{x:0.3,y:0.15,w:12.5,h:0.45,fontSize:20,bold:true,color:'0053e2'});slide.addText(`Generated ${new Date().toLocaleDateString()}`,{x:0.3,y:0.58,w:12.5,h:0.25,fontSize:10,color:'6b7280'});const trackX=3.1,trackW=10,rowH=0.28,startY=1.05;GANTT_FY.quarters.forEach((q,i)=>{const l=trackX+(ganttPct(q.start)/100)*trackW;const w=((q.end-q.start)/GANTT_TOTAL_MS)*trackW;slide.addShape(pres.ShapeType.rect,{x:l,y:startY-0.3,w,h:0.26,fill:{color:i%2?'f0f9ff':'dbeafe'},line:{color:'e5e7eb',pt:0.5}});slide.addText(q.label,{x:l,y:startY-0.3,w,h:0.26,fontSize:8,bold:true,color:'374151',align:'center',valign:'middle'});});let row=0;(typeof PHASE_DEFS!=='undefined'?PHASE_DEFS:[]).forEach(phase=>{const ps=new Date(phase.start),pe=new Date(phase.end);const phL=trackX+(ganttPct(ps)/100)*trackW;const phW=Math.max(0.1,(ganttPct(pe)-ganttPct(ps))/100*trackW);const y=startY+row*rowH;row++;slide.addShape(pres.ShapeType.rect,{x:0.2,y,w:12.9,h:rowH,fill:{color:phase.color.replace('#','')+'18'},line:{color:phase.color.replace('#','')+'40',pt:0.5}});slide.addText(`Phase ${phase.num}: ${phase.label}`,{x:0.25,y:y+0.02,w:2.8,h:rowH-0.04,fontSize:8,bold:true,color:phase.color.replace('#',''),valign:'middle'});slide.addShape(pres.ShapeType.rect,{x:phL,y:y+0.05,w:phW,h:rowH-0.1,fill:{color:phase.color.replace('#','')+'30'},line:{color:phase.color.replace('#',''),pt:0.5}});(phase.goals||[]).forEach(goal=>{const gy=startY+row*rowH;row++;slide.addShape(pres.ShapeType.rect,{x:0.2,y:gy,w:12.9,h:rowH,fill:{color:'f9fafb'},line:{color:'f3f4f6',pt:0.3}});slide.addText(`  ${goal.id} ${goal.label}`,{x:0.25,y:gy+0.02,w:2.8,h:rowH-0.04,fontSize:7,color:'374151',valign:'middle'});slide.addShape(pres.ShapeType.rect,{x:phL,y:gy+0.06,w:phW,h:rowH-0.12,fill:{color:phase.color.replace('#','')},line:{color:phase.color.replace('#',''),pt:0}});if(phW>0.6)slide.addText(goal.label,{x:phL+0.05,y:gy+0.06,w:phW,h:rowH-0.12,fontSize:6,color:'FFFFFF',valign:'middle'});});});pres.writeFile({fileName:`E2E-Fashion-Gantt-FY27-${Date.now()}.pptx`});if(btn){btn.textContent='📥 Download PPTX';btn.disabled=false;}}

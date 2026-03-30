@@ -285,19 +285,39 @@ def apply_jira_data_to_file(path: Path, updates: dict, dry_run: bool) -> int:
     return changed
 
 
+def _load_token_from_env() -> str:
+    """Read JIRA_TOKEN from .env in the project directory (if present)."""
+    env_path = Path(__file__).parent / '.env'
+    if env_path.exists():
+        for line in env_path.read_text().splitlines():
+            line = line.strip()
+            if line.startswith('JIRA_TOKEN=') and not line.startswith('#'):
+                return line.split('=', 1)[1].strip().strip('"').strip("'")
+    return ''
+
+
 def main():
     parser = argparse.ArgumentParser(description="Sync OPIF data from Jira into portal data files.")
-    parser.add_argument("--token",   required=True, help="Jira Personal Access Token")
+    parser.add_argument("--token",   default='', help="Jira Personal Access Token (or set JIRA_TOKEN in .env)")
     parser.add_argument("--dry-run", action="store_true", help="Preview changes without writing")
     parser.add_argument("--opif",    help="Sync a single OPIF (e.g. OPIF-344926)")
     parser.add_argument("--probe",   action="store_true", help="Print all custom field IDs and exit")
     args = parser.parse_args()
 
+    # Resolve token: CLI flag → .env → fail with helpful message
+    token = args.token or _load_token_from_env()
+    if not token:
+        print("\n❌ No Jira token found.")
+        print("   Generate one:  python3 generate-jira-pat.py")
+        print("   Then save it:  echo 'JIRA_TOKEN=<paste_token>' >> .env")
+        print("   Or pass it:    --token <your_token>")
+        sys.exit(1)
+
     print("\n🐶 OPIF → Portal Sync")
     print(   "━" * 60)
 
     # Step 1: probe custom fields
-    field_ids = probe_custom_fields(args.token)
+    field_ids = probe_custom_fields(token)
     if args.probe:
         print("\n📋 Discovered OPIF-relevant custom fields:")
         for name, fid in sorted(field_ids.items()):
@@ -339,7 +359,7 @@ def main():
     errors = []
     for opif_id in opif_ids:
         try:
-            result = fetch_opif(opif_id, args.token, field_ids)
+            result = fetch_opif(opif_id, token, field_ids)
             jira_data[opif_id] = result
             status_icon = {"green": "🟢", "yellow": "🟡", "red": "🔴",
                            "backlog": "⬜", "completed": "✅"}.get(result["status_color"], "❔")

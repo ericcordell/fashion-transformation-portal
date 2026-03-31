@@ -281,9 +281,19 @@ function renderReviewContent(reviewType) {
         <div class="review-header-subtitle">${review.subtitle}</div>
       </div>
       <div class="gantt-toolbar">
-        <div class="gantt-ws-filters">
+        <div id="gantt-ws-filters" class="gantt-ws-filters">
           <span class="gantt-ws-label">Workstream:</span>
           ${wsButtons}
+        </div>
+        <div class="gantt-view-toggle" style="margin-left:auto">
+          <button id="gantt-view-btn-program" class="gantt-view-btn active"
+            onclick="ganttSetView('program')">
+            📋 Program Timeline
+          </button>
+          <button id="gantt-view-btn-biz" class="gantt-view-btn"
+            onclick="ganttSetView('biz-impact')">
+            🎯 Business Impact
+          </button>
         </div>
       </div>
       <div class="gantt-wrap">

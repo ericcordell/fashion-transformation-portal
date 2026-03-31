@@ -42,6 +42,8 @@ JS_ORDER = [
     'control-panel.js',      # unified control panel
     'business-reviews.js',  # business review modules
     'gantt.js',             # gantt chart view
+    'data-biz-impact.js', # business impact timeline data (Q1+Q2 FY27 scope)
+    'gantt-biz.js',       # business impact view renderer + view toggle
     'data-changelog.js',  # must come AFTER allCards is defined
 ]
 

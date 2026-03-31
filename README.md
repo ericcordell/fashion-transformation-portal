@@ -8,13 +8,28 @@ A lightweight, self-contained web portal. No build step. No server. No dependenc
 
 ## 🔗 Canonical Published URLs
 
-> ⚠️ **These are the ONLY two links that should ever be shared or referenced.**
-> Do not create new slugs — always publish to one of these two.
+> 🚨 **ABSOLUTE RULE — READ THIS EVERY TIME BEFORE PUBLISHING:**
+>
+> There are **exactly TWO** valid puppy.walmart.com slugs for this portal.
+> **NEVER create a new slug. NEVER publish to any other URL.**
+> If you are not publishing to one of the two URLs below, you are doing it wrong.
+> This applies to ALL agents, scripts, and humans — no exceptions, ever.
 
 | Environment | URL | When to use |
 |---|---|---|
 | **PROD** | https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod | Daily scheduler, explicit publish requests |
-| **TEST** | https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test | Dev, QA, debugging, testing changes |
+| **TEST** | https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test | Dev / QA / testing changes — always verify here first |
+
+> 🐶 **Code Puppy agents:** when asked to share or publish this portal, you MUST pass
+> `slug = 'e2e-fashion-portal-test'` (for test) or `slug = 'e2e-fashion-portal-prod'` (for prod)
+> to the share-puppy agent. Do NOT let the agent invent a new name. Check first.
+>
+> **The build + publish workflow:**
+> 1. Edit source files (`index.html`, `data-*.js`, CSS, etc.)
+> 2. `python3 build-inlined.py` → produces `portal-final.html`
+> 3. `python3 publish-portal.py --test` OR use share-puppy agent → slug MUST be `e2e-fashion-portal-test`
+> 4. Verify at https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
+> 5. Only promote to PROD when explicitly requested: `python3 publish-portal.py --prod`
 
 ---
 

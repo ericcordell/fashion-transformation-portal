@@ -25,13 +25,18 @@ A lightweight, self-contained web portal. No build step. No server. No dependenc
 > to the share-puppy agent. Do NOT let the agent invent a new name. Check first.
 >
 > **The build + publish workflow:**
-> 1. Edit source files (`index.html`, `data-*.js`, CSS, etc.)
-> 2. `python3 build-inlined.py` → produces `portal-final.html`
-> 3. `python3 publish-portal.py --test` → publishes to TEST
-> 4. Verify at https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
-> 5. Only promote to PROD when explicitly requested: `python3 publish-portal.py --prod`
+> ```bash
+> python3 build-inlined.py        # step 1: build portal-final.html
+> python3 publish-portal.py --test  # step 2: canary preflight → real publish
+> # verify at URL below, then:
+> python3 publish-portal.py --prod  # step 3: ONLY when explicitly requested
+> ```
 >
-> **🔴 Correct publish API (NEVER change this without testing):**
+> **The `--test` flag runs a canary preflight** — it uploads a tiny blue box first,
+> then the real portal. Both must get consecutive HTTP 200 responses and consecutive
+> version numbers. If either fails, the script exits before touching prod.
+>
+> **\U0001f534 Correct publish API (NEVER change this without testing):**
 > ```
 > POST https://puppy.walmart.com/api/sharing/upload
 > Authorization: Bearer {puppy_token from ~/.code_puppy/puppy.cfg}
@@ -39,8 +44,15 @@ A lightweight, self-contained web portal. No build step. No server. No dependenc
 > Body: {"name": "e2e-fashion-portal-test", "business": "e0c0lzr",
 >        "html_content": "...", "access_level": "business"}
 > ```
-> The `PUT /api/sharing/{owner}/{slug}` endpoint causes broken-pipe/401 — do NOT use it.
-> Chrome cookie auth also does not work — only `puppy_token` Bearer auth works.
+> ❌ `PUT /api/sharing/{owner}/{slug}` → broken-pipe/401 — DO NOT USE
+> ❌ Chrome cookie auth → does not work for this endpoint
+> ❌ `{content: html}` payload field → wrong, use `html_content`
+>
+> **If portal looks unchanged after publish:**
+> 1. Hard-refresh: ⌘+Shift+R (Mac) or Ctrl+Shift+R (Win)
+> 2. Try Incognito window (bypasses browser session cache)
+> 3. Check script output — did canary AND real both print ✅?
+> 4. If not, restart Code Puppy (refreshes puppy_token), then retry
 
 ---
 

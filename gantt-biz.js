@@ -20,10 +20,10 @@ const BIZ_FY = {
   ],
 };
 const BIZ_TOTAL_MS  = BIZ_FY.end - BIZ_FY.start;
-const BIZ_LABEL_W   = 260;  // px — wider than program view to fit capability text
+const BIZ_LABEL_W   = 280;  // px
 
 // ── View-mode state ──────────────────────────────────────────────────
-let bizGanttView = 'program'; // 'program' | 'biz-impact'
+let bizGanttView = 'biz-impact'; // default to Business Impact
 
 window.ganttGetView = function() { return bizGanttView; };
 
@@ -38,10 +38,10 @@ window.ganttSetView = function(view) {
   if (btnBiz)     btnBiz.classList.toggle('active',     view === 'biz-impact');
 
   // Workstream filters only relevant in program view
-  if (wsFilters) wsFilters.style.opacity = view === 'program' ? '1' : '0.35';
+  if (wsFilters) wsFilters.style.opacity      = view === 'program' ? '1' : '0.35';
   if (wsFilters) wsFilters.style.pointerEvents = view === 'program' ? '' : 'none';
 
-  // Swap chart min-width for the narrower biz timeline
+  // Narrower timeline for biz view
   const chart = document.querySelector('.gantt-chart');
   if (chart) chart.style.minWidth = view === 'biz-impact' ? '900px' : '';
 
@@ -56,11 +56,6 @@ window.ganttSetView = function(view) {
 function bizPct(date) {
   const clamped = Math.max(+BIZ_FY.start, Math.min(+BIZ_FY.end, +date));
   return ((clamped - BIZ_FY.start) / BIZ_TOTAL_MS) * 100;
-}
-
-function bizQtrBounds(qLabel) {
-  const q = BIZ_FY.quarters.find(q => q.label.startsWith(qLabel.substring(0,2)));
-  return q || BIZ_FY.quarters[0];
 }
 
 // Track background decoration (stripes + month dividers + today tick)
@@ -85,7 +80,7 @@ function bizDeco() {
   return stripes + divs + todayTick;
 }
 
-// ── Header builder for biz-impact view ──────────────────────────────
+// ── Header builder ──────────────────────────────────────────────────
 function buildBizImpactHeader() {
   const el = document.getElementById('gantt-qheader');
   if (!el) return;
@@ -101,7 +96,6 @@ function buildBizImpactHeader() {
     return `<div class="${cls}" style="width:${w}%">${mo.label}</div>`;
   }).join('');
 
-  // Wider stub to match BIZ_LABEL_W
   el.innerHTML = `
     <div class="gantt-header-stub" style="width:${BIZ_LABEL_W}px"></div>
     <div class="gantt-header-timeline">
@@ -111,6 +105,86 @@ function buildBizImpactHeader() {
   `;
 }
 
+// ── Popout modal ────────────────────────────────────────────────────
+// Lazily inject the modal container once and reuse it.
+function _getBizModal() {
+  let m = document.getElementById('biz-cap-modal');
+  if (!m) {
+    m = document.createElement('div');
+    m.id = 'biz-cap-modal';
+    m.innerHTML = `
+      <div class="biz-modal-backdrop" onclick="bizCloseModal()"></div>
+      <div class="biz-modal-card" role="dialog" aria-modal="true" aria-labelledby="biz-modal-title">
+        <button class="biz-modal-close" onclick="bizCloseModal()" aria-label="Close">&times;</button>
+        <div id="biz-modal-body"></div>
+      </div>`;
+    document.body.appendChild(m);
+  }
+  return m;
+}
+
+window.bizCloseModal = function() {
+  const m = document.getElementById('biz-cap-modal');
+  if (m) m.classList.remove('open');
+  document.removeEventListener('keydown', _bizEscHandler);
+};
+
+function _bizEscHandler(e) {
+  if (e.key === 'Escape') window.bizCloseModal();
+}
+
+// Open modal for a merged quarter-group.
+// goalId: goal.id string, quarter: 'Q1' | 'Q2'
+window.bizOpenGroup = function(goalId, quarter) {
+  const goals   = window.BIZ_IMPACT_GOALS  || [];
+  const progCfg = window.BIZ_PROGRAM_CONFIG || {};
+  const goal    = goals.find(g => g.id === goalId);
+  if (!goal) return;
+
+  const caps = goal.capabilities.filter(c => c.quarter === quarter);
+  const qObj = BIZ_FY.quarters.find(q => q.label.startsWith(quarter)) || BIZ_FY.quarters[0];
+
+  const autoCount = caps.filter(c => c.type === 'automation').length;
+  const capCount  = caps.filter(c => c.type === 'capability').length;
+
+  const itemsHtml = caps.map(cap => {
+    const prog     = progCfg[cap.programId] || { label: cap.program, color: '#6b7280', textColor: '#fff' };
+    const badgeCls = cap.type === 'automation' ? 'biz-badge-automation' : 'biz-badge-capability';
+    const badgeTxt = cap.type === 'automation' ? '✕ Work Removed' : '+ New Capability';
+    return `
+      <div class="biz-modal-item">
+        <div class="biz-modal-item-header">
+          <span class="biz-badge ${badgeCls}">${badgeTxt}</span>
+          <span class="biz-prog-pill" style="background:${prog.color};color:${prog.textColor}">${prog.label}</span>
+          <span class="biz-modal-target">📅 ${cap.target}</span>
+        </div>
+        <p class="biz-modal-item-text">${cap.label}</p>
+      </div>`;
+  }).join('');
+
+  const modal = _getBizModal();
+  document.getElementById('biz-modal-body').innerHTML = `
+    <div class="biz-modal-goal-header" style="border-left:4px solid ${goal.color}">
+      <span class="biz-modal-goal-icon">${goal.icon}</span>
+      <div>
+        <div class="biz-modal-goal-label" style="color:${goal.color}">${goal.label}</div>
+        <div class="biz-modal-goal-desc">${goal.description}</div>
+      </div>
+    </div>
+    <div class="biz-modal-qbar" style="background:${qObj.color}20;border:1px solid ${qObj.color}40">
+      <span style="color:${qObj.color};font-weight:800;font-size:13px">${qObj.label}</span>
+      <span class="biz-modal-counts">
+        ${autoCount > 0 ? `<span class="biz-badge biz-badge-automation">${autoCount} Work Removed</span>` : ''}
+        ${capCount  > 0 ? `<span class="biz-badge biz-badge-capability">${capCount} New Capability</span>` : ''}
+      </span>
+    </div>
+    <div class="biz-modal-items">${itemsHtml}</div>
+  `;
+
+  modal.classList.add('open');
+  document.addEventListener('keydown', _bizEscHandler);
+};
+
 // ── Main render ────────────────────────────────────────────────────────
 window.renderBizImpactChart = function() {
   const body = document.getElementById('gantt-body');
@@ -118,9 +192,9 @@ window.renderBizImpactChart = function() {
 
   buildBizImpactHeader();
 
-  const goals  = window.BIZ_IMPACT_GOALS  || [];
+  const goals   = window.BIZ_IMPACT_GOALS  || [];
   const progCfg = window.BIZ_PROGRAM_CONFIG || {};
-  const deco   = bizDeco();
+  const deco    = bizDeco();
   let html = '';
 
   // Preamble banner
@@ -129,19 +203,26 @@ window.renderBizImpactChart = function() {
       <span class="biz-preamble-icon">🎯</span>
       <div>
         <div class="biz-preamble-title">Business Impact View &mdash; Q1 &amp; Q2 FY27</div>
-        <div class="biz-preamble-sub">What changes for your team, not how we&rsquo;re building it. Scope: Automated Item Setup &bull; AEX Stability &bull; Centric Visual Board MVP.</div>
+        <div class="biz-preamble-sub">What changes for your team, not how we&rsquo;re building it.
+          Scope: Automated Item Setup &bull; AEX Stability &bull; Centric Visual Board MVP.
+          <strong>Click any row to read the full impact statement.</strong></div>
       </div>
       <div class="biz-legend">
-        <span class="biz-badge biz-badge-automation">Work Removed</span> task automated away
+        <span class="biz-badge biz-badge-automation">✕ Work Removed</span> task automated away
         &nbsp;&nbsp;
-        <span class="biz-badge biz-badge-capability">New Capability</span> something you can now do
+        <span class="biz-badge biz-badge-capability">+ New Capability</span> something you can now do
       </div>
     </div>`;
 
   goals.forEach(goal => {
-    const q1Caps = goal.capabilities.filter(c => c.quarter === 'Q1');
-    const q2Caps = goal.capabilities.filter(c => c.quarter === 'Q2');
-    const all    = [...q1Caps, ...q2Caps];
+    // Group capabilities by quarter
+    const groups = BIZ_FY.quarters.map(q => ({
+      qKey:  q.label.substring(0, 2),   // 'Q1' | 'Q2'
+      qObj:  q,
+      caps:  goal.capabilities.filter(c => c.quarter === q.label.substring(0, 2)),
+    })).filter(g => g.caps.length > 0);
+
+    const totalCaps = goal.capabilities.length;
 
     // Goal header row
     html += `
@@ -156,9 +237,9 @@ window.renderBizImpactChart = function() {
         <div class="gantt-track" style="height:48px">
           ${deco}
           ${BIZ_FY.quarters.map(q => {
-            const l = bizPct(q.start).toFixed(2);
-            const w = ((q.end - q.start) / BIZ_TOTAL_MS * 100).toFixed(2);
-            const count = goal.capabilities.filter(c => c.quarter === q.label.substring(0,2)).length;
+            const l     = bizPct(q.start).toFixed(2);
+            const w     = ((q.end - q.start) / BIZ_TOTAL_MS * 100).toFixed(2);
+            const count = goal.capabilities.filter(c => c.quarter === q.label.substring(0, 2)).length;
             return count > 0
               ? `<div class="biz-goal-band" style="left:${l}%;width:${w}%;border-bottom:3px solid ${goal.color}40">
                    <span style="color:${goal.color};font-size:10px;font-weight:700">${count} impact${count !== 1 ? 's' : ''}</span>
@@ -168,32 +249,60 @@ window.renderBizImpactChart = function() {
         </div>
       </div>`;
 
-    // Capability rows
-    all.forEach((cap, idx) => {
-      const prog   = progCfg[cap.programId] || { label: cap.program, color: '#6b7280', textColor: '#fff' };
-      const qBound = BIZ_FY.quarters.find(q => q.label.startsWith(cap.quarter)) || BIZ_FY.quarters[0];
-      const barL   = bizPct(qBound.start).toFixed(2);
-      const barW   = ((qBound.end - qBound.start) / BIZ_TOTAL_MS * 100).toFixed(2);
-      const isEven = idx % 2 === 0;
+    // One merged row per quarter group
+    groups.forEach((grp, grpIdx) => {
+      const { qKey, qObj, caps } = grp;
+      const autoCount = caps.filter(c => c.type === 'automation').length;
+      const capCount  = caps.filter(c => c.type === 'capability').length;
+      const isEven    = grpIdx % 2 === 0;
+
+      // Collect unique programs in this group
+      const progLabels = [...new Set(caps.map(c => {
+        const p = progCfg[c.programId];
+        return p ? p.label : c.program;
+      }))];
+
+      // Build compact label bullets (show first 2, then +N)
+      const MAX_SHOWN = 2;
+      const shownCaps = caps.slice(0, MAX_SHOWN);
+      const remaining = caps.length - MAX_SHOWN;
+
+      const bulletItems = shownCaps.map(c => {
+        const badgeCls = c.type === 'automation' ? 'biz-badge-automation' : 'biz-badge-capability';
+        const badgeTxt = c.type === 'automation' ? '✕' : '+';
+        return `<div class="biz-merged-bullet">
+          <span class="biz-badge ${badgeCls}" style="padding:1px 4px;font-size:8px">${badgeTxt}</span>
+          <span class="biz-merged-bullet-text">${c.label}</span>
+        </div>`;
+      }).join('');
+
+      const moreChip = remaining > 0
+        ? `<div class="biz-merged-more">+${remaining} more impact${remaining !== 1 ? 's' : ''} &mdash; click to expand</div>`
+        : `<div class="biz-merged-more" style="color:#0053e2">Click to read full statements</div>`;
+
+      // Bar spans the whole quarter
+      const barL = bizPct(qObj.start).toFixed(2);
+      const barW = ((qObj.end - qObj.start) / BIZ_TOTAL_MS * 100).toFixed(2);
 
       html += `
-        <div class="gantt-row biz-cap-row${isEven ? '' : ' biz-cap-row-alt'}">
-          <div class="gantt-label biz-cap-label" style="width:${BIZ_LABEL_W}px">
-            <div class="biz-cap-inner">
-              <span class="biz-badge ${cap.type === 'automation' ? 'biz-badge-automation' : 'biz-badge-capability'}">
-                ${cap.type === 'automation' ? '✕ Removed' : '+ Gained'}
-              </span>
-              <span class="biz-cap-text">${cap.label}</span>
+        <div class="gantt-row biz-merged-row${isEven ? '' : ' biz-cap-row-alt'}"
+             onclick="bizOpenGroup('${goal.id}','${qKey}')"
+             title="Click to read all ${caps.length} impact statements">
+          <div class="gantt-label biz-merged-label" style="width:${BIZ_LABEL_W}px">
+            <div class="biz-merged-header">
+              <span class="biz-merged-qtag" style="background:${qObj.color}18;color:${qObj.color};border:1px solid ${qObj.color}40">${qKey} FY27</span>
+              <span class="biz-merged-count">${caps.length} impact${caps.length !== 1 ? 's' : ''}</span>
+              ${autoCount > 0 ? `<span class="biz-badge biz-badge-automation" style="font-size:8px">${autoCount} Removed</span>` : ''}
+              ${capCount  > 0 ? `<span class="biz-badge biz-badge-capability" style="font-size:8px">${capCount} Gained</span>`  : ''}
             </div>
-            <div class="biz-cap-meta">
-              <span class="biz-prog-pill" style="background:${prog.color};color:${prog.textColor}">${prog.label}</span>
-              <span style="color:#9ca3af">${cap.target}</span>
-            </div>
+            ${bulletItems}
+            ${moreChip}
           </div>
-          <div class="gantt-track biz-cap-track">
+          <div class="gantt-track biz-merged-track">
             ${deco}
-            <div class="biz-cap-bar" style="left:${barL}%;width:${barW}%;background:${goal.color}">
-              <span class="biz-cap-bar-label">${cap.quarter} FY27</span>
+            <div class="biz-merged-bar" style="left:${barL}%;width:${barW}%;background:${goal.color}">
+              <span class="biz-cap-bar-label">${caps.length} impacts · ${qKey} FY27</span>
+              <span class="biz-merged-bar-hint">click to read all</span>
             </div>
           </div>
         </div>`;

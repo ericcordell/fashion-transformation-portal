@@ -286,11 +286,11 @@ function renderReviewContent(reviewType) {
           ${wsButtons}
         </div>
         <div class="gantt-view-toggle" style="margin-left:auto">
-          <button id="gantt-view-btn-program" class="gantt-view-btn active"
+          <button id="gantt-view-btn-program" class="gantt-view-btn"
             onclick="ganttSetView('program')">
             📋 Program Timeline
           </button>
-          <button id="gantt-view-btn-biz" class="gantt-view-btn"
+          <button id="gantt-view-btn-biz" class="gantt-view-btn active"
             onclick="ganttSetView('biz-impact')">
             🎯 Business Impact
           </button>
@@ -313,8 +313,8 @@ function renderReviewContent(reviewType) {
       </div>
     `;
 
-    // Header is built inside renderGanttChart() via buildGanttHeader()
-    renderGanttChart();
+    // Default to Business Impact view
+    ganttSetView('biz-impact');
     return;
   }
 

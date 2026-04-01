@@ -675,3 +675,241 @@
   color: #065f46;
   border: 1px solid #6ee7b7;
 }
+
+/* ── Business Impact — merged quarter rows ─────────────────────── */
+.biz-merged-row {
+  min-height: 80px;
+  cursor: pointer;
+  transition: background 0.12s, box-shadow 0.12s;
+  background: white;
+}
+
+.biz-merged-row:hover {
+  background: #f0f7ff !important;
+  box-shadow: inset 3px 0 0 #0053e2;
+}
+
+.biz-merged-label {
+  padding: 8px 10px 8px 14px !important;
+  background: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  justify-content: center;
+}
+
+.biz-merged-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 2px;
+}
+
+.biz-merged-qtag {
+  font-size: 9px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 10px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.biz-merged-count {
+  font-size: 10px;
+  font-weight: 700;
+  color: #374151;
+}
+
+.biz-merged-bullet {
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  padding-left: 2px;
+}
+
+.biz-merged-bullet-text {
+  font-size: 10.5px;
+  color: #374151;
+  line-height: 1.35;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.biz-merged-more {
+  font-size: 10px;
+  color: #9ca3af;
+  font-style: italic;
+  padding-left: 2px;
+  margin-top: 1px;
+}
+
+.biz-merged-track { min-height: 80px !important; }
+
+.biz-merged-bar {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 36px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0 12px;
+  z-index: 2;
+  opacity: 0.88;
+  overflow: hidden;
+  cursor: pointer;
+  transition: opacity 0.12s;
+}
+
+.biz-merged-bar:hover { opacity: 1; }
+
+.biz-merged-bar-hint {
+  font-size: 8px;
+  color: rgba(255,255,255,0.75);
+  font-style: italic;
+  margin-top: 1px;
+}
+
+/* ── Business Impact — popout modal ────────────────────────────── */
+#biz-cap-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  align-items: center;
+  justify-content: center;
+}
+
+#biz-cap-modal.open {
+  display: flex;
+}
+
+.biz-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(2px);
+}
+
+.biz-modal-card {
+  position: relative;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 24px 64px rgba(0,0,53,0.22);
+  width: min(620px, 94vw);
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 28px;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+.biz-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: #f3f4f6;
+  color: #374151;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s;
+}
+
+.biz-modal-close:hover { background: #e5e7eb; }
+
+.biz-modal-goal-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 0 0 16px 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.biz-modal-goal-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.biz-modal-goal-label {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.biz-modal-goal-desc {
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.biz-modal-qbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.biz-modal-counts {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+
+.biz-modal-items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.biz-modal-item {
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid #f3f4f6;
+  background: #fafafa;
+  transition: background 0.1s;
+}
+
+.biz-modal-item:hover { background: #f5f9ff; }
+
+.biz-modal-item-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.biz-modal-target {
+  font-size: 10px;
+  color: #9ca3af;
+  margin-left: auto;
+}
+
+.biz-modal-item-text {
+  font-size: 13px;
+  color: #111827;
+  line-height: 1.6;
+  margin: 0;
+  font-weight: 500;
+}

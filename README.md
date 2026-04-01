@@ -27,9 +27,20 @@ A lightweight, self-contained web portal. No build step. No server. No dependenc
 > **The build + publish workflow:**
 > 1. Edit source files (`index.html`, `data-*.js`, CSS, etc.)
 > 2. `python3 build-inlined.py` → produces `portal-final.html`
-> 3. `python3 publish-portal.py --test` OR use share-puppy agent → slug MUST be `e2e-fashion-portal-test`
+> 3. `python3 publish-portal.py --test` → publishes to TEST
 > 4. Verify at https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
 > 5. Only promote to PROD when explicitly requested: `python3 publish-portal.py --prod`
+>
+> **🔴 Correct publish API (NEVER change this without testing):**
+> ```
+> POST https://puppy.walmart.com/api/sharing/upload
+> Authorization: Bearer {puppy_token from ~/.code_puppy/puppy.cfg}
+> Content-Type: application/json
+> Body: {"name": "e2e-fashion-portal-test", "business": "e0c0lzr",
+>        "html_content": "...", "access_level": "business"}
+> ```
+> The `PUT /api/sharing/{owner}/{slug}` endpoint causes broken-pipe/401 — do NOT use it.
+> Chrome cookie auth also does not work — only `puppy_token` Bearer auth works.
 
 ---
 

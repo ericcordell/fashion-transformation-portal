@@ -416,73 +416,72 @@ def git_commit(msg: str) -> None:
     log(f'Git commit: {msg}')
 
 # ── Publish to share-puppy ────────────────────────────────────────────────────
-def publish(cookies: dict[str, str], dry_run: bool = False) -> bool:
-    """Upload portal-inlined.html to puppy.walmart.com via its upload API."""
-    portal_file = BASE / 'portal-inlined.html'
+def publish(dry_run: bool = False) -> bool:
+    """Upload portal-final.html to puppy.walmart.com via the sharing upload API.
+
+    Endpoint: POST /api/sharing/upload
+    Auth    : Bearer puppy_token from ~/.code_puppy/puppy.cfg
+    Payload : {name, business, html_content, description, access_level}
+
+    NOTE: PUT /api/sharing/{owner}/{slug} is the WRONG endpoint — it causes
+    broken-pipe or 401 errors.  Cookie-based auth also does not work for this
+    endpoint.  Always use the POST upload endpoint with puppy_token Bearer auth.
+    """
+    portal_file = BASE / 'portal-final.html'
     if not portal_file.exists():
-        log('ERROR: portal-inlined.html not found')
+        log('ERROR: portal-final.html not found')
         return False
     if dry_run:
         log('DRY RUN: skipping publish')
         return True
 
-    # share-puppy multipart upload
-    import urllib.parse
-    import ssl
-    boundary = '----PuppyBoundary7f3a9'
-    html_bytes = portal_file.read_bytes()
-    body = (
-        f'--{boundary}\r\n'
-        f'Content-Disposition: form-data; name="file"; filename="portal-inlined.html"\r\n'
-        f'Content-Type: text/html\r\n\r\n'
-    ).encode() + html_bytes + (
-        f'\r\n--{boundary}\r\n'
-        f'Content-Disposition: form-data; name="slug"\r\n\r\n'
-        f'{PORTAL_SLUG}'
-        f'\r\n--{boundary}--\r\n'
-    ).encode()
+    import configparser
+    cfg_path = Path.home() / '.code_puppy' / 'puppy.cfg'
+    cfg = configparser.ConfigParser()
+    cfg.read(cfg_path)
+    token = cfg.get('puppy', 'puppy_token', fallback=None)
+    if not token:
+        log('ERROR: puppy_token not found in ~/.code_puppy/puppy.cfg')
+        return False
 
-    upload_url = f'{SHARE_PUPPY}/api/sharing/{PORTAL_OWNER}/{PORTAL_SLUG}'
+    html = portal_file.read_text('utf-8')
+    import json as _json
+    body = _json.dumps({
+        'name': PORTAL_SLUG,
+        'business': PORTAL_OWNER,
+        'html_content': html,
+        'description': f'E2E Fashion Portal — auto-sync {TODAY}',
+        'access_level': 'business',
+    }).encode('utf-8')
+
+    upload_url = f'{SHARE_PUPPY}/api/sharing/upload'
+    log(f'Publishing {len(body)/1024:.0f} KB → {upload_url}')
+
     req = urlreq.Request(
         upload_url,
         data=body,
-        method='PUT',
+        method='POST',
         headers={
-            'Content-Type' : f'multipart/form-data; boundary={boundary}',
-            'Cookie'       : '; '.join(f'{k}={v}' for k, v in cookies.items()),
-            'User-Agent'   : 'FashionPortalSync/1.0',
+            'Authorization': f'Bearer {token}',
+            'Content-Type': 'application/json',
+            'User-Agent': 'FashionPortalSync/1.0',
         },
     )
     try:
-        ctx = ssl.create_default_context()
-        with urlreq.urlopen(req, context=ctx, timeout=30) as r:
-            resp = r.read().decode()
-            log(f'Publish response: {resp[:200]}')
+        import ssl as _ssl
+        ctx = _ssl.create_default_context()
+        with urlreq.urlopen(req, context=ctx, timeout=120) as r:
+            resp = _json.loads(r.read().decode())
+            version = (resp.get('data') or {}).get('version', '?')
+            live_url = resp.get('url', f'{SHARE_PUPPY}/sharing/{PORTAL_OWNER}/{PORTAL_SLUG}')
+            log(f'Published v{version}: {live_url}')
             return True
+    except urlreq.HTTPError as e:
+        log(f'PUBLISH ERROR HTTP {e.code}: {e.read().decode()[:200]}')
+        return False
     except Exception as e:
-        log(f'PUBLISH ERROR: {e} — trying POST fallback')
-        # Fallback: try POST
-        req2 = urlreq.Request(
-            f'{SHARE_PUPPY}/api/sharing/upload',
-            data=body,
-            method='POST',
-            headers={
-                'Content-Type' : f'multipart/form-data; boundary={boundary}',
-                'Cookie'       : '; '.join(f'{k}={v}' for k, v in cookies.items()),
-                'User-Agent'   : 'FashionPortalSync/1.0',
-                'X-Slug'       : PORTAL_SLUG,
-                'X-Owner'      : PORTAL_OWNER,
-            },
-        )
-        try:
-            with urlreq.urlopen(req2, context=ctx, timeout=30) as r2:
-                resp2 = r2.read().decode()
-                log(f'Publish fallback response: {resp2[:200]}')
-                return True
-        except Exception as e2:
-            log(f'PUBLISH FALLBACK ERROR: {e2}')
-            log('INFO: Portal rebuilt locally. Run share-puppy agent manually to publish.')
-            return False
+        log(f'PUBLISH ERROR: {e}')
+        return False
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 def main() -> None:
@@ -654,7 +653,7 @@ def main() -> None:
     # 9. Publish
     _published = False
     if not args.dry_run and not args.no_publish:
-        _published = publish(cookies)
+        _published = publish()
         if _published:
             log(f'Published: https://puppy.walmart.com/sharing/{PORTAL_OWNER}/{PORTAL_SLUG}')
         else:

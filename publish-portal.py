@@ -42,14 +42,28 @@ def _token() -> str:
 
 
 def _upload(html: str, slug: str) -> dict:
-    """Upload via share-puppy CLI subprocess (handles auth correctly)."""
-    import tempfile
+    """Upload to the Puppy Share API.
+
+    Endpoint: POST /api/sharing/upload
+    Payload : {name, business, html_content, description, access_level}
+    Auth    : Bearer puppy_token from ~/.code_puppy/puppy.cfg
+
+    NOTE: The old PUT /api/sharing/{owner}/{slug} endpoint does NOT work —
+    it returns broken-pipe / 401 regardless of token.  Always use the POST
+    upload endpoint with the 'html_content' field.
+    """
     import urllib.request
     import urllib.error
 
     token = _token()
-    url = f'{BASE_URL}/api/sharing/{OWNER}/{slug}'
-    payload = json.dumps({'content': html}).encode('utf-8')
+    url = f'{BASE_URL}/api/sharing/upload'
+    payload = json.dumps({
+        'name': slug,
+        'business': OWNER,
+        'html_content': html,
+        'description': 'E2E Fashion Portal — auto-published by publish-portal.py',
+        'access_level': 'business',
+    }).encode('utf-8')
     size_kb = len(payload) / 1024
     print(f'  Uploading {size_kb:.1f} KB → {url}')
 
@@ -60,10 +74,10 @@ def _upload(html: str, slug: str) -> dict:
             'Authorization': f'Bearer {token}',
             'Content-Type': 'application/json',
         },
-        method='PUT',
+        method='POST',
     )
     try:
-        with urllib.request.urlopen(req, timeout=60) as resp:
+        with urllib.request.urlopen(req, timeout=120) as resp:
             return json.loads(resp.read().decode())
     except urllib.error.HTTPError as e:
         body = e.read().decode()[:500]
@@ -93,8 +107,8 @@ def main() -> None:
 
     try:
         result = _upload(html, slug)
-        version = result.get('version', '?')
-        live_url = f'{BASE_URL}/sharing/{OWNER}/{slug}'
+        version = (result.get('data') or {}).get('version', result.get('version', '?'))
+        live_url = result.get('url') or f'{BASE_URL}/sharing/{OWNER}/{slug}'
         print(f'✅ Published! Version {version}')
         print(f'🔗 {live_url}')
     except RuntimeError as e:

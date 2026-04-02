@@ -562,7 +562,82 @@
   flex-wrap: wrap;
 }
 
-/* ── Business Impact — goal rows (one per goal) ─────────────── */
+/* ── Business Impact — nav arrows inside header stub ───────────── */
+.biz-win-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  height: 100%;
+  box-sizing: border-box;
+  gap: 6px;
+}
+
+.biz-nav-btn {
+  background: #f3f4f6;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 18px;
+  line-height: 1;
+  padding: 3px 9px 5px;
+  cursor: pointer;
+  color: #374151;
+  font-weight: 700;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.biz-nav-btn:hover:not(:disabled) {
+  background: #dbeafe;
+  border-color: #0053e2;
+  color: #0053e2;
+}
+
+.biz-nav-btn:disabled {
+  opacity: 0.28;
+  cursor: not-allowed;
+}
+
+.biz-nav-label {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+  line-height: 1.3;
+  flex: 1;
+}
+
+/* ── Business Impact — quarter header columns (always 2, always 50/50) ─ */
+.biz-qcol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 12px;
+  gap: 3px;
+  border-left: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.biz-qcol:first-child { border-left: none; }
+
+.biz-qcol-label {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+
+.biz-qcol-sub {
+  font-size: 10px;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+/* ── Business Impact — goal rows ────────────────────────────── */
 .biz-goal-row {
   display: flex;
   align-items: stretch;
@@ -619,106 +694,99 @@
   overflow: hidden;
 }
 
-/* ── Business Impact — capability chips (inside the timeline) ─── */
+/* ── Business Impact — capability chips (text-dominant) ───────── */
 .biz-chip {
   position: absolute;
-  border-radius: 5px;
-  padding: 5px 8px 5px 10px;
+  border-radius: 6px;
+  padding: 7px 10px 6px 12px;
   cursor: pointer;
   overflow: hidden;
-  transition: filter 0.12s, box-shadow 0.12s, transform 0.1s;
-  z-index: 3;
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  gap: 4px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.09);
+  transition: filter 0.12s, box-shadow 0.12s, transform 0.1s;
+  z-index: 3;
 }
 
 .biz-chip:hover {
-  filter: brightness(0.95);
-  box-shadow: 0 3px 10px rgba(0,0,53,0.15);
+  filter: brightness(0.96);
+  box-shadow: 0 4px 12px rgba(0,0,53,0.14);
   transform: translateY(-1px);
   z-index: 4;
 }
 
-.biz-chip-header {
+/* PRIMARY: impact statement — this is the hero text, 2-line max */
+.biz-chip-text {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #111827;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+  margin: 0;
+}
+
+/* SECONDARY: tiny meta row at bottom (type + program name) */
+.biz-chip-meta {
   display: flex;
   align-items: center;
-  gap: 5px;
-  flex-wrap: nowrap;
+  gap: 4px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.biz-chip-type {
+  font-size: 8.5px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 3px;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
   flex-shrink: 0;
 }
 
-.biz-chip-text {
-  font-size: 10.5px;
-  font-weight: 500;
-  color: #111827;
-  line-height: 1.3;
+.biz-chip-type-auto {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.biz-chip-type-cap {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.biz-chip-sep {
+  color: #d1d5db;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.biz-chip-prog {
+  font-size: 9px;
+  color: #9ca3af;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  flex: 1;
 }
 
-.biz-prog-pill {
-  display: inline-block;
-  padding: 1px 6px;
-  border-radius: 10px;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.2px;
-  white-space: nowrap;
-}
-
-.biz-cap-track { height: 44px !important; }
-
-/* ── Business Impact — bar (spans the whole quarter band) ─────────── */
-.biz-cap-bar {
+/* Empty state placeholder when a goal has no chips in the visible window */
+.biz-chip-empty {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  height: 22px;
-  border-radius: 5px;
   display: flex;
   align-items: center;
-  padding: 0 10px;
-  z-index: 2;
-  opacity: 0.82;
-  overflow: hidden;
-}
-
-.biz-cap-bar-label {
-  font-size: 9px;
-  font-weight: 800;
-  color: white;
-  white-space: nowrap;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-  letter-spacing: 0.3px;
-}
-
-/* ── Business Impact — type badges ────────────────────────────── */
-.biz-badge {
-  display: inline-block;
-  flex-shrink: 0;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.3px;
-  white-space: nowrap;
-  margin-top: 1px;
-}
-
-.biz-badge-automation {
-  background: #fef3c7;
-  color: #92400e;
-  border: 1px solid #fcd34d;
-}
-
-.biz-badge-capability {
-  background: #d1fae5;
-  color: #065f46;
-  border: 1px solid #6ee7b7;
+  justify-content: center;
+  font-size: 10px;
+  color: #d1d5db;
+  font-style: italic;
+  letter-spacing: 0.2px;
+  border: 1.5px dashed #e5e7eb;
+  border-radius: 6px;
+  height: 36px;
+  pointer-events: none;
 }
 
 

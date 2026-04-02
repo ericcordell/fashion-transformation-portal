@@ -30,7 +30,21 @@ const CHIP_H   = 60;  // px — 2 lines text + meta + padding
 const CHIP_GAP = 6;   // px between stacked chips
 const CHIP_PAD = 10;  // px top/bottom padding in track
 
-// ── Sliding window state ─────────────────────────────────────────────
+// Workstream display config — persona labels + pill colors
+const BIZ_WS_CONFIG = {
+  buying:     { label: 'Merchants',      bg: '#fef3c7', color: '#92400e' },
+  design:     { label: 'Product Design', bg: '#ede9fe', color: '#5b21b6' },
+  strategy:   { label: 'Leadership',    bg: '#e0f2fe', color: '#075985' },
+  allocation: { label: 'Planners',      bg: '#dcfce7', color: '#166534' },
+};
+
+// Helper: get the currently active workstream filter (mirrors ganttActiveWS)
+function bizActiveWs() {
+  if (typeof ganttActiveWS === 'undefined') return null; // safety
+  if (ganttActiveWS.has('all')) return null;             // null = show all
+  return ganttActiveWS;                                   // Set of active ws keys
+}
+
 let bizWinStart = 0;
 
 function bizVisibleQs() {
@@ -49,10 +63,8 @@ window.ganttSetView = function(view) {
   const wsF  = document.getElementById('gantt-ws-filters');
   if (btnP) btnP.classList.toggle('active', view === 'program');
   if (btnB) btnB.classList.toggle('active', view === 'biz-impact');
-  if (wsF) {
-    wsF.style.opacity      = view === 'program' ? '1' : '0.35';
-    wsF.style.pointerEvents = view === 'program' ? '' : 'none';
-  }
+  // Workstream filters are active in BOTH views
+  if (wsF) { wsF.style.opacity = '1'; wsF.style.pointerEvents = ''; }
   const chart = document.querySelector('.gantt-chart');
   if (chart) chart.style.minWidth = view === 'biz-impact' ? '820px' : '';
   view === 'program' ? renderGanttChart() : renderBizImpactChart();
@@ -78,10 +90,13 @@ window.bizToggleExpand = function(goalId) {
   renderBizImpactChart();
 };
 
-// ── Row height: variable per goal, based on visible quarters only ─────
+// ── Row height: variable per goal, respects active WS filter ────────
 function bizGoalRowH(goal, visibleQs) {
+  const ws = bizActiveWs();
   const maxStack = Math.max(
-    ...visibleQs.map(q => goal.capabilities.filter(c => c.quarter === q.key).length),
+    ...visibleQs.map(q => goal.capabilities.filter(
+      c => c.quarter === q.key && (!ws || ws.has(c.workstream))
+    ).length),
     1
   );
   return Math.max(maxStack * (CHIP_H + CHIP_GAP) - CHIP_GAP + CHIP_PAD * 2, 72);
@@ -247,16 +262,29 @@ window.renderBizImpactChart = function() {
       </div>
     </div>`;
 
+  const ws = bizActiveWs(); // null = show all; Set = active workstream keys
+
   goals.forEach((goal, goalIdx) => {
+    // Hide goals where every capability is filtered by workstream
+    const goalCaps = goal.capabilities.filter(c => !ws || ws.has(c.workstream));
+    if (goalCaps.length === 0) return;
+
     const isExpanded = bizExpandedGoals.has(goal.id);
-    const totalCount = goal.capabilities.length;
+    const totalCount = goalCaps.length;
     const altBg      = goalIdx % 2 === 0 ? '#fafcff' : '#f7fbf7';
+
+    // Workstream pill helper
+    const wsPill = (workstream) => {
+      const cfg = BIZ_WS_CONFIG[workstream] || { label: workstream, bg: '#f3f4f6', color: '#374151' };
+      return `<span class="biz-chip-ws" style="background:${cfg.bg};color:${cfg.color}">${cfg.label}</span>`;
+    };
 
     // ── EXPANDED: flowing vertical list, all quarters ──────────────
     if (isExpanded) {
       const qOrder = BIZ_QUARTERS.reduce((m, q, i) => { m[q.key] = i; return m; }, {});
       const sorted = goal.capabilities
         .map((c, i) => ({ cap: c, idx: i }))
+        .filter(({ cap }) => !ws || ws.has(cap.workstream))
         .sort((a, b) => (qOrder[a.cap.quarter] || 0) - (qOrder[b.cap.quarter] || 0));
 
       const groups = {};
@@ -281,6 +309,8 @@ window.renderBizImpactChart = function() {
                 <span class="biz-chip-type ${typeClass}">${typeTxt}</span>
                 <span class="biz-chip-sep">&middot;</span>
                 <span class="biz-chip-prog">${prog.label}</span>
+                <span class="biz-chip-sep">&middot;</span>
+                ${wsPill(cap.workstream)}
               </div>
             </div>`;
         }).join('');
@@ -318,7 +348,7 @@ window.renderBizImpactChart = function() {
     visibleQs.forEach((q, qColIdx) => {
       const qCaps = goal.capabilities
         .map((c, i) => ({ cap: c, idx: i }))
-        .filter(({ cap }) => cap.quarter === q.key);
+        .filter(({ cap }) => cap.quarter === q.key && (!ws || ws.has(cap.workstream)));
 
       const chipLeft  = qColIdx === 0 ? '8px' : 'calc(50% + 8px)';
       const chipWidth = 'calc(50% - 16px)';
@@ -340,6 +370,8 @@ window.renderBizImpactChart = function() {
               <span class="biz-chip-type ${typeClass}">${typeTxt}</span>
               <span class="biz-chip-sep">&middot;</span>
               <span class="biz-chip-prog">${prog.label}</span>
+              <span class="biz-chip-sep">&middot;</span>
+              ${wsPill(cap.workstream)}
             </div>
           </div>`;
       });
@@ -354,7 +386,9 @@ window.renderBizImpactChart = function() {
     });
 
     const visibleCount = visibleQs.reduce(
-      (n, q) => n + goal.capabilities.filter(c => c.quarter === q.key).length, 0
+      (n, q) => n + goal.capabilities.filter(
+        c => c.quarter === q.key && (!ws || ws.has(c.workstream))
+      ).length, 0
     );
     const hiddenCount  = totalCount - visibleCount;
     const summaryTxt   = hiddenCount > 0

@@ -878,6 +878,18 @@
   text-overflow: ellipsis;
 }
 
+/* Workstream persona pill */
+.biz-chip-ws {
+  display: inline-block;
+  font-size: 8px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 3px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: 0.2px;
+}
+
 /* Empty state placeholder when a goal has no chips in the visible window */
 .biz-chip-empty {
   position: absolute;

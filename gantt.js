@@ -319,7 +319,12 @@ window.ganttToggleWS = function(ws) {
   document.querySelectorAll('.gantt-ws-btn').forEach(btn =>
     btn.classList.toggle('active', ganttActiveWS.has(btn.dataset.ws))
   );
-  renderGanttChart();
+  // Re-render whichever view is currently active
+  if (typeof ganttGetView === 'function' && ganttGetView() === 'biz-impact') {
+    if (typeof renderBizImpactChart === 'function') renderBizImpactChart();
+  } else {
+    renderGanttChart();
+  }
 };
 
 // ── Main render ───────────────────────────────────────────────────────────────

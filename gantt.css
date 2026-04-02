@@ -562,57 +562,103 @@
   flex-wrap: wrap;
 }
 
-/* ── Business Impact — goal header rows ────────────────────────── */
-.biz-goal-header { min-height: 48px; }
+/* ── Business Impact — goal rows (one per goal) ─────────────── */
+.biz-goal-row {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid #e5e7eb;
+  transition: background 0.1s;
+}
 
-.biz-goal-band {
+/* LEFT: goal identity panel */
+.biz-goal-label-panel {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 12px 12px 12px 16px;
+  gap: 4px;
+  background: inherit;
+  z-index: 1;
+}
+
+.biz-goal-panel-icon {
+  font-size: 22px;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.biz-goal-panel-name {
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.2px;
+}
+
+.biz-goal-panel-desc {
+  font-size: 10.5px;
+  color: #6b7280;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.biz-goal-panel-summary {
+  font-size: 10px;
+  color: #9ca3af;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* RIGHT: timeline track holding capability chips */
+.biz-goal-track {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ── Business Impact — capability chips (inside the timeline) ─── */
+.biz-chip {
   position: absolute;
-  top: 0;
-  height: 100%;
+  border-radius: 5px;
+  padding: 5px 8px 5px 10px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: filter 0.12s, box-shadow 0.12s, transform 0.1s;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.biz-chip:hover {
+  filter: brightness(0.95);
+  box-shadow: 0 3px 10px rgba(0,0,53,0.15);
+  transform: translateY(-1px);
+  z-index: 4;
+}
+
+.biz-chip-header {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  padding-right: 8px;
-  pointer-events: none;
-}
-
-.biz-goal-band-empty { opacity: 0.3; }
-
-/* ── Business Impact — capability rows ──────────────────────────── */
-.biz-cap-row     { min-height: 44px; background: white; }
-.biz-cap-row-alt { background: #fafbff; }
-
-.biz-cap-label {
-  padding: 6px 10px 6px 16px !important;
-  background: inherit;
-}
-
-.biz-cap-inner {
-  display: flex;
-  align-items: flex-start;
-  gap: 6px;
+  gap: 5px;
   flex-wrap: nowrap;
+  flex-shrink: 0;
 }
 
-.biz-cap-text {
-  font-size: 11.5px;
+.biz-chip-text {
+  font-size: 10.5px;
   font-weight: 500;
-  color: #1f2937;
-  line-height: 1.4;
-  overflow: hidden;
+  color: #111827;
+  line-height: 1.38;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-}
-
-.biz-cap-meta {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 4px;
-  padding-left: 2px;
-  font-size: 10px;
-  color: #9ca3af;
+  overflow: hidden;
+  flex: 1;
 }
 
 .biz-prog-pill {
@@ -676,105 +722,7 @@
   border: 1px solid #6ee7b7;
 }
 
-/* ── Business Impact — merged quarter rows ─────────────────────── */
-.biz-merged-row {
-  min-height: 80px;
-  cursor: pointer;
-  transition: background 0.12s, box-shadow 0.12s;
-  background: white;
-}
 
-.biz-merged-row:hover {
-  background: #f0f7ff !important;
-  box-shadow: inset 3px 0 0 #0053e2;
-}
-
-.biz-merged-label {
-  padding: 8px 10px 8px 14px !important;
-  background: inherit;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  justify-content: center;
-}
-
-.biz-merged-header {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin-bottom: 2px;
-}
-
-.biz-merged-qtag {
-  font-size: 9px;
-  font-weight: 800;
-  padding: 2px 7px;
-  border-radius: 10px;
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
-  flex-shrink: 0;
-}
-
-.biz-merged-count {
-  font-size: 10px;
-  font-weight: 700;
-  color: #374151;
-}
-
-.biz-merged-bullet {
-  display: flex;
-  align-items: flex-start;
-  gap: 5px;
-  padding-left: 2px;
-}
-
-.biz-merged-bullet-text {
-  font-size: 10.5px;
-  color: #374151;
-  line-height: 1.35;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-}
-
-.biz-merged-more {
-  font-size: 10px;
-  color: #9ca3af;
-  font-style: italic;
-  padding-left: 2px;
-  margin-top: 1px;
-}
-
-.biz-merged-track { min-height: 80px !important; }
-
-.biz-merged-bar {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  height: 36px;
-  border-radius: 6px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 0 12px;
-  z-index: 2;
-  opacity: 0.88;
-  overflow: hidden;
-  cursor: pointer;
-  transition: opacity 0.12s;
-}
-
-.biz-merged-bar:hover { opacity: 1; }
-
-.biz-merged-bar-hint {
-  font-size: 8px;
-  color: rgba(255,255,255,0.75);
-  font-style: italic;
-  margin-top: 1px;
-}
 
 /* ── Business Impact — popout modal ────────────────────────────── */
 #biz-cap-modal {

@@ -544,9 +544,10 @@ function openModal(cardId, workstream, tool) {
 
   const recipientRows = (bpRows + singleRows) || '<p style="font-size:0.8rem;color:#94a3b8;padding:12px 0;">No owners assigned yet.</p>';
 
-  // Collect ALL valid TO addresses (BP array + single roles)
+  // Collect TO addresses for email draft — UX and Engineering shown on page but excluded from email
   const bpEmails     = bpList.map(p => p.email).filter(Boolean);
-  const singleEmails = singleRoles.map(r => (owners[r.key] || {}).email).filter(Boolean);
+  const emailRoles   = singleRoles.filter(r => r.key !== 'uxLead' && r.key !== 'softwareLead');
+  const singleEmails = emailRoles.map(r => (owners[r.key] || {}).email).filter(Boolean);
   const toAddresses  = [...bpEmails, ...singleEmails].join(',') || 'fashion-transformation@walmart.com';
 
   document.getElementById('tab-inquiry').innerHTML = `
@@ -681,9 +682,10 @@ function sendInquiry(cardId, workstream, tool) {
   const qMeta   = QUARTER_META[card.quarter] || QUARTER_META['Future'];
 
   // businessPartner is an array; collect emails from all entries
+  // UX (uxLead) and Engineering (softwareLead) are intentionally excluded from the email draft
   const bpEmails = (Array.isArray(owners.businessPartner) ? owners.businessPartner : [])
     .map(p => p.email).filter(Boolean);
-  const singleEmails = ['transformationLead','productLead','uxLead','softwareLead']
+  const singleEmails = ['transformationLead','productLead']
     .map(k => (owners[k] || {}).email).filter(Boolean);
   const emailAddresses = [...bpEmails, ...singleEmails].join(',') || 'fashion-transformation@walmart.com';
 

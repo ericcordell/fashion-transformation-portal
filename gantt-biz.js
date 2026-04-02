@@ -22,10 +22,10 @@ const BIZ_FY = {
 const BIZ_TOTAL_MS = BIZ_FY.end - BIZ_FY.start;
 const BIZ_LABEL_W  = 240;   // px — left goal panel
 
-// Chip geometry
-const CHIP_H   = 54;   // px per capability chip
-const CHIP_GAP = 6;    // px gap between stacked chips
-const CHIP_PAD = 10;   // px top/bottom padding inside the track
+// Chip geometry — single line of text per chip
+const CHIP_H   = 40;   // px per capability chip
+const CHIP_GAP = 5;    // px gap between stacked chips
+const CHIP_PAD = 8;    // px top/bottom padding inside the track
 
 // ── View-mode state ──────────────────────────────────────────────────
 let bizGanttView = 'biz-impact';
@@ -138,10 +138,14 @@ window.bizOpenCap = function(goalId, capIdx) {
   if (!goal) return;
   const cap  = goal.capabilities[capIdx];
   if (!cap)  return;
-  const prog = progCfg[cap.programId] || { label: cap.program, color: '#6b7280', textColor: '#fff' };
-  const qObj = BIZ_FY.quarters.find(q => q.short === cap.quarter) || BIZ_FY.quarters[0];
+  const prog     = progCfg[cap.programId] || { label: cap.program, color: '#6b7280', textColor: '#fff' };
+  const qObj     = BIZ_FY.quarters.find(q => q.short === cap.quarter) || BIZ_FY.quarters[0];
   const badgeCls = cap.type === 'automation' ? 'biz-badge-automation' : 'biz-badge-capability';
   const badgeTxt = cap.type === 'automation' ? '✕ Work Removed' : '+ New Capability';
+
+  // Program Card link — calls openModal() which is the portal's native card viewer
+  const cardBtnId = 'biz-open-card-btn';
+  const opifBtnId = 'biz-open-opif-btn';
 
   const modal = _getBizModal();
   document.getElementById('biz-modal-body').innerHTML = `
@@ -152,15 +156,42 @@ window.bizOpenCap = function(goalId, capIdx) {
         <div class="biz-modal-goal-desc">${goal.description}</div>
       </div>
     </div>
+
     <div class="biz-modal-qbar" style="background:${qObj.color}15;border:1px solid ${qObj.color}40">
       <span style="color:${qObj.color};font-weight:800;font-size:13px">${qObj.label}</span>
       <span class="biz-badge ${badgeCls}" style="margin-left:auto">${badgeTxt}</span>
       <span class="biz-prog-pill" style="background:${prog.color};color:${prog.textColor}">${prog.label}</span>
+      <span class="biz-modal-target">📅 ${cap.target}</span>
     </div>
-    <div class="biz-modal-item" style="border:none;background:white;padding:0 4px">
-      <p class="biz-modal-item-text" style="font-size:15px;line-height:1.7">${cap.label}</p>
-      <div class="biz-modal-target" style="margin-top:10px;font-size:11px;color:#6b7280">📅 Target: ${cap.target}</div>
+
+    <div class="biz-modal-impact-statement">
+      <div class="biz-modal-impact-headline">${cap.label}</div>
+      <p class="biz-modal-impact-narrative">${cap.narrative}</p>
+    </div>
+
+    <div class="biz-modal-links">
+      <div class="biz-modal-link-label">Jump to:</div>
+      <button id="${cardBtnId}" class="biz-modal-link-btn biz-modal-link-card"
+              data-cid="${cap.cardId}" data-ws="${cap.workstream}">
+        📋 Program Card — ${cap.program}
+      </button>
+      <a id="${opifBtnId}" class="biz-modal-link-btn biz-modal-link-opif"
+         href="${cap.opifUrl}" target="_blank" rel="noopener">
+        🎫 ${cap.opifLabel}
+        <span class="biz-modal-link-ext">↗</span>
+      </a>
     </div>`;
+
+  // Wire up Program Card button after rendering
+  const cardBtn = document.getElementById(cardBtnId);
+  if (cardBtn) {
+    cardBtn.addEventListener('click', function() {
+      window.bizCloseModal();
+      const cid = this.dataset.cid;
+      const ws  = this.dataset.ws;
+      if (typeof openModal === 'function') openModal(cid, ws, null);
+    });
+  }
 
   modal.classList.add('open');
   document.addEventListener('keydown', _bizEscHandler);

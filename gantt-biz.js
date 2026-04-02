@@ -66,6 +66,18 @@ window.bizNavNext = function() {
   if (bizWinStart < BIZ_QUARTERS.length - 2) { bizWinStart++; renderBizImpactChart(); }
 };
 
+// ── Expand / collapse per goal (persists across quarter navigation) ────
+const bizExpandedGoals = new Set();
+
+window.bizToggleExpand = function(goalId) {
+  if (bizExpandedGoals.has(goalId)) {
+    bizExpandedGoals.delete(goalId);
+  } else {
+    bizExpandedGoals.add(goalId);
+  }
+  renderBizImpactChart();
+};
+
 // ── Row height: variable per goal, based on visible quarters only ─────
 function bizGoalRowH(goal, visibleQs) {
   const maxStack = Math.max(
@@ -75,27 +87,15 @@ function bizGoalRowH(goal, visibleQs) {
   return Math.max(maxStack * (CHIP_H + CHIP_GAP) - CHIP_GAP + CHIP_PAD * 2, 72);
 }
 
-// ── Background: 50/50 stripes, center divider, today tick ───────────
+// ── Background: 50/50 stripes + center divider (no today line in biz view) ──
 function bizDeco(visibleQs) {
   const [q0, q1] = visibleQs;
-  const winStart = +q0.start;
-  const winEnd   = +q1.end;
-  const totalMs  = winEnd - winStart;
-
   const stripes = [
     `<div class="gantt-stripe" style="left:0;width:50%;height:100%;background:${q0.stripe}"></div>`,
     `<div class="gantt-stripe" style="left:50%;width:50%;height:100%;background:${q1.stripe}"></div>`,
   ].join('');
-
   const divider = `<div class="gantt-divider" style="left:50%;height:100%"></div>`;
-
-  const now = new Date();
-  let today = '';
-  if (now >= q0.start && now <= q1.end) {
-    const pct = ((+now - winStart) / totalMs * 100).toFixed(2);
-    today = `<div class="gantt-today-track" style="left:${pct}%;height:100%"></div>`;
-  }
-  return stripes + divider + today;
+  return stripes + divider;
 }
 
 // ── Header: quarter cols only, nav arrows in stub ────────────────────
@@ -248,26 +248,86 @@ window.renderBizImpactChart = function() {
     </div>`;
 
   goals.forEach((goal, goalIdx) => {
+    const isExpanded = bizExpandedGoals.has(goal.id);
+    const totalCount = goal.capabilities.length;
+    const altBg      = goalIdx % 2 === 0 ? '#fafcff' : '#f7fbf7';
+
+    // ── EXPANDED: flowing vertical list, all quarters ──────────────
+    if (isExpanded) {
+      const qOrder = BIZ_QUARTERS.reduce((m, q, i) => { m[q.key] = i; return m; }, {});
+      const sorted = goal.capabilities
+        .map((c, i) => ({ cap: c, idx: i }))
+        .sort((a, b) => (qOrder[a.cap.quarter] || 0) - (qOrder[b.cap.quarter] || 0));
+
+      const groups = {};
+      sorted.forEach(({ cap, idx }) => {
+        if (!groups[cap.quarter]) groups[cap.quarter] = [];
+        groups[cap.quarter].push({ cap, idx });
+      });
+
+      let groupsHtml = '';
+      BIZ_QUARTERS.forEach(q => {
+        if (!groups[q.key] || groups[q.key].length === 0) return;
+        const chips = groups[q.key].map(({ cap, idx }) => {
+          const prog      = progCfg[cap.programId] || { label: cap.program };
+          const typeClass = cap.type === 'automation' ? 'biz-chip-type-auto' : 'biz-chip-type-cap';
+          const typeTxt   = cap.type === 'automation' ? '✕ Removed' : '＋ Added';
+          return `
+            <div class="biz-expand-chip"
+                 style="border-left:3px solid ${goal.color};background:${goal.color}0a"
+                 onclick="event.stopPropagation();bizOpenCap('${goal.id}',${idx})">
+              <div class="biz-chip-text" style="-webkit-line-clamp:unset;display:block">${cap.label}</div>
+              <div class="biz-chip-meta">
+                <span class="biz-chip-type ${typeClass}">${typeTxt}</span>
+                <span class="biz-chip-sep">&middot;</span>
+                <span class="biz-chip-prog">${prog.label}</span>
+              </div>
+            </div>`;
+        }).join('');
+        groupsHtml += `
+          <div class="biz-expand-group">
+            <div class="biz-expand-q-label" style="color:${q.color};border-bottom:2px solid ${q.color}35">
+              ${q.label}
+              <span class="biz-expand-q-sub">&mdash; ${q.sub}</span>
+            </div>
+            ${chips}
+          </div>`;
+      });
+
+      html += `
+        <div class="biz-goal-row biz-goal-row-expanded" style="background:${altBg};border-top:2px solid ${goal.color}20">
+          <div class="biz-goal-label-panel biz-goal-label-panel-expanded"
+               style="width:${BIZ_LABEL_W}px;border-left:4px solid ${goal.color}">
+            <div class="biz-goal-panel-icon">${goal.icon}</div>
+            <div class="biz-goal-panel-name" style="color:${goal.color}">${goal.label}</div>
+            <div class="biz-goal-panel-desc">${goal.description}</div>
+            <div class="biz-goal-panel-summary">${totalCount} total impacts</div>
+            <button class="biz-expand-btn biz-expand-btn-open"
+                    onclick="bizToggleExpand('${goal.id}')">&#9650; Collapse</button>
+          </div>
+          <div class="biz-goal-track-expanded">${groupsHtml}</div>
+        </div>`;
+      return;
+    }
+
+    // ── COLLAPSED: windowed 50/50 chip grid ────────────────────────
     const rowH = bizGoalRowH(goal, visibleQs);
     const deco = bizDeco(visibleQs);
 
-    // Chip stacks — one column per visible quarter (always exactly 2)
     let chipsHtml = '';
     visibleQs.forEach((q, qColIdx) => {
       const qCaps = goal.capabilities
         .map((c, i) => ({ cap: c, idx: i }))
         .filter(({ cap }) => cap.quarter === q.key);
 
-      // Each quarter always occupies exactly 50% of the track
       const chipLeft  = qColIdx === 0 ? '8px' : 'calc(50% + 8px)';
       const chipWidth = 'calc(50% - 16px)';
 
       qCaps.forEach(({ cap, idx }, stackIdx) => {
-        const prog    = progCfg[cap.programId] || { label: cap.program, color: '#6b7280', textColor: '#fff' };
-        const chipTop = CHIP_PAD + stackIdx * (CHIP_H + CHIP_GAP);
-        const isTodo  = cap.type === 'automation';
-        const typeClass = isTodo ? 'biz-chip-type-auto' : 'biz-chip-type-cap';
-        const typeTxt   = isTodo ? '✕ Removed' : '＋ Added';
+        const prog      = progCfg[cap.programId] || { label: cap.program, color: '#6b7280', textColor: '#fff' };
+        const chipTop   = CHIP_PAD + stackIdx * (CHIP_H + CHIP_GAP);
+        const typeClass = cap.type === 'automation' ? 'biz-chip-type-auto' : 'biz-chip-type-cap';
+        const typeTxt   = cap.type === 'automation' ? '✕ Removed' : '＋ Added';
 
         chipsHtml += `
           <div class="biz-chip"
@@ -284,7 +344,6 @@ window.renderBizImpactChart = function() {
           </div>`;
       });
 
-      // Empty state placeholder when a goal has no impacts this quarter
       if (qCaps.length === 0) {
         chipsHtml += `
           <div class="biz-chip-empty"
@@ -294,14 +353,13 @@ window.renderBizImpactChart = function() {
       }
     });
 
-    // Count visible chips for the summary
     const visibleCount = visibleQs.reduce(
       (n, q) => n + goal.capabilities.filter(c => c.quarter === q.key).length, 0
     );
-    const totalCount  = goal.capabilities.length;
-    const summaryTxt  = `${visibleCount} in view &bull; ${totalCount} total`;
-
-    const altBg = goalIdx % 2 === 0 ? '#fafcff' : '#f7fbf7';
+    const hiddenCount  = totalCount - visibleCount;
+    const summaryTxt   = hiddenCount > 0
+      ? `${visibleCount} in view &bull; ${totalCount} total`
+      : `${visibleCount} in view`;
 
     html += `
       <div class="biz-goal-row" style="background:${altBg};border-top:2px solid ${goal.color}20">
@@ -310,6 +368,9 @@ window.renderBizImpactChart = function() {
           <div class="biz-goal-panel-name" style="color:${goal.color}">${goal.label}</div>
           <div class="biz-goal-panel-desc">${goal.description}</div>
           <div class="biz-goal-panel-summary">${summaryTxt}</div>
+          ${hiddenCount > 0 ? `
+          <button class="biz-expand-btn biz-expand-btn-closed"
+                  onclick="bizToggleExpand('${goal.id}')">&#9660; See all ${totalCount}</button>` : ''}
         </div>
         <div class="biz-goal-track" style="min-height:${rowH}px">
           ${deco}

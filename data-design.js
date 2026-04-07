@@ -7,7 +7,7 @@ const CARDS_DESIGN = [
   {
     id: 'design-hub-centric', title: 'Launch Design Hub (Centric PLM)', icon: '\uD83C\uDFD7\uFE0F',
     critical: true,
-    status: 'green', statusLabel: 'On Track', quarter: 'Q1', targetDate: 'Q1 FY27',
+    status: 'green', statusLabel: 'On Track', quarter: 'Q1', targetDate: 'Mar 5, 2026',
     tag: 'Critical Program',
     description: 'Full launch of Centric PLM as the centralized Design Hub — replacing fragmented design tools with a single system of record for all Fashion product design and development. Includes milestone review of Centric capabilities and ownership proposal for workflows in Centric vs. AP Tool vs. OneSource. Milestone OPIF-347498: COMPLETE — Milestone Only. Christopher has stated that this is now complete. Milestone OPIF-347500: Backlog — Full verticals and ownership review with proposal pending. Assignee: Christopher Chiodo.',
     businessBenefit: 'Design teams work in one system connected to buying and sourcing — eliminating handoff delays and duplicate data entry between disconnected tools. Deprecates Bamboo Rose and eliminates Miro dependency for assortment visualization. Centric becomes the single source of truth for all product design, specification, and sample management.',
@@ -114,7 +114,7 @@ const CARDS_DESIGN = [
   },
   {
     id: 'shared-event-layer', title: 'Shared Event Layer (AP, Centric, OneSource)', icon: '\uD83C\uDF10',
-    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q2', targetDate: 'May\u2013Jul 2026',
+    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q3', targetDate: 'Jul 31, 2026',
     description: 'Integration of a shared event layer connecting AP Tool, Centric, and OneSource — enabling real-time data flow across Design, Buying, and Strategy systems without point-to-point coupling. OPIF-325188 (Shared Project Tracking and Event Calendar) establishes the tracking and calendar scaffolding. OPIF-325188 Status: Initial Requirements. Assignee: Christopher Chiodo. Reporter: Christopher Chiodo. Component: US Omni Tech - AEX-FashionApparel.',
     businessBenefit: 'System changes in one workstream tool propagate automatically to all connected systems. Eliminates the sync delays and manual reconciliation that occur with batch integrations. Shared event calendar ensures all tools reflect the same planning milestones simultaneously.',
     techIntegration: 'Primary OPIF: OPIF-325188 (Shared Project Tracking and Event Calendar — Initial Requirements). Related: OPIF-325208 (Design Hub / Centric Integration), OPIF-325203 (Shared Item Repository). Event-driven integration layer. AP Tool, Centric, and OneSource publish and consume events. Enables near-real-time cross-system state consistency. PRD: Confluence APREC space (pageId 3255372152).',

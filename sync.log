@@ -1470,3 +1470,12 @@ DRY RUN complete — no files written.
 [10:19:30] ✅ add-opif-guide.py
 [10:19:30] [6/7] Publish — SKIPPED
 [10:19:30] [7/7] Git commit
+[10:19:30] ✅ Git committed ( 2 files changed, 52 insertions(+), 2 deletions(-))
+[10:19:30] 
+[10:19:30] 
+┌──────────────────────────────────────────────────────────────┐
+[10:19:30] │  Summary                                                     │
+[10:19:30] └──────────────────────────────────────────────────────────────┘
+[10:19:30] ✅ Completed in 0.7s  |  Source: skipped (--build-only)
+[10:19:30] 
+[10:19:30] 💡 Hard-refresh browser (⌘+Shift+R) to see latest content.

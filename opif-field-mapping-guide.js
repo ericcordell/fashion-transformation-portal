@@ -69,6 +69,11 @@ const opifFieldMapping = {
                 <td><code>Due Date</code></td>
                 <td>Expected completion date for the OPIF</td>
               </tr>
+              <tr style="background:#eff6ff;">
+                <td><strong>Update (Last 14 Days)</strong> <span style="font-size:0.75em;background:#0053e2;color:white;border-radius:4px;padding:1px 6px;margin-left:4px;">WPR</span></td>
+                <td><code>Status Remarks</code></td>
+                <td>Free-text narrative on the Confluence LLTT Dashboard — auto-pulled into the WPR "Update" column on every sync. Lead with a date stamp (e.g. <em>7-Apr-2026 – ...</em>) for clarity.</td>
+              </tr>
               <tr>
                 <td><strong>Workstream</strong></td>
                 <td><code>Activity Type</code></td>
@@ -80,6 +85,89 @@ const opifFieldMapping = {
       `
     },
     
+    {
+      id: 'status-remarks',
+      title: '📝 Status Remarks → WPR Update Column',
+      icon: '📝',
+      content: `
+        <div class="status-remarks-guide">
+          <div class="callout-box callout-blue">
+            <span class="callout-icon">🔄</span>
+            <div>
+              <strong>Auto-synced field:</strong> The <code>Status Remarks</code> field in your OPIF is automatically
+              pulled into the <strong>"Update (Last 14 Days)"</strong> column of the Weekly Program Review table.
+              You do not need to update the portal manually — just keep your OPIF up to date.
+            </div>
+          </div>
+
+          <h3>What is Status Remarks?</h3>
+          <p>
+            <code>Status Remarks</code> is a free-text field on the
+            <a href="https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard" target="_blank">Confluence LLTT Dashboard</a>.
+            It is the primary narrative field TPMs and PMs use to communicate recent progress,
+            blockers, and path-to-green notes for their program.
+          </p>
+
+          <h3>Where it appears in the portal</h3>
+          <div class="remarks-flow">
+            <div class="remarks-flow-step">
+              <div class="remarks-flow-icon">📋</div>
+              <div class="remarks-flow-label">OPIF<br><code>Status Remarks</code></div>
+            </div>
+            <div class="remarks-flow-arrow">→</div>
+            <div class="remarks-flow-step">
+              <div class="remarks-flow-icon">🔄</div>
+              <div class="remarks-flow-label">e2e-update<br>auto-sync</div>
+            </div>
+            <div class="remarks-flow-arrow">→</div>
+            <div class="remarks-flow-step">
+              <div class="remarks-flow-icon">📊</div>
+              <div class="remarks-flow-label">WPR Table<br><strong>Update (Last 14 Days)</strong></div>
+            </div>
+          </div>
+          <p style="margin-top:8px;font-size:0.85em;color:#64748b;">
+            Only <strong>Critical Program</strong> cards have this field synced today.
+            The WPR table shows the composed update for each Critical Program using its primary (and related) OPIF remarks.
+          </p>
+
+          <h3>How to write a great Status Remark</h3>
+          <div class="best-practices">
+            <div class="practice good">
+              <span class="practice-icon">✅</span>
+              <div>
+                <strong>Do</strong> — Lead with a date stamp so the freshness of the update is immediately clear:
+                <pre class="example-remark">7-Apr-2026 – Development in progress. IIR scope still being evaluated.
+Additional modules added to scope. On track for Apr 30 target.</pre>
+              </div>
+            </div>
+            <div class="practice bad">
+              <span class="practice-icon">❌</span>
+              <div>
+                <strong>Don't</strong> — Leave it as a placeholder or single period:
+                <pre class="example-remark">.</pre>
+                <p class="practice-note">Placeholder remarks are automatically filtered out and will show as blank in the WPR.</p>
+              </div>
+            </div>
+            <div class="practice good">
+              <span class="practice-icon">✅</span>
+              <div>
+                <strong>Do</strong> — Include a path-to-green note if the program is Yellow/Red:
+                <pre class="example-remark">2-Apr-2026 – Timeline pulled in from Aug 27 to Jun 30.
+Risk: need finalized technical lead. Path to Green: working with Oscar to identify lead.</pre>
+              </div>
+            </div>
+          </div>
+
+          <h3>Sync timing</h3>
+          <p>
+            Status Remarks are pulled each time <code>-e2e update</code> runs
+            (before every WPR meeting). The column always reflects the latest saved
+            value from the Confluence LLTT Dashboard at sync time.
+          </p>
+        </div>
+      `
+    },
+
     {
       id: 'status-logic',
       title: '🚦 Status Logic Explained',
@@ -214,6 +302,10 @@ const opifFieldMapping = {
                   <td>Activity Type</td>
                   <td>Product Discovery</td>
                 </tr>
+                <tr style="background:#eff6ff;">
+                  <td>Status Remarks</td>
+                  <td>7-Apr-2026 – Development in progress. IIR scope still being evaluated. Additional modules added to scope.</td>
+                </tr>
               </table>
             </div>
             
@@ -239,6 +331,10 @@ const opifFieldMapping = {
                   <div class="meta-item">
                     <span class="meta-label">Target:</span>
                     <span class="meta-value">Apr 30, 2026</span>
+                  </div>
+                  <div class="meta-item" style="margin-top:8px;padding-top:8px;border-top:1px solid #e2e8f0;">
+                    <span class="meta-label" style="color:#0053e2;">📝 WPR Update:</span>
+                    <span class="meta-value" style="font-style:italic;color:#475569;">7-Apr-2026 – Development in progress. IIR scope still being evaluated…</span>
                   </div>
                 </div>
               </div>
@@ -266,6 +362,18 @@ const opifFieldMapping = {
             </ol>
           </div>
           
+          <div class="faq-item">
+            <h4>Q: The WPR "Update (Last 14 Days)" column is blank for my program</h4>
+            <p><strong>A:</strong> The update column is driven by the <code>Status Remarks</code> field on the Confluence LLTT Dashboard. Check the following:</p>
+            <ol>
+              <li>Open the <a href="https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard" target="_blank">LLTT Dashboard</a> and find your OPIF row</li>
+              <li>Locate the <strong>Status Remarks</strong> column and ensure it has a meaningful update (not just <code>.</code> or blank)</li>
+              <li>Lead your entry with a date stamp: <code>7-Apr-2026 – ...</code></li>
+              <li>The next <code>-e2e update</code> run will pick it up automatically</li>
+            </ol>
+            <p><em>Note: Only Critical Program cards display the Status Remarks in the WPR today.</em></p>
+          </div>
+
           <div class="faq-item">
             <h4>Q: My status/date is outdated in the portal</h4>
             <p><strong>A:</strong> The portal syncs daily from Confluence. Updates made in Jira will appear in the portal within 24 hours after the next automated sync runs.</p>

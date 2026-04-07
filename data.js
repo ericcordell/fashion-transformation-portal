@@ -58,6 +58,7 @@ const PEOPLE = {
   'Vivek Mishra':        { email: 'Vivek.Mishra@walmart.com',        title: 'Sr. Director, Platform PM (Forecasting & BQ)' },
   'David Nelms':         { email: 'David.Nelms@walmart.com',         title: 'Sr. Director, Product Management (Assortment Repository)' },
   // ---- Technical Program Managers (OPIF Assignee or Confluence) ----
+  'Charitha Katupitiya': { email: 'Charitha.Katupitiya@walmart.com', title: 'Product Manager (Strategy Hub)' },
   'Chris Graves':        { email: 'christopher.graves@walmart.com', title: 'Principal TPM (AEX)' },
   'Ramesh Simhambhatla': { email: 'Ramesh.Simhambhatla@walmart.com', title: 'Staff TPM (Strategy / OneSource)' },
   'Sakshi Datta':        { email: 'Sakshi.Datta@walmart.com',        title: 'Staff TPM (Space & Draw)' },

@@ -113,13 +113,16 @@ class Log:
 
 
 # ── Chrome / AppleScript extraction ───────────────────────────────────────────
+# AppleScript: extract from the best available Confluence tab.
+# Skips tabs showing Chrome error pages so we always hit the live loaded tab.
 _APPLES = """\
 tell application "Google Chrome"
     set windowList to every window
     repeat with aWindow in windowList
         set tabList to every tab of aWindow
         repeat with atab in tabList
-            if (URL of atab contains "confluence.walmart.com") then
+            set tabURL to URL of atab
+            if (tabURL contains "confluence.walmart.com") and (tabURL does not contain "chrome-error") then
                 set jsCode to "
 (function() {
   const results = [];
@@ -151,16 +154,8 @@ end tell
 """
 
 
-def _chrome_extract_fresh() -> dict | None:
-    """
-    Open Confluence in Chrome, wait for JS render, extract table data.
-    Returns parsed JSON dict or None on failure.
-    """
-    Log.info("Opening Confluence in Chrome…")
-    subprocess.run(["open", "-a", "Google Chrome", CONFLUENCE_URL], check=False)
-    Log.info("Waiting 20s for JavaScript render…")
-    time.sleep(20)
-
+def _run_applescript() -> dict | None:
+    """Execute the extraction AppleScript and return parsed JSON or None."""
     APPLESCRIPT_TMP.write_text(_APPLES)
     try:
         result = subprocess.run(
@@ -177,40 +172,68 @@ def _chrome_extract_fresh() -> dict | None:
     if not raw:
         Log.warn("AppleScript returned empty output")
         return None
-
     try:
-        data = json.loads(raw)
+        return json.loads(raw)
     except json.JSONDecodeError:
-        Log.warn(f"AppleScript JSON parse failed: {raw[:100]}")
+        Log.warn(f"AppleScript JSON parse failed: {raw[:120]}")
         return None
 
-    # Detect Chrome DNS error page
-    body_url = data.get("url", "")
-    if "chrome-error" in body_url or "DNS_PROBE" in str(data):
-        Log.warn(f"Chrome DNS error — Confluence unreachable from Chrome ({body_url})")
+
+def _chrome_extract_fresh() -> dict | None:
+    """
+    Extract Confluence table data from Chrome.
+
+    Strategy:
+      1. Try existing loaded Confluence tab first (no new navigation).
+      2. If no tab found / 0 rows, open a new tab + wait for render, retry.
+      3. Return None on all failures so caller can fall back to archive.
+    """
+    # ── Pass 1: use whatever Confluence tab is already open ─────────────────
+    Log.info("Checking for existing Confluence tab in Chrome…")
+    data = _run_applescript()
+
+    if data and data.get("error") == "no_tab":
+        Log.info("No existing Confluence tab found — opening one…")
+        data = None  # fall through to open a new tab
+    elif data:
+        url = data.get("url", "")
+        if "chrome-error" in url:
+            Log.warn(f"Existing tab is an error page ({url}) — opening fresh tab…")
+            data = None
+        elif data.get("rowsExtracted", 0) > 0:
+            rows = data["rowsExtracted"]
+            Log.ok(f"Existing tab: extracted {rows} rows from {data.get('tablesFound', 0)} tables")
+            return data
+        else:
+            Log.warn("Existing tab returned 0 rows — page still loading, will retry after wait")
+
+    # ── Pass 2: open a fresh tab and wait for JS render ──────────────────────
+    if data is None:
+        Log.info("Opening Confluence in a new Chrome tab…")
+        subprocess.run(["open", "-a", "Google Chrome", CONFLUENCE_URL], check=False)
+
+    Log.info("Waiting 20s for JavaScript render…")
+    time.sleep(20)
+    data = _run_applescript()
+
+    if not data or data.get("error"):
+        Log.warn(f"Pass-2 AppleScript error: {data}")
+        return None
+
+    url = data.get("url", "")
+    if "chrome-error" in url or "DNS_PROBE" in str(data):
+        Log.warn(f"Chrome DNS error on new tab ({url})")
         return None
 
     rows = data.get("rowsExtracted", 0)
     if rows == 0:
-        Log.warn("Chrome extraction returned 0 rows — page may still be loading")
-        # Give it another 15s and retry once
-        Log.info("Retrying extraction in 15s…")
+        # One final retry after another 15s
+        Log.info("Still 0 rows — final retry in 15s…")
         time.sleep(15)
-        APPLESCRIPT_TMP.write_text(_APPLES)
-        try:
-            result = subprocess.run(
-                ["osascript", str(APPLESCRIPT_TMP)],
-                capture_output=True, text=True, timeout=30
-            )
-            data = json.loads(result.stdout.strip() or "{}")
-            rows = data.get("rowsExtracted", 0)
-        except Exception:
-            pass
-        finally:
-            APPLESCRIPT_TMP.unlink(missing_ok=True)
-
+        data = _run_applescript()
+        rows = (data or {}).get("rowsExtracted", 0)
         if rows == 0:
-            Log.warn("Retry also returned 0 rows")
+            Log.warn("All passes returned 0 rows — Confluence page may not have rendered")
             return None
 
     Log.ok(f"Chrome extracted {rows} rows from {data.get('tablesFound', 0)} tables")

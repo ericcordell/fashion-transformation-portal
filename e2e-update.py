@@ -315,9 +315,32 @@ def _quarter(raw: str) -> str:
     return ""
 
 
+# RAG color values that uniquely identify the main LLTT dashboard table rows.
+# Other tables put names / dates / free text in cells[7].
+_RAG_COLORS = {"green", "yellow", "red"}
+
+
 def parse_opif_records(data: dict) -> dict[str, dict]:
-    records: dict[str, dict] = {}
+    """
+    Extract OPIF records from Confluence table data.
+
+    The live Confluence page flattens nested sub-tables, so each OPIF ID
+    may appear in 3-5 rows from different summary/cross-ref tables.
+
+    Row selection strategy:
+      1. Prefer rows where cells[7] is exactly 'Green'/'Yellow'/'Red'
+         (the RAG status column in the main LLTT dashboard table).
+      2. Fall back to the longest row if no RAG row exists.
+
+    Target date strategy (main table layout):
+      - cells[14] = program start date (skip)
+      - cells[16] = target date ← this is what we want
+      - cells[17] = target date duplicate
+    """
     opif_re = re.compile(r"OPIF-\d+")
+
+    # Group all rows by OPIF ID (only rows where ID is in cells[0..2])
+    candidates: dict[str, list[list[str]]] = {}
     for row_obj in data.get("data", []):
         cells = row_obj.get("cells", [])
         opif_id = None
@@ -326,14 +349,39 @@ def parse_opif_records(data: dict) -> dict[str, dict]:
             if m:
                 opif_id = m.group(0)
                 break
-        if not opif_id:
-            continue
-        program   = cells[1].strip()  if len(cells) > 1  else ""
-        raw_status= cells[7].strip().lower() if len(cells) > 7  else ""
-        target    = cells[17].strip() if len(cells) > 17 else ""
-        tpm       = cells[12].strip() if len(cells) > 12 else ""
-        pm        = cells[13].strip() if len(cells) > 13 else ""
-        x_rank    = cells[5].strip()  if len(cells) > 5  else ""
+        if opif_id:
+            candidates.setdefault(opif_id, []).append(cells)
+
+    records: dict[str, dict] = {}
+    for opif_id, rows in candidates.items():
+        # Priority: rows whose cells[7] is a RAG color (main dashboard table)
+        rag_rows = [
+            r for r in rows
+            if len(r) > 7 and r[7].strip().lower() in _RAG_COLORS
+        ]
+        best = rag_rows[0] if rag_rows else max(rows, key=len)
+
+        is_rag_row  = len(best) > 7 and best[7].strip().lower() in _RAG_COLORS
+        program     = best[1].strip()  if len(best) > 1  else ""
+
+        if is_rag_row:
+            # Main table: fixed column layout
+            raw_status = best[7].strip().lower()          # e.g. "green"
+            tpm        = best[12].strip() if len(best) > 12 else ""
+            pm         = best[13].strip() if len(best) > 13 else ""
+            x_rank     = best[5].strip()  if len(best) > 5  else ""
+            # cells[14]=start date, cells[16]=target date
+            target     = best[16].strip() if len(best) > 16 and best[16].strip() else ""
+            if not target and len(best) > 17:
+                target = best[17].strip()
+        else:
+            # Fallback: scan for status keyword + any date
+            raw_status = best[7].strip().lower() if len(best) > 7 else ""
+            tpm        = best[12].strip() if len(best) > 12 else ""
+            pm         = best[13].strip() if len(best) > 13 else ""
+            x_rank     = best[5].strip()  if len(best) > 5  else ""
+            date_pat   = re.compile(r"^[A-Z][a-z]{2,8} \d{1,2}, \d{4}$")
+            target     = next((c.strip() for c in best[10:] if date_pat.match(c.strip())), "")
 
         status_key, status_label = STATUS_MAP.get(
             raw_status,

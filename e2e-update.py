@@ -7,11 +7,14 @@ Usage:
     python3 e2e-update.py --dry-run      # show what would change, no writes
     python3 e2e-update.py --no-publish   # refresh + build, skip publish
     python3 e2e-update.py --test-only    # publish to TEST only, skip PROD
+    python3 e2e-update.py --build-only   # skip Confluence pull, rebuild + publish
 
 What this does (in order):
     1. Pull fresh Confluence data via Chrome + AppleScript
-       └─ Fallback: last good archived export if Chrome fails
-    2. Process export → detect OPIF status/date/owner changes
+       - Pass 1: extract from the existing loaded "Long Lead Time" tab (no nav)
+       - Pass 2: open a new tab, wait for render, retry
+       - Fallback: last good archived export if Chrome fails entirely
+    2. Detect OPIF status / date / owner changes vs portal cards
     3. Patch changed fields into data-*.js card definitions
     4. Rebuild portal-inlined.html + portal-final.html
     5. Inject OPIF Field Guide
@@ -20,25 +23,20 @@ What this does (in order):
     8. Print rich results summary
 
 Triggered by Code Puppy skill: `-e2e update`
-Portal: Downloads/fashion-portal/
+Portal: ~/Downloads/fashion-portal/
 """
 from __future__ import annotations
 
 import argparse
 import json
-import os
 import re
-import shutil
-import sqlite3
 import subprocess
 import sys
-import tempfile
 import time
 from datetime import date, datetime
 from pathlib import Path
-from typing import Any
 
-# ── Paths ─────────────────────────────────────────────────────────────────────
+# ── Paths ──────────────────────────────────────────────────────────────────────
 BASE          = Path(__file__).parent
 EXPORTS_DIR   = BASE / "confluence-exports"
 LATEST_JSON   = EXPORTS_DIR / "latest.json"
@@ -49,13 +47,15 @@ TODAY         = date.today().isoformat()
 NOW_PRETTY    = datetime.now().strftime("%B %-d, %Y")
 TIMESTAMP     = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
+# Temp files used during Chrome extraction — cleaned up after each run
+_JS_TMP    = Path("/tmp/e2e-portal-extract.js")
+_AS_TMP    = Path("/tmp/e2e-portal-extract.applescript")
+
 CONFLUENCE_URL = (
     "https://confluence.walmart.com/display/APREC/"
     "Long+Lead+Time+Transformation+Work+Management+Dashboard"
 )
-APPLESCRIPT_TMP = Path("/tmp/e2e-portal-extract.applescript")
 
-# Data files to scan for card updates
 DATA_FILES = [
     "data-strategy.js",
     "data-design.js",
@@ -64,69 +64,66 @@ DATA_FILES = [
 ]
 
 STATUS_MAP = {
-    "yellow":            ("yellow",   "Yellow — At Risk"),
-    "green":             ("green",    "Green — In Progress"),
-    "red":               ("red",      "Red — Blocked"),
-    "in progress":       ("yellow",   "Yellow — Work in Progress"),
-    "work in progress":  ("yellow",   "Yellow — Work in Progress"),
-    "at risk":           ("red",      "Red — At Risk"),
-    "on track":          ("green",    "Green — On Track"),
-    "done":              ("complete", "Complete"),
-    "completed":         ("complete", "Complete"),
-    "launched":          ("complete", "Complete"),
-    "closed":            ("complete", "Complete"),
-    "roadmap":           ("roadmap",  "Roadmap"),
-    "planned":           ("roadmap",  "Roadmap"),
-    "backlog":           ("roadmap",  "Roadmap"),
-    "initial requirements": ("roadmap", "Roadmap — Initial Requirements"),
-    "pending sizing":    ("roadmap",  "Roadmap — Pending Sizing"),
-    "ready to start":    ("yellow",   "Yellow — Ready to Start"),
-    "ready for walkthrough": ("yellow", "Yellow — Ready for Walkthrough"),
-    "product discovery": ("yellow",   "Yellow — Product Discovery"),
-    "development":       ("green",    "Green — In Development"),
+    "yellow":               ("yellow",   "Yellow — At Risk"),
+    "green":                ("green",    "Green — In Progress"),
+    "red":                  ("red",      "Red — Blocked"),
+    "in progress":          ("yellow",   "Yellow — Work in Progress"),
+    "work in progress":     ("yellow",   "Yellow — Work in Progress"),
+    "at risk":              ("red",      "Red — At Risk"),
+    "on track":             ("green",    "Green — On Track"),
+    "done":                 ("complete", "Complete"),
+    "completed":            ("complete", "Complete"),
+    "launched":             ("complete", "Complete"),
+    "closed":               ("complete", "Complete"),
+    "roadmap":              ("roadmap",  "Roadmap"),
+    "planned":              ("roadmap",  "Roadmap"),
+    "backlog":              ("roadmap",  "Roadmap"),
+    "initial requirements": ("roadmap",  "Roadmap — Initial Requirements"),
+    "pending sizing":       ("roadmap",  "Roadmap — Pending Sizing"),
+    "ready to start":       ("yellow",   "Yellow — Ready to Start"),
+    "ready for walkthrough":("yellow",   "Yellow — Ready for Walkthrough"),
+    "product discovery":    ("yellow",   "Yellow — Product Discovery"),
+    "development":          ("green",    "Green — In Development"),
 }
 
 
-# ── Logging ───────────────────────────────────────────────────────────────────
+# ── Logging ────────────────────────────────────────────────────────────────────
 class Log:
-    _indent = 0
-
-    @classmethod
-    def _write(cls, msg: str) -> None:
+    @staticmethod
+    def _write(msg: str) -> None:
         ts   = datetime.now().strftime("%H:%M:%S")
-        line = f"[{ts}] {'  ' * cls._indent}{msg}"
+        line = f"[{ts}] {msg}"
         print(line)
         with LOG_FILE.open("a") as f:
             f.write(line + "\n")
 
     @classmethod
-    def info(cls, msg: str) -> None:    cls._write(msg)
+    def info(cls, msg: str)                    -> None: cls._write(msg)
     @classmethod
-    def ok(cls, msg: str) -> None:      cls._write(f"✅ {msg}")
+    def ok(cls, msg: str)                      -> None: cls._write(f"✅ {msg}")
     @classmethod
-    def warn(cls, msg: str) -> None:    cls._write(f"⚠️  {msg}")
+    def warn(cls, msg: str)                    -> None: cls._write(f"⚠️  {msg}")
     @classmethod
-    def err(cls, msg: str) -> None:     cls._write(f"❌ {msg}")
+    def err(cls, msg: str)                     -> None: cls._write(f"❌ {msg}")
     @classmethod
-    def step(cls, n: int, total: int, msg: str) -> None:
-        cls._write(f"[{n}/{total}] {msg}")
+    def step(cls, n: int, tot: int, msg: str)  -> None: cls._write(f"[{n}/{tot}] {msg}")
 
 
-# ── Chrome / AppleScript extraction ───────────────────────────────────────────
-# AppleScript: extract from the best available Confluence LLTT Dashboard tab.
-# Priority 1 — tab whose title contains "Long Lead Time" (fully loaded dashboard).
-# Priority 2 — any confluence.walmart.com tab that is not a chrome-error URL.
-# Returns JSON payload from the highest-priority match, or {"error": "no_tab"}.
-_APPLES = """\
-tell application "Google Chrome"
-    set jsCode to "(function() {
-  const results = [];
-  const tables = document.querySelectorAll('table');
+# ── Chrome extraction ──────────────────────────────────────────────────────────
+# The JavaScript lives in a separate file loaded by AppleScript via `cat`.
+# This avoids ALL multiline-string / escaping issues in osascript.
+
+_EXTRACT_JS = """\
+(function() {
+  var results = [];
+  var tables = document.querySelectorAll('table');
   tables.forEach(function(table, tIdx) {
     table.querySelectorAll('tr').forEach(function(row, rIdx) {
-      const cells = Array.from(row.querySelectorAll('td,th')).map(function(c){return c.innerText.trim();});
+      var cells = Array.from(row.querySelectorAll('td,th')).map(function(c) {
+        return c.innerText.trim();
+      });
       if (cells.length > 0 && cells.join('').length > 0) {
-        results.push({table: tIdx, row: rIdx, cells: cells});
+        results.push({ table: tIdx, row: rIdx, cells: cells });
       }
     });
   });
@@ -138,11 +135,17 @@ tell application "Google Chrome"
     rowsExtracted: results.length,
     data: results
   });
-})()"
+})()
+"""
 
+# AppleScript template — {JS_PATH} is substituted at runtime.
+# Priority 1: tab whose title contains "Long Lead Time" (fully rendered dashboard).
+# Priority 2: any confluence.walmart.com tab that is not a chrome-error page.
+_APPLES_TMPL = '''\
+tell application "Google Chrome"
+    set jsCode to do shell script "cat {JS_PATH}"
     set bestTab to missing value
     set fallbackTab to missing value
-
     repeat with aWindow in every window
         repeat with atab in every tab of aWindow
             set tabURL to URL of atab
@@ -158,166 +161,154 @@ tell application "Google Chrome"
         end repeat
         if bestTab is not missing value then exit repeat
     end repeat
-
     if bestTab is missing value then set bestTab to fallbackTab
-    if bestTab is missing value then return "{\"error\": \"no_tab\"}"
-
+    if bestTab is missing value then return "{\\"error\\": \\"no_tab\\"}"
     return execute bestTab javascript jsCode
 end tell
-"""
+'''
 
 
 def _run_applescript() -> dict | None:
-    """Execute the extraction AppleScript and return parsed JSON or None."""
-    APPLESCRIPT_TMP.write_text(_APPLES)
+    """Write JS to temp file, run AppleScript, parse and return JSON."""
+    _JS_TMP.write_text(_EXTRACT_JS)
+    script = _APPLES_TMPL.replace("{JS_PATH}", str(_JS_TMP))
+    _AS_TMP.write_text(script)
     try:
-        result = subprocess.run(
-            ["osascript", str(APPLESCRIPT_TMP)],
+        res = subprocess.run(
+            ["osascript", str(_AS_TMP)],
             capture_output=True, text=True, timeout=30
         )
     except subprocess.TimeoutExpired:
         Log.warn("AppleScript timed out")
         return None
     finally:
-        APPLESCRIPT_TMP.unlink(missing_ok=True)
+        _AS_TMP.unlink(missing_ok=True)
+        _JS_TMP.unlink(missing_ok=True)
 
-    raw = result.stdout.strip()
+    if res.stderr.strip():
+        Log.warn(f"osascript stderr: {res.stderr.strip()[:200]}")
+
+    raw = res.stdout.strip()
     if not raw:
         Log.warn("AppleScript returned empty output")
         return None
     try:
         return json.loads(raw)
     except json.JSONDecodeError:
-        Log.warn(f"AppleScript JSON parse failed: {raw[:120]}")
+        Log.warn(f"AppleScript JSON parse error: {raw[:200]}")
         return None
 
 
 def _chrome_extract_fresh() -> dict | None:
     """
-    Extract Confluence table data from Chrome.
-
-    Strategy:
-      1. Try existing loaded Confluence tab first (no new navigation).
-      2. If no tab found / 0 rows, open a new tab + wait for render, retry.
-      3. Return None on all failures so caller can fall back to archive.
+    Extract Confluence table data from Chrome — two-pass strategy:
+      Pass 1: use the already-loaded 'Long Lead Time' tab (no navigation).
+      Pass 2: open a fresh tab, wait 20s for render, retry.
+    Returns None on all failures so caller falls back to archive.
     """
-    # ── Pass 1: use whatever Confluence tab is already open ─────────────────
-    Log.info("Checking for existing Confluence tab in Chrome…")
+    # ── Pass 1: existing loaded tab ───────────────────────────────────────────
+    Log.info("Checking for existing 'Long Lead Time' tab in Chrome…")
     data = _run_applescript()
 
-    if data and data.get("error") == "no_tab":
-        Log.info("No existing Confluence tab found — opening one…")
-        data = None  # fall through to open a new tab
-    elif data:
-        url = data.get("url", "")
+    if data and not data.get("error"):
+        rows = data.get("rowsExtracted", 0)
+        url  = data.get("url", "")
         if "chrome-error" in url:
-            Log.warn(f"Existing tab is an error page ({url}) — opening fresh tab…")
+            Log.warn(f"Tab is an error page ({url})")
             data = None
-        elif data.get("rowsExtracted", 0) > 0:
-            rows = data["rowsExtracted"]
-            Log.ok(f"Existing tab: extracted {rows} rows from {data.get('tablesFound', 0)} tables")
+        elif rows > 0:
+            Log.ok(f"Live tab extracted {rows} rows from {data.get('tablesFound',0)} tables ✨")
             return data
         else:
-            Log.warn("Existing tab returned 0 rows — page still loading, will retry after wait")
+            Log.warn("Tab found but returned 0 rows — page may still be rendering")
+            data = None
+    elif data and data.get("error") == "no_tab":
+        Log.info("No matching tab found — will open a new one")
+        data = None
 
-    # ── Pass 2: open a fresh tab and wait for JS render ──────────────────────
-    if data is None:
-        Log.info("Opening Confluence in a new Chrome tab…")
-        subprocess.run(["open", "-a", "Google Chrome", CONFLUENCE_URL], check=False)
-
+    # ── Pass 2: open fresh tab + wait ─────────────────────────────────────────
+    Log.info("Opening Confluence in a new Chrome tab…")
+    subprocess.run(["open", "-a", "Google Chrome", CONFLUENCE_URL], check=False)
     Log.info("Waiting 20s for JavaScript render…")
     time.sleep(20)
-    data = _run_applescript()
 
+    data = _run_applescript()
     if not data or data.get("error"):
-        Log.warn(f"Pass-2 AppleScript error: {data}")
+        Log.warn(f"Pass-2 returned: {data}")
         return None
 
-    url = data.get("url", "")
-    if "chrome-error" in url or "DNS_PROBE" in str(data):
+    url  = data.get("url", "")
+    rows = data.get("rowsExtracted", 0)
+    if "chrome-error" in url:
         Log.warn(f"Chrome DNS error on new tab ({url})")
         return None
 
-    rows = data.get("rowsExtracted", 0)
     if rows == 0:
-        # One final retry after another 15s
         Log.info("Still 0 rows — final retry in 15s…")
         time.sleep(15)
-        data = _run_applescript()
-        rows = (data or {}).get("rowsExtracted", 0)
+        data = _run_applescript() or {}
+        rows = data.get("rowsExtracted", 0)
         if rows == 0:
-            Log.warn("All passes returned 0 rows — Confluence page may not have rendered")
+            Log.warn("All passes returned 0 rows")
             return None
 
-    Log.ok(f"Chrome extracted {rows} rows from {data.get('tablesFound', 0)} tables")
+    Log.ok(f"Chrome extracted {rows} rows from {data.get('tablesFound',0)} tables ✨")
     return data
 
 
 def _latest_archive() -> Path | None:
-    """Return the most recently modified archive JSON (excluding today's failed run)."""
-    archives = sorted(
+    """Return the most recent non-empty archive JSON."""
+    for arch in sorted(
         EXPORTS_DIR.glob("archive_*.json"),
         key=lambda p: p.stat().st_mtime,
         reverse=True,
-    )
-    # Skip archives that are clearly empty/failed (< 1 KB)
-    for arch in archives:
+    ):
         if arch.stat().st_size > 1024:
             return arch
     return None
 
 
 def pull_confluence_data() -> tuple[dict, str]:
-    """
-    Pull Confluence data. Returns (parsed_json, source_label).
-    Tries Chrome first, falls back to last good archive.
-    """
+    """Pull Confluence data. Returns (parsed_json, source_label)."""
     EXPORTS_DIR.mkdir(exist_ok=True)
 
-    # ── Attempt 1: Fresh Chrome extraction ──────────────────────────────────
     fresh = _chrome_extract_fresh()
     if fresh and fresh.get("rowsExtracted", 0) > 0:
         archive = EXPORTS_DIR / f"archive_{TIMESTAMP}.json"
         LATEST_JSON.write_text(json.dumps(fresh))
         archive.write_text(json.dumps(fresh))
-        rows = fresh["rowsExtracted"]
-        tables = fresh["tablesFound"]
-        Log.ok(f"Fresh Confluence data saved ({rows} rows, {tables} tables)")
+        Log.ok(f"Saved fresh export ({fresh['rowsExtracted']} rows, {fresh['tablesFound']} tables)")
         return fresh, "live Confluence (Chrome)"
 
-    # ── Attempt 2: Last good archive ────────────────────────────────────────
     Log.warn("Chrome extraction failed — falling back to last good archive")
     fallback = _latest_archive()
     if fallback:
-        data = json.loads(fallback.read_text())
+        payload = json.loads(fallback.read_text())
         LATEST_JSON.write_text(fallback.read_text())
         mtime = datetime.fromtimestamp(fallback.stat().st_mtime).strftime("%b %-d, %Y")
-        rows = data.get("rowsExtracted", 0)
-        Log.ok(f"Using archive from {mtime} ({rows} rows)")
-        return data, f"archive ({mtime})"
+        Log.ok(f"Using archive from {mtime} ({payload.get('rowsExtracted', 0)} rows)")
+        return payload, f"archive ({mtime})"
 
     raise RuntimeError(
         "No Confluence data available.\n"
-        "  → Open Chrome, navigate to confluence.walmart.com, then re-run."
+        "  → Open Chrome, navigate to the LLTT Dashboard, confirm it loads, then retry."
     )
 
 
-# ── Parse Confluence export ────────────────────────────────────────────────────
+# ── Parse OPIF records ─────────────────────────────────────────────────────────
 def _fmt_date(raw: str) -> str:
-    """Try to parse and normalize a date string."""
-    for fmt in ("%b %d, %Y", "%B %d, %Y", "%Y-%m-%d", "%d-%b", "%b %-d, %Y"):
+    for fmt in ("%b %d, %Y", "%B %d, %Y", "%Y-%m-%d", "%b %-d, %Y", "%-d-%b"):
         try:
-            d = datetime.strptime(raw.strip(), fmt)
-            return d.strftime("%b %-d, %Y")
+            return datetime.strptime(raw.strip(), fmt).strftime("%b %-d, %Y")
         except ValueError:
             continue
     return raw.strip()
 
 
-def _quarter(raw_date: str) -> str:
+def _quarter(raw: str) -> str:
     for fmt in ("%b %d, %Y", "%B %d, %Y", "%Y-%m-%d"):
         try:
-            d = datetime.strptime(raw_date.strip(), fmt)
+            d = datetime.strptime(raw.strip(), fmt)
             return f"Q{(d.month - 1) // 3 + 1}"
         except ValueError:
             continue
@@ -325,19 +316,10 @@ def _quarter(raw_date: str) -> str:
 
 
 def parse_opif_records(data: dict) -> dict[str, dict]:
-    """
-    Extract OPIF records from the Confluence table data.
-    Returns dict keyed by OPIF-ID.
-    """
     records: dict[str, dict] = {}
     opif_re = re.compile(r"OPIF-\d+")
-
     for row_obj in data.get("data", []):
         cells = row_obj.get("cells", [])
-        if not cells:
-            continue
-
-        # Check if any cell starts with OPIF-NNNNN
         opif_id = None
         for cell in cells[:3]:
             m = opif_re.match(cell.strip())
@@ -346,14 +328,12 @@ def parse_opif_records(data: dict) -> dict[str, dict]:
                 break
         if not opif_id:
             continue
-
-        # Column heuristics: [OPIF, Program, ..., Status(7), ..., TargetDate(17), ..., TPM(12), PM(13)]
-        program_name = cells[1].strip() if len(cells) > 1 else ""
-        raw_status   = cells[7].strip().lower() if len(cells) > 7 else ""
-        target_raw   = cells[17].strip() if len(cells) > 17 else ""
-        tpm          = cells[12].strip() if len(cells) > 12 else ""
-        pm           = cells[13].strip() if len(cells) > 13 else ""
-        x_rank       = cells[5].strip() if len(cells) > 5 else ""
+        program   = cells[1].strip()  if len(cells) > 1  else ""
+        raw_status= cells[7].strip().lower() if len(cells) > 7  else ""
+        target    = cells[17].strip() if len(cells) > 17 else ""
+        tpm       = cells[12].strip() if len(cells) > 12 else ""
+        pm        = cells[13].strip() if len(cells) > 13 else ""
+        x_rank    = cells[5].strip()  if len(cells) > 5  else ""
 
         status_key, status_label = STATUS_MAP.get(
             raw_status,
@@ -362,56 +342,41 @@ def parse_opif_records(data: dict) -> dict[str, dict]:
                 ("", raw_status.title()),
             ),
         )
-        target_fmt = _fmt_date(target_raw) if target_raw else ""
-        quarter    = _quarter(target_raw) if target_raw else ""
-
         records[opif_id] = {
             "opifId":      opif_id,
-            "title":       program_name,
+            "title":       program,
             "status":      status_key,
             "statusLabel": status_label,
-            "targetDate":  target_fmt,
-            "quarter":     quarter,
+            "targetDate":  _fmt_date(target) if target else "",
+            "quarter":     _quarter(target)  if target else "",
             "tpm":         tpm,
             "pm":          pm,
             "xRank":       x_rank,
-            "rawStatus":   raw_status,
         }
-
     return records
 
 
 def parse_timeline_rows(data: dict) -> list[dict]:
-    """
-    Extract Module/Timeline/Status rows for the Weekly Program Review.
-    Returns list of {module, timeline, status} dicts.
-    """
-    rows = []
+    rows, seen = [], set()
     for row_obj in data.get("data", []):
         cells = row_obj.get("cells", [])
-        if len(cells) >= 3:
-            header = cells[0].strip()
-            if header.lower() in ("module", "deliverables"):
-                continue  # skip header rows
-            # Look for rows with date-like timeline values
-            timeline = cells[1].strip() if len(cells) > 1 else ""
-            status   = cells[2].strip() if len(cells) > 2 else ""
-            if timeline and re.search(r"\d", timeline):  # has digits → date-like
+        if len(cells) < 3:
+            continue
+        header   = cells[0].strip()
+        timeline = cells[1].strip() if len(cells) > 1 else ""
+        status   = cells[2].strip() if len(cells) > 2 else ""
+        if header.lower() in ("module", "deliverables"):
+            continue
+        if timeline and re.search(r"\d", timeline):
+            key = (header, timeline)
+            if key not in seen:
+                seen.add(key)
                 rows.append({"module": header, "timeline": timeline, "status": status})
-    # Deduplicate
-    seen = set()
-    unique = []
-    for r in rows:
-        key = (r["module"], r["timeline"])
-        if key not in seen:
-            seen.add(key)
-            unique.append(r)
-    return unique
+    return rows
 
 
 # ── Patch data-*.js files ──────────────────────────────────────────────────────
 def load_current_opifs() -> dict[str, dict]:
-    """Read all data-*.js files and extract OPIF IDs + current field values."""
     found: dict[str, dict] = {}
     opif_re = re.compile(r"OPIF-\d+")
     for fname in DATA_FILES:
@@ -423,51 +388,68 @@ def load_current_opifs() -> dict[str, dict]:
             oid = m.group(0)
             if oid in found:
                 continue
-            # Grab card block around this OPIF reference (±3000 chars)
-            start = max(0, m.start() - 2000)
+            start   = max(0, m.start() - 2000)
             snippet = txt[start: m.start() + 3000]
-            status_m   = re.search(r"status:\s*'([^']*)'", snippet)
-            target_m   = re.search(r"targetDate:\s*'([^']*)'", snippet)
-            label_m    = re.search(r"statusLabel:\s*'([^']*)'", snippet)
             found[oid] = {
                 "file":        fname,
-                "status":      status_m.group(1)  if status_m  else "",
-                "statusLabel": label_m.group(1)   if label_m   else "",
-                "targetDate":  target_m.group(1)  if target_m  else "",
+                "status":      (re.search(r"status:\s*'([^']*)'", snippet) or type("", (), {"group": lambda s, n: ""})()).group(1),
+                "statusLabel": (re.search(r"statusLabel:\s*'([^']*)'", snippet) or type("", (), {"group": lambda s, n: ""})()).group(1),
+                "targetDate":  (re.search(r"targetDate:\s*'([^']*)'", snippet) or type("", (), {"group": lambda s, n: ""})()).group(1),
+            }
+    return found
+
+
+def _safe_get(m, group=1, default=""):
+    return m.group(group) if m else default
+
+
+def load_current_opifs() -> dict[str, dict]:  # noqa: F811  (clean redefinition)
+    found: dict[str, dict] = {}
+    opif_re = re.compile(r"OPIF-\d+")
+    for fname in DATA_FILES:
+        fpath = BASE / fname
+        if not fpath.exists():
+            continue
+        txt = fpath.read_text()
+        for m in opif_re.finditer(txt):
+            oid = m.group(0)
+            if oid in found:
+                continue
+            start   = max(0, m.start() - 2000)
+            snippet = txt[start: m.start() + 3000]
+            found[oid] = {
+                "file":        fname,
+                "status":      _safe_get(re.search(r"status:\s*'([^']*)'", snippet)),
+                "statusLabel": _safe_get(re.search(r"statusLabel:\s*'([^']*)'", snippet)),
+                "targetDate":  _safe_get(re.search(r"targetDate:\s*'([^']*)'", snippet)),
             }
     return found
 
 
 def patch_card(opif_id: str, fname: str, updates: dict[str, str]) -> bool:
-    """Apply field updates to a card block containing opif_id in fname."""
     fpath = BASE / fname
     txt   = fpath.read_text()
-    changed = False
-
-    opif_re = re.compile(re.escape(opif_id))
-    m = opif_re.search(txt)
+    m     = re.search(re.escape(opif_id), txt)
     if not m:
         return False
-
-    # Find the enclosing card object start (look back for nearest `{`)
-    block_start = txt.rfind("{", 0, m.start())
-    block_end   = txt.find("},", m.start())
-    if block_start == -1 or block_end == -1:
+    bs = txt.rfind("{", 0, m.start())
+    be = txt.find("},", m.start())
+    if bs == -1 or be == -1:
         return False
-
-    card_block = txt[block_start: block_end + 2]
-    new_block  = card_block
-
-    for field, new_val in updates.items():
-        pat = re.compile(rf"({re.escape(field)}:\s*)'([^']*)'")
-        replaced = pat.sub(rf"\g<1>'{new_val}'", new_block, count=1)
+    block = txt[bs: be + 2]
+    new_block = block
+    changed = False
+    for field, val in updates.items():
+        replaced = re.sub(
+            rf"({re.escape(field)}:\s*)'([^']*)'",
+            rf"\g<1>'{val}'",
+            new_block, count=1
+        )
         if replaced != new_block:
             new_block = replaced
             changed = True
-
     if changed:
-        fpath.write_text(txt[:block_start] + new_block + txt[block_end + 2:])
-
+        fpath.write_text(txt[:bs] + new_block + txt[be + 2:])
     return changed
 
 
@@ -476,80 +458,56 @@ def apply_changes(
     scraped: dict[str, dict],
     dry_run: bool,
 ) -> list[dict]:
-    """
-    Compare current portal state to scraped OPIF data.
-    Returns list of change records. Patches files if not dry_run.
-    """
     changes = []
-    for oid, scraped_card in scraped.items():
+    for oid, sc in scraped.items():
         cur = current.get(oid)
         if not cur:
-            continue  # New OPIF — not yet in portal, skip patching
-
+            continue
         diffs: dict[str, str] = {}
 
-        # Status
-        if scraped_card["status"] and scraped_card["status"] != cur["status"]:
-            diffs["status"]      = scraped_card["status"]
-            diffs["statusLabel"] = scraped_card["statusLabel"]
-            changes.append({
-                "opif":    oid,
-                "field":   "status",
-                "from":    cur["status"],
-                "to":      scraped_card["status"],
-                "fromLbl": cur["statusLabel"],
-                "toLbl":   scraped_card["statusLabel"],
-                "date":    TODAY,
-            })
+        if sc["status"] and sc["status"] != cur["status"]:
+            diffs["status"]      = sc["status"]
+            diffs["statusLabel"] = sc["statusLabel"]
+            changes.append({"opif": oid, "field": "status",
+                            "from": cur["status"], "to": sc["status"],
+                            "fromLbl": cur["statusLabel"], "toLbl": sc["statusLabel"],
+                            "date": TODAY})
 
-        # Target date
-        if scraped_card["targetDate"] and scraped_card["targetDate"] != cur["targetDate"]:
-            diffs["targetDate"] = scraped_card["targetDate"]
-            if scraped_card["quarter"]:
-                diffs["quarter"] = scraped_card["quarter"]
-            changes.append({
-                "opif":  oid,
-                "field": "targetDate",
-                "from":  cur["targetDate"],
-                "to":    scraped_card["targetDate"],
-                "date":  TODAY,
-            })
+        if sc["targetDate"] and sc["targetDate"] != cur["targetDate"]:
+            diffs["targetDate"] = sc["targetDate"]
+            if sc["quarter"]:
+                diffs["quarter"] = sc["quarter"]
+            changes.append({"opif": oid, "field": "targetDate",
+                            "from": cur["targetDate"], "to": sc["targetDate"],
+                            "date": TODAY})
 
         if diffs and not dry_run:
             patch_card(oid, cur["file"], diffs)
-
     return changes
 
 
-# ── Changelog ─────────────────────────────────────────────────────────────────
-def update_changelog(changes: list[dict]) -> None:
-    """Append new changes to data-changelog.js and stamp today's date."""
-    txt  = CHANGELOG_JS.read_text()
-
-    # Update sync date
-    txt = re.sub(r"const LAST_SYNC_DATE = '[^']+';",
-                 f"const LAST_SYNC_DATE = '{NOW_PRETTY}';", txt)
+# ── Changelog ──────────────────────────────────────────────────────────────────
+def update_changelog() -> None:
+    txt = CHANGELOG_JS.read_text()
+    txt = re.sub(r"const LAST_SYNC_DATE = '[^']+'",
+                 f"const LAST_SYNC_DATE = '{NOW_PRETTY}'", txt)
     txt = re.sub(r"(Last sync:).*", rf"\1 {NOW_PRETTY}", txt)
-
     CHANGELOG_JS.write_text(txt)
 
 
 # ── Subprocess helpers ─────────────────────────────────────────────────────────
 def run(cmd: list[str], label: str) -> bool:
-    """Run a subprocess, stream output, return success bool."""
-    result = subprocess.run(cmd, cwd=str(BASE), capture_output=True, text=True)
-    if result.returncode != 0:
-        Log.err(f"{label} failed:\n{result.stderr[:400]}")
+    res = subprocess.run(cmd, cwd=str(BASE), capture_output=True, text=True)
+    if res.returncode != 0:
+        Log.err(f"{label} failed:\n{res.stderr[:400]}")
         return False
-    if result.stdout.strip():
-        for line in result.stdout.strip().splitlines():
-            Log.info(f"  {line}")
+    for line in res.stdout.strip().splitlines():
+        Log.info(f"  {line}")
     Log.ok(label)
     return True
 
 
-# ── Git ────────────────────────────────────────────────────────────────────────
-def git_commit(n_changes: int, source: str) -> None:
+def git_commit(n: int, source: str) -> None:
     subprocess.run(["git", "add", "-A"], cwd=str(BASE), capture_output=True)
     diff = subprocess.run(
         ["git", "diff", "--cached", "--stat"],
@@ -559,13 +517,14 @@ def git_commit(n_changes: int, source: str) -> None:
         Log.info("Git: nothing new to commit")
         return
     msg = (
-        f"sync({TODAY}): e2e-update — {n_changes} card changes\n\n"
+        f"sync({TODAY}): e2e-update — {n} card changes\n\n"
         f"Source: {source}\n"
         f"Built: portal-final.html\n"
         f"Published: test + prod via puppy.walmart.com"
     )
     subprocess.run(["git", "commit", "-m", msg], cwd=str(BASE), capture_output=True)
-    Log.ok(f"Git committed ({diff.splitlines()[-1] if diff else 'no stat'})")
+    stat = diff.splitlines()[-1] if diff else "no stat"
+    Log.ok(f"Git committed ({stat})")
 
 
 # ── Banner ─────────────────────────────────────────────────────────────────────
@@ -576,149 +535,20 @@ def banner(title: str) -> None:
     Log.info(f"└{bar}┘")
 
 
-# ── Main ───────────────────────────────────────────────────────────────────────
-def main() -> None:
-    ap = argparse.ArgumentParser(description="E2E Fashion Portal — one-command refresh")
-    ap.add_argument("--dry-run",    action="store_true", help="Preview changes only, no writes")
-    ap.add_argument("--no-publish", action="store_true", help="Build only, skip publish")
-    ap.add_argument("--test-only",  action="store_true", help="Publish to TEST only")
-    ap.add_argument("--build-only", action="store_true", help="Skip Confluence pull, just rebuild + publish")
-    args = ap.parse_args()
-
-    t_start = time.monotonic()
-
-    banner(f"E2E Fashion Portal — Full Refresh    {datetime.now():%Y-%m-%d %H:%M}")
-    Log.info(f"Portal dir : {BASE}")
-    Log.info(f"Mode       : {'DRY RUN' if args.dry_run else 'LIVE'}")
-    Log.info("")
-
-    TOTAL_STEPS = 7
-    errors: list[str] = []
-
-    # ── Step 1: Pull Confluence data ──────────────────────────────────────────
-    Log.step(1, TOTAL_STEPS, "Pull Confluence data")
-    source_label = "skipped (--build-only)"
-    scraped_opifs: dict[str, dict] = {}
-    timeline_rows: list[dict] = []
-
-    if not args.build_only:
-        try:
-            conf_data, source_label = pull_confluence_data()
-            scraped_opifs  = parse_opif_records(conf_data)
-            timeline_rows  = parse_timeline_rows(conf_data)
-            Log.ok(f"Parsed {len(scraped_opifs)} OPIF records, "
-                   f"{len(timeline_rows)} timeline rows  [{source_label}]")
-        except RuntimeError as exc:
-            Log.err(str(exc))
-            errors.append("Confluence pull failed — used cached data")
-            source_label = "failed"
-    else:
-        Log.info("  --build-only: skipping Confluence pull")
-
-    # ── Step 2: Detect + apply card changes ───────────────────────────────────
-    Log.step(2, TOTAL_STEPS, "Detect + apply Program Card changes")
-    all_changes: list[dict] = []
-
-    if scraped_opifs and not args.dry_run:
-        current_opifs = load_current_opifs()
-        Log.info(f"  Portal has {len(current_opifs)} OPIF-linked cards")
-        all_changes = apply_changes(current_opifs, scraped_opifs, dry_run=args.dry_run)
-
-        if all_changes:
-            Log.ok(f"{len(all_changes)} field(s) updated across portal cards")
-            for ch in all_changes:
-                lbl = ch.get("toLbl") or ch["to"]
-                Log.info(f"  {ch['opif']}  {ch['field']}: {ch['from']!r} → {lbl!r}")
-        else:
-            Log.ok("No card changes detected — portal already current")
-    elif args.dry_run:
-        Log.info("  DRY RUN: skipping card patches")
-
-    # ── Step 3: Update changelog date ─────────────────────────────────────────
-    Log.step(3, TOTAL_STEPS, f"Stamp changelog → {NOW_PRETTY}")
-    if not args.dry_run:
-        update_changelog(all_changes)
-        Log.ok("data-changelog.js updated")
-    else:
-        Log.info("  DRY RUN: skipping changelog write")
-
-    if args.dry_run:
-        Log.info("\nDRY RUN complete — no files written.")
-        return
-
-    # ── Step 4: Rebuild portal ────────────────────────────────────────────────
-    Log.step(4, TOTAL_STEPS, "Build portal-inlined.html + portal-final.html")
-    ok = run([sys.executable, str(BASE / "build-inlined.py")], "build-inlined.py")
-    if not ok:
-        errors.append("Build failed — publish aborted")
-        _print_summary(t_start, errors, [], source_label)
-        sys.exit(1)
-
-    # ── Step 5: Inject OPIF guide ─────────────────────────────────────────────
-    Log.step(5, TOTAL_STEPS, "Inject OPIF Field Guide")
-    run([sys.executable, str(BASE / "add-opif-guide.py")], "add-opif-guide.py")
-
-    # ── Step 6: Publish ───────────────────────────────────────────────────────
-    published_urls: list[str] = []
-
-    if args.no_publish:
-        Log.step(6, TOTAL_STEPS, "Publish — SKIPPED (--no-publish)")
-    else:
-        Log.step(6, TOTAL_STEPS, "Publish")
-
-        if not args.test_only:
-            # TEST first (with canary)
-            Log.info("  → TEST (canary preflight)…")
-            ok_test = run(
-                [sys.executable, str(BASE / "publish-portal.py"), "--test"],
-                "Published TEST"
-            )
-            if ok_test:
-                published_urls.append(
-                    "https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test"
-                )
-            else:
-                errors.append("TEST publish failed")
-
-        # PROD
-        Log.info("  → PROD…")
-        ok_prod = run(
-            [sys.executable, str(BASE / "publish-portal.py"), "--prod"],
-            "Published PROD"
-        )
-        if ok_prod:
-            published_urls.append(
-                "https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod"
-            )
-        else:
-            errors.append("PROD publish failed")
-
-    # ── Step 7: Git commit ────────────────────────────────────────────────────
-    Log.step(7, TOTAL_STEPS, "Git commit")
-    git_commit(len(all_changes), source_label)
-
-    # ── Summary ───────────────────────────────────────────────────────────────
-    _print_summary(t_start, errors, published_urls, source_label,
-                   all_changes, timeline_rows)
-
-    if errors:
-        sys.exit(1)
-
-
-def _print_summary(
+# ── Summary ────────────────────────────────────────────────────────────────────
+def print_summary(
     t_start: float,
     errors: list[str],
-    published_urls: list[str],
-    source_label: str,
+    urls: list[str],
+    source: str,
     changes: list[dict] | None = None,
-    timeline_rows: list[dict] | None = None,
+    milestones: list[dict] | None = None,
 ) -> None:
     elapsed = time.monotonic() - t_start
     Log.info("")
     banner("Summary")
-
-    status_icon = "✅" if not errors else "⚠️ "
-    Log.info(f"{status_icon} Completed in {elapsed:.1f}s  |  Source: {source_label}")
+    icon = "✅" if not errors else "⚠️ "
+    Log.info(f"{icon} Completed in {elapsed:.1f}s  |  Source: {source}")
     Log.info("")
 
     if changes:
@@ -728,25 +558,133 @@ def _print_summary(
             Log.info(f"   {ch['opif']}  {ch['field']}: {ch['from']!r} → {lbl!r}")
         Log.info("")
 
-    if timeline_rows:
+    if milestones:
         Log.info("🗓  Upcoming Milestones (from Confluence):")
-        for r in timeline_rows[:8]:
+        for r in milestones[:8]:
             Log.info(f"   {r['module']:<40} {r['timeline']:<12} {r['status']}")
         Log.info("")
 
-    if published_urls:
+    if urls:
         Log.info("🔗 Live portals:")
-        for url in published_urls:
+        for url in urls:
             Log.info(f"   {url}")
         Log.info("")
 
     if errors:
-        Log.info("⚠️  Errors / Warnings:")
+        Log.info("⚠️  Warnings:")
         for e in errors:
             Log.info(f"   • {e}")
         Log.info("")
 
     Log.info("💡 Hard-refresh browser (⌘+Shift+R) to see latest content.")
+
+
+# ── Main ───────────────────────────────────────────────────────────────────────
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--dry-run",    action="store_true")
+    ap.add_argument("--no-publish", action="store_true")
+    ap.add_argument("--test-only",  action="store_true")
+    ap.add_argument("--build-only", action="store_true",
+                    help="Skip Confluence pull, just rebuild + publish")
+    args = ap.parse_args()
+
+    t0     = time.monotonic()
+    TOTAL  = 7
+    errors : list[str] = []
+
+    banner(f"E2E Fashion Portal — Full Refresh    {datetime.now():%Y-%m-%d %H:%M}")
+    Log.info(f"Portal dir : {BASE}")
+    Log.info(f"Mode       : {'DRY RUN' if args.dry_run else 'LIVE'}")
+    Log.info("")
+
+    # ── 1 · Pull Confluence data ───────────────────────────────────────────────
+    Log.step(1, TOTAL, "Pull Confluence data")
+    source        = "skipped (--build-only)"
+    scraped_opifs : dict[str, dict] = {}
+    timeline_rows : list[dict]      = []
+
+    if not args.build_only:
+        try:
+            conf_data, source = pull_confluence_data()
+            scraped_opifs  = parse_opif_records(conf_data)
+            timeline_rows  = parse_timeline_rows(conf_data)
+            Log.ok(f"Parsed {len(scraped_opifs)} OPIF records, "
+                   f"{len(timeline_rows)} timeline rows  [{source}]")
+        except RuntimeError as exc:
+            Log.err(str(exc))
+            errors.append("Confluence pull failed — used cached data")
+            source = "failed"
+    else:
+        Log.info("  --build-only: skipping Confluence pull")
+
+    # ── 2 · Detect + apply changes ────────────────────────────────────────────
+    Log.step(2, TOTAL, "Detect + apply Program Card changes")
+    all_changes: list[dict] = []
+
+    if scraped_opifs and not args.dry_run:
+        current = load_current_opifs()
+        Log.info(f"  Portal has {len(current)} OPIF-linked cards")
+        all_changes = apply_changes(current, scraped_opifs, dry_run=False)
+        if all_changes:
+            Log.ok(f"{len(all_changes)} field(s) updated")
+            for ch in all_changes:
+                lbl = ch.get("toLbl") or ch["to"]
+                Log.info(f"  {ch['opif']}  {ch['field']}: {ch['from']!r} → {lbl!r}")
+        else:
+            Log.ok("No changes detected — portal already current")
+    elif args.dry_run:
+        Log.info("  DRY RUN: skipping card patches")
+
+    # ── 3 · Stamp changelog ────────────────────────────────────────────────────
+    Log.step(3, TOTAL, f"Stamp changelog → {NOW_PRETTY}")
+    if not args.dry_run:
+        update_changelog()
+        Log.ok("data-changelog.js updated")
+    else:
+        Log.info("  DRY RUN: skipping")
+
+    if args.dry_run:
+        Log.info("\nDRY RUN complete — no files written.")
+        return
+
+    # ── 4 · Rebuild portal ────────────────────────────────────────────────────
+    Log.step(4, TOTAL, "Build portal-inlined.html + portal-final.html")
+    if not run([sys.executable, str(BASE / "build-inlined.py")], "build-inlined.py"):
+        errors.append("Build failed — publish aborted")
+        print_summary(t0, errors, [], source)
+        sys.exit(1)
+
+    # ── 5 · Inject OPIF guide ─────────────────────────────────────────────────
+    Log.step(5, TOTAL, "Inject OPIF Field Guide")
+    run([sys.executable, str(BASE / "add-opif-guide.py")], "add-opif-guide.py")
+
+    # ── 6 · Publish ───────────────────────────────────────────────────────────
+    urls: list[str] = []
+    Log.step(6, TOTAL, "Publish" if not args.no_publish else "Publish — SKIPPED")
+
+    if not args.no_publish:
+        if not args.test_only:
+            Log.info("  → TEST (canary preflight)…")
+            if run([sys.executable, str(BASE / "publish-portal.py"), "--test"], "Published TEST"):
+                urls.append("https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test")
+            else:
+                errors.append("TEST publish failed")
+
+        Log.info("  → PROD…")
+        if run([sys.executable, str(BASE / "publish-portal.py"), "--prod"], "Published PROD"):
+            urls.append("https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod")
+        else:
+            errors.append("PROD publish failed")
+
+    # ── 7 · Git commit ────────────────────────────────────────────────────────
+    Log.step(7, TOTAL, "Git commit")
+    git_commit(len(all_changes), source)
+
+    print_summary(t0, errors, urls, source, all_changes, timeline_rows)
+
+    if errors:
+        sys.exit(1)
 
 
 if __name__ == "__main__":

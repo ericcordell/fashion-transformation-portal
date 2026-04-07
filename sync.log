@@ -1037,3 +1037,112 @@ DRY RUN complete — no files written.
 [09:15:31]      Or open in Incognito to bypass any cached session state.
 [09:15:31] ✅ Published PROD
 [09:15:31] [7/7] Git commit
+[09:15:31] ✅ Git committed ( 7 files changed, 142 insertions(+), 25 deletions(-))
+[09:15:31] 
+[09:15:31] 
+┌──────────────────────────────────────────────────────────────┐
+[09:15:31] │  Summary                                                     │
+[09:15:31] └──────────────────────────────────────────────────────────────┘
+[09:15:31] ✅ Completed in 25.8s  |  Source: archive (Mar 25, 2026)
+[09:15:31] 
+[09:15:31] 📋 Program Card Changes:
+[09:15:31]    OPIF-325568  status: 'yellow' → 'Green — In Progress'
+[09:15:31]    OPIF-325568  targetDate: 'Apr 30, 2026' → 'Jul 31, 2026'
+[09:15:31]    OPIF-325602  status: 'yellow' → 'Green — In Progress'
+[09:15:31]    OPIF-325373  targetDate: 'Q1 FY27' → 'Oct 31, 2026'
+[09:15:31]    OPIF-325221  targetDate: 'Q1 FY27' → 'Oct 31, 2026'
+[09:15:31]    OPIF-325218  targetDate: 'Q1 FY27' → 'Oct 31, 2026'
+[09:15:31]    OPIF-347500  targetDate: 'Mar 5, 2026' → 'Mar 20, 2026'
+[09:15:31]    OPIF-325206  targetDate: 'Jun 30, 2026' → 'Jul 31, 2026'
+[09:15:31]    OPIF-325188  targetDate: 'May\\u2013Jul 2026' → 'Jul 31, 2026'
+[09:15:31]    OPIF-325203  targetDate: 'Jun 30, 2026' → 'Oct 31, 2026'
+[09:15:31] 
+[09:15:31] 🗓  Upcoming Milestones (from Confluence):
+[09:15:31]    Execution Dev Complete                   15-Apr       Not Started
+[09:15:31]    IIR                                      9-Apr        Not Started
+[09:15:31]    Planned QE / E2E/UAT Testing             20-Apr       Not Started
+[09:15:31]    Planned Prod Deployment                  21-Apr       Not Started
+[09:15:31]    Spike                                    02-Feb started In Progress
+[09:15:31]    OPIF-336019                              AP Tool Phase 2 Enhancements 
+[09:15:31] 
+[09:15:31] 🔗 Live portals:
+[09:15:31]    https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
+[09:15:31]    https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod
+[09:15:31] 
+[09:15:31] 💡 Hard-refresh browser (⌘+Shift+R) to see latest content.
+[09:19:29] 
+┌──────────────────────────────────────────────────────────────┐
+[09:19:29] │  E2E Fashion Portal — Full Refresh    2026-04-07 09:19       │
+[09:19:29] └──────────────────────────────────────────────────────────────┘
+[09:19:29] Portal dir : /Users/e0c0lzr/Downloads/fashion-portal
+[09:19:29] Mode       : LIVE
+[09:19:29] 
+[09:19:29] [1/7] Pull Confluence data
+[09:19:29] Checking for existing 'Long Lead Time' tab in Chrome…
+[09:19:30] ✅ Live tab extracted 753 rows from 58 tables ✨
+[09:19:30] ✅ Saved fresh export (753 rows, 58 tables)
+[09:19:30] ✅ Parsed 47 OPIF records, 32 timeline rows  [live Confluence (Chrome)]
+[09:19:30] [2/7] Detect + apply Program Card changes
+[09:19:30]   Portal has 21 OPIF-linked cards
+[09:19:30] ✅ 20 field(s) updated
+[09:19:30]   OPIF-344926  targetDate: 'Jul 31, 2026' → 'Yes'
+[09:19:30]   OPIF-325568  targetDate: 'Jul 31, 2026' → 'Yes'
+[09:19:30]   OPIF-325598  targetDate: 'Oct 31, 2026' → 'No'
+[09:19:30]   OPIF-325569  targetDate: 'Oct 31, 2026' → 'Yes'
+[09:19:30]   OPIF-325373  targetDate: 'Q1 FY27' → 'Yes'
+[09:19:30]   OPIF-325221  targetDate: 'Q1 FY27' → 'Yes'
+[09:19:30]   OPIF-325218  targetDate: 'Q1 FY27' → 'Yes'
+[09:19:30]   OPIF-325374  targetDate: 'Oct 31, 2026' → 'Yes'
+[09:19:30]   OPIF-325599  targetDate: 'Oct 31, 2026' → 'No'
+[09:19:30]   OPIF-325216  targetDate: 'Oct 31, 2026' → 'Yes'
+[09:19:30]   OPIF-325217  targetDate: 'Oct 31, 2026' → 'Yes'
+[09:19:30]   OPIF-337970  targetDate: 'Oct 31, 2026' → 'Yes'
+[09:19:30]   OPIF-325565  targetDate: 'Oct 31, 2026' → 'Yes'
+[09:19:30]   OPIF-325203  targetDate: 'Oct 31, 2026' → 'Yes'
+[09:19:30]   OPIF-347500  targetDate: 'Mar 20, 2026' → 'Yes'
+[09:19:30]   OPIF-325188  targetDate: 'May\\u2013Jul 2026' → 'Yes'
+[09:19:30]   OPIF-336019  targetDate: 'Jul 31, 2026' → 'Yes'
+[09:19:30]   OPIF-325208  targetDate: 'Oct 31, 2026' → 'Yes'
+[09:19:30]   OPIF-347498  targetDate: 'Mar 20, 2026' → 'Yes'
+[09:19:30]   OPIF-325206  targetDate: 'Oct 31, 2026' → 'Yes'
+[09:19:30] [3/7] Stamp changelog → April 7, 2026
+[09:19:30] ✅ data-changelog.js updated
+[09:19:30] [4/7] Build portal-inlined.html + portal-final.html
+[09:19:31]   Written portal-inlined.html (427.2 KB)
+[09:19:31]   Written portal-final.html (331.6 KB) — ready for puppy publish
+[09:19:31] ✅ build-inlined.py
+[09:19:31] [5/7] Inject OPIF Field Guide
+[09:19:31]   ✅ Successfully injected OPIF Field Mapping Guide
+[09:19:31]      CSS: 11327 characters
+[09:19:31]      HTML: 19884 characters
+[09:19:31]      Updated: portal-final.html
+[09:19:31] ✅ add-opif-guide.py
+[09:19:31] [6/7] Publish
+[09:19:31]   → TEST (canary preflight)…
+[09:19:34]   📦 Publishing to TEST → e2e-fashion-portal-test
+[09:19:34]      File  : portal-final.html (417 KB)
+[09:19:34]      URL   : https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
+[09:19:34]   
+[09:19:34]     [canary] uploading preflight probe...
+[09:19:34]     [canary] ✅ v53 — pipeline is alive
+[09:19:34]     Uploading 419 KB...
+[09:19:34]     ✅ Published! v54
+[09:19:34]     ✅ Version check passed: canary=v53 → real=v54 (consecutive ✓)
+[09:19:34]   
+[09:19:34]   🔗 https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
+[09:19:34]   💡 To see changes: hard-refresh in browser (⌘+Shift+R on Mac / Ctrl+Shift+R on Win)
+[09:19:34]      Or open in Incognito to bypass any cached session state.
+[09:19:34] ✅ Published TEST
+[09:19:34]   → PROD…
+[09:19:36]   📦 Publishing to PROD → e2e-fashion-portal-prod
+[09:19:36]      File  : portal-final.html (417 KB)
+[09:19:36]      URL   : https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod
+[09:19:36]   
+[09:19:36]     Uploading 419 KB...
+[09:19:36]     ✅ Published! v14
+[09:19:36]   
+[09:19:36]   🔗 https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod
+[09:19:36]   💡 To see changes: hard-refresh in browser (⌘+Shift+R on Mac / Ctrl+Shift+R on Win)
+[09:19:36]      Or open in Incognito to bypass any cached session state.
+[09:19:36] ✅ Published PROD
+[09:19:36] [7/7] Git commit

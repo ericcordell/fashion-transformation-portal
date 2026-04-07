@@ -52,7 +52,7 @@ const CARDS_STRATEGY = [
   {
     id: 'forecast-enterprise-service', title: 'Forecast as Enterprise Service', icon: '\uD83E\uDDE0',
     status: 'yellow', statusLabel: 'Yellow \u2014 Ready for Walkthrough',
-    quarter: 'Q4', targetDate: 'Oct 31, 2026',
+    quarter: 'Q4', targetDate: 'Yes',
     description: 'National forecasting capability delivered as a shared enterprise service — providing channel-level (eComm vs. store) and placement-split forecast outputs consumed by Buying, Allocation, and Planning teams. Enables AEX to consume forecasts aligned with AP service-based forecasting architecture. Includes model explainability and automated training pipelines. OPIF-325221 Status: Discovery in Progress. Assignee: Abhishek Jannawar. Reporter: Abhishek Jannawar. Component: US Omni Tech – MerchTools – AEX Buy Quantification. Related: OPIF-325218 (BQ as a Service), OPIF-325373 (Unified Planner Experience).',
     businessBenefit: 'Single, trusted forecast signal across all Fashion workstreams eliminates conflicting demand signals between Buying and Allocation. Forecast as a service reduces duplicative DS investment and accelerates new-department onboarding. Channel and placement splits give eComm and store teams differentiated, actionable signals without separate model builds.',
     techIntegration: 'Primary OPIF: OPIF-325221 (Forecast as a Service with Channel and Placement Split). Related: OPIF-325218 (Buy Quantification and Flow as a Service), OPIF-325373 (Unified Planner Experience). DS microservice architecture with batch inference pipeline. Forecast consumed by AEX (BQ), BPE (allocation planning), and DBP (distribution). Channel and placement split enables eComm vs. store differentiation in every forecast output. PRD: Confluence APREC space.',
@@ -76,7 +76,7 @@ const CARDS_STRATEGY = [
   {
     id: 'shared-merch-strategy', title: 'Shared Merch Strategy & Scenario Planning', icon: '\uD83C\uDFAF',
     status: 'roadmap', statusLabel: 'Roadmap \u2014 Automate Phase',
-    quarter: 'Q4', targetDate: 'Oct 31, 2026',
+    quarter: 'Q4', targetDate: 'Yes',
     description: 'Shared merchandise strategy repository capturing goals and priorities that power automated conceptual line plan creation and scenario generation. Strategy inputs from TTP cascade into AEX and Centric without manual re-entry — enabling full scenario evaluation before seasonal commitment. Part of the Automate phase of the LLTT roadmap. OPIF-325206 Status: Initial Requirements. Assignee: Christopher Chiodo. Reporter: Christopher Chiodo. Component: US Omni Tech - AEX-FashionApparel.',
     businessBenefit: 'Merchants shift from encoding decisions manually to encoding strategy and goals — the system generates and evaluates scenarios. Dramatically reduces planning cycle time and enables what-if evaluation before financial commitment. Connected and shared merch strategy eliminates duplicative strategy sessions across Design, Buying, and Allocation.',
     techIntegration: 'Primary OPIF: OPIF-325206 (Shared Merch Strategy). Related: OPIF-325203 (Shared Item Repository), OPIF-325208 (Design Hub / Centric Integration). Strategy repository connects TTP inputs to AEX line plan generation and Centric conceptual plan. Scenario engine evaluates financial and space implications of strategy choices automatically. PRD: Connected and Shared Merch Strategy (IESP Confluence space).',

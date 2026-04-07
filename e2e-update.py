@@ -315,6 +315,56 @@ def _quarter(raw: str) -> str:
     return ""
 
 
+# Placeholder values in Status Remarks that carry no real information
+_REMARKS_JUNK = {
+    ".", "", "n/a", "tbd", "pending",
+    "milestone only", "milestone only.",      # drop bare milestone markers
+    "new request to review", "consultation only.",
+}
+
+# Sub-table header fragments that appear when Confluence flattens nested tables.
+# Everything from this pattern onward is milestone schedule noise, not narrative.
+_SUB_TABLE_HEADERS = (
+    " Module Timeline",
+    " Deliverables Timeline",
+    " Tasks/Deliverables",
+)
+
+
+def _clean_remarks(raw: str) -> str:
+    """
+    Clean and normalise a Status Remarks string pulled from Confluence.
+
+    - Replace non-breaking spaces with regular spaces
+    - Collapse internal whitespace / newlines to single space
+    - Strip leading/trailing whitespace
+    - Cut off flattened sub-table content ("Module Timeline Status ...") —
+      Confluence merges milestone schedule rows into cells[20], which we
+      don't want in the WPR narrative update
+    - Drop known placeholder values (see _REMARKS_JUNK)
+    - Truncate to 300 chars at a word boundary
+    """
+    if not raw:
+        return ""
+    # Remove NBSP and other Unicode whitespace variants
+    cleaned = raw.replace("\xa0", " ").replace("\u200b", "")
+    # Collapse newlines + multiple spaces
+    cleaned = re.sub(r"\s+", " ", cleaned).strip()
+    # Strip flattened milestone sub-table content
+    for hdr in _SUB_TABLE_HEADERS:
+        idx = cleaned.find(hdr)
+        if idx > 0:
+            cleaned = cleaned[:idx].strip()
+            break
+    # Drop junk
+    if cleaned.lower().rstrip(".") in _REMARKS_JUNK:
+        return ""
+    # Truncate at word boundary
+    if len(cleaned) > 300:
+        cleaned = cleaned[:300].rsplit(" ", 1)[0] + "…"
+    return cleaned
+
+
 # RAG color values that uniquely identify the main LLTT dashboard table rows.
 # Other tables put names / dates / free text in cells[7].
 _RAG_COLORS = {"green", "yellow", "red"}
@@ -390,16 +440,27 @@ def parse_opif_records(data: dict) -> dict[str, dict]:
                 ("", raw_status.title()),
             ),
         )
+        # cells[19] = brief status, cells[20] = full timestamped Status Remarks.
+        # We prefer cells[20] — it has dated updates like "6-Apr-2026 – Dev in progress..."
+        raw_remarks = ""
+        if is_rag_row:
+            raw_remarks = best[20].strip() if len(best) > 20 else ""
+            if not raw_remarks:
+                raw_remarks = best[19].strip() if len(best) > 19 else ""
+        else:
+            raw_remarks = best[20].strip() if len(best) > 20 else ""
+
         records[opif_id] = {
-            "opifId":      opif_id,
-            "title":       program,
-            "status":      status_key,
-            "statusLabel": status_label,
-            "targetDate":  _fmt_date(target) if target else "",
-            "quarter":     _quarter(target)  if target else "",
-            "tpm":         tpm,
-            "pm":          pm,
-            "xRank":       x_rank,
+            "opifId":        opif_id,
+            "title":         program,
+            "status":        status_key,
+            "statusLabel":   status_label,
+            "targetDate":    _fmt_date(target) if target else "",
+            "quarter":       _quarter(target)  if target else "",
+            "tpm":           tpm,
+            "pm":            pm,
+            "xRank":         x_rank,
+            "statusRemarks": _clean_remarks(raw_remarks),
         }
     return records
 
@@ -531,6 +592,173 @@ def apply_changes(
 
         if diffs and not dry_run:
             patch_card(oid, cur["file"], diffs)
+    return changes
+
+
+# ── WPR Status Remarks ────────────────────────────────────────────────────────
+def _extract_card_opifs(block: str) -> list[str]:
+    """Return deduped ordered list of OPIF-IDs found inside a card JS block."""
+    return list(dict.fromkeys(re.findall(r"OPIF-\d+", block)))
+
+
+def _compose_card_remarks(
+    opif_ids: list[str],
+    scraped: dict[str, dict],
+) -> str:
+    """
+    Build the `recentUpdate` string for one WPR card.
+
+    If only one OPIF has remarks → return its remarks directly.
+    If multiple OPIFs have remarks → stitch together as:
+      "[ProgramName] (OPIF-XXXXXX): <remarks>  |  [ProgramName2] ..."
+    OPIFs with no meaningful remarks are skipped.
+    """
+    parts: list[str] = []
+    for oid in opif_ids:
+        rec = scraped.get(oid)
+        if not rec:
+            continue
+        remarks = rec.get("statusRemarks", "")
+        if not remarks:
+            continue
+        if len(opif_ids) == 1 or (len(parts) == 0 and len(opif_ids) > 1):
+            # Single-OPIF card, or first entry in a multi-OPIF card
+            name = rec.get("title", oid)
+            parts.append(f"{remarks}" if len(opif_ids) == 1
+                         else f"{name} ({oid}): {remarks}")
+        else:
+            name = rec.get("title", oid)
+            parts.append(f"{name} ({oid}): {remarks}")
+    composed = "  |  ".join(parts)
+    # Final safety truncation for the composed string
+    if len(composed) > 400:
+        composed = composed[:400].rsplit(" ", 1)[0] + "\u2026"
+    return composed
+
+
+def _write_recent_update(fpath: Path, card_id: str, update_text: str) -> bool:
+    """
+    Write (or replace) the `recentUpdate:` field inside the named card block.
+
+    Returns True if the file was modified.
+    """
+    txt = fpath.read_text()
+    # Locate the card by its id string
+    id_pat = re.compile(r"\{\s*id\s*:\s*'" + re.escape(card_id) + r"'")
+    m_id = id_pat.search(txt)
+    if not m_id:
+        return False
+
+    # Walk braces to find the full card block
+    start = m_id.start()
+    depth, end = 0, start
+    for i, ch in enumerate(txt[start:], start):
+        if ch == "{": depth += 1
+        elif ch == "}":
+            depth -= 1
+            if depth == 0:
+                end = i + 1
+                break
+    if end <= start:
+        return False
+
+    block = txt[start:end]
+    # Escape single quotes in update_text for a JS single-quoted string
+    safe_text = update_text.replace("'", "\\'")
+    new_field  = f"    recentUpdate: '{safe_text}',"
+
+    if "recentUpdate:" in block:
+        # Replace existing value (handles multi-line via greedy match)
+        new_block = re.sub(
+            r"    recentUpdate\s*:\s*'(?:[^'\\]|\\.)*',",
+            new_field,
+            block,
+            count=1,
+        )
+    else:
+        # Inject after `description:` line if present, else after `tag:`
+        anchor = r"(    (?:description|tag)\s*:[^\n]+\n)"
+        new_block, n = re.subn(anchor, r"\g<1>" + new_field + "\n", block, count=1)
+        if n == 0:
+            return False  # couldn't find an anchor — skip rather than corrupt
+
+    if new_block == block:
+        return False
+
+    fpath.write_text(txt[:start] + new_block + txt[end:])
+    return True
+
+
+def update_wpr_status_remarks(
+    scraped: dict[str, dict],
+    dry_run: bool,
+) -> list[dict]:
+    """
+    For every Critical Program card in the data-*.js files:
+      1. Collect all OPIF IDs referenced in that card block.
+      2. Compose a `recentUpdate` string from each OPIF's statusRemarks.
+      3. Write the value back into the file (or report in dry-run mode).
+
+    Returns a list of change records for the summary log.
+    """
+    changes: list[dict] = []
+
+    for fname in DATA_FILES:
+        fpath = BASE / fname
+        if not fpath.exists():
+            continue
+        txt = fpath.read_text()
+
+        # Find every card block that has tag: 'Critical Program'
+        for m_id in re.finditer(r"\{\s*id\s*:\s*'([^']+)'", txt):
+            card_id = m_id.group(1)
+            start   = m_id.start()
+            depth, end = 0, start
+            for i, ch in enumerate(txt[start:], start):
+                if ch == "{": depth += 1
+                elif ch == "}":
+                    depth -= 1
+                    if depth == 0:
+                        end = i + 1
+                        break
+            block = txt[start:end]
+            if "Critical Program" not in block:
+                continue
+
+            opif_ids = _extract_card_opifs(block)
+            if not opif_ids:
+                Log.info(f"  ⚠ {card_id}: no OPIFs mapped — skipping remarks")
+                continue
+
+            new_update = _compose_card_remarks(opif_ids, scraped)
+            if not new_update:
+                Log.info(f"  ◌ {card_id}: all OPIFs have empty remarks — skipping")
+                continue
+
+            # Read current value for diff
+            cur_m   = re.search(r"recentUpdate\s*:\s*'((?:[^'\\]|\\.)*)'" , block)
+            cur_val = cur_m.group(1) if cur_m else ""
+
+            if new_update == cur_val.replace("\\'", "'"):
+                Log.info(f"  ✔ {card_id}: recentUpdate unchanged")
+                continue
+
+            changes.append({
+                "card":  card_id,
+                "file":  fname,
+                "opifs": opif_ids,
+                "from":  cur_val[:80] + ("…" if len(cur_val) > 80 else ""),
+                "to":    new_update[:80] + ("…" if len(new_update) > 80 else ""),
+            })
+
+            if not dry_run:
+                ok = _write_recent_update(fpath, card_id, new_update)
+                if ok:
+                    Log.info(f"  ✔ {card_id}: recentUpdate written "
+                             f"(from {len(opif_ids)} OPIF(s))")
+                else:
+                    Log.warn(f"  {card_id}: failed to write recentUpdate")
+
     return changes
 
 
@@ -675,12 +903,27 @@ def main() -> None:
         Log.info(f"  Portal has {len(current)} OPIF-linked cards")
         all_changes = apply_changes(current, scraped_opifs, dry_run=False)
         if all_changes:
-            Log.ok(f"{len(all_changes)} field(s) updated")
+            Log.ok(f"{len(all_changes)} status/date field(s) updated")
             for ch in all_changes:
                 lbl = ch.get("toLbl") or ch["to"]
                 Log.info(f"  {ch['opif']}  {ch['field']}: {ch['from']!r} → {lbl!r}")
         else:
-            Log.ok("No changes detected — portal already current")
+            Log.ok("No status/date changes — portal already current")
+
+        # Stitch Status Remarks from OPIF into WPR recentUpdate for all Critical cards
+        Log.info("  ↳ Updating WPR Status Remarks for Critical Program cards…")
+        remarks_changes = update_wpr_status_remarks(scraped_opifs, dry_run=False)
+        if remarks_changes:
+            Log.ok(f"{len(remarks_changes)} Critical card(s) recentUpdate written")
+            for ch in remarks_changes:
+                Log.info(f"  {ch['card']} ({ch['file']})")
+                Log.info(f"    OPIFs : {ch['opifs']}")
+                Log.info(f"    before: {ch['from']!r}")
+                Log.info(f"    after : {ch['to']!r}")
+        else:
+            Log.ok("WPR Status Remarks already current — no changes")
+        all_changes = all_changes + remarks_changes
+
     elif args.dry_run:
         Log.info("  DRY RUN: skipping card patches")
 

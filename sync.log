@@ -717,3 +717,116 @@ DRY RUN complete — no files written.
 [09:07:44]      Or open in Incognito to bypass any cached session state.
 [09:07:44] ✅ Published PROD
 [09:07:44] [7/7] Git commit
+[09:07:44] ✅ Git committed ( 7 files changed, 119 insertions(+), 26 deletions(-))
+[09:07:44] 
+[09:07:44] 
+┌──────────────────────────────────────────────────────────────┐
+[09:07:44] │  Summary                                                     │
+[09:07:44] └──────────────────────────────────────────────────────────────┘
+[09:07:44] ✅ Completed in 24.8s  |  Source: archive (Mar 25, 2026)
+[09:07:44] 
+[09:07:44] 📋 Program Card Changes:
+[09:07:44]    OPIF-344926  status: 'green' → 'Yellow — At Risk'
+[09:07:44]    OPIF-344926  targetDate: 'April 30, 2026' → 'Apr 30, 2026'
+[09:07:44]    OPIF-325568  targetDate: 'April 30, 2026' → 'Jul 31, 2026'
+[09:07:44]    OPIF-325602  targetDate: 'April 30, 2026' → 'Apr 30, 2026'
+[09:07:44]    OPIF-325598  targetDate: 'Jul 31, 2026' → 'Oct 31, 2026'
+[09:07:44]    OPIF-325569  targetDate: 'July 31, 2026' → 'Oct 31, 2026'
+[09:07:44]    OPIF-325373  targetDate: 'Q1 FY27' → 'Oct 31, 2026'
+[09:07:44]    OPIF-325221  targetDate: 'Q1 FY27' → 'Oct 31, 2026'
+[09:07:44]    OPIF-325218  targetDate: 'Q1 FY27' → 'Oct 31, 2026'
+[09:07:44]    OPIF-325374  targetDate: 'Jul 31, 2026' → 'Oct 31, 2026'
+[09:07:44]    OPIF-325599  targetDate: 'Jul 31, 2026' → 'Oct 31, 2026'
+[09:07:44]    OPIF-325216  targetDate: 'July 31, 2026' → 'Oct 31, 2026'
+[09:07:44]    OPIF-325217  targetDate: 'July 31, 2026' → 'Oct 31, 2026'
+[09:07:44]    OPIF-337970  targetDate: 'Jul 31, 2026' → 'Oct 31, 2026'
+[09:07:44]    OPIF-325565  targetDate: 'July 31, 2026' → 'Oct 31, 2026'
+[09:07:44]    OPIF-347500  targetDate: 'Q1 FY27' → 'Mar 20, 2026'
+[09:07:44]    OPIF-347498  targetDate: 'Q1 FY27' → 'Mar 5, 2026'
+[09:07:44]    OPIF-336019  targetDate: 'Aug\\u2013Oct 2026' → 'Jul 31, 2026'
+[09:07:44]    OPIF-325206  targetDate: 'Aug\\u2013Oct 2026' → 'Jul 31, 2026'
+[09:07:44]    OPIF-325188  targetDate: 'May\\u2013Jul 2026' → 'Jul 31, 2026'
+[09:07:44]    OPIF-325203  targetDate: 'Aug\\u2013Oct 2026' → 'Oct 31, 2026'
+[09:07:44]    OPIF-325208  targetDate: 'Aug\\u2013Oct 2026' → 'Jun 30, 2026'
+[09:07:44] 
+[09:07:44] 🗓  Upcoming Milestones (from Confluence):
+[09:07:44]    Execution Dev Complete                   15-Apr       Not Started
+[09:07:44]    IIR                                      9-Apr        Not Started
+[09:07:44]    Planned QE / E2E/UAT Testing             20-Apr       Not Started
+[09:07:44]    Planned Prod Deployment                  21-Apr       Not Started
+[09:07:44]    Spike                                    02-Feb started In Progress
+[09:07:44]    OPIF-336019                              AP Tool Phase 2 Enhancements 
+[09:07:44] 
+[09:07:44] 🔗 Live portals:
+[09:07:44]    https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
+[09:07:44]    https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod
+[09:07:44] 
+[09:07:44] 💡 Hard-refresh browser (⌘+Shift+R) to see latest content.
+[09:10:23] 
+┌──────────────────────────────────────────────────────────────┐
+[09:10:23] │  E2E Fashion Portal — Full Refresh    2026-04-07 09:10       │
+[09:10:23] └──────────────────────────────────────────────────────────────┘
+[09:10:23] Portal dir : /Users/e0c0lzr/Downloads/fashion-portal
+[09:10:23] Mode       : LIVE
+[09:10:23] 
+[09:10:23] [1/7] Pull Confluence data
+[09:10:23] Opening Confluence in Chrome…
+[09:10:24] Waiting 20s for JavaScript render…
+[09:10:44] ⚠️  Chrome DNS error — Confluence unreachable from Chrome (chrome-error://chromewebdata/)
+[09:10:44] ⚠️  Chrome extraction failed — falling back to last good archive
+[09:10:44] ✅ Using archive from Mar 25, 2026 (108 rows)
+[09:10:44] ✅ Parsed 26 OPIF records, 6 timeline rows  [archive (Mar 25, 2026)]
+[09:10:44] [2/7] Detect + apply Program Card changes
+[09:10:44]   Portal has 21 OPIF-linked cards
+[09:10:44] ✅ 10 field(s) updated across portal cards
+[09:10:44]   OPIF-325568  status: 'yellow' → 'Green — In Progress'
+[09:10:44]   OPIF-325568  targetDate: 'Apr 30, 2026' → 'Jul 31, 2026'
+[09:10:44]   OPIF-325602  status: 'yellow' → 'Green — In Progress'
+[09:10:44]   OPIF-325373  targetDate: 'Q1 FY27' → 'Oct 31, 2026'
+[09:10:44]   OPIF-325221  targetDate: 'Q1 FY27' → 'Oct 31, 2026'
+[09:10:44]   OPIF-325218  targetDate: 'Q1 FY27' → 'Oct 31, 2026'
+[09:10:44]   OPIF-347500  targetDate: 'Mar 5, 2026' → 'Mar 20, 2026'
+[09:10:44]   OPIF-325206  targetDate: 'Jun 30, 2026' → 'Jul 31, 2026'
+[09:10:44]   OPIF-325188  targetDate: 'May\\u2013Jul 2026' → 'Jul 31, 2026'
+[09:10:44]   OPIF-325203  targetDate: 'Jun 30, 2026' → 'Oct 31, 2026'
+[09:10:44] [3/7] Stamp changelog → April 7, 2026
+[09:10:44] ✅ data-changelog.js updated
+[09:10:44] [4/7] Build portal-inlined.html + portal-final.html
+[09:10:44]   Written portal-inlined.html (427.3 KB)
+[09:10:44]   Written portal-final.html (331.7 KB) — ready for puppy publish
+[09:10:44] ✅ build-inlined.py
+[09:10:44] [5/7] Inject OPIF Field Guide
+[09:10:44]   ✅ Successfully injected OPIF Field Mapping Guide
+[09:10:44]      CSS: 11327 characters
+[09:10:44]      HTML: 19884 characters
+[09:10:44]      Updated: portal-final.html
+[09:10:44] ✅ add-opif-guide.py
+[09:10:44] [6/7] Publish
+[09:10:44]   → TEST (canary preflight)…
+[09:10:46]   📦 Publishing to TEST → e2e-fashion-portal-test
+[09:10:46]      File  : portal-final.html (417 KB)
+[09:10:46]      URL   : https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
+[09:10:46]   
+[09:10:46]     [canary] uploading preflight probe...
+[09:10:46]     [canary] ✅ v47 — pipeline is alive
+[09:10:46]     Uploading 419 KB...
+[09:10:46]     ✅ Published! v48
+[09:10:46]     ✅ Version check passed: canary=v47 → real=v48 (consecutive ✓)
+[09:10:46]   
+[09:10:46]   🔗 https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
+[09:10:46]   💡 To see changes: hard-refresh in browser (⌘+Shift+R on Mac / Ctrl+Shift+R on Win)
+[09:10:46]      Or open in Incognito to bypass any cached session state.
+[09:10:46] ✅ Published TEST
+[09:10:46]   → PROD…
+[09:10:47]   📦 Publishing to PROD → e2e-fashion-portal-prod
+[09:10:47]      File  : portal-final.html (417 KB)
+[09:10:47]      URL   : https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod
+[09:10:47]   
+[09:10:47]     Uploading 419 KB...
+[09:10:47]     ✅ Published! v11
+[09:10:47]   
+[09:10:47]   🔗 https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod
+[09:10:47]   💡 To see changes: hard-refresh in browser (⌘+Shift+R on Mac / Ctrl+Shift+R on Win)
+[09:10:47]      Or open in Incognito to bypass any cached session state.
+[09:10:47] ✅ Published PROD
+[09:10:47] [7/7] Git commit

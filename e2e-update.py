@@ -113,18 +113,13 @@ class Log:
 
 
 # ── Chrome / AppleScript extraction ───────────────────────────────────────────
-# AppleScript: extract from the best available Confluence tab.
-# Skips tabs showing Chrome error pages so we always hit the live loaded tab.
+# AppleScript: extract from the best available Confluence LLTT Dashboard tab.
+# Priority 1 — tab whose title contains "Long Lead Time" (fully loaded dashboard).
+# Priority 2 — any confluence.walmart.com tab that is not a chrome-error URL.
+# Returns JSON payload from the highest-priority match, or {"error": "no_tab"}.
 _APPLES = """\
 tell application "Google Chrome"
-    set windowList to every window
-    repeat with aWindow in windowList
-        set tabList to every tab of aWindow
-        repeat with atab in tabList
-            set tabURL to URL of atab
-            if (tabURL contains "confluence.walmart.com") and (tabURL does not contain "chrome-error") then
-                set jsCode to "
-(function() {
+    set jsCode to "(function() {
   const results = [];
   const tables = document.querySelectorAll('table');
   tables.forEach(function(table, tIdx) {
@@ -143,13 +138,31 @@ tell application "Google Chrome"
     rowsExtracted: results.length,
     data: results
   });
-})();"
-                set extractedData to execute atab javascript jsCode
-                return extractedData
+})()"
+
+    set bestTab to missing value
+    set fallbackTab to missing value
+
+    repeat with aWindow in every window
+        repeat with atab in every tab of aWindow
+            set tabURL to URL of atab
+            set tabTitle to title of atab
+            if tabURL does not contain "chrome-error" then
+                if tabTitle contains "Long Lead Time" then
+                    set bestTab to atab
+                    exit repeat
+                else if tabURL contains "confluence.walmart.com" and fallbackTab is missing value then
+                    set fallbackTab to atab
+                end if
             end if
         end repeat
+        if bestTab is not missing value then exit repeat
     end repeat
-    return "{\\"error\\": \\"no_tab\\"}"
+
+    if bestTab is missing value then set bestTab to fallbackTab
+    if bestTab is missing value then return "{\"error\": \"no_tab\"}"
+
+    return execute bestTab javascript jsCode
 end tell
 """
 

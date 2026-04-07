@@ -17,8 +17,8 @@ const CARDS_BUYING = [
   {
     id: 'aex-stability', title: 'AEX Stability & Quality of Life', icon: '\uD83D\uDEE1\uFE0F',
     critical: true,
-    status: 'yellow', statusLabel: 'Yellow — At Risk',
-    quarter: 'Q2', targetDate: 'Apr 30, 2026', tag: 'Critical Program',
+    status: 'green', statusLabel: 'Green — In Progress',
+    quarter: 'Q3', targetDate: 'Jul 31, 2026', tag: 'Critical Program',
     description: 'Q1 stability improvements delivering measurable impact across the AEX platform. Executing platform transition with zero data loss. Activating confirmation safeguards for fineline and style deletions — preventing accidental data loss. Unifying size ordering across Size & Pack and automating online item creation and new store POs. Of 24 prioritized OPIFs: 18 Green, 5 Yellow, 1 Red. Key MTAP tickets in WIP: MTAP-9154, MTAP-7474, MTAP-7438, MTAP-6808, MTAP-9541, MTAP-9570, MTAP-9543.',
     businessBenefit: 'Merchants gain confidence that AEX decisions execute correctly — safeguards prevent accidental deletions, unified size ordering eliminates inconsistencies, and automated new-store POs remove manual work from the buying workflow.',
     techIntegration: 'Q1 Stability tracked across 24 OPIFs in the LLTT Jira initiative. Key featured OPIFs: OPIF-344926 (AEX Automated Item Set Up — walkthroughs underway), OPIF-325602 (Tagging & Affinity Graph — ready for sizing), OPIF-325568 (Move Fashion LP to AP Tool — WIP). Active bug fixes tracked as PRB incidents in MTAP project (MTAP-9154, MTAP-7474, MTAP-7438, MTAP-6808, MTAP-9541, MTAP-9570, MTAP-9543). LLTT Dashboard tracks full OPIF portfolio.',

@@ -558,3 +558,69 @@ Successfully scraped 21/21 OPIFs
 [2026-04-07 08:34:15]   Found 0 OPIF IDs on dashboard: []...
 [2026-04-07 08:34:15] ERROR: No OPIF IDs found — Confluence may require re-authentication
 [2026-04-07 08:34:15]   Open Chrome, visit confluence.walmart.com, then re-run this script
+[09:03:34] 
+┌──────────────────────────────────────────────────────────────┐
+[09:03:34] │  E2E Fashion Portal — Full Refresh    2026-04-07 09:03       │
+[09:03:34] └──────────────────────────────────────────────────────────────┘
+[09:03:34] Portal dir : /Users/e0c0lzr/Downloads/fashion-portal
+[09:03:34] Mode       : DRY RUN
+[09:03:34] 
+[09:03:34] [1/7] Pull Confluence data
+[09:03:34]   --build-only: skipping Confluence pull
+[09:03:34] [2/7] Detect + apply Program Card changes
+[09:03:34]   DRY RUN: skipping card patches
+[09:03:34] [3/7] Stamp changelog → April 7, 2026
+[09:03:34]   DRY RUN: skipping changelog write
+[09:03:34] 
+DRY RUN complete — no files written.
+[09:03:40] 
+┌──────────────────────────────────────────────────────────────┐
+[09:03:40] │  E2E Fashion Portal — Full Refresh    2026-04-07 09:03       │
+[09:03:40] └──────────────────────────────────────────────────────────────┘
+[09:03:40] Portal dir : /Users/e0c0lzr/Downloads/fashion-portal
+[09:03:40] Mode       : LIVE
+[09:03:40] 
+[09:03:40] [1/7] Pull Confluence data
+[09:03:40]   --build-only: skipping Confluence pull
+[09:03:40] [2/7] Detect + apply Program Card changes
+[09:03:40] [3/7] Stamp changelog → April 7, 2026
+[09:03:40] ✅ data-changelog.js updated
+[09:03:40] [4/7] Build portal-inlined.html + portal-final.html
+[09:03:40]   Written portal-inlined.html (427.3 KB)
+[09:03:40]   Written portal-final.html (331.7 KB) — ready for puppy publish
+[09:03:40] ✅ build-inlined.py
+[09:03:40] [5/7] Inject OPIF Field Guide
+[09:03:40]   ✅ Successfully injected OPIF Field Mapping Guide
+[09:03:40]      CSS: 11327 characters
+[09:03:40]      HTML: 19884 characters
+[09:03:40]      Updated: portal-final.html
+[09:03:40] ✅ add-opif-guide.py
+[09:03:40] [6/7] Publish
+[09:03:40]   → TEST (canary preflight)…
+[09:03:43]   📦 Publishing to TEST → e2e-fashion-portal-test
+[09:03:43]      File  : portal-final.html (417 KB)
+[09:03:43]      URL   : https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
+[09:03:43]   
+[09:03:43]     [canary] uploading preflight probe...
+[09:03:43]     [canary] ✅ v43 — pipeline is alive
+[09:03:43]     Uploading 419 KB...
+[09:03:43]     ✅ Published! v44
+[09:03:43]     ✅ Version check passed: canary=v43 → real=v44 (consecutive ✓)
+[09:03:43]   
+[09:03:43]   🔗 https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
+[09:03:43]   💡 To see changes: hard-refresh in browser (⌘+Shift+R on Mac / Ctrl+Shift+R on Win)
+[09:03:43]      Or open in Incognito to bypass any cached session state.
+[09:03:43] ✅ Published TEST
+[09:03:43]   → PROD…
+[09:03:44]   📦 Publishing to PROD → e2e-fashion-portal-prod
+[09:03:44]      File  : portal-final.html (417 KB)
+[09:03:44]      URL   : https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod
+[09:03:44]   
+[09:03:44]     Uploading 419 KB...
+[09:03:44]     ✅ Published! v9
+[09:03:44]   
+[09:03:44]   🔗 https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod
+[09:03:44]   💡 To see changes: hard-refresh in browser (⌘+Shift+R on Mac / Ctrl+Shift+R on Win)
+[09:03:44]      Or open in Incognito to bypass any cached session state.
+[09:03:44] ✅ Published PROD
+[09:03:44] [7/7] Git commit

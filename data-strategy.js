@@ -5,7 +5,7 @@
 
 const CARDS_STRATEGY = [
   {
-    id: 'strategy-hub', title: 'Strategy Hub (TTP)', icon: '\uD83C\uDFDB\uFE0F',
+    id: 'strategy-hub', title: 'Strategy Hub: Create and Centralize Business Strategy', icon: '\uD83C\uDFDB\uFE0F',
     status: 'roadmap', statusLabel: 'Roadmap \u2014 Initial Requirements',
     jiraStatus: 'Initial Requirements',
     quarter: 'Q2', targetDate: 'Oct 31, 2026',

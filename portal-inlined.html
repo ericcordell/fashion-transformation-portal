@@ -85,12 +85,20 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
                  align-items:center; justify-content:center; }
 .modal-overlay.open { display:flex; }
 
-/* ---- Card-detail modal (z:100) ---- */
-#modal-overlay { z-index:200; }
-#es-overlay { z-index:200; }
-#gm-overlay { z-index:200; }
-#rm-overlay { z-index:200; }
-#sm-overlay { z-index:200; }
+/* ── z-index stack ────────────────────────────────────────────
+   300 : card-detail   (#modal-overlay) — always topmost
+   200 : roadmap       (#rm-overlay)
+   200 : exec-summary  (#es-overlay)
+   200 : goal          (#gm-overlay)
+   200 : summary       (#sm-overlay)
+   Card-detail is intentionally highest so it can open from
+   inside any other modal (e.g. Full Roadmap → card click).
+──────────────────────────────────────────────────────────── */
+#modal-overlay { z-index:300; }
+#es-overlay    { z-index:200; }
+#gm-overlay    { z-index:200; }
+#rm-overlay    { z-index:200; }
+#sm-overlay    { z-index:200; }
 #modal-box {
   background:white; border-radius:16px; width:min(640px,95vw);
   max-height:92vh;
@@ -3523,7 +3531,7 @@ const INTEGRATION_ROW = [
 
 const CARDS_STRATEGY = [
   {
-    id: 'strategy-hub', title: 'Strategy Hub (TTP)', icon: '\uD83C\uDFDB\uFE0F',
+    id: 'strategy-hub', title: 'Strategy Hub: Create and Centralize Business Strategy', icon: '\uD83C\uDFDB\uFE0F',
     status: 'roadmap', statusLabel: 'Roadmap \u2014 Initial Requirements',
     jiraStatus: 'Initial Requirements',
     quarter: 'Q2', targetDate: 'Oct 31, 2026',

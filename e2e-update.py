@@ -830,8 +830,13 @@ def print_summary(
     if changes:
         Log.info("📋 Program Card Changes:")
         for ch in changes:
-            lbl = ch.get("toLbl") or ch["to"]
-            Log.info(f"   {ch['opif']}  {ch['field']}: {ch['from']!r} → {lbl!r}")
+            if "opif" in ch:
+                # Status / date change from apply_changes()
+                lbl = ch.get("toLbl") or ch["to"]
+                Log.info(f"   {ch['opif']}  {ch['field']}: {ch['from']!r} → {lbl!r}")
+            else:
+                # recentUpdate change from update_wpr_status_remarks()
+                Log.info(f"   {ch['card']} ({ch['file']})  recentUpdate refreshed")
         Log.info("")
 
     if milestones:

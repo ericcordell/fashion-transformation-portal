@@ -54,14 +54,27 @@ def _token() -> str:
 
 # ── Upload ────────────────────────────────────────────────────────────────────
 
-def _upload(html: str, slug: str, description: str = '') -> dict:
+# PROD must always be public — never constrained to business/org.
+# TEST stays business-only so random people don't hit staging content.
+ACCESS_LEVELS = {
+    'prod': 'public',
+    'test': 'business',
+}
+
+
+def _upload(html: str, slug: str, env: str, description: str = '') -> dict:
     """POST html_content to /api/sharing/upload. Returns parsed JSON response.
+
+    access_level is derived from env:
+      prod → 'public'   (always — enforced here, never negotiable)
+      test → 'business' (org-only, fine for staging)
 
     Raises RuntimeError on HTTP error.
     """
     import urllib.request
     import urllib.error
 
+    access = ACCESS_LEVELS[env]
     token = _token()
     url   = f'{BASE_URL}/api/sharing/upload'
     body  = json.dumps({
@@ -69,7 +82,7 @@ def _upload(html: str, slug: str, description: str = '') -> dict:
         'business'    : OWNER,
         'html_content': html,
         'description' : description,
-        'access_level': 'business',
+        'access_level': access,
     }).encode('utf-8')
 
     req = urllib.request.Request(url, data=body, method='POST', headers={
@@ -109,7 +122,7 @@ def _run_canary(slug: str) -> int:
 </p>
 </body></html>"""
     print('  [canary] uploading preflight probe...')
-    result  = _upload(html, slug, description='canary preflight — auto-replaced')
+    result  = _upload(html, slug, env='test', description='canary preflight — auto-replaced')
     version = _version(result)
     if version is None:
         raise RuntimeError('Canary upload returned no version number')
@@ -154,8 +167,9 @@ def main() -> None:
             expected_next = None
 
         # Step 2: upload the real portal.
-        print(f'  Uploading {len(html.encode("utf-8"))/1024:.0f} KB...')
-        result  = _upload(html, slug, description=f'E2E Fashion Portal — {datetime.now():%Y-%m-%d}')
+        access = ACCESS_LEVELS[args.env]
+        print(f'  Uploading {len(html.encode("utf-8"))/1024:.0f} KB...  [access: {access}]')
+        result  = _upload(html, slug, env=args.env, description=f'E2E Fashion Portal — {datetime.now():%Y-%m-%d}')
         version = _version(result)
         url_out = result.get('url') or live_url
 

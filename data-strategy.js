@@ -9,9 +9,18 @@ const CARDS_STRATEGY = [
     status: 'green', statusLabel: 'Active', quarter: 'Q1', targetDate: 'Feb\u2013Apr 2026',
     description: 'Central repository for all Fashion strategy, space, and cross-workstream decisions. Design, Buying, and Allocation align to the same financial targets and category priorities via TTP.',
     businessBenefit: 'Eliminates redundant strategy sessions and conflicting priorities. Single source for seasonal targets cascaded to all workstreams.',
-    techIntegration: 'TTP serves as the upstream data source feeding AEX (Buying), Centric (Design), and BPE/DBP (Allocation). Decisions recorded here propagate downstream without re-entry.',
+    techIntegration: 'Primary OPIF: OPIF-368304 (Strategy Hub / TTP). TTP serves as the upstream data source feeding AEX (Buying), Centric (Design), and BPE/DBP (Allocation). Decisions recorded here propagate downstream without re-entry.',
     successMetrics: 'All workstreams reference TTP as primary source. Zero conflicting financial targets across Design, Buying, and Allocation in any given season.',
-    owners: pptOwners('Bill Chiodetti', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Leon Hovanesian', ''), resources: res(), workstreams: ['strategy'],
+    owners: pptOwners('Bill Chiodetti', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Leon Hovanesian', ''),
+    resources: res(
+      'https://jira.walmart.com/browse/OPIF-368304',
+      '#', '#', '#',
+      [
+        { label: 'OPIF-368304 \u2014 Strategy Hub (TTP) (Primary)', url: 'https://jira.walmart.com/browse/OPIF-368304' },
+        { label: 'LLTT Dashboard (Confluence)', url: 'https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard' },
+      ]
+    ),
+    workstreams: ['strategy'],
   },
   {
     id: 'space-planning', title: 'Space & Financial Planning', icon: '\uD83D\uDCCA',
@@ -76,7 +85,7 @@ const CARDS_STRATEGY = [
   {
     id: 'shared-merch-strategy', title: 'Shared Merch Strategy & Scenario Planning', icon: '\uD83C\uDFAF',
     status: 'yellow', statusLabel: 'Yellow — At Risk',
-    quarter: 'Q2', targetDate: 'May 1, 2026',
+    quarter: 'Q2', targetDate: 'Jun 30, 2026',
     description: 'Shared merchandise strategy repository capturing goals and priorities that power automated conceptual line plan creation and scenario generation. Strategy inputs from TTP cascade into AEX and Centric without manual re-entry — enabling full scenario evaluation before seasonal commitment. Part of the Automate phase of the LLTT roadmap. OPIF-325206 Status: Initial Requirements. Assignee: Christopher Chiodo. Reporter: Christopher Chiodo. Component: US Omni Tech - AEX-FashionApparel.',
     businessBenefit: 'Merchants shift from encoding decisions manually to encoding strategy and goals — the system generates and evaluates scenarios. Dramatically reduces planning cycle time and enables what-if evaluation before financial commitment. Connected and shared merch strategy eliminates duplicative strategy sessions across Design, Buying, and Allocation.',
     techIntegration: 'Primary OPIF: OPIF-325206 (Shared Merch Strategy). Related: OPIF-325203 (Shared Item Repository), OPIF-325208 (Design Hub / Centric Integration). Strategy repository connects TTP inputs to AEX line plan generation and Centric conceptual plan. Scenario engine evaluates financial and space implications of strategy choices automatically. PRD: Connected and Shared Merch Strategy (IESP Confluence space).',

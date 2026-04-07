@@ -7,7 +7,7 @@ const CARDS_DESIGN = [
   {
     id: 'design-hub-centric', title: 'Launch Design Hub (Centric PLM)', icon: '\uD83C\uDFD7\uFE0F',
     critical: true,
-    status: 'green', statusLabel: 'On Track', quarter: 'Q1', targetDate: 'Mar 5, 2026',
+    status: 'green', statusLabel: 'On Track', quarter: 'Q1', targetDate: 'Mar 20, 2026',
     tag: 'Critical Program',
     recentUpdate: 'Milestone - Review of High Level Capabilities in Centric and Proposal for Which Are Owned There VS AP Tool and OneSource (OPIF-347498): Milestone Only. Christopher has stated that this is now complete.  |  Design Hub (Centric Integration) (OPIF-325208): Requirements being gathered. The team is reviewing integration points and use cases.  |  Shared Merch Strategy (OPIF-325206): 3.0',
     description: 'Full launch of Centric PLM as the centralized Design Hub — replacing fragmented design tools with a single system of record for all Fashion product design and development. Includes milestone review of Centric capabilities and ownership proposal for workflows in Centric vs. AP Tool vs. OneSource. Milestone OPIF-347498: COMPLETE — Milestone Only. Christopher has stated that this is now complete. Milestone OPIF-347500: Backlog — Full verticals and ownership review with proposal pending. Assignee: Christopher Chiodo.',

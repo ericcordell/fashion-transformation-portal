@@ -388,7 +388,729 @@ padding-top:12px; border-top:1px solid #f1f5f9;
 .rm-phase-banner {
 padding:8px 14px; border-radius:10px; border:1.5px solid;
 font-size:0.8rem; margin-bottom:12px; line-height:1.5;
-}</style>
+}
+
+/* ========== OPIF Field Mapping Guide Styles ========== */
+/* opif-guide-styles.css */
+/* Styles for the OPIF Field Mapping Guide */
+
+.guide-button {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.guide-button:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-1px);
+}
+
+.guide-button-icon {
+  font-size: 16px;
+}
+
+.guide-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 10000;
+  animation: fadeIn 0.3s ease;
+}
+
+.guide-modal-overlay.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.guide-modal {
+  background: white;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 1200px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.guide-header {
+  background: linear-gradient(135deg, #0053e2 0%, #0041b0 100%);
+  color: white;
+  padding: 30px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.guide-header h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.guide-header p {
+  margin: 8px 0 0 0;
+  opacity: 0.9;
+  font-size: 16px;
+}
+
+.guide-close {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 28px;
+  line-height: 1;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+
+.guide-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+.guide-body {
+  display: flex;
+  height: calc(90vh - 120px);
+  overflow: hidden;
+}
+
+.guide-sidebar {
+  width: 280px;
+  background: #f8f9fa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  padding: 20px 0;
+}
+
+.guide-nav-item {
+  padding: 14px 24px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-left: 3px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: #333;
+}
+
+.guide-nav-item:hover {
+  background: #e8f0fe;
+  border-left-color: #0053e2;
+}
+
+.guide-nav-item.active {
+  background: #e8f0fe;
+  border-left-color: #0053e2;
+  color: #0053e2;
+  font-weight: 600;
+}
+
+.guide-nav-icon {
+  font-size: 20px;
+}
+
+.guide-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 40px;
+}
+
+.guide-section {
+  display: none;
+}
+
+.guide-section.active {
+  display: block;
+  animation: fadeInContent 0.3s ease;
+}
+
+@keyframes fadeInContent {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.guide-section h3 {
+  font-size: 24px;
+  color: #0053e2;
+  margin: 0 0 20px 0;
+}
+
+/* Requirement Box */
+.requirement-box {
+  background: #fff3cd;
+  border-left: 4px solid #ffc220;
+  padding: 24px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.requirement-box h3 {
+  margin: 0 0 12px 0;
+  color: #995213;
+  font-size: 20px;
+}
+
+.highlight-text {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.highlight-text code {
+  background: #995213;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+}
+
+.how-to-add {
+  margin-top: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+.how-to-add h4 {
+  margin: 0 0 12px 0;
+  color: #333;
+}
+
+.how-to-add ol {
+  margin: 0;
+  padding-left: 24px;
+}
+
+.how-to-add li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+/* Mapping Table */
+.field-mapping-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.field-mapping-table thead {
+  background: linear-gradient(135deg, #0053e2 0%, #0041b0 100%);
+  color: white;
+}
+
+.field-mapping-table th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.field-mapping-table td {
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.field-mapping-table tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.field-mapping-table code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+}
+
+/* Status Explanation */
+.status-explanation h3 {
+  margin-bottom: 16px;
+}
+
+.field-combo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.field-box {
+  flex: 1;
+  min-width: 250px;
+  background: #f8f9fa;
+  padding: 24px;
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+}
+
+.field-box h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.field-box ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.field-box li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.field-location {
+  background: #fff3cd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 12px;
+  border-left: 3px solid #ffc220;
+}
+
+.plus-sign {
+  font-size: 32px;
+  color: #0053e2;
+  font-weight: 700;
+}
+
+.result-box {
+  background: #e8f5e9;
+  padding: 24px;
+  border-radius: 8px;
+  border: 2px solid #2a8703;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.result-box h4 {
+  margin: 0 0 16px 0;
+  color: #2a8703;
+  font-size: 18px;
+}
+
+.status-examples {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.status-examples li {
+  margin: 12px 0;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.status-badge.green {
+  background: #2a8703;
+  color: white;
+}
+
+.status-badge.yellow {
+  background: #ffc220;
+  color: #995213;
+}
+
+.status-badge.red {
+  background: #ea1100;
+  color: white;
+}
+
+.status-badge.roadmap {
+  background: #666;
+  color: white;
+}
+
+/* Workstream Mapping */
+.workstream-mapping {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 24px 0;
+}
+
+.workstream-item {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.workstream-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.workstream-header {
+  padding: 16px;
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+}
+
+.workstream-header.strategy {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.workstream-header.design {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.workstream-header.buying {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.workstream-header.allocation {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.workstream-item p {
+  padding: 16px;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #666;
+}
+
+.note-box {
+  background: #e8f0fe;
+  border-left: 4px solid #0053e2;
+  padding: 16px;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+
+/* Example Card */
+.example-split {
+  display: flex;
+  align-items: stretch;
+  gap: 30px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.opif-side,
+.portal-side {
+  flex: 1;
+  min-width: 300px;
+}
+
+.opif-side h4,
+.portal-side h4 {
+  margin: 0 0 16px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.example-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.example-table tr {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.example-table tr:last-child {
+  border-bottom: none;
+}
+
+.example-table td {
+  padding: 12px 16px;
+}
+
+.example-table td:first-child {
+  font-weight: 600;
+  color: #666;
+  width: 40%;
+  background: #f8f9fa;
+}
+
+.example-table code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+.arrow {
+  font-size: 48px;
+  color: #0053e2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portal-card-preview {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e0e0e0;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.opif-badge {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.card-title {
+  font-size: 20px;
+  color: #333;
+  margin: 0 0 20px 0;
+}
+
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.meta-item {
+  display: flex;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.meta-label {
+  color: #666;
+  font-weight: 600;
+}
+
+.meta-value {
+  color: #333;
+}
+
+/* FAQ Items */
+.faq-item {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #0053e2;
+}
+
+.faq-item h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.faq-item p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+.faq-item ul,
+.faq-item ol {
+  margin: 12px 0;
+  padding-left: 24px;
+}
+
+.faq-item li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.faq-item code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+/* Sync Schedule */
+.schedule-box {
+  margin: 20px 0;
+}
+
+.schedule-item {
+  display: flex;
+  gap: 20px;
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 2px solid #e0e0e0;
+}
+
+.schedule-icon {
+  font-size: 48px;
+  color: #0053e2;
+}
+
+.schedule-details h4 {
+  margin: 0 0 8px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.schedule-details p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+.time-detail {
+  background: #fff3cd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #995213;
+}
+
+.flow-chain {
+  font-family: 'Courier New', monospace;
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #0053e2;
+}
+
+.note-text {
+  font-size: 14px;
+  color: #666;
+  font-style: italic;
+}
+
+/* Contact Info */
+.contact-methods {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.contact-card {
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.contact-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.contact-card h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.contact-card p {
+  margin: 0 0 8px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.contact-card code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.contact-card a {
+  color: #0053e2;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.contact-card a:hover {
+  text-decoration: underline;
+}
+
+/* ====================================================== */
+</style>
 <style>.pm-goal-chip-btn {
 cursor:pointer;
 transition:transform 0.12s, box-shadow 0.12s, background 0.12s;
@@ -517,7 +1239,729 @@ background:#f1f5f9; border:1px solid #e2e8f0; color:#475569;
 font-size:0.68rem; color:#94a3b8; margin:0;
 padding-top:12px; border-top:1px solid #f1f5f9;
 }
-.gm-source a { color:#0053e2; text-decoration:underline; }</style>
+.gm-source a { color:#0053e2; text-decoration:underline; }
+
+/* ========== OPIF Field Mapping Guide Styles ========== */
+/* opif-guide-styles.css */
+/* Styles for the OPIF Field Mapping Guide */
+
+.guide-button {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.guide-button:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-1px);
+}
+
+.guide-button-icon {
+  font-size: 16px;
+}
+
+.guide-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 10000;
+  animation: fadeIn 0.3s ease;
+}
+
+.guide-modal-overlay.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.guide-modal {
+  background: white;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 1200px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.guide-header {
+  background: linear-gradient(135deg, #0053e2 0%, #0041b0 100%);
+  color: white;
+  padding: 30px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.guide-header h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.guide-header p {
+  margin: 8px 0 0 0;
+  opacity: 0.9;
+  font-size: 16px;
+}
+
+.guide-close {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 28px;
+  line-height: 1;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+
+.guide-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+.guide-body {
+  display: flex;
+  height: calc(90vh - 120px);
+  overflow: hidden;
+}
+
+.guide-sidebar {
+  width: 280px;
+  background: #f8f9fa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  padding: 20px 0;
+}
+
+.guide-nav-item {
+  padding: 14px 24px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-left: 3px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: #333;
+}
+
+.guide-nav-item:hover {
+  background: #e8f0fe;
+  border-left-color: #0053e2;
+}
+
+.guide-nav-item.active {
+  background: #e8f0fe;
+  border-left-color: #0053e2;
+  color: #0053e2;
+  font-weight: 600;
+}
+
+.guide-nav-icon {
+  font-size: 20px;
+}
+
+.guide-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 40px;
+}
+
+.guide-section {
+  display: none;
+}
+
+.guide-section.active {
+  display: block;
+  animation: fadeInContent 0.3s ease;
+}
+
+@keyframes fadeInContent {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.guide-section h3 {
+  font-size: 24px;
+  color: #0053e2;
+  margin: 0 0 20px 0;
+}
+
+/* Requirement Box */
+.requirement-box {
+  background: #fff3cd;
+  border-left: 4px solid #ffc220;
+  padding: 24px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.requirement-box h3 {
+  margin: 0 0 12px 0;
+  color: #995213;
+  font-size: 20px;
+}
+
+.highlight-text {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.highlight-text code {
+  background: #995213;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+}
+
+.how-to-add {
+  margin-top: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+.how-to-add h4 {
+  margin: 0 0 12px 0;
+  color: #333;
+}
+
+.how-to-add ol {
+  margin: 0;
+  padding-left: 24px;
+}
+
+.how-to-add li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+/* Mapping Table */
+.field-mapping-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.field-mapping-table thead {
+  background: linear-gradient(135deg, #0053e2 0%, #0041b0 100%);
+  color: white;
+}
+
+.field-mapping-table th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.field-mapping-table td {
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.field-mapping-table tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.field-mapping-table code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+}
+
+/* Status Explanation */
+.status-explanation h3 {
+  margin-bottom: 16px;
+}
+
+.field-combo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.field-box {
+  flex: 1;
+  min-width: 250px;
+  background: #f8f9fa;
+  padding: 24px;
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+}
+
+.field-box h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.field-box ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.field-box li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.field-location {
+  background: #fff3cd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 12px;
+  border-left: 3px solid #ffc220;
+}
+
+.plus-sign {
+  font-size: 32px;
+  color: #0053e2;
+  font-weight: 700;
+}
+
+.result-box {
+  background: #e8f5e9;
+  padding: 24px;
+  border-radius: 8px;
+  border: 2px solid #2a8703;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.result-box h4 {
+  margin: 0 0 16px 0;
+  color: #2a8703;
+  font-size: 18px;
+}
+
+.status-examples {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.status-examples li {
+  margin: 12px 0;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.status-badge.green {
+  background: #2a8703;
+  color: white;
+}
+
+.status-badge.yellow {
+  background: #ffc220;
+  color: #995213;
+}
+
+.status-badge.red {
+  background: #ea1100;
+  color: white;
+}
+
+.status-badge.roadmap {
+  background: #666;
+  color: white;
+}
+
+/* Workstream Mapping */
+.workstream-mapping {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 24px 0;
+}
+
+.workstream-item {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.workstream-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.workstream-header {
+  padding: 16px;
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+}
+
+.workstream-header.strategy {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.workstream-header.design {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.workstream-header.buying {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.workstream-header.allocation {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.workstream-item p {
+  padding: 16px;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #666;
+}
+
+.note-box {
+  background: #e8f0fe;
+  border-left: 4px solid #0053e2;
+  padding: 16px;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+
+/* Example Card */
+.example-split {
+  display: flex;
+  align-items: stretch;
+  gap: 30px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.opif-side,
+.portal-side {
+  flex: 1;
+  min-width: 300px;
+}
+
+.opif-side h4,
+.portal-side h4 {
+  margin: 0 0 16px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.example-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.example-table tr {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.example-table tr:last-child {
+  border-bottom: none;
+}
+
+.example-table td {
+  padding: 12px 16px;
+}
+
+.example-table td:first-child {
+  font-weight: 600;
+  color: #666;
+  width: 40%;
+  background: #f8f9fa;
+}
+
+.example-table code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+.arrow {
+  font-size: 48px;
+  color: #0053e2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portal-card-preview {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e0e0e0;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.opif-badge {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.card-title {
+  font-size: 20px;
+  color: #333;
+  margin: 0 0 20px 0;
+}
+
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.meta-item {
+  display: flex;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.meta-label {
+  color: #666;
+  font-weight: 600;
+}
+
+.meta-value {
+  color: #333;
+}
+
+/* FAQ Items */
+.faq-item {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #0053e2;
+}
+
+.faq-item h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.faq-item p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+.faq-item ul,
+.faq-item ol {
+  margin: 12px 0;
+  padding-left: 24px;
+}
+
+.faq-item li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.faq-item code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+/* Sync Schedule */
+.schedule-box {
+  margin: 20px 0;
+}
+
+.schedule-item {
+  display: flex;
+  gap: 20px;
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 2px solid #e0e0e0;
+}
+
+.schedule-icon {
+  font-size: 48px;
+  color: #0053e2;
+}
+
+.schedule-details h4 {
+  margin: 0 0 8px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.schedule-details p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+.time-detail {
+  background: #fff3cd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #995213;
+}
+
+.flow-chain {
+  font-family: 'Courier New', monospace;
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #0053e2;
+}
+
+.note-text {
+  font-size: 14px;
+  color: #666;
+  font-style: italic;
+}
+
+/* Contact Info */
+.contact-methods {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.contact-card {
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.contact-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.contact-card h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.contact-card p {
+  margin: 0 0 8px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.contact-card code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.contact-card a {
+  color: #0053e2;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.contact-card a:hover {
+  text-decoration: underline;
+}
+
+/* ====================================================== */
+</style>
 <style>#exec-bar {
 margin-bottom: 12px;
 }
@@ -739,7 +2183,729 @@ flex: 1;
 min-width: 0;
 }
 details > summary { list-style: none; }
-details > summary::-webkit-details-marker { display: none; }</style>
+details > summary::-webkit-details-marker { display: none; }
+
+/* ========== OPIF Field Mapping Guide Styles ========== */
+/* opif-guide-styles.css */
+/* Styles for the OPIF Field Mapping Guide */
+
+.guide-button {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.guide-button:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-1px);
+}
+
+.guide-button-icon {
+  font-size: 16px;
+}
+
+.guide-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 10000;
+  animation: fadeIn 0.3s ease;
+}
+
+.guide-modal-overlay.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.guide-modal {
+  background: white;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 1200px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.guide-header {
+  background: linear-gradient(135deg, #0053e2 0%, #0041b0 100%);
+  color: white;
+  padding: 30px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.guide-header h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.guide-header p {
+  margin: 8px 0 0 0;
+  opacity: 0.9;
+  font-size: 16px;
+}
+
+.guide-close {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 28px;
+  line-height: 1;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+
+.guide-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+.guide-body {
+  display: flex;
+  height: calc(90vh - 120px);
+  overflow: hidden;
+}
+
+.guide-sidebar {
+  width: 280px;
+  background: #f8f9fa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  padding: 20px 0;
+}
+
+.guide-nav-item {
+  padding: 14px 24px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-left: 3px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: #333;
+}
+
+.guide-nav-item:hover {
+  background: #e8f0fe;
+  border-left-color: #0053e2;
+}
+
+.guide-nav-item.active {
+  background: #e8f0fe;
+  border-left-color: #0053e2;
+  color: #0053e2;
+  font-weight: 600;
+}
+
+.guide-nav-icon {
+  font-size: 20px;
+}
+
+.guide-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 40px;
+}
+
+.guide-section {
+  display: none;
+}
+
+.guide-section.active {
+  display: block;
+  animation: fadeInContent 0.3s ease;
+}
+
+@keyframes fadeInContent {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.guide-section h3 {
+  font-size: 24px;
+  color: #0053e2;
+  margin: 0 0 20px 0;
+}
+
+/* Requirement Box */
+.requirement-box {
+  background: #fff3cd;
+  border-left: 4px solid #ffc220;
+  padding: 24px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.requirement-box h3 {
+  margin: 0 0 12px 0;
+  color: #995213;
+  font-size: 20px;
+}
+
+.highlight-text {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.highlight-text code {
+  background: #995213;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+}
+
+.how-to-add {
+  margin-top: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+.how-to-add h4 {
+  margin: 0 0 12px 0;
+  color: #333;
+}
+
+.how-to-add ol {
+  margin: 0;
+  padding-left: 24px;
+}
+
+.how-to-add li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+/* Mapping Table */
+.field-mapping-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.field-mapping-table thead {
+  background: linear-gradient(135deg, #0053e2 0%, #0041b0 100%);
+  color: white;
+}
+
+.field-mapping-table th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.field-mapping-table td {
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.field-mapping-table tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.field-mapping-table code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+}
+
+/* Status Explanation */
+.status-explanation h3 {
+  margin-bottom: 16px;
+}
+
+.field-combo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.field-box {
+  flex: 1;
+  min-width: 250px;
+  background: #f8f9fa;
+  padding: 24px;
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+}
+
+.field-box h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.field-box ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.field-box li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.field-location {
+  background: #fff3cd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 12px;
+  border-left: 3px solid #ffc220;
+}
+
+.plus-sign {
+  font-size: 32px;
+  color: #0053e2;
+  font-weight: 700;
+}
+
+.result-box {
+  background: #e8f5e9;
+  padding: 24px;
+  border-radius: 8px;
+  border: 2px solid #2a8703;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.result-box h4 {
+  margin: 0 0 16px 0;
+  color: #2a8703;
+  font-size: 18px;
+}
+
+.status-examples {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.status-examples li {
+  margin: 12px 0;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.status-badge.green {
+  background: #2a8703;
+  color: white;
+}
+
+.status-badge.yellow {
+  background: #ffc220;
+  color: #995213;
+}
+
+.status-badge.red {
+  background: #ea1100;
+  color: white;
+}
+
+.status-badge.roadmap {
+  background: #666;
+  color: white;
+}
+
+/* Workstream Mapping */
+.workstream-mapping {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 24px 0;
+}
+
+.workstream-item {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.workstream-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.workstream-header {
+  padding: 16px;
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+}
+
+.workstream-header.strategy {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.workstream-header.design {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.workstream-header.buying {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.workstream-header.allocation {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.workstream-item p {
+  padding: 16px;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #666;
+}
+
+.note-box {
+  background: #e8f0fe;
+  border-left: 4px solid #0053e2;
+  padding: 16px;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+
+/* Example Card */
+.example-split {
+  display: flex;
+  align-items: stretch;
+  gap: 30px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.opif-side,
+.portal-side {
+  flex: 1;
+  min-width: 300px;
+}
+
+.opif-side h4,
+.portal-side h4 {
+  margin: 0 0 16px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.example-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.example-table tr {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.example-table tr:last-child {
+  border-bottom: none;
+}
+
+.example-table td {
+  padding: 12px 16px;
+}
+
+.example-table td:first-child {
+  font-weight: 600;
+  color: #666;
+  width: 40%;
+  background: #f8f9fa;
+}
+
+.example-table code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+.arrow {
+  font-size: 48px;
+  color: #0053e2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portal-card-preview {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e0e0e0;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.opif-badge {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.card-title {
+  font-size: 20px;
+  color: #333;
+  margin: 0 0 20px 0;
+}
+
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.meta-item {
+  display: flex;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.meta-label {
+  color: #666;
+  font-weight: 600;
+}
+
+.meta-value {
+  color: #333;
+}
+
+/* FAQ Items */
+.faq-item {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #0053e2;
+}
+
+.faq-item h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.faq-item p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+.faq-item ul,
+.faq-item ol {
+  margin: 12px 0;
+  padding-left: 24px;
+}
+
+.faq-item li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.faq-item code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+/* Sync Schedule */
+.schedule-box {
+  margin: 20px 0;
+}
+
+.schedule-item {
+  display: flex;
+  gap: 20px;
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 2px solid #e0e0e0;
+}
+
+.schedule-icon {
+  font-size: 48px;
+  color: #0053e2;
+}
+
+.schedule-details h4 {
+  margin: 0 0 8px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.schedule-details p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+.time-detail {
+  background: #fff3cd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #995213;
+}
+
+.flow-chain {
+  font-family: 'Courier New', monospace;
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #0053e2;
+}
+
+.note-text {
+  font-size: 14px;
+  color: #666;
+  font-style: italic;
+}
+
+/* Contact Info */
+.contact-methods {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.contact-card {
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.contact-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.contact-card h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.contact-card p {
+  margin: 0 0 8px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.contact-card code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.contact-card a {
+  color: #0053e2;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.contact-card a:hover {
+  text-decoration: underline;
+}
+
+/* ====================================================== */
+</style>
 <style>.review-back-bar {
 margin-bottom: 20px;
 }
@@ -1415,7 +3581,729 @@ margin-bottom: 8px;
 font-size: 14px;
 color: #6b7280;
 line-height: 1.6;
-}</style>
+}
+
+/* ========== OPIF Field Mapping Guide Styles ========== */
+/* opif-guide-styles.css */
+/* Styles for the OPIF Field Mapping Guide */
+
+.guide-button {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.guide-button:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-1px);
+}
+
+.guide-button-icon {
+  font-size: 16px;
+}
+
+.guide-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 10000;
+  animation: fadeIn 0.3s ease;
+}
+
+.guide-modal-overlay.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.guide-modal {
+  background: white;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 1200px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.guide-header {
+  background: linear-gradient(135deg, #0053e2 0%, #0041b0 100%);
+  color: white;
+  padding: 30px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.guide-header h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.guide-header p {
+  margin: 8px 0 0 0;
+  opacity: 0.9;
+  font-size: 16px;
+}
+
+.guide-close {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 28px;
+  line-height: 1;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+
+.guide-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+.guide-body {
+  display: flex;
+  height: calc(90vh - 120px);
+  overflow: hidden;
+}
+
+.guide-sidebar {
+  width: 280px;
+  background: #f8f9fa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  padding: 20px 0;
+}
+
+.guide-nav-item {
+  padding: 14px 24px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-left: 3px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: #333;
+}
+
+.guide-nav-item:hover {
+  background: #e8f0fe;
+  border-left-color: #0053e2;
+}
+
+.guide-nav-item.active {
+  background: #e8f0fe;
+  border-left-color: #0053e2;
+  color: #0053e2;
+  font-weight: 600;
+}
+
+.guide-nav-icon {
+  font-size: 20px;
+}
+
+.guide-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 40px;
+}
+
+.guide-section {
+  display: none;
+}
+
+.guide-section.active {
+  display: block;
+  animation: fadeInContent 0.3s ease;
+}
+
+@keyframes fadeInContent {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.guide-section h3 {
+  font-size: 24px;
+  color: #0053e2;
+  margin: 0 0 20px 0;
+}
+
+/* Requirement Box */
+.requirement-box {
+  background: #fff3cd;
+  border-left: 4px solid #ffc220;
+  padding: 24px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.requirement-box h3 {
+  margin: 0 0 12px 0;
+  color: #995213;
+  font-size: 20px;
+}
+
+.highlight-text {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.highlight-text code {
+  background: #995213;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+}
+
+.how-to-add {
+  margin-top: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+.how-to-add h4 {
+  margin: 0 0 12px 0;
+  color: #333;
+}
+
+.how-to-add ol {
+  margin: 0;
+  padding-left: 24px;
+}
+
+.how-to-add li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+/* Mapping Table */
+.field-mapping-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.field-mapping-table thead {
+  background: linear-gradient(135deg, #0053e2 0%, #0041b0 100%);
+  color: white;
+}
+
+.field-mapping-table th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.field-mapping-table td {
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.field-mapping-table tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.field-mapping-table code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+}
+
+/* Status Explanation */
+.status-explanation h3 {
+  margin-bottom: 16px;
+}
+
+.field-combo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.field-box {
+  flex: 1;
+  min-width: 250px;
+  background: #f8f9fa;
+  padding: 24px;
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+}
+
+.field-box h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.field-box ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.field-box li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.field-location {
+  background: #fff3cd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 12px;
+  border-left: 3px solid #ffc220;
+}
+
+.plus-sign {
+  font-size: 32px;
+  color: #0053e2;
+  font-weight: 700;
+}
+
+.result-box {
+  background: #e8f5e9;
+  padding: 24px;
+  border-radius: 8px;
+  border: 2px solid #2a8703;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.result-box h4 {
+  margin: 0 0 16px 0;
+  color: #2a8703;
+  font-size: 18px;
+}
+
+.status-examples {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.status-examples li {
+  margin: 12px 0;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.status-badge.green {
+  background: #2a8703;
+  color: white;
+}
+
+.status-badge.yellow {
+  background: #ffc220;
+  color: #995213;
+}
+
+.status-badge.red {
+  background: #ea1100;
+  color: white;
+}
+
+.status-badge.roadmap {
+  background: #666;
+  color: white;
+}
+
+/* Workstream Mapping */
+.workstream-mapping {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 24px 0;
+}
+
+.workstream-item {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.workstream-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.workstream-header {
+  padding: 16px;
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+}
+
+.workstream-header.strategy {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.workstream-header.design {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.workstream-header.buying {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.workstream-header.allocation {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.workstream-item p {
+  padding: 16px;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #666;
+}
+
+.note-box {
+  background: #e8f0fe;
+  border-left: 4px solid #0053e2;
+  padding: 16px;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+
+/* Example Card */
+.example-split {
+  display: flex;
+  align-items: stretch;
+  gap: 30px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.opif-side,
+.portal-side {
+  flex: 1;
+  min-width: 300px;
+}
+
+.opif-side h4,
+.portal-side h4 {
+  margin: 0 0 16px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.example-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.example-table tr {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.example-table tr:last-child {
+  border-bottom: none;
+}
+
+.example-table td {
+  padding: 12px 16px;
+}
+
+.example-table td:first-child {
+  font-weight: 600;
+  color: #666;
+  width: 40%;
+  background: #f8f9fa;
+}
+
+.example-table code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+.arrow {
+  font-size: 48px;
+  color: #0053e2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portal-card-preview {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e0e0e0;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.opif-badge {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.card-title {
+  font-size: 20px;
+  color: #333;
+  margin: 0 0 20px 0;
+}
+
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.meta-item {
+  display: flex;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.meta-label {
+  color: #666;
+  font-weight: 600;
+}
+
+.meta-value {
+  color: #333;
+}
+
+/* FAQ Items */
+.faq-item {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #0053e2;
+}
+
+.faq-item h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.faq-item p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+.faq-item ul,
+.faq-item ol {
+  margin: 12px 0;
+  padding-left: 24px;
+}
+
+.faq-item li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.faq-item code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+/* Sync Schedule */
+.schedule-box {
+  margin: 20px 0;
+}
+
+.schedule-item {
+  display: flex;
+  gap: 20px;
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 2px solid #e0e0e0;
+}
+
+.schedule-icon {
+  font-size: 48px;
+  color: #0053e2;
+}
+
+.schedule-details h4 {
+  margin: 0 0 8px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.schedule-details p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+.time-detail {
+  background: #fff3cd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #995213;
+}
+
+.flow-chain {
+  font-family: 'Courier New', monospace;
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #0053e2;
+}
+
+.note-text {
+  font-size: 14px;
+  color: #666;
+  font-style: italic;
+}
+
+/* Contact Info */
+.contact-methods {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.contact-card {
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.contact-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.contact-card h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.contact-card p {
+  margin: 0 0 8px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.contact-card code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.contact-card a {
+  color: #0053e2;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.contact-card a:hover {
+  text-decoration: underline;
+}
+
+/* ====================================================== */
+</style>
 <style>#control-panel-banner {
 position: sticky;
 top: 0;
@@ -1695,7 +4583,729 @@ gap: 8px;
 .cp-sep {
 display: none;
 }
-}</style>
+}
+
+/* ========== OPIF Field Mapping Guide Styles ========== */
+/* opif-guide-styles.css */
+/* Styles for the OPIF Field Mapping Guide */
+
+.guide-button {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.guide-button:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-1px);
+}
+
+.guide-button-icon {
+  font-size: 16px;
+}
+
+.guide-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 10000;
+  animation: fadeIn 0.3s ease;
+}
+
+.guide-modal-overlay.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.guide-modal {
+  background: white;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 1200px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.guide-header {
+  background: linear-gradient(135deg, #0053e2 0%, #0041b0 100%);
+  color: white;
+  padding: 30px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.guide-header h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.guide-header p {
+  margin: 8px 0 0 0;
+  opacity: 0.9;
+  font-size: 16px;
+}
+
+.guide-close {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 28px;
+  line-height: 1;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+
+.guide-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+.guide-body {
+  display: flex;
+  height: calc(90vh - 120px);
+  overflow: hidden;
+}
+
+.guide-sidebar {
+  width: 280px;
+  background: #f8f9fa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  padding: 20px 0;
+}
+
+.guide-nav-item {
+  padding: 14px 24px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-left: 3px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: #333;
+}
+
+.guide-nav-item:hover {
+  background: #e8f0fe;
+  border-left-color: #0053e2;
+}
+
+.guide-nav-item.active {
+  background: #e8f0fe;
+  border-left-color: #0053e2;
+  color: #0053e2;
+  font-weight: 600;
+}
+
+.guide-nav-icon {
+  font-size: 20px;
+}
+
+.guide-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 40px;
+}
+
+.guide-section {
+  display: none;
+}
+
+.guide-section.active {
+  display: block;
+  animation: fadeInContent 0.3s ease;
+}
+
+@keyframes fadeInContent {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.guide-section h3 {
+  font-size: 24px;
+  color: #0053e2;
+  margin: 0 0 20px 0;
+}
+
+/* Requirement Box */
+.requirement-box {
+  background: #fff3cd;
+  border-left: 4px solid #ffc220;
+  padding: 24px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.requirement-box h3 {
+  margin: 0 0 12px 0;
+  color: #995213;
+  font-size: 20px;
+}
+
+.highlight-text {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.highlight-text code {
+  background: #995213;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+}
+
+.how-to-add {
+  margin-top: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+.how-to-add h4 {
+  margin: 0 0 12px 0;
+  color: #333;
+}
+
+.how-to-add ol {
+  margin: 0;
+  padding-left: 24px;
+}
+
+.how-to-add li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+/* Mapping Table */
+.field-mapping-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.field-mapping-table thead {
+  background: linear-gradient(135deg, #0053e2 0%, #0041b0 100%);
+  color: white;
+}
+
+.field-mapping-table th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.field-mapping-table td {
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.field-mapping-table tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.field-mapping-table code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+}
+
+/* Status Explanation */
+.status-explanation h3 {
+  margin-bottom: 16px;
+}
+
+.field-combo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.field-box {
+  flex: 1;
+  min-width: 250px;
+  background: #f8f9fa;
+  padding: 24px;
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+}
+
+.field-box h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.field-box ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.field-box li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.field-location {
+  background: #fff3cd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 12px;
+  border-left: 3px solid #ffc220;
+}
+
+.plus-sign {
+  font-size: 32px;
+  color: #0053e2;
+  font-weight: 700;
+}
+
+.result-box {
+  background: #e8f5e9;
+  padding: 24px;
+  border-radius: 8px;
+  border: 2px solid #2a8703;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.result-box h4 {
+  margin: 0 0 16px 0;
+  color: #2a8703;
+  font-size: 18px;
+}
+
+.status-examples {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.status-examples li {
+  margin: 12px 0;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.status-badge.green {
+  background: #2a8703;
+  color: white;
+}
+
+.status-badge.yellow {
+  background: #ffc220;
+  color: #995213;
+}
+
+.status-badge.red {
+  background: #ea1100;
+  color: white;
+}
+
+.status-badge.roadmap {
+  background: #666;
+  color: white;
+}
+
+/* Workstream Mapping */
+.workstream-mapping {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 24px 0;
+}
+
+.workstream-item {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.workstream-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.workstream-header {
+  padding: 16px;
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+}
+
+.workstream-header.strategy {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.workstream-header.design {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.workstream-header.buying {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.workstream-header.allocation {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.workstream-item p {
+  padding: 16px;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #666;
+}
+
+.note-box {
+  background: #e8f0fe;
+  border-left: 4px solid #0053e2;
+  padding: 16px;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+
+/* Example Card */
+.example-split {
+  display: flex;
+  align-items: stretch;
+  gap: 30px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.opif-side,
+.portal-side {
+  flex: 1;
+  min-width: 300px;
+}
+
+.opif-side h4,
+.portal-side h4 {
+  margin: 0 0 16px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.example-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.example-table tr {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.example-table tr:last-child {
+  border-bottom: none;
+}
+
+.example-table td {
+  padding: 12px 16px;
+}
+
+.example-table td:first-child {
+  font-weight: 600;
+  color: #666;
+  width: 40%;
+  background: #f8f9fa;
+}
+
+.example-table code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+.arrow {
+  font-size: 48px;
+  color: #0053e2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portal-card-preview {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e0e0e0;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.opif-badge {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.card-title {
+  font-size: 20px;
+  color: #333;
+  margin: 0 0 20px 0;
+}
+
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.meta-item {
+  display: flex;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.meta-label {
+  color: #666;
+  font-weight: 600;
+}
+
+.meta-value {
+  color: #333;
+}
+
+/* FAQ Items */
+.faq-item {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #0053e2;
+}
+
+.faq-item h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.faq-item p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+.faq-item ul,
+.faq-item ol {
+  margin: 12px 0;
+  padding-left: 24px;
+}
+
+.faq-item li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.faq-item code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+/* Sync Schedule */
+.schedule-box {
+  margin: 20px 0;
+}
+
+.schedule-item {
+  display: flex;
+  gap: 20px;
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 2px solid #e0e0e0;
+}
+
+.schedule-icon {
+  font-size: 48px;
+  color: #0053e2;
+}
+
+.schedule-details h4 {
+  margin: 0 0 8px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.schedule-details p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+.time-detail {
+  background: #fff3cd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #995213;
+}
+
+.flow-chain {
+  font-family: 'Courier New', monospace;
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #0053e2;
+}
+
+.note-text {
+  font-size: 14px;
+  color: #666;
+  font-style: italic;
+}
+
+/* Contact Info */
+.contact-methods {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.contact-card {
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.contact-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.contact-card h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.contact-card p {
+  margin: 0 0 8px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.contact-card code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.contact-card a {
+  color: #0053e2;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.contact-card a:hover {
+  text-decoration: underline;
+}
+
+/* ====================================================== */
+</style>
 <style>.gantt-toolbar {
 display: flex;
 align-items: center;
@@ -2156,103 +5766,1203 @@ color: #6b7280;
 white-space: nowrap;
 flex-wrap: wrap;
 }
-.biz-goal-header { min-height: 48px; }
-.biz-goal-band {
-position: absolute;
-top: 0;
-height: 100%;
+.biz-win-nav {
 display: flex;
 align-items: center;
-justify-content: flex-end;
-padding-right: 8px;
-pointer-events: none;
+justify-content: space-between;
+padding: 0 10px;
+height: 100%;
+box-sizing: border-box;
+gap: 6px;
 }
-.biz-goal-band-empty { opacity: 0.3; }
-.biz-cap-row     { min-height: 44px; background: white; }
-.biz-cap-row-alt { background: #fafbff; }
-.biz-cap-label {
-padding: 6px 10px 6px 16px !important;
+.biz-nav-btn {
+background: #f3f4f6;
+border: 1.5px solid #e5e7eb;
+border-radius: 6px;
+font-size: 18px;
+line-height: 1;
+padding: 3px 9px 5px;
+cursor: pointer;
+color: #374151;
+font-weight: 700;
+transition: background 0.12s, border-color 0.12s, color 0.12s;
+flex-shrink: 0;
+user-select: none;
+}
+.biz-nav-btn:hover:not(:disabled) {
+background: #dbeafe;
+border-color: #0053e2;
+color: #0053e2;
+}
+.biz-nav-btn:disabled {
+opacity: 0.28;
+cursor: not-allowed;
+}
+.biz-nav-label {
+font-size: 9.5px;
+font-weight: 600;
+color: #9ca3af;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+text-align: center;
+line-height: 1.3;
+flex: 1;
+}
+.biz-qcol {
+flex: 1;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+padding: 9px 12px;
+gap: 3px;
+border-left: 1px solid #e5e7eb;
+background: #f9fafb;
+}
+.biz-qcol:first-child { border-left: none; }
+.biz-qcol-label {
+font-size: 14px;
+font-weight: 800;
+letter-spacing: -0.3px;
+}
+.biz-qcol-sub {
+font-size: 10px;
+color: #9ca3af;
+font-weight: 500;
+}
+.biz-goal-row {
+display: flex;
+align-items: stretch;
+border-bottom: 1px solid #e5e7eb;
+transition: background 0.1s;
+}
+.biz-goal-label-panel {
+flex-shrink: 0;
+display: flex;
+flex-direction: column;
+justify-content: center;
+padding: 12px 12px 12px 16px;
+gap: 4px;
+background: inherit;
+z-index: 1;
+}
+.biz-goal-panel-icon {
+font-size: 22px;
+line-height: 1;
+margin-bottom: 2px;
+}
+.biz-goal-panel-name {
+font-size: 14px;
+font-weight: 800;
+line-height: 1.2;
+letter-spacing: -0.2px;
+}
+.biz-goal-panel-desc {
+font-size: 10.5px;
+color: #6b7280;
+line-height: 1.45;
+display: -webkit-box;
+-webkit-line-clamp: 3;
+-webkit-box-orient: vertical;
+overflow: hidden;
+}
+.biz-goal-panel-summary {
+font-size: 10px;
+color: #9ca3af;
+margin-top: 4px;
+font-weight: 500;
+}
+.biz-goal-track {
+position: relative;
+flex: 1;
+overflow: hidden;
+}
+.biz-goal-row-expanded {
+align-items: flex-start;
+}
+.biz-goal-label-panel-expanded {
+justify-content: flex-start !important;
+padding-top: 16px;
+align-self: flex-start;
+}
+.biz-goal-track-expanded {
+flex: 1;
+display: flex;
+flex-direction: column;
+padding: 12px 14px 14px;
+gap: 14px;
 background: inherit;
 }
-.biz-cap-inner {
+.biz-expand-group {
 display: flex;
-align-items: flex-start;
+flex-direction: column;
 gap: 6px;
-flex-wrap: nowrap;
 }
-.biz-cap-text {
-font-size: 11.5px;
-font-weight: 500;
-color: #1f2937;
-line-height: 1.4;
+.biz-expand-q-label {
+font-size: 10.5px;
+font-weight: 700;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+padding-bottom: 5px;
+margin-bottom: 2px;
+display: flex;
+align-items: baseline;
+gap: 4px;
+}
+.biz-expand-q-sub {
+font-size: 9.5px;
+font-weight: 400;
+opacity: 0.6;
+letter-spacing: 0;
+text-transform: none;
+}
+.biz-expand-chip {
+border-radius: 6px;
+padding: 8px 10px 7px 12px;
+cursor: pointer;
+display: flex;
+flex-direction: column;
+gap: 4px;
+box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+transition: filter 0.12s, box-shadow 0.12s, transform 0.1s;
+}
+.biz-expand-chip:hover {
+filter: brightness(0.96);
+box-shadow: 0 3px 10px rgba(0,0,53,0.12);
+transform: translateY(-1px);
+}
+.biz-expand-btn {
+margin-top: 8px;
+padding: 4px 10px;
+border-radius: 4px;
+border: 1.5px solid;
+font-size: 9.5px;
+font-weight: 700;
+cursor: pointer;
+letter-spacing: 0.2px;
+align-self: flex-start;
+transition: background 0.12s, border-color 0.12s;
+white-space: nowrap;
+}
+.biz-expand-btn-closed {
+background: #eff6ff;
+border-color: #bfdbfe;
+color: #1d4ed8;
+}
+.biz-expand-btn-closed:hover {
+background: #dbeafe;
+border-color: #93c5fd;
+}
+.biz-expand-btn-open {
+background: #f9fafb;
+border-color: #e5e7eb;
+color: #6b7280;
+}
+.biz-expand-btn-open:hover {
+background: #f3f4f6;
+border-color: #d1d5db;
+}
+.biz-chip {
+position: absolute;
+border-radius: 6px;
+padding: 7px 10px 6px 12px;
+cursor: pointer;
 overflow: hidden;
+display: flex;
+flex-direction: column;
+gap: 4px;
+box-shadow: 0 1px 4px rgba(0,0,0,0.09);
+transition: filter 0.12s, box-shadow 0.12s, transform 0.1s;
+z-index: 3;
+}
+.biz-chip:hover {
+filter: brightness(0.96);
+box-shadow: 0 4px 12px rgba(0,0,53,0.14);
+transform: translateY(-1px);
+z-index: 4;
+}
+.biz-chip-text {
+font-size: 11.5px;
+font-weight: 600;
+color: #111827;
+line-height: 1.4;
 display: -webkit-box;
 -webkit-line-clamp: 2;
 -webkit-box-orient: vertical;
+overflow: hidden;
+flex: 1;
+margin: 0;
 }
-.biz-cap-meta {
+.biz-chip-meta {
 display: flex;
 align-items: center;
+gap: 4px;
+flex-shrink: 0;
+overflow: hidden;
+}
+.biz-chip-type {
+font-size: 8.5px;
+font-weight: 700;
+padding: 1px 5px;
+border-radius: 3px;
+letter-spacing: 0.3px;
+white-space: nowrap;
+flex-shrink: 0;
+}
+.biz-chip-type-auto {
+background: #fef3c7;
+color: #92400e;
+}
+.biz-chip-type-cap {
+background: #d1fae5;
+color: #065f46;
+}
+.biz-chip-sep {
+color: #d1d5db;
+font-size: 10px;
+flex-shrink: 0;
+}
+.biz-chip-prog {
+font-size: 9px;
+color: #9ca3af;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+}
+.biz-chip-ws {
+display: inline-block;
+font-size: 8px;
+font-weight: 700;
+padding: 1px 5px;
+border-radius: 3px;
+white-space: nowrap;
+flex-shrink: 0;
+letter-spacing: 0.2px;
+}
+.biz-chip-empty {
+position: absolute;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 10px;
+color: #d1d5db;
+font-style: italic;
+letter-spacing: 0.2px;
+border: 1.5px dashed #e5e7eb;
+border-radius: 6px;
+height: 36px;
+pointer-events: none;
+}
+#biz-cap-modal {
+display: none;
+position: fixed;
+inset: 0;
+z-index: 9000;
+align-items: center;
+justify-content: center;
+}
+#biz-cap-modal.open {
+display: flex;
+}
+.biz-modal-backdrop {
+position: absolute;
+inset: 0;
+background: rgba(0,0,0,0.45);
+backdrop-filter: blur(2px);
+}
+.biz-modal-card {
+position: relative;
+background: white;
+border-radius: 16px;
+box-shadow: 0 24px 64px rgba(0,0,53,0.22);
+width: min(620px, 94vw);
+max-height: 80vh;
+overflow-y: auto;
+padding: 28px;
+scrollbar-width: thin;
+scrollbar-color: #cbd5e1 #f1f5f9;
+}
+.biz-modal-close {
+position: absolute;
+top: 16px;
+right: 16px;
+width: 32px;
+height: 32px;
+border: none;
+border-radius: 50%;
+background: #f3f4f6;
+color: #374151;
+font-size: 18px;
+line-height: 1;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: background 0.12s;
+}
+.biz-modal-close:hover { background: #e5e7eb; }
+.biz-modal-goal-header {
+display: flex;
+align-items: flex-start;
+gap: 12px;
+padding: 0 0 16px 16px;
+margin-bottom: 16px;
+border-bottom: 1px solid #f3f4f6;
+}
+.biz-modal-goal-icon {
+font-size: 28px;
+flex-shrink: 0;
+line-height: 1;
+margin-top: 2px;
+}
+.biz-modal-goal-label {
+font-size: 18px;
+font-weight: 800;
+margin-bottom: 4px;
+}
+.biz-modal-goal-desc {
+font-size: 12px;
+color: #6b7280;
+line-height: 1.5;
+}
+.biz-modal-qbar {
+display: flex;
+align-items: center;
+gap: 10px;
+padding: 10px 16px;
+border-radius: 8px;
+margin-bottom: 16px;
+flex-wrap: wrap;
+}
+.biz-modal-counts {
+display: flex;
 gap: 6px;
+margin-left: auto;
+flex-wrap: wrap;
+}
+.biz-modal-items {
+display: flex;
+flex-direction: column;
+gap: 12px;
+}
+.biz-modal-item {
+padding: 14px 16px;
+border-radius: 10px;
+border: 1px solid #f3f4f6;
+background: #fafafa;
+transition: background 0.1s;
+}
+.biz-modal-item:hover { background: #f5f9ff; }
+.biz-modal-item-header {
+display: flex;
+align-items: center;
+gap: 8px;
+flex-wrap: wrap;
+margin-bottom: 8px;
+}
+.biz-modal-impact-statement {
+padding: 14px 16px;
+border-radius: 10px;
+background: #f8faff;
+border: 1px solid #e0e7ff;
+margin-bottom: 16px;
+}
+.biz-modal-impact-headline {
+font-size: 15px;
+font-weight: 700;
+color: #111827;
+line-height: 1.45;
+margin-bottom: 10px;
+}
+.biz-modal-impact-narrative {
+font-size: 13px;
+color: #374151;
+line-height: 1.7;
+margin: 0;
+}
+.biz-modal-links {
+display: flex;
+flex-direction: column;
+gap: 8px;
 margin-top: 4px;
-padding-left: 2px;
+}
+.biz-modal-link-label {
+font-size: 10px;
+font-weight: 700;
+text-transform: uppercase;
+letter-spacing: 0.6px;
+color: #9ca3af;
+margin-bottom: 2px;
+}
+.biz-modal-link-btn {
+display: flex;
+align-items: center;
+gap: 8px;
+padding: 10px 14px;
+border-radius: 8px;
+font-size: 12px;
+font-weight: 600;
+text-decoration: none;
+cursor: pointer;
+border: 1.5px solid;
+transition: background 0.12s, box-shadow 0.12s;
+width: 100%;
+text-align: left;
+}
+.biz-modal-link-card {
+background: #eef4ff;
+border-color: #bfdbfe;
+color: #1e40af;
+}
+.biz-modal-link-card:hover {
+background: #dbeafe;
+box-shadow: 0 2px 8px rgba(0,83,226,0.12);
+}
+.biz-modal-link-opif {
+background: #fefce8;
+border-color: #fde68a;
+color: #92400e;
+}
+.biz-modal-link-opif:hover {
+background: #fef08a;
+box-shadow: 0 2px 8px rgba(180,93,0,0.1);
+}
+.biz-modal-link-ext {
+margin-left: auto;
+font-size: 14px;
+opacity: 0.6;
+}
+.biz-modal-target {
 font-size: 10px;
 color: #9ca3af;
 }
-.biz-prog-pill {
-display: inline-block;
-padding: 1px 6px;
-border-radius: 10px;
-font-size: 9px;
-font-weight: 700;
-letter-spacing: 0.2px;
-white-space: nowrap;
+
+/* ========== OPIF Field Mapping Guide Styles ========== */
+/* opif-guide-styles.css */
+/* Styles for the OPIF Field Mapping Guide */
+
+.guide-button {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
-.biz-cap-track { height: 44px !important; }
-.biz-cap-bar {
-position: absolute;
-top: 50%;
-transform: translateY(-50%);
-height: 22px;
-border-radius: 5px;
-display: flex;
-align-items: center;
-padding: 0 10px;
-z-index: 2;
-opacity: 0.82;
-overflow: hidden;
+
+.guide-button:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-1px);
 }
-.biz-cap-bar-label {
-font-size: 9px;
-font-weight: 800;
-color: white;
-white-space: nowrap;
-text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-letter-spacing: 0.3px;
+
+.guide-button-icon {
+  font-size: 16px;
 }
-.biz-badge {
-display: inline-block;
-flex-shrink: 0;
-padding: 2px 6px;
-border-radius: 4px;
-font-size: 9px;
-font-weight: 700;
-letter-spacing: 0.3px;
-white-space: nowrap;
-margin-top: 1px;
+
+.guide-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 10000;
+  animation: fadeIn 0.3s ease;
 }
-.biz-badge-automation {
-background: #fef3c7;
-color: #92400e;
-border: 1px solid #fcd34d;
+
+.guide-modal-overlay.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.biz-badge-capability {
-background: #d1fae5;
-color: #065f46;
-border: 1px solid #6ee7b7;
-}</style>
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.guide-modal {
+  background: white;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 1200px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.guide-header {
+  background: linear-gradient(135deg, #0053e2 0%, #0041b0 100%);
+  color: white;
+  padding: 30px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.guide-header h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.guide-header p {
+  margin: 8px 0 0 0;
+  opacity: 0.9;
+  font-size: 16px;
+}
+
+.guide-close {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 28px;
+  line-height: 1;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+
+.guide-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+.guide-body {
+  display: flex;
+  height: calc(90vh - 120px);
+  overflow: hidden;
+}
+
+.guide-sidebar {
+  width: 280px;
+  background: #f8f9fa;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  padding: 20px 0;
+}
+
+.guide-nav-item {
+  padding: 14px 24px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-left: 3px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: #333;
+}
+
+.guide-nav-item:hover {
+  background: #e8f0fe;
+  border-left-color: #0053e2;
+}
+
+.guide-nav-item.active {
+  background: #e8f0fe;
+  border-left-color: #0053e2;
+  color: #0053e2;
+  font-weight: 600;
+}
+
+.guide-nav-icon {
+  font-size: 20px;
+}
+
+.guide-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 40px;
+}
+
+.guide-section {
+  display: none;
+}
+
+.guide-section.active {
+  display: block;
+  animation: fadeInContent 0.3s ease;
+}
+
+@keyframes fadeInContent {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.guide-section h3 {
+  font-size: 24px;
+  color: #0053e2;
+  margin: 0 0 20px 0;
+}
+
+/* Requirement Box */
+.requirement-box {
+  background: #fff3cd;
+  border-left: 4px solid #ffc220;
+  padding: 24px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.requirement-box h3 {
+  margin: 0 0 12px 0;
+  color: #995213;
+  font-size: 20px;
+}
+
+.highlight-text {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.highlight-text code {
+  background: #995213;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+}
+
+.how-to-add {
+  margin-top: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+.how-to-add h4 {
+  margin: 0 0 12px 0;
+  color: #333;
+}
+
+.how-to-add ol {
+  margin: 0;
+  padding-left: 24px;
+}
+
+.how-to-add li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+/* Mapping Table */
+.field-mapping-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.field-mapping-table thead {
+  background: linear-gradient(135deg, #0053e2 0%, #0041b0 100%);
+  color: white;
+}
+
+.field-mapping-table th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.field-mapping-table td {
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.field-mapping-table tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.field-mapping-table code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+}
+
+/* Status Explanation */
+.status-explanation h3 {
+  margin-bottom: 16px;
+}
+
+.field-combo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.field-box {
+  flex: 1;
+  min-width: 250px;
+  background: #f8f9fa;
+  padding: 24px;
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+}
+
+.field-box h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.field-box ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.field-box li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.field-location {
+  background: #fff3cd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 12px;
+  border-left: 3px solid #ffc220;
+}
+
+.plus-sign {
+  font-size: 32px;
+  color: #0053e2;
+  font-weight: 700;
+}
+
+.result-box {
+  background: #e8f5e9;
+  padding: 24px;
+  border-radius: 8px;
+  border: 2px solid #2a8703;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.result-box h4 {
+  margin: 0 0 16px 0;
+  color: #2a8703;
+  font-size: 18px;
+}
+
+.status-examples {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.status-examples li {
+  margin: 12px 0;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.status-badge.green {
+  background: #2a8703;
+  color: white;
+}
+
+.status-badge.yellow {
+  background: #ffc220;
+  color: #995213;
+}
+
+.status-badge.red {
+  background: #ea1100;
+  color: white;
+}
+
+.status-badge.roadmap {
+  background: #666;
+  color: white;
+}
+
+/* Workstream Mapping */
+.workstream-mapping {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 24px 0;
+}
+
+.workstream-item {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.workstream-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.workstream-header {
+  padding: 16px;
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+}
+
+.workstream-header.strategy {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.workstream-header.design {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.workstream-header.buying {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.workstream-header.allocation {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.workstream-item p {
+  padding: 16px;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #666;
+}
+
+.note-box {
+  background: #e8f0fe;
+  border-left: 4px solid #0053e2;
+  padding: 16px;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+
+/* Example Card */
+.example-split {
+  display: flex;
+  align-items: stretch;
+  gap: 30px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.opif-side,
+.portal-side {
+  flex: 1;
+  min-width: 300px;
+}
+
+.opif-side h4,
+.portal-side h4 {
+  margin: 0 0 16px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.example-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.example-table tr {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.example-table tr:last-child {
+  border-bottom: none;
+}
+
+.example-table td {
+  padding: 12px 16px;
+}
+
+.example-table td:first-child {
+  font-weight: 600;
+  color: #666;
+  width: 40%;
+  background: #f8f9fa;
+}
+
+.example-table code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+.arrow {
+  font-size: 48px;
+  color: #0053e2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portal-card-preview {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e0e0e0;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.opif-badge {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.card-title {
+  font-size: 20px;
+  color: #333;
+  margin: 0 0 20px 0;
+}
+
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.meta-item {
+  display: flex;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.meta-label {
+  color: #666;
+  font-weight: 600;
+}
+
+.meta-value {
+  color: #333;
+}
+
+/* FAQ Items */
+.faq-item {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #0053e2;
+}
+
+.faq-item h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.faq-item p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+.faq-item ul,
+.faq-item ol {
+  margin: 12px 0;
+  padding-left: 24px;
+}
+
+.faq-item li {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.faq-item code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+/* Sync Schedule */
+.schedule-box {
+  margin: 20px 0;
+}
+
+.schedule-item {
+  display: flex;
+  gap: 20px;
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 2px solid #e0e0e0;
+}
+
+.schedule-icon {
+  font-size: 48px;
+  color: #0053e2;
+}
+
+.schedule-details h4 {
+  margin: 0 0 8px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.schedule-details p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+.time-detail {
+  background: #fff3cd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #995213;
+}
+
+.flow-chain {
+  font-family: 'Courier New', monospace;
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #0053e2;
+}
+
+.note-text {
+  font-size: 14px;
+  color: #666;
+  font-style: italic;
+}
+
+/* Contact Info */
+.contact-methods {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.contact-card {
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.contact-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.contact-card h4 {
+  margin: 0 0 12px 0;
+  color: #0053e2;
+  font-size: 18px;
+}
+
+.contact-card p {
+  margin: 0 0 8px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.contact-card code {
+  background: #e8f0fe;
+  color: #0053e2;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.contact-card a {
+  color: #0053e2;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.contact-card a:hover {
+  text-decoration: underline;
+}
+
+/* ====================================================== */
+</style>
 </head>
-<body><header style="background:#0053e2" class="text-white px-6 py-4 flex items-center justify-between shadow-lg"><div class="flex items-center gap-3"><span style="color:#FFC220;font-size:1.8rem;font-weight:900;">&#9733;</span><div><h1 class="text-xl font-bold tracking-wide">E2E Fashion Transformation</h1><p style="color:#a8c4ff" class="text-xs">PLM &amp; Technology Portal &mdash; Fashion Leadership</p></div></div><div style="color:#a8c4ff" class="text-xs">March 2026 &bull; Confidential</div>
+<body><header style="background:#0053e2" class="text-white px-6 py-4 flex items-center justify-between shadow-lg"><div class="flex items-center gap-3"><span style="color:#FFC220;font-size:1.8rem;font-weight:900;">&#9733;</span><div><h1 class="text-xl font-bold tracking-wide">E2E Fashion Transformation</h1><p style="color:#a8c4ff" class="text-xs">PLM &amp; Technology Portal &mdash; Fashion Leadership</p></div></div><div class="flex items-center gap-3"><div style="color:#a8c4ff" class="text-xs">March 2026 &bull; Confidential</div><button class="guide-button" onclick="openGuideModal()" style="margin-left: 16px;">
+  <span class="guide-button-icon">ℹ️</span>
+  <span>OPIF Field Guide</span>
+</button></div>
 </header><div id="control-panel-banner"></div><main class="p-5 max-w-screen-2xl mx-auto"><div id="business-reviews-wrap" style="display:none;"><div id="review-content-wpr" class="review-content"></div><div id="review-content-mbr" class="review-content"></div><div id="review-content-strategy" class="review-content"></div><div id="review-content-design" class="review-content"></div><div id="review-content-buying" class="review-content"></div><div id="review-content-allocation" class="review-content"></div><div id="review-content-gantt" class="review-content"></div></div><div class="bg-white rounded-xl border border-gray-200 shadow-sm px-4 pt-3 pb-3 mb-3"><p class="text-center text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">E2E Process Flow</p><div id="phase-bar" class="flex flex-wrap items-center justify-center gap-y-2 gap-x-0"></div><div class="flex flex-wrap items-center justify-center gap-3 mt-2 pt-2 border-t border-gray-100"><span class="flex items-center gap-1 text-xs font-semibold" style="color:#37474f;"><span style="width:8px;height:8px;border-radius:2px;background:#37474f;display:inline-block;"></span>Strategy
       </span><span class="flex items-center gap-1 text-xs font-semibold" style="color:#0053e2;"><span style="width:8px;height:8px;border-radius:2px;background:#0053e2;display:inline-block;"></span>Design
       </span><span class="flex items-center gap-1 text-xs font-semibold" style="color:#b86000;"><span style="width:8px;height:8px;border-radius:2px;background:#d98c00;display:inline-block;"></span>Buying
@@ -2479,16 +7189,16 @@ function renderReviewContent(reviewType){const review=BUSINESS_REVIEWS[reviewTyp
           ${review.title}
         </div><div class="review-header-subtitle">${review.subtitle}</div></div><div class="gantt-toolbar"><div id="gantt-ws-filters" class="gantt-ws-filters"><span class="gantt-ws-label">Workstream:</span>
           ${wsButtons}
-        </div><div class="gantt-view-toggle" style="margin-left:auto"><button id="gantt-view-btn-program" class="gantt-view-btn active"
+        </div><div class="gantt-view-toggle" style="margin-left:auto"><button id="gantt-view-btn-program" class="gantt-view-btn"
             onclick="ganttSetView('program')">
             📋 Program Timeline
-          </button><button id="gantt-view-btn-biz" class="gantt-view-btn"
+          </button><button id="gantt-view-btn-biz" class="gantt-view-btn active"
             onclick="ganttSetView('biz-impact')">
             🎯 Business Impact
           </button></div></div><div class="gantt-wrap"><div class="gantt-chart"><div class="gantt-header" id="gantt-qheader"></div><div id="gantt-body"></div></div></div><div class="gantt-legend"><span class="gantt-legend-title">Workstream:</span>
         ${legendItems}
         <div style="margin-left:12px;display:flex;align-items:center;gap:16px"><div class="gantt-legend-item"><div style="width:14px;height:14px;border-radius:3px;background:#ea1100"></div>Today</div><div class="gantt-legend-item"><div style="width:28px;height:12px;border-radius:3px;background:#6366f1;opacity:0.85"></div>Available to users</div><div class="gantt-legend-item"><div style="width:28px;height:12px;border-radius:3px;background:#6366f1;opacity:0.35"></div>Delivery window</div></div></div>
-    `;renderGanttChart();return;}
+    `;ganttSetView('biz-impact');return;}
 const cards=getReviewCards(reviewType);const stats=getReviewStats(cards);let html=`
     <div class="review-back-bar"><button class="review-back-button" onclick="clearBusinessReview()">
         ← Back
@@ -2583,7 +7293,7 @@ window.ganttOpenCard=function(cardId){const pillar=(window.PILLARS||[]).find(p=>
 function ganttGoalCards(goalId){const ids=(window.GOAL_CARD_MAP||{})[String(goalId)]||[];const index=ganttCardIndex();const showAll=ganttActiveWS.has('all');return ids.map(id=>index[id]).filter(c=>c&&(showAll||(c.workstreams||[]).some(ws=>ganttActiveWS.has(ws)))).sort((a,b)=>{const ra=ganttParseRange(a.targetDate),rb=ganttParseRange(b.targetDate);const da=ra&&ra.end,db=rb&&rb.end;if(!da&&!db)return 0;if(!da)return 1;if(!db)return-1;return da-db;});}
 function ganttPhaseCardCount(phaseNum){const phases=typeof PHASE_DEFS!=='undefined'?PHASE_DEFS:[];const phase=phases.find(p=>p.num===phaseNum);if(!phase)return 0;const seen=new Set();(phase.goals||[]).forEach(g=>ganttGoalCards(String(g.id).replace('#','')).forEach(c=>seen.add(c.id)));return seen.size;}
 window.ganttToggleGoal=function(key){ganttExpandedGoals.has(key)?ganttExpandedGoals.delete(key):ganttExpandedGoals.add(key);renderGanttChart();};window.ganttToggleWS=function(ws){if(ws==='all'){ganttActiveWS=new Set(['all']);}else{ganttActiveWS.delete('all');ganttActiveWS.has(ws)?ganttActiveWS.delete(ws):ganttActiveWS.add(ws);if(ganttActiveWS.size===0)ganttActiveWS=new Set(['all']);}
-document.querySelectorAll('.gantt-ws-btn').forEach(btn=>btn.classList.toggle('active',ganttActiveWS.has(btn.dataset.ws)));renderGanttChart();};window.renderGanttChart=function(){const body=document.getElementById('gantt-body');if(!body)return;buildGanttHeader();const phases=typeof PHASE_DEFS!=='undefined'?PHASE_DEFS:[];const deco=ganttDeco();let html='';phases.forEach(phase=>{const ps=new Date(phase.start);const pe=new Date(phase.end);const phL=ganttPct(ps).toFixed(2);const phW=Math.max(1,ganttPct(pe)-ganttPct(ps)).toFixed(2);const phCount=ganttPhaseCardCount(phase.num);html+=`
+document.querySelectorAll('.gantt-ws-btn').forEach(btn=>btn.classList.toggle('active',ganttActiveWS.has(btn.dataset.ws)));if(typeof ganttGetView==='function'&&ganttGetView()==='biz-impact'){if(typeof renderBizImpactChart==='function')renderBizImpactChart();}else{renderGanttChart();}};window.renderGanttChart=function(){const body=document.getElementById('gantt-body');if(!body)return;buildGanttHeader();const phases=typeof PHASE_DEFS!=='undefined'?PHASE_DEFS:[];const deco=ganttDeco();let html='';phases.forEach(phase=>{const ps=new Date(phase.start);const pe=new Date(phase.end);const phL=ganttPct(ps).toFixed(2);const phW=Math.max(1,ganttPct(pe)-ganttPct(ps)).toFixed(2);const phCount=ganttPhaseCardCount(phase.num);html+=`
       <div class="gantt-phase-header"><div class="gantt-label gantt-phase-label-cell" style="border-left:4px solid ${phase.color};background:#f0f6ff"><span class="gantt-phase-emoji">${phase.emoji}</span><div><div class="gantt-phase-name">Phase ${phase.num}: ${phase.label}</div><div class="gantt-phase-win">${phase.window} &middot; ${phCount} program${phCount !== 1 ? 's' : ''}</div></div></div><div class="gantt-track">
           ${deco}
           <div class="gantt-phase-bar" style="left:${phL}%;width:${phW}%;border:1.5px solid ${phase.color}40;background:${phase.color}14"><span style="color:${phase.color};font-weight:700;font-size:11px">${phase.label}</span></div></div></div>`;(phase.goals||[]).forEach(goal=>{const goalId=String(goal.id).replace('#','');const key=`${phase.num}-${goalId}`;const open=ganttExpandedGoals.has(key);const gCards=ganttGoalCards(goalId);html+=`
@@ -2593,35 +7303,69 @@ document.querySelectorAll('.gantt-ws-btn').forEach(btn=>btn.classList.toggle('ac
               <div class="gantt-row gantt-card-row" onclick="ganttOpenCard('${card.id}')" title="Click to view details" style="cursor:pointer"><div class="gantt-label gantt-card-label"><div class="gantt-label-inner"><span class="gantt-dot" style="background:${dotColor}"></span><span class="gantt-label-text">${card.icon || ''} ${card.title}</span>
                     ${isCritical ? '<span class="gantt-star">⭐</span>' : ''}
                   </div><div class="gantt-label-ws">${(card.workstreams || []).join(', ')} &middot; ${card.targetDate || 'TBD'}</div></div><div class="gantt-track">${deco}${ganttBars(card)}</div></div>`;});}}});});body.innerHTML=html||'<div class="gantt-empty">No phases defined.</div>';};</script>
-<script>const BIZ_IMPACT_GOALS=[{id:'zero-rekeys',label:'Zero Rekeys',icon:'✏️',color:'#0053e2',description:'Stop re-entering data between systems. Every decision captured once, flowing everywhere.',capabilities:[{label:'Item data flows from AEX decisions directly into item setup — no merchant re-entry',program:'Automated Item Setup',programId:'auto-item-setup',type:'automation',quarter:'Q1',target:'April 30, 2026',},{label:'Structured AEX intent replaces supplier clarification cycles — data captured once, upstream',program:'Automated Item Setup',programId:'auto-item-setup',type:'automation',quarter:'Q1',target:'April 30, 2026',},{label:'AI auto-completes missing item attributes — merchants stop filling data gaps manually',program:'Automated Item Setup',programId:'auto-item-setup',type:'automation',quarter:'Q1',target:'April 30, 2026',},{label:'Size ordering unified across Size & Pack — no more reconciling size discrepancies between tools',program:'AEX Stability',programId:'aex-stability',type:'automation',quarter:'Q1',target:'April 30, 2026',},{label:'Design data entered once in Centric — no re-entry into Bamboo Rose or Miro',program:'Centric Viz Board MVP',programId:'visual-boards',type:'automation',quarter:'Q2',target:'July 30, 2026',},{label:'Sample status & fit feedback live in the product record — spreadsheets and email threads retired',program:'Centric Viz Board MVP',programId:'visual-boards',type:'automation',quarter:'Q2',target:'July 30, 2026',},],},{id:'happy-path',label:'Happy Path Buying',icon:'🛤️',color:'#059669',description:'AEX decisions execute end-to-end — no manual workarounds, no exits, no engineering calls.',capabilities:[{label:'Items set up automatically once AEX decisions are finalized — buying flows end-to-end without merchant intervention',program:'Automated Item Setup',programId:'auto-item-setup',type:'capability',quarter:'Q1',target:'April 30, 2026',},{label:'IDC team owns item exceptions — merchants stay in AEX focused on buying, not setup troubleshooting',program:'Automated Item Setup',programId:'auto-item-setup',type:'capability',quarter:'Q1',target:'April 30, 2026',},{label:'Confirmation required before fineline or style deletions — accidental workflow breaks prevented',program:'AEX Stability',programId:'aex-stability',type:'capability',quarter:'Q1',target:'April 30, 2026',},{label:'New store POs generated automatically — buying team no longer creates new store orders manually',program:'AEX Stability',programId:'aex-stability',type:'automation',quarter:'Q1',target:'April 30, 2026',},],},{id:'reduce-hours',label:'Reduce Merchant Hours',icon:'⏱️',color:'#b86000',description:'Automate the manual, repetitive work so the team can focus on strategy and decisions.',capabilities:[{label:'Merchants removed from item setup entirely — estimated hundreds of hours saved per season',program:'Automated Item Setup',programId:'auto-item-setup',type:'automation',quarter:'Q1',target:'April 30, 2026',},{label:'AI completes item attribute gaps — merchants no longer the quality backstop for item data',program:'Automated Item Setup',programId:'auto-item-setup',type:'automation',quarter:'Q1',target:'April 30, 2026',},{label:'AEX platform issues reduced — buying team spends less time escalating bugs and troubleshooting',program:'AEX Stability',programId:'aex-stability',type:'capability',quarter:'Q1',target:'April 30, 2026',},{label:'5,000+ Miro boards consolidated into Centric — design teams stop managing visual boards manually',program:'Centric Viz Board MVP',programId:'visual-boards',type:'automation',quarter:'Q2',target:'July 30, 2026',},{label:'Bamboo Rose workflows retired — design merchants work in one system, context-switching eliminated',program:'Centric Viz Board MVP',programId:'visual-boards',type:'automation',quarter:'Q2',target:'July 30, 2026',},{label:'Visual assortment planning in Centric with live product data — no manual export or sync needed',program:'Centric Viz Board MVP',programId:'visual-boards',type:'capability',quarter:'Q2',target:'July 30, 2026',},],},];const BIZ_PROGRAM_CONFIG={'auto-item-setup':{label:'Item Setup',color:'#f59e0b',textColor:'#1f2937'},'aex-stability':{label:'AEX Stability',color:'#0053e2',textColor:'#ffffff'},'visual-boards':{label:'Centric Viz',color:'#6366f1',textColor:'#ffffff'},};window.BIZ_IMPACT_GOALS=BIZ_IMPACT_GOALS;window.BIZ_PROGRAM_CONFIG=BIZ_PROGRAM_CONFIG;</script>
-<script>const BIZ_FY={start:new Date(2026,1,1),end:new Date(2026,7,1),quarters:[{label:'Q1 FY27 — Feb – Apr',start:new Date(2026,1,1),end:new Date(2026,4,1),stripe:'#eef4ff',color:'#0053e2'},{label:'Q2 FY27 — May – Jul',start:new Date(2026,4,1),end:new Date(2026,7,1),stripe:'#f8faff',color:'#2a8703'},],months:[{label:'Feb',start:new Date(2026,1,1),end:new Date(2026,2,1)},{label:'Mar',start:new Date(2026,2,1),end:new Date(2026,3,1)},{label:'Apr',start:new Date(2026,3,1),end:new Date(2026,4,1)},{label:'May',start:new Date(2026,4,1),end:new Date(2026,5,1)},{label:'Jun',start:new Date(2026,5,1),end:new Date(2026,6,1)},{label:'Jul',start:new Date(2026,6,1),end:new Date(2026,7,1)},],};const BIZ_TOTAL_MS=BIZ_FY.end-BIZ_FY.start;const BIZ_LABEL_W=260;let bizGanttView='program';window.ganttGetView=function(){return bizGanttView;};window.ganttSetView=function(view){bizGanttView=view;const btnProgram=document.getElementById('gantt-view-btn-program');const btnBiz=document.getElementById('gantt-view-btn-biz');const wsFilters=document.getElementById('gantt-ws-filters');if(btnProgram)btnProgram.classList.toggle('active',view==='program');if(btnBiz)btnBiz.classList.toggle('active',view==='biz-impact');if(wsFilters)wsFilters.style.opacity=view==='program'?'1':'0.35';if(wsFilters)wsFilters.style.pointerEvents=view==='program'?'':'none';const chart=document.querySelector('.gantt-chart');if(chart)chart.style.minWidth=view==='biz-impact'?'900px':'';if(view==='program'){renderGanttChart();}else{renderBizImpactChart();}};function bizPct(date){const clamped=Math.max(+BIZ_FY.start,Math.min(+BIZ_FY.end,+date));return((clamped-BIZ_FY.start)/BIZ_TOTAL_MS)*100;}
-function bizQtrBounds(qLabel){const q=BIZ_FY.quarters.find(q=>q.label.startsWith(qLabel.substring(0,2)));return q||BIZ_FY.quarters[0];}
-function bizDeco(){const stripes=BIZ_FY.quarters.map(q=>{const l=bizPct(q.start).toFixed(2);const w=((q.end-q.start)/BIZ_TOTAL_MS*100).toFixed(2);return`<div class="gantt-stripe" style="left:${l}%;width:${w}%;background:${q.stripe}"></div>`;}).join('');const divs=BIZ_FY.months.map((mo,i)=>{if(i===0)return'';const isQBoundary=i%3===0;return`<div class="${isQBoundary ? 'gantt-divider' : 'gantt-month-divider'}" style="left:${bizPct(mo.start).toFixed(2)}%"></div>`;}).join('');let todayTick='';const now=new Date();if(now>=BIZ_FY.start&&now<=BIZ_FY.end){todayTick=`<div class="gantt-today-track" style="left:${bizPct(now).toFixed(2)}%"></div>`;}
-return stripes+divs+todayTick;}
-function buildBizImpactHeader(){const el=document.getElementById('gantt-qheader');if(!el)return;const qRow=BIZ_FY.quarters.map(q=>{const w=((q.end-q.start)/BIZ_TOTAL_MS*100).toFixed(2);return`<div class="gantt-qcol" style="width:${w}%;color:${q.color};border-bottom:3px solid ${q.color}40">${q.label}</div>`;}).join('');const mRow=BIZ_FY.months.map((mo,i)=>{const cls=['gantt-mcol',i%3===0?'gantt-mcol-qstart':''].filter(Boolean).join(' ');const w=((mo.end-mo.start)/BIZ_TOTAL_MS*100).toFixed(2);return`<div class="${cls}" style="width:${w}%">${mo.label}</div>`;}).join('');el.innerHTML=`
-    <div class="gantt-header-stub" style="width:${BIZ_LABEL_W}px"></div><div class="gantt-header-timeline"><div class="gantt-header-qrow">${qRow}</div><div class="gantt-header-mrow">${mRow}</div></div>
-  `;}
-window.renderBizImpactChart=function(){const body=document.getElementById('gantt-body');if(!body)return;buildBizImpactHeader();const goals=window.BIZ_IMPACT_GOALS||[];const progCfg=window.BIZ_PROGRAM_CONFIG||{};const deco=bizDeco();let html='';html+=`
-    <div class="biz-preamble"><span class="biz-preamble-icon">🎯</span><div><div class="biz-preamble-title">Business Impact View &mdash; Q1 &amp; Q2 FY27</div><div class="biz-preamble-sub">What changes for your team, not how we&rsquo;re building it. Scope: Automated Item Setup &bull; AEX Stability &bull; Centric Visual Board MVP.</div></div><div class="biz-legend"><span class="biz-badge biz-badge-automation">Work Removed</span> task automated away
-        &nbsp;&nbsp;
-        <span class="biz-badge biz-badge-capability">New Capability</span> something you can now do
-      </div></div>`;goals.forEach(goal=>{const q1Caps=goal.capabilities.filter(c=>c.quarter==='Q1');const q2Caps=goal.capabilities.filter(c=>c.quarter==='Q2');const all=[...q1Caps,...q2Caps];html+=`
-      <div class="gantt-phase-header biz-goal-header"><div class="gantt-label gantt-phase-label-cell" style="width:${BIZ_LABEL_W}px;border-left:4px solid ${goal.color};background:#f8faff"><span class="gantt-phase-emoji">${goal.icon}</span><div><div class="gantt-phase-name" style="color:${goal.color}">${goal.label}</div><div class="gantt-phase-win">${goal.description}</div></div></div><div class="gantt-track" style="height:48px">
+<script>const LLTT='https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard';const BIZ_IMPACT_GOALS=[{id:'zero-rekeys',label:'Zero Rekeys',icon:'✏️',color:'#0053e2',description:'Every decision captured once — data flows everywhere automatically, no copy-paste, no re-entry.',capabilities:[{label:'As a merchant, I no longer need to re-enter assortment decisions — AEX auto-flows directly into item setup the moment I finalize in AEX',narrative:'Once a merchant finalizes decisions in AEX, item setup kicks off automatically. The same intent captured in AEX becomes the item record — no download, no re-upload, no separate form to fill. This eliminates the most documented rekey point in the Fashion workflow.',cardId:'auto-item-setup',workstream:'buying',opifLabel:'OPIF-344926',opifUrl:'https://jira.walmart.com/browse/OPIF-344926',program:'Automated Item Setup',programId:'auto-item-setup',type:'automation',quarter:'Q1FY27',target:'April 30, 2026',},{label:'As a merchant, I no longer need to manually fill in missing item attributes — AI completes them before submission so I\u2019m not the quality backstop for item data',narrative:'Gen AI enrichment fills missing item attribute fields before submission — merchants are no longer the quality backstop for item data. AI completes the work that previously required manual lookup, supplier clarification, and re-entry across multiple systems.',cardId:'auto-item-setup',workstream:'buying',opifLabel:'OPIF-344926',opifUrl:'https://jira.walmart.com/browse/OPIF-344926',program:'Automated Item Setup',programId:'auto-item-setup',type:'automation',quarter:'Q1FY27',target:'April 30, 2026',},{label:'As a merchant, I no longer need to reconcile conflicting size sequences across AEX Size & Pack and downstream tools — data entered once is consistent everywhere',narrative:'Size discrepancies between AEX Size & Pack and other tools have historically forced merchants to manually reconcile conflicting size sequences. This Q1 fix unifies size ordering so data entered once is consistent everywhere — no more reconciliation loop.',cardId:'aex-stability',workstream:'buying',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'AEX Stability & Quality of Life',programId:'aex-stability',type:'automation',quarter:'Q1FY27',target:'April 30, 2026',},{label:'As a designer, I no longer need to manually distribute spec packages to vendors — specs authored in Centric propagate automatically to Supplier One and item setup',narrative:'With Centric as the system of record for design specifications, specs are authored once and propagate automatically to Supplier One and item setup systems. Vendors receive spec packages without manual email distribution — breaking a long-standing multi-step rekey loop.',cardId:'product-specs',workstream:'design',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'Product Specifications',programId:'product-specs',type:'automation',quarter:'Q1FY27',target:'April 30, 2026',},{label:'As a designer, I no longer need to maintain design data across Bamboo Rose and disconnected tools — everything lives in Centric with live product data, not static snapshots',narrative:'Centric Visual Board MVP replaces Bamboo Rose entirely. Design decisions are captured once in Centric with live product data — no more re-entering the same information across disconnected whiteboard and PLM tools. 5,000+ Miro boards also move into a managed Centric workflow.',cardId:'visual-boards',workstream:'design',opifLabel:'OPIF-325208',opifUrl:'https://jira.walmart.com/browse/OPIF-325208',program:'Centric Visual Board MVP',programId:'visual-boards',type:'automation',quarter:'Q2FY27',target:'July 30, 2026',},{label:'As a designer, I no longer need to maintain separate spreadsheets or email threads for sample tracking — fit feedback and milestones live directly in the Centric product record',narrative:'Fit evaluation outcomes and sample milestone tracking now live directly inside the Centric product record. Teams no longer maintain parallel spreadsheets or email threads to track sample status — everything is timestamped and linked to the actual item in PLM.',cardId:'sample-mgmt-fit-eval',workstream:'design',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'Sample Management & Fit Evaluation',programId:'sample-mgmt-fit-eval',type:'automation',quarter:'Q2FY27',target:'July 30, 2026',},{label:'As a designer, I no longer need to manually sync updates across AP Tool, Centric, and OneSource — when data changes in one system it propagates in real time across all three',narrative:'The Shared Event Layer connects AP Tool, Centric, and OneSource through a real-time event bus. When data changes in one system it propagates automatically — eliminating the manual sync, reconciliation, and batch delay that currently force teams to re-enter the same updates across tools.',cardId:'shared-event-layer',workstream:'design',opifLabel:'OPIF-325188',opifUrl:'https://jira.walmart.com/browse/OPIF-325188',program:'Shared Event Layer',programId:'shared-event-layer',type:'automation',quarter:'Q2FY27',target:'July 30, 2026',},{label:'As a leader, I no longer need to manually export and re-upload buy reports — committed AEX data flows automatically to markdown and replenishment systems the moment commitments lock',narrative:'The Commitment Report Redesign connects committed buy data directly to downstream markdown and replenishment systems. Planners stop manually exporting, transforming, and re-uploading buy reports — the data moves automatically the moment commitments are locked in AEX.',cardId:'commitment-report-redesign',workstream:'strategy',opifLabel:'OPIF-325204',opifUrl:'https://jira.walmart.com/browse/OPIF-325204',program:'Commitment Report Redesign',programId:'commitment-report-redesign',type:'automation',quarter:'Q3FY27',target:'October 31, 2026',},{label:'As a merchant, I no longer need to search separate catalogs for ROM, 3P, and Circana items — OneItem surfaces all sources automatically and the line plan auto-populates before I start',narrative:'OneItem expanded to all sources means the line plan auto-populates with item candidates from every source — ROM, third-party, and Circana syndicated data — without merchants manually searching separate catalogs and re-entering items. One search, all sources, no rekey.',cardId:'oneitem-expanded-sources',workstream:'buying',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'OneItem Expanded Sources',programId:'oneitem-expanded-sources',type:'automation',quarter:'Q4FY27',target:'January 31, 2027',},],},{id:'happy-path',label:'Happy Path Buying',icon:'🛤️',color:'#059669',description:'AEX decisions execute end-to-end without manual workarounds, system exits, or engineering calls.',capabilities:[{label:'As a merchant, I now have a stable AEX foundation under me — 700+ automated tests and 50% fewer support tickets mean every Q1 capability builds on solid ground',narrative:'The Neo replatform migrated all AEX Fashion departments to a modern architecture — 700+ automated test cases, 360+ issues resolved, and 50% fewer support tickets YoY. Every Q1 capability delivery builds on this new foundation. This is the inflection point that makes the rest of the happy path possible.',cardId:'neo-replatform',workstream:'buying',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'AEX Replatform — Neo',programId:'neo-replatform',type:'capability',quarter:'Q1FY27',target:'March 2, 2026 ✅',},{label:'As a merchant, I no longer need to manually trigger item and PO creation — once I finalize in AEX, item creation, PO generation, and supplier notification all execute automatically',narrative:'Once assortment decisions are finalized in AEX, the buying workflow completes automatically — item creation, PO generation, and supplier notification all execute without merchant intervention. IDC owns exceptions through a managed queue, keeping merchants out of the execution loop entirely.',cardId:'auto-item-setup',workstream:'buying',opifLabel:'OPIF-344926',opifUrl:'https://jira.walmart.com/browse/OPIF-344926',program:'Automated Item Setup',programId:'auto-item-setup',type:'capability',quarter:'Q1FY27',target:'April 30, 2026',},{label:'As a merchant, I no longer need to worry about accidental fineline deletions silently breaking downstream workflows — a confirmation dialog now blocks the mistake before it happens',narrative:'A confirmation dialog now blocks accidental fineline and style deletions that previously broke downstream workflows silently. This safeguard directly addresses one of the top-cited causes of AEX workflow failures — protecting in-flight buys from inadvertent state corruption.',cardId:'aex-stability',workstream:'buying',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'AEX Stability & Quality of Life',programId:'aex-stability',type:'capability',quarter:'Q1FY27',target:'April 30, 2026',},{label:'As a merchant, I no longer need to manually create new store POs by hand — when new stores are added to my assortment, POs generate automatically from AEX data',narrative:'When new stores are added to the assortment, POs are now generated automatically from AEX data — buyers no longer create new store orders by hand. This removes one of the most time-consuming manual execution steps from the buying workflow.',cardId:'aex-stability',workstream:'buying',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'AEX Stability & Quality of Life',programId:'aex-stability',type:'automation',quarter:'Q1FY27',target:'April 30, 2026',},{label:'As a merchant, I no longer need to run manual size calculations — pack size curves and buy quantities are pre-generated for all 3 AEX-recommended like-finelines so I review outputs, not build them',narrative:'The Automated Size/Pack BQ program moves size curve selection and pack configuration into an automated engine — pre-generating Distribution Service results for the 3 like-finelines recommended by AEX, with configurable minimum initial set quantity for core sizes. Merchants stop running manual size calculations entirely.',cardId:'size-pack-bq',workstream:'buying',opifLabel:'OPIF-325374',opifUrl:'https://jira.walmart.com/browse/OPIF-325374',program:'Automated Size/Pack BQ',programId:'size-pack-bq',type:'automation',quarter:'Q2FY27',target:'July 31, 2026',},{label:'As a merchant, I no longer need to manually search the Supplier Catalog — AI surfaces the closest matching existing items directly in my AP Tool workflow before I start building',narrative:'The AI Item Repository uses ML similarity scoring to surface the closest matching existing items from the Supplier Catalog directly in the AP Tool line plan workflow. Merchants reuse, modify, or replace — rather than rebuild from scratch. The line plan auto-populates with potential items before merchants even start.',cardId:'ai-item-repository',workstream:'buying',opifLabel:'OPIF-337970',opifUrl:'https://jira.walmart.com/browse/OPIF-337970',program:'AI Item Repository',programId:'ai-item-repository',type:'capability',quarter:'Q2FY27',target:'July 31, 2026',},{label:'As a merchant, I no longer need to exit AP Tool to complete my line plan — every assortment decision flows from a single entry point without switching to AEX or downstream systems',narrative:'The AP Tool Line Plan integration completes the buying workflow so merchants plan and execute entirely within the AP Tool. Buyers no longer switch between the AP Tool, AEX, and downstream systems to complete a line plan — every assortment decision flows from one entry point without tool exits or manual handoffs.',cardId:'ap-tool-lineplan',workstream:'buying',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'AP Tool Line Plan',programId:'ap-tool-lineplan',type:'capability',quarter:'Q3FY27',target:'October 31, 2026',},{label:'As a merchant, I no longer need to run my own manual size curve and pack calculations — BQ runs as an enterprise service and delivers consistent automated recommendations for my whole team',narrative:'Buy Quantification as an Enterprise Service delivers automated size curve and pack recommendations as a shared service consumed by all buying teams. The individualized, team-by-team manual runs that currently require expert institutional knowledge are replaced by a consistent, automated output — standardizing quality across the org.',cardId:'bq-enterprise-service',workstream:'buying',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'BQ Enterprise Service',programId:'bq-enterprise-service',type:'automation',quarter:'Q3FY27',target:'October 31, 2026',},{label:'As a merchant, I no longer need to switch between market-specific legacy tools to manage international lines — domestic and international assortment planning live in the same AP Tool and AEX workflow',narrative:'The Global Buying Platform brings international market assortment planning into the same AP Tool and AEX workflow — buyers manage domestic and international lines without switching to market-specific legacy tools. A unified buying experience that eliminates the duplication of decisions across separate global systems.',cardId:'global-buying-platform',workstream:'buying',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'Global Buying Platform',programId:'global-buying-platform',type:'capability',quarter:'Q4FY27',target:'January 31, 2027',},],},{id:'reduce-hours',label:'Reduce Merchant Hours',icon:'⏱️',color:'#b86000',description:'Automate the repetitive, manual work so the team can focus on strategy and buying decisions.',capabilities:[{label:'As a merchant, I no longer need to touch item setup at all — I\u2019m fully removed from item creation and PO execution, with hundreds of hours per season returned to actual buying decisions',narrative:'Automated Item Setup eliminates fashion merchants from the item creation and PO execution workflow completely. The IDC team owns all exceptions through a managed queue. Estimated impact: hundreds of hours per season returned to the merchant org — time previously spent on data entry, supplier follow-up, and manual setup troubleshooting.',cardId:'auto-item-setup',workstream:'buying',opifLabel:'OPIF-344926',opifUrl:'https://jira.walmart.com/browse/OPIF-344926',program:'Automated Item Setup',programId:'auto-item-setup',type:'automation',quarter:'Q1FY27',target:'April 30, 2026',},{label:'As a planner, I no longer need to re-enter the same forecast override across multiple tools — I work in one unified environment and it propagates automatically everywhere else',narrative:'Unified Planning Workflow consolidates fragmented BPE, DBP, and manual reconciliation tools into a single environment. Forecast overrides entered once propagate automatically — planners stop duplicating the same decision across multiple tools and stop maintaining off-system workarounds.',cardId:'unified-planning',workstream:'allocation',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'Unified Planning Workflow',programId:'unified-planning',type:'automation',quarter:'Q1FY27',target:'April 30, 2026',},{label:'As a planner, I no longer need to maintain manual season-by-season Excel rebuilds — seasonal demand and buy quantity decisions now happen inside BPE with historical data and OTB already surfaced',narrative:'BPE Seasonal Planning moves seasonal demand and buy quantity decisions out of Excel and into an integrated planning environment covering approximately 5 fashion departments. Historical data, open-to-buy, and seasonal performance are all surfaced in one view — merchants stop maintaining manual season-by-season spreadsheet rebuilds.',cardId:'bpe-seasonal',workstream:'allocation',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'BPE Seasonal Planning',programId:'bpe-seasonal',type:'automation',quarter:'Q1FY27',target:'April 30, 2026',},{label:'As a merchant, I no longer need to spend buying hours on bug escalations and manual workarounds — a 50% YoY reduction in support tickets means my time shifts to actual buying decisions',narrative:'The Neo-era AEX Stability program delivers measurable support ticket reduction (50% YoY from Neo baseline) and platform reliability improvements. Merchants spend less time initiating bug escalations, building manual workarounds, and waiting for engineering intervention — buying hours shift toward actual buying decisions.',cardId:'aex-stability',workstream:'buying',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'AEX Stability & Quality of Life',programId:'aex-stability',type:'capability',quarter:'Q1FY27',target:'April 30, 2026',},{label:'As a designer, I no longer need to manually maintain and update 5,000+ Miro boards — all visual assortment planning moves into Centric with live product data, not static snapshots',narrative:'Centric Visual Board MVP migrates all design team visual assortment planning from Miro into Centric — with live product data, not static snapshots. 5,000+ boards that required ongoing manual maintenance and update cycles across multiple tools are replaced with a single managed workspace directly connected to the product record.',cardId:'visual-boards',workstream:'design',opifLabel:'OPIF-325208',opifUrl:'https://jira.walmart.com/browse/OPIF-325208',program:'Centric Visual Board MVP',programId:'visual-boards',type:'automation',quarter:'Q2FY27',target:'July 30, 2026',},{label:'As a merchant, I no longer need to run pack size calculations manually — DS results are pre-generated for all 3 AEX-recommended like-finelines so I review outputs instead of building them',narrative:'Pre-generated DS results for all 3 AEX-recommended like-finelines eliminate the manual sizing step that currently requires merchant expertise and time. Pack simplification further reduces AEX BQ execution complexity — merchants move from running calculations to reviewing outputs.',cardId:'size-pack-bq',workstream:'buying',opifLabel:'OPIF-325374',opifUrl:'https://jira.walmart.com/browse/OPIF-325374',program:'Automated Size/Pack BQ',programId:'size-pack-bq',type:'automation',quarter:'Q2FY27',target:'July 31, 2026',},{label:'As a merchant, I no longer need to build every line plan item from scratch — AI indexes the Supplier Catalog and surfaces the best matching existing items before I even start',narrative:'The AI Item Repository indexes the Supplier Catalog and historical AEX items, using ML similarity scoring to surface the best matches before merchants start a line plan. Instead of building each item from scratch, merchants review AI-curated suggestions — significantly reducing time spent on new-item creation for carryover and near-duplicate styles.',cardId:'ai-item-repository',workstream:'buying',opifLabel:'OPIF-337970',opifUrl:'https://jira.walmart.com/browse/OPIF-337970',program:'AI Item Repository',programId:'ai-item-repository',type:'capability',quarter:'Q2FY27',target:'July 31, 2026',},{label:'As a merchant, I no longer need to manage fixture plans in complex spreadsheets — I work in a visual AI-assisted canvas that recommends assortments per fixture based on tagging data',narrative:'Fashion Fixture Allocation provides an AI-assisted visual interface for product-to-fixture planning — replacing complex spreadsheets with a visual canvas surfacing AI recommendations based on tagging and affinity graph data. Merchants see recommended assortments per fixture rather than building fixture plans manually from scratch.',cardId:'fashion-fixture-allocation-buying',workstream:'buying',opifLabel:'OPIF-325598',opifUrl:'https://jira.walmart.com/browse/OPIF-325598',program:'Fashion Fixture Allocation',programId:'fashion-fixture-allocation-buying',type:'capability',quarter:'Q2FY27',target:'July 31, 2026',},{label:'As a leader, I no longer need to wait for manually assembled buy report exports — style-level commitment views are navigable and shareable in seconds, not rebuilt for every stakeholder request',narrative:'The redesigned Commitment Report surfaces style-level buy commitments in a structured, navigable format instead of a manually assembled export. Planners generate and share buy views in seconds rather than rebuilding the report for every stakeholder request — reclaiming hours previously spent on formatting and data reconciliation.',cardId:'commitment-report-redesign',workstream:'strategy',opifLabel:'OPIF-325204',opifUrl:'https://jira.walmart.com/browse/OPIF-325204',program:'Commitment Report Redesign',programId:'commitment-report-redesign',type:'automation',quarter:'Q3FY27',target:'October 31, 2026',},{label:'As a sourcing associate, I no longer need to chase sample status and revision approvals over email — vendors access milestones, spec packages, and fit feedback directly in Supplier One',narrative:'Supplier One integration into the design workflow gives vendors structured access to sample milestones, spec packages, and fit feedback directly in the platform. The multi-step email loop for sample status updates, revision requests, and approval confirmations is replaced by a connected vendor workflow.',cardId:'supplier-one-collab',workstream:'design',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'Supplier One Collaboration',programId:'supplier-one-collab',type:'automation',quarter:'Q3FY27',target:'October 31, 2026',},{label:'As a merchant, I no longer need to run team-level size curve and pack calculations manually — the BQ enterprise service delivers automated recommendations consistently across all fashion departments',narrative:'With Buy Quantification running as an enterprise service, individual teams stop running their own manual size curve and pack calculations. The service delivers consistent, automated recommendations across all fashion departments — reclaiming hours that currently go toward individualized BQ execution and quality-checking the outputs.',cardId:'bq-enterprise-service',workstream:'buying',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'BQ Enterprise Service',programId:'bq-enterprise-service',type:'automation',quarter:'Q4FY27',target:'January 31, 2027',},],},{id:'smarter-decisions',label:'Smarter Decisions',icon:'🧠',color:'#7c3aed',description:'AI and data signals replace manual research — teams make confident decisions faster.',capabilities:[{label:'As a leader, I no longer need to wait for trend reports to arrive — macro trend signals surface directly in Centric and AEX so my teams make trend-informed decisions earlier in the season',narrative:'The Trend API delivers macro trend signals directly into Centric and AEX workflows — merchants and designers see consolidated trend context without running separate research, manually triangulating sources, or waiting for trend report delivery. Trend-informed decisions happen earlier in the season.',cardId:'trend-api-longlead',workstream:'strategy',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'Trend API — Long Lead & In-Season',programId:'trend-api-longlead',type:'capability',quarter:'Q1FY27',target:'April 30, 2026',},{label:'As a leader, I no longer need to wait for in-market sell-through signals to validate line plan choices — simulated customer response data is available before the line plan locks, reducing costly misses',narrative:'The V1 Synthetic Consumer Panel (built with Walmart Data Ventures) provides simulated customer response data before designs go to production — giving teams a signal on what customers are likely to buy before the line plan locks. This reduces the risk of costly new product misses and markdown-prone assortment choices.',cardId:'synthetic-panel',workstream:'strategy',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'Synthetic Panel (WMT Data Ventures)',programId:'synthetic-panel',type:'capability',quarter:'Q1FY27',target:'April 30, 2026',},{label:'As a leader, I no longer need to reconcile conflicting financial targets across workstreams — Strategy Hub is the single upstream source for all seasonal targets and they cascade downstream automatically',narrative:'Strategy Hub (TTP) is now the upstream source of record for all seasonal financial targets across Design, Buying, and Allocation. Targets cascade downstream automatically — teams stop receiving conflicting priority directives from different sources. Decisions across workstreams are aligned to the same financial guardrails from day one.',cardId:'strategy-hub',workstream:'strategy',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'Strategy Hub (TTP)',programId:'strategy-hub',type:'capability',quarter:'Q1FY27',target:'April 30, 2026',},{label:'As a planner, I no longer need to rely solely on intuition to spot assortment blind spots — AI detects coverage gaps proactively before in-season sell-out signals arrive so I have time to act',narrative:'The Tagging & Affinity Graph pilot uses product taxonomy and ML-powered affinity models to identify assortment coverage gaps that merchant intuition alone typically misses. Gaps are surfaced proactively — before in-season sell-out signals arrive — giving allocation teams time to act rather than react.',cardId:'tagging-pilot',workstream:'allocation',opifLabel:'OPIF-325602',opifUrl:'https://jira.walmart.com/browse/OPIF-325602',program:'Tagging & Affinity Graph Pilot',programId:'tagging-pilot',type:'capability',quarter:'Q1FY27',target:'April 30, 2026',},{label:'As a designer, I no longer need to manually triangulate between individual trend reports — 5+ integrated sources give me a consolidated multi-signal trend consensus directly in Centric before line plan locks',narrative:'Trend API Pre-Season launches with 5+ integrated trend data providers — giving designers and merchants a consolidated multi-source trend consensus before the line plan locks for the season. Teams stop manually triangulating between individual trend reports and instead see an aggregated signal surfaced directly in Centric and AEX.',cardId:'trend-api-preseason',workstream:'design',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'Trend API — 5+ Sources Pre-Season',programId:'trend-api-preseason',type:'capability',quarter:'Q2FY27',target:'July 31, 2026',},{label:'As a leader, I no longer need to manage conflicting demand signals between Buying and Allocation — one shared forecast with model explainability means both teams make decisions from the same data',narrative:'Forecast as an Enterprise Service delivers one channel-level (eComm vs. store) and placement-split forecast consumed by both Buying (AEX BQ) and Allocation (BPE/DBP). Conflicting demand signals between workstreams are eliminated — teams make buy and distribution decisions from the same data, with model explainability and automated training pipelines.',cardId:'forecast-enterprise-service',workstream:'strategy',opifLabel:'OPIF-325221',opifUrl:'https://jira.walmart.com/browse/OPIF-325221',program:'Forecast as Enterprise Service',programId:'forecast-enterprise-service',type:'capability',quarter:'Q2FY27',target:'July 31, 2026',},{label:'As a planner, I no longer need to manually reconcile store inventory positions, committed buys, and demand signals across tools — the optimization engine combines them in real time and drives allocation automatically',narrative:'Distribution Planning Optimization improves store-level allocation accuracy in DBP by consuming real-time store inventory positions, AEX committed buy data, and BPE demand signals together. More product lands at the right store at the right time — reducing both over-allocation markdowns and under-allocation lost sales.',cardId:'distrib-optimization',workstream:'allocation',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'Distribution Planning Optimization',programId:'distrib-optimization',type:'capability',quarter:'Q2FY27',target:'July 31, 2026',},{label:'As a planner, I no longer need to manually hunt for complementary items or coverage gaps — AI-generated assortment recommendations surface inline inside my AP Tool line plan as I work',narrative:'With the Tagging & Affinity Graph live in production, ML-generated recommendations surface directly in the AP Tool line plan — surfacing complementary items, flagging coverage gaps, and suggesting affinity-matched alternatives. Teams act on AI insight at the exact moment they are making assortment decisions, not after the fact.',cardId:'tagging-pilot',workstream:'allocation',opifLabel:'OPIF-325602',opifUrl:'https://jira.walmart.com/browse/OPIF-325602',program:'Tagging & Affinity Graph Pilot',programId:'tagging-pilot',type:'capability',quarter:'Q3FY27',target:'October 31, 2026',},{label:'As a planner, I no longer need to manually monitor sell-through performance to trigger swaps — AI detects degradation in real time and generates replacement item recommendations before markdowns are the only option',narrative:'In-Season AI Swap Recommendations monitor sell-through signals in real time and automatically generate swap suggestions when performance degrades. Merchants receive targeted recommendations for replacement items before markdowns are the only option — enabling proactive assortment management instead of reactive clearance.',cardId:'in-season-swaps',workstream:'allocation',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'In-Season Swap Recommendations',programId:'in-season-swaps',type:'capability',quarter:'Q3FY27',target:'October 31, 2026',},{label:'As a leader, I no longer need to manually build clearance plans — AI analyzes sell-through trajectory and inventory position to recommend optimal markdown depth and timing for my review and approval',narrative:'AI-generated markdown recommendations analyze sell-through trajectory, inventory position, and season-end targets to recommend optimal markdown depth and timing. Merchants shift from manually building clearance plans to reviewing and approving AI-generated recommendations — reducing decision time and improving markdown efficiency.',cardId:'markdown-ai',workstream:'strategy',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'AI Markdown Recommendations',programId:'markdown-ai',type:'capability',quarter:'Q4FY27',target:'January 31, 2027',},],},{id:'connected-teams',label:'Connected Teams',icon:'🔗',color:'#0891b2',description:'Design, Buying, Strategy, and Allocation work from the same data in real time — no handoff lag.',capabilities:[{label:'As a designer, I no longer need to wait days for design decisions to reach Buying and vendors — my work in Centric is immediately visible to buying and automatically available through Supplier One',narrative:'Design Hub launch makes Centric PLM the single system of record shared across Design, Buying, and Sourcing. Design decisions made in Centric are immediately visible to buying and automatically available to vendors through Supplier One — the handoff delay between design intent and downstream execution collapses from days to minutes.',cardId:'design-hub-centric',workstream:'design',opifLabel:'OPIF-325208',opifUrl:'https://jira.walmart.com/browse/OPIF-325208',program:'Launch Design Hub (Centric PLM)',programId:'design-hub-centric',type:'capability',quarter:'Q1FY27',target:'April 30, 2026',},{label:'As a designer, I no longer need to manually distribute calendar updates — buying teams see my design milestones and planning deadlines in Centric in real time as they happen',narrative:'Line Planning & Calendar Management in Centric gives all workstreams visibility into the same design milestones and planning calendar. Buying teams see exactly when line plans are finalized and buying readiness targets are set — without waiting for design to distribute calendar updates manually.',cardId:'line-planning',workstream:'design',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'Line Planning & Calendar Management',programId:'line-planning',type:'capability',quarter:'Q1FY27',target:'April 30, 2026',},{label:'As a leader, I no longer need to reforecast mid-buy when teams discover conflicting guardrails — pre-approved space and financial targets are distributed to all workstreams before each season begins',narrative:'Space & Financial Planning capabilities distribute pre-approved space and financial targets to all workstreams before each seasonal planning cycle begins. Design, Buying, and Allocation start aligned — reducing the mid-season financial reforecasting that occurs when teams discover conflicting guardrails mid-buy.',cardId:'space-planning',workstream:'strategy',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'Space & Financial Planning',programId:'space-planning',type:'capability',quarter:'Q1FY27',target:'April 30, 2026',},{label:'As a designer, I no longer need to deliver a finished document weeks later — buying teams see my evolving design intent during ideation, which cuts the late-stage line plan rework that currently hits both of us',narrative:'AP Tool Shared Ideation integration connects Centric design ideation events to the AP Tool assortment view in real time. Buying teams see evolving design intent during ideation — not a finished document handed off weeks later. Early signal reduces the late-stage line plan changes that currently create rework across both workstreams.',cardId:'ap-tool-shared-ideation',workstream:'design',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'AP Tool Shared Ideation',programId:'ap-tool-shared-ideation',type:'capability',quarter:'Q2FY27',target:'July 31, 2026',},{label:'As a designer, I no longer need to email asset files or chase version confirmations — current imagery and CADs are always linked to the live product record and instantly accessible to vendors and teams',narrative:'Centralized DAM Launch provides a single location for all product imagery, CAD files, and design assets integrated with Centric. Product imagery is always current and linked to the live product record — vendors receive assets through Supplier One without manual email distribution, and internal teams stop spending time locating the right version of the right file.',cardId:'centralized-dam',workstream:'design',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'Centralized DAM Launch',programId:'centralized-dam',type:'capability',quarter:'Q2FY27',target:'July 31, 2026',},{label:'As a merchant, I no longer need to run multiple email rounds to capture supplier intent — vendors enter it directly in AEX as structured data and it stays in sync with buying automatically',narrative:'BAM / Collab Intent Integration captures supplier intent directly inside AEX as structured data — replacing the current email-based BAM communication cycle. Supplier clarification rounds that currently require multiple emails, follow-ups, and manual data entry are replaced by a connected workflow that keeps buying and supplier data in sync automatically.',cardId:'bam-collab-intent',workstream:'buying',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'BAM / Collab Intent Integration',programId:'bam-collab-intent',type:'automation',quarter:'Q2FY27',target:'October 30, 2026',},{label:'As a merchant, I no longer need to maintain a separate item definition from Design or Allocation — when design updates a spec I see it immediately, and when I commit a buy Allocation works from the same record',narrative:'OneItem as a Shared Repository creates a single item record visible and writable by Design, Buying, and Allocation simultaneously. Teams stop maintaining parallel item definitions across separate tools — when design updates a spec, buying sees it immediately; when buying commits a buy, allocation sees the exact same item. One item, one truth, across every workstream.',cardId:'shared-item-repository',workstream:'buying',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'OneItem Shared Repository',programId:'shared-item-repository',type:'capability',quarter:'Q3FY27',target:'October 31, 2026',},{label:'As a merchant, I no longer need to switch between market-specific tools for international sourcing — global, domestic, and 3P items share one item definition and I manage them all from one place',narrative:'OneItem Extended Markets brings international sourcing data into the same item repository used for domestic fashion buying. Global, domestic, and 3P items share one definition — buyers manage a unified assortment without switching between market-specific tools or reconciling conflicting item records across markets.',cardId:'oneitem-extended-markets',workstream:'buying',opifLabel:'LLTT Dashboard',opifUrl:LLTT,program:'OneItem Extended Markets',programId:'oneitem-extended-markets',type:'capability',quarter:'Q4FY27',target:'January 31, 2027',},],},];const BIZ_PROGRAM_CONFIG={'auto-item-setup':{label:'Item Setup',color:'#f59e0b',textColor:'#1f2937'},'aex-stability':{label:'AEX Stability',color:'#0053e2',textColor:'#ffffff'},'visual-boards':{label:'Centric Viz',color:'#6366f1',textColor:'#ffffff'},'neo-replatform':{label:'Neo Replatform',color:'#16a34a',textColor:'#ffffff'},'size-pack-bq':{label:'Size/Pack BQ',color:'#d97706',textColor:'#ffffff'},'ai-item-repository':{label:'AI Repository',color:'#0891b2',textColor:'#ffffff'},'fashion-fixture-allocation-buying':{label:'Fixture Alloc',color:'#7c3aed',textColor:'#ffffff'},'product-specs':{label:'Product Specs',color:'#64748b',textColor:'#ffffff'},'sample-mgmt-fit-eval':{label:'Sample Mgmt',color:'#db2777',textColor:'#ffffff'},'shared-event-layer':{label:'Event Layer',color:'#059669',textColor:'#ffffff'},'unified-planning':{label:'Unified Planning',color:'#b86000',textColor:'#ffffff'},'bpe-seasonal':{label:'BPE Seasonal',color:'#854d0e',textColor:'#ffffff'},'trend-api-longlead':{label:'Trend API',color:'#7c3aed',textColor:'#ffffff'},'synthetic-panel':{label:'Synth Panel',color:'#831843',textColor:'#ffffff'},'strategy-hub':{label:'Strategy Hub',color:'#374151',textColor:'#ffffff'},'tagging-pilot':{label:'Tagging/AI',color:'#0f766e',textColor:'#ffffff'},'trend-api-preseason':{label:'Trend Pre-Season',color:'#6d28d9',textColor:'#ffffff'},'forecast-enterprise-service':{label:'Forecast Svc',color:'#1d4ed8',textColor:'#ffffff'},'distrib-optimization':{label:'Distrib Optim',color:'#9a3412',textColor:'#ffffff'},'design-hub-centric':{label:'Design Hub',color:'#0053e2',textColor:'#ffffff'},'line-planning':{label:'Line Planning',color:'#047857',textColor:'#ffffff'},'space-planning':{label:'Space & Finance',color:'#1e40af',textColor:'#ffffff'},'ap-tool-shared-ideation':{label:'AP Ideation',color:'#b45309',textColor:'#ffffff'},'centralized-dam':{label:'Centralized DAM',color:'#0e7490',textColor:'#ffffff'},'bam-collab-intent':{label:'BAM / Collab',color:'#4f46e5',textColor:'#ffffff'},'commitment-report-redesign':{label:'Commit Report',color:'#15803d',textColor:'#ffffff'},'ap-tool-lineplan':{label:'AP Line Plan',color:'#92400e',textColor:'#ffffff'},'bq-enterprise-service':{label:'BQ Enterprise',color:'#1e3a8a',textColor:'#ffffff'},'global-buying-platform':{label:'Global Buying',color:'#065f46',textColor:'#ffffff'},'supplier-one-collab':{label:'Supplier One',color:'#9f1239',textColor:'#ffffff'},'oneitem-expanded-sources':{label:'OneItem Sources',color:'#b45309',textColor:'#ffffff'},'in-season-swaps':{label:'In-Season Swaps',color:'#0f766e',textColor:'#ffffff'},'markdown-ai':{label:'Markdown AI',color:'#6b21a8',textColor:'#ffffff'},'shared-item-repository':{label:'OneItem Repo',color:'#0369a1',textColor:'#ffffff'},'oneitem-extended-markets':{label:'OneItem Markets',color:'#047857',textColor:'#ffffff'},};window.BIZ_IMPACT_GOALS=BIZ_IMPACT_GOALS;window.BIZ_PROGRAM_CONFIG=BIZ_PROGRAM_CONFIG;</script>
+<script>const BIZ_QUARTERS=[{key:'Q1FY27',label:'Q1 FY27',sub:'Feb – Apr 2026',start:new Date(2026,1,1),end:new Date(2026,4,1),stripe:'#eef4ff',color:'#0053e2'},{key:'Q2FY27',label:'Q2 FY27',sub:'May – Jul 2026',start:new Date(2026,4,1),end:new Date(2026,7,1),stripe:'#edfcf2',color:'#2a8703'},{key:'Q3FY27',label:'Q3 FY27',sub:'Aug – Oct 2026',start:new Date(2026,7,1),end:new Date(2026,10,1),stripe:'#fff9f0',color:'#b86000'},{key:'Q4FY27',label:'Q4 FY27',sub:'Nov 2026 – Jan 2027',start:new Date(2026,10,1),end:new Date(2027,1,1),stripe:'#f5f0ff',color:'#6d28d9'},{key:'Q1FY28',label:'Q1 FY28',sub:'Feb – Apr 2027',start:new Date(2027,1,1),end:new Date(2027,4,1),stripe:'#eef4ff',color:'#0053e2'},];const BIZ_FY={quarters:BIZ_QUARTERS};const BIZ_LABEL_W=240;const CHIP_H=60;const CHIP_GAP=6;const CHIP_PAD=10;const BIZ_WS_CONFIG={buying:{label:'Merchants',bg:'#fef3c7',color:'#92400e'},design:{label:'Product Design',bg:'#ede9fe',color:'#5b21b6'},strategy:{label:'Leadership',bg:'#e0f2fe',color:'#075985'},allocation:{label:'Planners',bg:'#dcfce7',color:'#166534'},};function bizActiveWs(){if(typeof ganttActiveWS==='undefined')return null;if(ganttActiveWS.has('all'))return null;return ganttActiveWS;}
+let bizWinStart=0;function bizVisibleQs(){return BIZ_QUARTERS.slice(bizWinStart,bizWinStart+2);}
+let bizGanttView='biz-impact';window.ganttGetView=function(){return bizGanttView;};window.ganttSetView=function(view){bizGanttView=view;const btnP=document.getElementById('gantt-view-btn-program');const btnB=document.getElementById('gantt-view-btn-biz');const wsF=document.getElementById('gantt-ws-filters');if(btnP)btnP.classList.toggle('active',view==='program');if(btnB)btnB.classList.toggle('active',view==='biz-impact');if(wsF){wsF.style.opacity='1';wsF.style.pointerEvents='';}
+const chart=document.querySelector('.gantt-chart');if(chart)chart.style.minWidth=view==='biz-impact'?'820px':'';view==='program'?renderGanttChart():renderBizImpactChart();};window.bizNavPrev=function(){if(bizWinStart>0){bizWinStart--;renderBizImpactChart();}};window.bizNavNext=function(){if(bizWinStart<BIZ_QUARTERS.length-2){bizWinStart++;renderBizImpactChart();}};const bizExpandedGoals=new Set();window.bizToggleExpand=function(goalId){if(bizExpandedGoals.has(goalId)){bizExpandedGoals.delete(goalId);}else{bizExpandedGoals.add(goalId);}
+renderBizImpactChart();};function bizGoalRowH(goal,visibleQs){const ws=bizActiveWs();const maxStack=Math.max(...visibleQs.map(q=>goal.capabilities.filter(c=>c.quarter===q.key&&(!ws||ws.has(c.workstream))).length),1);return Math.max(maxStack*(CHIP_H+CHIP_GAP)-CHIP_GAP+CHIP_PAD*2,72);}
+function bizDeco(visibleQs){const[q0,q1]=visibleQs;const stripes=[`<div class="gantt-stripe" style="left:0;width:50%;height:100%;background:${q0.stripe}"></div>`,`<div class="gantt-stripe" style="left:50%;width:50%;height:100%;background:${q1.stripe}"></div>`,].join('');const divider=`<div class="gantt-divider" style="left:50%;height:100%"></div>`;return stripes+divider;}
+function buildBizImpactHeader(visibleQs){const el=document.getElementById('gantt-qheader');if(!el)return;const canPrev=bizWinStart>0;const canNext=bizWinStart<BIZ_QUARTERS.length-2;const prevQ=canPrev?BIZ_QUARTERS[bizWinStart-1]:null;const nextQ=canNext?BIZ_QUARTERS[bizWinStart+2]:null;const prevTip=canPrev?`← ${prevQ.label}`:'';const nextTip=canNext?`${nextQ.label} →`:'';const qCols=visibleQs.map(q=>`
+    <div class="biz-qcol" style="color:${q.color};border-bottom:3px solid ${q.color}60"><span class="biz-qcol-label">${q.label}</span><span class="biz-qcol-sub">${q.sub}</span></div>`).join('');el.innerHTML=`
+    <div class="gantt-header-stub" style="width:${BIZ_LABEL_W}px"><div class="biz-win-nav"><button class="biz-nav-btn" onclick="bizNavPrev()"
+                ${canPrev ? '' : 'disabled'} title="${prevTip}">&#8249;</button><span class="biz-nav-label">Quarter view</span><button class="biz-nav-btn" onclick="bizNavNext()"
+                ${canNext ? '' : 'disabled'} title="${nextTip}">&#8250;</button></div></div><div class="gantt-header-timeline" style="display:flex">
+      ${qCols}
+    </div>`;}
+function _getBizModal(){let m=document.getElementById('biz-cap-modal');if(!m){m=document.createElement('div');m.id='biz-cap-modal';m.innerHTML=`
+      <div class="biz-modal-backdrop" onclick="bizCloseModal()"></div><div class="biz-modal-card" role="dialog" aria-modal="true"><button class="biz-modal-close" onclick="bizCloseModal()" aria-label="Close">&times;</button><div id="biz-modal-body"></div></div>`;document.body.appendChild(m);}
+return m;}
+window.bizCloseModal=function(){const m=document.getElementById('biz-cap-modal');if(m)m.classList.remove('open');document.removeEventListener('keydown',_bizEscHandler);};function _bizEscHandler(e){if(e.key==='Escape')window.bizCloseModal();}
+window.bizOpenCap=function(goalId,capIdx){const goals=window.BIZ_IMPACT_GOALS||[];const progCfg=window.BIZ_PROGRAM_CONFIG||{};const goal=goals.find(g=>g.id===goalId);if(!goal)return;const cap=goal.capabilities[capIdx];if(!cap)return;const prog=progCfg[cap.programId]||{label:cap.program,color:'#6b7280',textColor:'#fff'};const qObj=BIZ_QUARTERS.find(q=>q.key===cap.quarter)||BIZ_QUARTERS[0];const badgeCls=cap.type==='automation'?'biz-badge-automation':'biz-badge-capability';const badgeTxt=cap.type==='automation'?'✕ Work Removed':'+ New Capability';const modal=_getBizModal();document.getElementById('biz-modal-body').innerHTML=`
+    <div class="biz-modal-goal-header" style="border-left:4px solid ${goal.color}"><span class="biz-modal-goal-icon">${goal.icon}</span><div><div class="biz-modal-goal-label" style="color:${goal.color}">${goal.label}</div><div class="biz-modal-goal-desc">${goal.description}</div></div></div><div class="biz-modal-qbar" style="background:${qObj.color}15;border:1px solid ${qObj.color}40"><span style="color:${qObj.color};font-weight:800;font-size:13px">
+        ${qObj.label}
+        <span style="font-weight:400;font-size:11px;opacity:0.75"> &mdash; ${qObj.sub}</span></span><span class="biz-badge ${badgeCls}" style="margin-left:auto">${badgeTxt}</span><span class="biz-prog-pill" style="background:${prog.color};color:${prog.textColor}">${prog.label}</span><span class="biz-modal-target">📅 ${cap.target}</span></div><div class="biz-modal-impact-statement"><div class="biz-modal-impact-headline">${cap.label}</div><p class="biz-modal-impact-narrative">${cap.narrative}</p></div><div class="biz-modal-links"><div class="biz-modal-link-label">Jump to:</div><button id="biz-open-card-btn" class="biz-modal-link-btn biz-modal-link-card"
+              data-cid="${cap.cardId}" data-ws="${cap.workstream}">
+        📋 Program Card &mdash; ${cap.program}
+      </button><a class="biz-modal-link-btn biz-modal-link-opif"
+         href="${cap.opifUrl}" target="_blank" rel="noopener">
+        🎫 ${cap.opifLabel}
+        <span class="biz-modal-link-ext">↗</span></a></div>`;const cardBtn=document.getElementById('biz-open-card-btn');if(cardBtn){cardBtn.addEventListener('click',function(){window.bizCloseModal();if(typeof openModal==='function')openModal(this.dataset.cid,this.dataset.ws,null);});}
+modal.classList.add('open');document.addEventListener('keydown',_bizEscHandler);};window.renderBizImpactChart=function(){const body=document.getElementById('gantt-body');if(!body)return;const visibleQs=bizVisibleQs();buildBizImpactHeader(visibleQs);const goals=window.BIZ_IMPACT_GOALS||[];const progCfg=window.BIZ_PROGRAM_CONFIG||{};const[q0,q1]=visibleQs;const winLabel=q0.label===q1.label?q0.label:`${q0.label} + ${q1.label}`;let html=`
+    <div class="biz-preamble"><span class="biz-preamble-icon">🎯</span><div><div class="biz-preamble-title">Business Impact &mdash; ${winLabel}</div><div class="biz-preamble-sub">What changes for your team this window.
+          <strong>Click any impact to read the full statement.</strong></div></div><div class="biz-legend"><span class="biz-chip-type biz-chip-type-auto" style="font-size:10px;padding:3px 8px">✕ Work Removed</span><span class="biz-chip-type biz-chip-type-cap" style="font-size:10px;padding:3px 8px">+ New Capability</span></div></div>`;const ws=bizActiveWs();goals.forEach((goal,goalIdx)=>{const goalCaps=goal.capabilities.filter(c=>!ws||ws.has(c.workstream));if(goalCaps.length===0)return;const isExpanded=bizExpandedGoals.has(goal.id);const totalCount=goalCaps.length;const altBg=goalIdx%2===0?'#fafcff':'#f7fbf7';const wsPill=(workstream)=>{const cfg=BIZ_WS_CONFIG[workstream]||{label:workstream,bg:'#f3f4f6',color:'#374151'};return`<span class="biz-chip-ws" style="background:${cfg.bg};color:${cfg.color}">${cfg.label}</span>`;};if(isExpanded){const qOrder=BIZ_QUARTERS.reduce((m,q,i)=>{m[q.key]=i;return m;},{});const sorted=goal.capabilities.map((c,i)=>({cap:c,idx:i})).filter(({cap})=>!ws||ws.has(cap.workstream)).sort((a,b)=>(qOrder[a.cap.quarter]||0)-(qOrder[b.cap.quarter]||0));const groups={};sorted.forEach(({cap,idx})=>{if(!groups[cap.quarter])groups[cap.quarter]=[];groups[cap.quarter].push({cap,idx});});let groupsHtml='';BIZ_QUARTERS.forEach(q=>{if(!groups[q.key]||groups[q.key].length===0)return;const chips=groups[q.key].map(({cap,idx})=>{const prog=progCfg[cap.programId]||{label:cap.program};const typeClass=cap.type==='automation'?'biz-chip-type-auto':'biz-chip-type-cap';const typeTxt=cap.type==='automation'?'✕ Removed':'＋ Added';return`
+            <div class="biz-expand-chip"
+                 style="border-left:3px solid ${goal.color};background:${goal.color}0a"
+                 onclick="event.stopPropagation();bizOpenCap('${goal.id}',${idx})"><div class="biz-chip-text" style="-webkit-line-clamp:unset;display:block">${cap.label}</div><div class="biz-chip-meta"><span class="biz-chip-type ${typeClass}">${typeTxt}</span><span class="biz-chip-sep">&middot;</span><span class="biz-chip-prog">${prog.label}</span><span class="biz-chip-sep">&middot;</span>
+                ${wsPill(cap.workstream)}
+              </div></div>`;}).join('');groupsHtml+=`
+          <div class="biz-expand-group"><div class="biz-expand-q-label" style="color:${q.color};border-bottom:2px solid ${q.color}35">
+              ${q.label}
+              <span class="biz-expand-q-sub">&mdash; ${q.sub}</span></div>
+            ${chips}
+          </div>`;});html+=`
+        <div class="biz-goal-row biz-goal-row-expanded" style="background:${altBg};border-top:2px solid ${goal.color}20"><div class="biz-goal-label-panel biz-goal-label-panel-expanded"
+               style="width:${BIZ_LABEL_W}px;border-left:4px solid ${goal.color}"><div class="biz-goal-panel-icon">${goal.icon}</div><div class="biz-goal-panel-name" style="color:${goal.color}">${goal.label}</div><div class="biz-goal-panel-desc">${goal.description}</div><div class="biz-goal-panel-summary">${totalCount} total impacts</div><button class="biz-expand-btn biz-expand-btn-open"
+                    onclick="bizToggleExpand('${goal.id}')">&#9650; Collapse</button></div><div class="biz-goal-track-expanded">${groupsHtml}</div></div>`;return;}
+const rowH=bizGoalRowH(goal,visibleQs);const deco=bizDeco(visibleQs);let chipsHtml='';visibleQs.forEach((q,qColIdx)=>{const qCaps=goal.capabilities.map((c,i)=>({cap:c,idx:i})).filter(({cap})=>cap.quarter===q.key&&(!ws||ws.has(cap.workstream)));const chipLeft=qColIdx===0?'8px':'calc(50% + 8px)';const chipWidth='calc(50% - 16px)';qCaps.forEach(({cap,idx},stackIdx)=>{const prog=progCfg[cap.programId]||{label:cap.program,color:'#6b7280',textColor:'#fff'};const chipTop=CHIP_PAD+stackIdx*(CHIP_H+CHIP_GAP);const typeClass=cap.type==='automation'?'biz-chip-type-auto':'biz-chip-type-cap';const typeTxt=cap.type==='automation'?'✕ Removed':'＋ Added';chipsHtml+=`
+          <div class="biz-chip"
+               style="left:${chipLeft};width:${chipWidth};top:${chipTop}px;height:${CHIP_H}px;
+                      border-left:3px solid ${goal.color};background:${goal.color}0e;"
+               onclick="event.stopPropagation();bizOpenCap('${goal.id}',${idx})"
+               title="${cap.label.replace(/"/g, '&quot;')}"><div class="biz-chip-text">${cap.label}</div><div class="biz-chip-meta"><span class="biz-chip-type ${typeClass}">${typeTxt}</span><span class="biz-chip-sep">&middot;</span><span class="biz-chip-prog">${prog.label}</span><span class="biz-chip-sep">&middot;</span>
+              ${wsPill(cap.workstream)}
+            </div></div>`;});if(qCaps.length===0){chipsHtml+=`
+          <div class="biz-chip-empty"
+               style="left:${chipLeft};width:${chipWidth};top:${CHIP_PAD}px">
+            No impacts this quarter
+          </div>`;}});const visibleCount=visibleQs.reduce((n,q)=>n+goal.capabilities.filter(c=>c.quarter===q.key&&(!ws||ws.has(c.workstream))).length,0);const hiddenCount=totalCount-visibleCount;const summaryTxt=hiddenCount>0?`${visibleCount} in view &bull; ${totalCount} total`:`${visibleCount} in view`;html+=`
+      <div class="biz-goal-row" style="background:${altBg};border-top:2px solid ${goal.color}20"><div class="biz-goal-label-panel" style="width:${BIZ_LABEL_W}px;min-height:${rowH}px;border-left:4px solid ${goal.color}"><div class="biz-goal-panel-icon">${goal.icon}</div><div class="biz-goal-panel-name" style="color:${goal.color}">${goal.label}</div><div class="biz-goal-panel-desc">${goal.description}</div><div class="biz-goal-panel-summary">${summaryTxt}</div>
+          ${hiddenCount > 0 ? `<button class="biz-expand-btn biz-expand-btn-closed"
+onclick="bizToggleExpand('${goal.id}')">&#9660;See all ${totalCount}</button>` : ''}
+        </div><div class="biz-goal-track" style="min-height:${rowH}px">
           ${deco}
-          ${BIZ_FY.quarters.map(q => {
-            const l = bizPct(q.start).toFixed(2);
-            const w = ((q.end - q.start) / BIZ_TOTAL_MS * 100).toFixed(2);
-            const count = goal.capabilities.filter(c => c.quarter === q.label.substring(0,2)).length;
-            return count > 0
-              ? `<div class="biz-goal-band"style="left:${l}%;width:${w}%;border-bottom:3px solid ${goal.color}40"><span style="color:${goal.color};font-size:10px;font-weight:700">${count}impact${count!==1?'s':''}</span></div>`
-              : `<div class="biz-goal-band biz-goal-band-empty"style="left:${l}%;width:${w}%"></div>`;
-          }).join('')}
-        </div></div>`;all.forEach((cap,idx)=>{const prog=progCfg[cap.programId]||{label:cap.program,color:'#6b7280',textColor:'#fff'};const qBound=BIZ_FY.quarters.find(q=>q.label.startsWith(cap.quarter))||BIZ_FY.quarters[0];const barL=bizPct(qBound.start).toFixed(2);const barW=((qBound.end-qBound.start)/BIZ_TOTAL_MS*100).toFixed(2);const isEven=idx%2===0;html+=`
-        <div class="gantt-row biz-cap-row${isEven ? '' : ' biz-cap-row-alt'}"><div class="gantt-label biz-cap-label" style="width:${BIZ_LABEL_W}px"><div class="biz-cap-inner"><span class="biz-badge ${cap.type === 'automation' ? 'biz-badge-automation' : 'biz-badge-capability'}">
-                ${cap.type === 'automation' ? '✕ Removed' : '+ Gained'}
-              </span><span class="biz-cap-text">${cap.label}</span></div><div class="biz-cap-meta"><span class="biz-prog-pill" style="background:${prog.color};color:${prog.textColor}">${prog.label}</span><span style="color:#9ca3af">${cap.target}</span></div></div><div class="gantt-track biz-cap-track">
-            ${deco}
-            <div class="biz-cap-bar" style="left:${barL}%;width:${barW}%;background:${goal.color}"><span class="biz-cap-bar-label">${cap.quarter} FY27</span></div></div></div>`;});});body.innerHTML=html||'<div class="gantt-empty">No business impact data defined.</div>';};</script>
+          ${chipsHtml}
+        </div></div>`;});body.innerHTML=html;};</script>
 <script>function getActiveQuarters(){const now=new Date();const yr=now.getFullYear();const windows={Q1:[new Date(yr,1,1),new Date(yr,3,30)],Q2:[new Date(yr,4,1),new Date(yr,6,31)],Q3:[new Date(yr,7,1),new Date(yr,9,31)],Q4:[new Date(yr,10,1),new Date(yr+1,0,31)],};const horizon=new Date(now.getTime()+90*24*60*60*1000);const active=new Set(['completed']);for(const[q,[start,end]]of Object.entries(windows)){if(start<=horizon&&end>=now)active.add(q);}
 return active;}
 const ACTIVE_QUARTERS=getActiveQuarters();function getActiveCards(pillar){return QUARTER_ORDER.filter(q=>ACTIVE_QUARTERS.has(q)).flatMap(q=>pillar.cards.filter(c=>c.quarter===q));}
@@ -2678,7 +7422,7 @@ onmouseover="this.style.background='#dbeafe'"onmouseout="this.style.background='
                         padding:10px 0;${isLast ? '' : 'border-bottom:1px solid #f1f5f9;'}"><div style="display:flex;align-items:center;gap:7px;flex-shrink:0;padding-top:2px;"><span style="font-size:0.9rem;">${icon}</span><span style="font-size:0.71rem;font-weight:700;color:#64748b;white-space:nowrap;">${roleLabel}</span></div><div style="text-align:right;"><p style="margin:0;font-size:0.85rem;font-weight:700;color:#1e293b;">${name}</p>
         ${titleTag}
         <div style="margin-top:3px;">${emailLink}</div></div></div>`;}
-const bpIcon='\uD83C\uDFE2';const bpRows=bpList.length>0?bpList.map((p,i)=>_personRow(p.name,p.email,p.title,bpIcon,i===0?'Business &amp; Transformation Lead':'\u00a0',i===bpList.length-1&&singleRoles.filter(r=>(owners[r.key]||{}).name&&(owners[r.key]||{}).name!=='TBD').length===0)).join(''):'';const visibleSingleRoles=singleRoles.filter(r=>{const o=owners[r.key]||{};return o.name&&o.name!=='TBD';});const singleRows=visibleSingleRoles.map((r,i)=>{const o=owners[r.key]||{};return _personRow(o.name,o.email,o.title,r.icon,r.role,i===visibleSingleRoles.length-1);}).join('');const recipientRows=(bpRows+singleRows)||'<p style="font-size:0.8rem;color:#94a3b8;padding:12px 0;">No owners assigned yet.</p>';const bpEmails=bpList.map(p=>p.email).filter(Boolean);const singleEmails=singleRoles.map(r=>(owners[r.key]||{}).email).filter(Boolean);const toAddresses=[...bpEmails,...singleEmails].join(',')||'fashion-transformation@walmart.com';document.getElementById('tab-inquiry').innerHTML=`
+const bpIcon='\uD83C\uDFE2';const bpRows=bpList.length>0?bpList.map((p,i)=>_personRow(p.name,p.email,p.title,bpIcon,i===0?'Business &amp; Transformation Lead':'\u00a0',i===bpList.length-1&&singleRoles.filter(r=>(owners[r.key]||{}).name&&(owners[r.key]||{}).name!=='TBD').length===0)).join(''):'';const visibleSingleRoles=singleRoles.filter(r=>{const o=owners[r.key]||{};return o.name&&o.name!=='TBD';});const singleRows=visibleSingleRoles.map((r,i)=>{const o=owners[r.key]||{};return _personRow(o.name,o.email,o.title,r.icon,r.role,i===visibleSingleRoles.length-1);}).join('');const recipientRows=(bpRows+singleRows)||'<p style="font-size:0.8rem;color:#94a3b8;padding:12px 0;">No owners assigned yet.</p>';const bpEmails=bpList.map(p=>p.email).filter(Boolean);const emailRoles=singleRoles.filter(r=>r.key!=='uxLead'&&r.key!=='softwareLead');const singleEmails=emailRoles.map(r=>(owners[r.key]||{}).email).filter(Boolean);const toAddresses=[...bpEmails,...singleEmails].join(',')||'fashion-transformation@walmart.com';document.getElementById('tab-inquiry').innerHTML=`
     <div style="padding:20px 24px;display:flex;flex-direction:column;gap:16px;"><div style="padding:12px 14px;border-radius:12px;background:#f5f3ff;border:1.5px solid #ddd6fe;"><p style="margin:0 0 4px;font-size:0.72rem;font-weight:800;text-transform:uppercase;
                   letter-spacing:.06em;color:#6d28d9;">&#9993;&#65039; Send Inquiry to Owners</p><p style="margin:0;font-size:0.75rem;color:#6d28d9;">Clicking <strong>Open Email Draft</strong> opens
           a pre-filled email addressed directly to all listed owners of this deliverable.</p></div><div style="border-radius:12px;border:1.5px solid #e2e8f0;overflow:hidden;"><div style="padding:8px 14px;background:#f8fafc;border-bottom:1px solid #e2e8f0;
@@ -2715,7 +7459,7 @@ const bpIcon='\uD83C\uDFE2';const bpRows=bpList.length>0?bpList.map((p,i)=>_pers
       </button><p style="margin:0;font-size:0.68rem;text-align:center;color:#94a3b8;">Opens your default mail client with TO, subject, and body pre-filled.</p></div>`;const changeLog=card.changeLog||[];const updatesBtn=document.getElementById('tab-btn-updates');if(changeLog.length){updatesBtn.style.display='inline-flex';updatesBtn.textContent=`\u{1F514} Updates (${changeLog.length})`;const FIELD_LABELS={status:'Status',targetDate:'Target Date',techRank:'Tech Rank',owners:'Owners'};const rows=changeLog.slice().reverse().map(e=>{const label=FIELD_LABELS[e.field]||e.field;const fromTxt=e.fromLabel||e.from||'\u2014';const toTxt=e.toLabel||e.to||'\u2014';return`<tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:8px 10px;font-size:0.72rem;color:#64748b;white-space:nowrap;">${e.date}</td><td style="padding:8px 10px;font-size:0.72rem;font-weight:700;color:#1e293b;">${label}</td><td style="padding:8px 10px;font-size:0.72rem;color:#dc2626;text-decoration:line-through;">${fromTxt}</td><td style="padding:8px 4px;font-size:0.72rem;color:#64748b;">\u2192</td><td style="padding:8px 10px;font-size:0.72rem;color:#15803d;font-weight:600;">${toTxt}</td></tr>`;}).join('');document.getElementById('tab-updates').innerHTML=`
       <div class="py-5 px-6"><p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">&#128276; Recent Changes (auto-detected by daily sync)</p><div style="overflow-x:auto;border-radius:10px;border:1px solid #e2e8f0;"><table style="width:100%;border-collapse:collapse;"><thead><tr style="background:#f8fafc;"><th style="padding:7px 10px;font-size:0.65rem;font-weight:800;color:#94a3b8;text-align:left;text-transform:uppercase;letter-spacing:.06em;">Date</th><th style="padding:7px 10px;font-size:0.65rem;font-weight:800;color:#94a3b8;text-align:left;text-transform:uppercase;letter-spacing:.06em;">Field</th><th style="padding:7px 10px;font-size:0.65rem;font-weight:800;color:#94a3b8;text-align:left;text-transform:uppercase;letter-spacing:.06em;">Was</th><th style="padding:7px 4px;"></th><th style="padding:7px 10px;font-size:0.65rem;font-weight:800;color:#94a3b8;text-align:left;text-transform:uppercase;letter-spacing:.06em;">Now</th></tr></thead><tbody>${rows}</tbody></table></div><p style="margin-top:12px;font-size:0.68rem;color:#94a3b8;">Changes auto-detected from OPIF Jira + Confluence LLTT Dashboard. Only Status, Target Date, Tech Rank, and Owners are tracked.</p></div>`;}else{updatesBtn.style.display='none';}
 switchTab('overview');document.getElementById('modal-overlay').classList.add('open');}
-function sendInquiry(cardId,workstream,tool){const card=allCards.find(c=>c.id===cardId);if(!card)return;const owners=card.owners||{};const qMeta=QUARTER_META[card.quarter]||QUARTER_META['Future'];const bpEmails=(Array.isArray(owners.businessPartner)?owners.businessPartner:[]).map(p=>p.email).filter(Boolean);const singleEmails=['transformationLead','productLead','uxLead','softwareLead'].map(k=>(owners[k]||{}).email).filter(Boolean);const emailAddresses=[...bpEmails,...singleEmails].join(',')||'fashion-transformation@walmart.com';const userText=(document.getElementById('inquiry-text')?.value||'').trim()||'[No message entered]';const subject=encodeURIComponent(`[Fashion Portal] Question about: ${card.title}`);const body=encodeURIComponent(`Deliverable: ${card.title}
+function sendInquiry(cardId,workstream,tool){const card=allCards.find(c=>c.id===cardId);if(!card)return;const owners=card.owners||{};const qMeta=QUARTER_META[card.quarter]||QUARTER_META['Future'];const bpEmails=(Array.isArray(owners.businessPartner)?owners.businessPartner:[]).map(p=>p.email).filter(Boolean);const singleEmails=['transformationLead','productLead'].map(k=>(owners[k]||{}).email).filter(Boolean);const emailAddresses=[...bpEmails,...singleEmails].join(',')||'fashion-transformation@walmart.com';const userText=(document.getElementById('inquiry-text')?.value||'').trim()||'[No message entered]';const subject=encodeURIComponent(`[Fashion Portal] Question about: ${card.title}`);const body=encodeURIComponent(`Deliverable: ${card.title}
 Workstream:  ${workstream}
 Tool:        ${tool}
 Quarter:     ${qMeta.label}
@@ -2728,5 +7472,423 @@ ${userText}
 function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
 function switchTab(name){const names=['overview','status','links','inquiry','updates'];document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',names[i]===name));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));document.getElementById('tab-'+name).classList.add('active');}
 document.getElementById('modal-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('modal-overlay'))closeModal();});renderPhases();buildCardIndex();initPhaseView();initExecBar();</script>
+
+
+<!-- ========== OPIF Field Mapping Guide ========== -->
+<!-- opif-guide-modal.html -->
+<!-- OPIF Guide Modal Component -->
+
+<!-- Guide Modal -->
+<div id="guideModalOverlay" class="guide-modal-overlay">
+  <div class="guide-modal">
+    <!-- Header -->
+    <div class="guide-header">
+      <div>
+        <h2>📖 OPIF Field Mapping Guide</h2>
+        <p>How to Update Your OPIF to Appear in the E2E Fashion Portal</p>
+      </div>
+      <button class="guide-close" onclick="closeGuideModal()">&times;</button>
+    </div>
+    
+    <!-- Body -->
+    <div class="guide-body">
+      <!-- Sidebar Navigation -->
+      <div class="guide-sidebar">
+        <div class="guide-nav-item active" onclick="showGuideSection('requirements')">
+          <span class="guide-nav-icon">✅</span>
+          <span>Requirements</span>
+        </div>
+        <div class="guide-nav-item" onclick="showGuideSection('field-mapping')">
+          <span class="guide-nav-icon">🗺️</span>
+          <span>Field Mapping</span>
+        </div>
+        <div class="guide-nav-item" onclick="showGuideSection('status-logic')">
+          <span class="guide-nav-icon">🚦</span>
+          <span>Status Logic</span>
+        </div>
+        <div class="guide-nav-item" onclick="showGuideSection('workstream-logic')">
+          <span class="guide-nav-icon">🔄</span>
+          <span>Workstream Logic</span>
+        </div>
+        <div class="guide-nav-item" onclick="showGuideSection('example')">
+          <span class="guide-nav-icon">📝</span>
+          <span>Complete Example</span>
+        </div>
+        <div class="guide-nav-item" onclick="showGuideSection('troubleshooting')">
+          <span class="guide-nav-icon">🔧</span>
+          <span>Troubleshooting</span>
+        </div>
+        <div class="guide-nav-item" onclick="showGuideSection('sync-info')">
+          <span class="guide-nav-icon">🔄</span>
+          <span>Sync Schedule</span>
+        </div>
+        <div class="guide-nav-item" onclick="showGuideSection('contact')">
+          <span class="guide-nav-icon">📞</span>
+          <span>Need Help?</span>
+        </div>
+      </div>
+      
+      <!-- Content Area -->
+      <div class="guide-content">
+        <!-- Requirements Section -->
+        <div id="section-requirements" class="guide-section active">
+          <h3>✅ Requirements for Portal Inclusion</h3>
+          
+          <div class="requirement-box">
+            <h3>Primary Requirement: LLTT Label</h3>
+            <p class="highlight-text">Your OPIF <strong>MUST</strong> include the label <code>LLTT</code> to appear in this portal.</p>
+            <p class="highlight-text">This is the primary filter that determines whether an OPIF is tracked in the E2E Fashion Portal.</p>
+            
+            <div class="how-to-add">
+              <h4>How to Add the LLTT Label:</h4>
+              <ol>
+                <li>Open your OPIF in Jira (<a href="https://jira.walmart.com" target="_blank">jira.walmart.com</a>)</li>
+                <li>Look for the "Labels" field (usually in the right sidebar)</li>
+                <li>Click "+ Add" or click on the Labels field</li>
+                <li>Type <code>LLTT</code> and press Enter</li>
+                <li>Save the OPIF</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Field Mapping Section -->
+        <div id="section-field-mapping" class="guide-section">
+          <h3>🗺️ Field Mapping Reference</h3>
+          <p>This table shows exactly how OPIF fields map to portal card displays:</p>
+          
+          <table class="field-mapping-table">
+            <thead>
+              <tr>
+                <th>Portal Field</th>
+                <th>OPIF/Jira Field</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Card Title</strong></td>
+                <td><code>OPIF Epic Name</code></td>
+                <td>The main title/summary of your OPIF</td>
+              </tr>
+              <tr>
+                <td><strong>Status</strong></td>
+                <td><code>Status Color</code> + <code>Ready to Start Field</code></td>
+                <td>Combination creates status like "Yellow — Ready to Start"</td>
+              </tr>
+              <tr>
+                <td><strong>Primary Owner</strong></td>
+                <td><code>Assignee</code> (should match <code>Product Manager</code>)</td>
+                <td>Main person responsible for the OPIF<br><em style="font-size: 12px; color: #666;">Fallback: If Assignee is empty, uses Confluence page owner mapping</em></td>
+              </tr>
+              <tr>
+                <td><strong>Software Lead</strong></td>
+                <td><code>Engineering Lead</code></td>
+                <td>Technical lead for implementation</td>
+              </tr>
+              <tr>
+                <td><strong>Target Date</strong></td>
+                <td><code>Due Date</code></td>
+                <td>Expected completion date for the OPIF</td>
+              </tr>
+              <tr>
+                <td><strong>Workstream</strong></td>
+                <td><code>Activity Type</code></td>
+                <td>Determines portal section (Strategy, Design, Buying, Allocation)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Status Logic Section -->
+        <div id="section-status-logic" class="guide-section">
+          <h3>🚦 Status Logic</h3>
+          <p style="margin-bottom: 16px;">Portal status combines two OPIF fields:</p>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;">
+            <div style="background: #f8f9fa; padding: 16px; border-radius: 8px; border-left: 3px solid #0053e2;">
+              <h4 style="margin: 0 0 8px 0; font-size: 14px; color: #0053e2; font-weight: 700;">Status Color</h4>
+              <p style="margin: 0; font-size: 13px; color: #666;">Location: OPIF sidebar</p>
+              <p style="margin: 8px 0 0 0; font-size: 13px;">🟢 Green | 🟡 Yellow | 🔴 Red</p>
+            </div>
+            <div style="background: #f8f9fa; padding: 16px; border-radius: 8px; border-left: 3px solid #0053e2;">
+              <h4 style="margin: 0 0 8px 0; font-size: 14px; color: #0053e2; font-weight: 700;">Ready to Start Field</h4>
+              <p style="margin: 0; font-size: 13px; color: #666;">Location: OPIF header</p>
+              <p style="margin: 8px 0 0 0; font-size: 13px;">Ready to Start | In Progress | Blocked | etc.</p>
+            </div>
+          </div>
+          
+          <div style="background: #e8f5e9; padding: 16px; border-radius: 8px; border-left: 3px solid #2a8703;">
+            <h4 style="margin: 0 0 12px 0; font-size: 14px; color: #2a8703; font-weight: 700;">Examples:</h4>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <span class="status-badge yellow">Yellow — Ready to Start</span>
+              <span class="status-badge green">Green — In Progress</span>
+              <span class="status-badge red">Red — Blocked</span>
+              <span class="status-badge roadmap">Roadmap — Backlog</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Workstream Logic Section -->
+        <div id="section-workstream-logic" class="guide-section">
+          <h3>🔄 Workstream Assignment Logic</h3>
+          <p><strong>Important:</strong> The workstream (Strategy, Design, Buying, Allocation) displayed in the portal is <strong>NOT</strong> directly determined by the Activity Type field.</p>
+          
+          <div class="note-box" style="margin: 20px 0;">
+            <strong>🧠 How Workstreams Are Assigned:</strong>
+            <p style="margin-top: 12px;">The portal analyzes the <strong>entire OPIF content</strong> including epic name, description, labels, and context to intelligently assign the appropriate workstream based on predefined business rules.</p>
+          </div>
+          
+          <h4 style="margin-top: 24px; color: #0053e2;">Workstream Categories:</h4>
+          <div class="workstream-mapping">
+            <div class="workstream-item">
+              <div class="workstream-header strategy">📊 Strategy</div>
+              <p>Strategic initiatives, planning, forecasting, and transformation programs that span multiple workstreams</p>
+            </div>
+            
+            <div class="workstream-item">
+              <div class="workstream-header design">🎨 Design</div>
+              <p>Product design, UX/UI, PLM (Centric), conceptualization, and creative development activities</p>
+            </div>
+            
+            <div class="workstream-item">
+              <div class="workstream-header buying">🛒 Buying</div>
+              <p>Procurement, vendor management, buy planning (BPE/DBP), assortment planning, and purchasing</p>
+            </div>
+            
+            <div class="workstream-item">
+              <div class="workstream-header allocation">📦 Allocation</div>
+              <p>Distribution, inventory management, allocation planning (AEX), and fulfillment optimization</p>
+            </div>
+          </div>
+          
+          <div class="note-box" style="margin-top: 24px;">
+            <strong>📌 Note on Activity Type:</strong>
+            <p style="margin-top: 8px;">The <code>Activity Type</code> field in your OPIF is <strong>one of many signals</strong> used for workstream assignment, but it's not the sole determinant. The portal uses intelligent inference based on the overall OPIF context.</p>
+            <p style="margin-top: 8px;">If your OPIF's workstream assignment seems incorrect, please contact the E2E Fashion Portal support team (see "Need Help?" section).</p>
+          </div>
+        </div>
+        
+        <!-- Example Section -->
+        <div id="section-example" class="guide-section">
+          <h3>📝 Complete Example</h3>
+          <p>Here's a real example showing how OPIF fields translate to portal display:</p>
+          
+          <div class="example-split">
+            <div class="opif-side">
+              <h4>OPIF Fields (Jira)</h4>
+              <table class="example-table">
+                <tr>
+                  <td>Labels</td>
+                  <td><code>LLTT</code></td>
+                </tr>
+                <tr>
+                  <td>Epic Name</td>
+                  <td>AEX - Automated Item Set Up</td>
+                </tr>
+                <tr>
+                  <td>Status Color</td>
+                  <td>🟡 Yellow</td>
+                </tr>
+                <tr>
+                  <td>Ready to Start</td>
+                  <td>Ready to Start</td>
+                </tr>
+                <tr>
+                  <td>Assignee</td>
+                  <td>Abhishek Jannawar</td>
+                </tr>
+                <tr>
+                  <td>Product Manager</td>
+                  <td>Abhishek Jannawar</td>
+                </tr>
+                <tr>
+                  <td>Engineering Lead</td>
+                  <td>Aravind Chiruvelli</td>
+                </tr>
+                <tr>
+                  <td>Due Date</td>
+                  <td>Apr 30, 2026</td>
+                </tr>
+                <tr>
+                  <td>Activity Type</td>
+                  <td>Product Discovery</td>
+                </tr>
+              </table>
+            </div>
+            
+            <div class="arrow">→</div>
+            
+            <div class="portal-side">
+              <h4>Portal Card Display</h4>
+              <div class="portal-card-preview">
+                <div class="card-header">
+                  <span class="opif-badge">OPIF-344926</span>
+                  <span class="status-badge yellow">Yellow — Ready to Start</span>
+                </div>
+                <h3 class="card-title">AEX - Automated Item Set Up</h3>
+                <div class="card-meta">
+                  <div class="meta-item">
+                    <span class="meta-label">Owner:</span>
+                    <span class="meta-value">Abhishek Jannawar</span>
+                  </div>
+                  <div class="meta-item">
+                    <span class="meta-label">Tech Lead:</span>
+                    <span class="meta-value">Aravind Chiruvelli</span>
+                  </div>
+                  <div class="meta-item">
+                    <span class="meta-label">Target:</span>
+                    <span class="meta-value">Apr 30, 2026</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Troubleshooting Section -->
+        <div id="section-troubleshooting" class="guide-section">
+          <h3>🔧 Troubleshooting</h3>
+          <p>Common issues and solutions:</p>
+          
+          <div class="faq-item">
+            <h4>Q: My OPIF isn't showing up in the portal</h4>
+            <p><strong>A:</strong> Check the following:</p>
+            <ol>
+              <li>Verify the <code>LLTT</code> label is added to your OPIF</li>
+              <li>Wait 24 hours for the next automated sync</li>
+              <li>Ensure your OPIF is in an active status (not Closed/Done)</li>
+              <li>Check that your OPIF appears on the <a href="https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard" target="_blank">Confluence dashboard</a></li>
+            </ol>
+          </div>
+          
+          <div class="faq-item">
+            <h4>Q: My status/date is outdated in the portal</h4>
+            <p><strong>A:</strong> The portal syncs daily from Confluence. Updates made in Jira will appear in the portal within 24 hours after the next automated sync runs (typically early morning).</p>
+          </div>
+          
+          <div class="faq-item">
+            <h4>Q: Which field should I update to change my status?</h4>
+            <p><strong>A:</strong> Update BOTH fields:</p>
+            <ul>
+              <li><code>Status Color</code> (Green/Yellow/Red) — visible in the OPIF sidebar</li>
+              <li><code>Ready to Start Field</code> in the top header (Ready to Start, In Progress, Blocked, etc.)</li>
+            </ul>
+          </div>
+          
+          <div class="faq-item">
+            <h4>Q: My Assignee and Product Manager don't match</h4>
+            <p><strong>A:</strong> They should be the same person. Update the <code>Assignee</code> field to match your <code>Product Manager</code> for consistency. The portal uses the Assignee field as the primary owner.</p>
+          </div>
+          
+          <div class="faq-item">
+            <h4>Q: How do I change which workstream my OPIF appears in?</h4>
+            <p><strong>A:</strong> Update the <code>Activity Type</code> field in your OPIF to the appropriate category (Strategy, Design, Buying, or Allocation related activity).</p>
+          </div>
+        </div>
+        
+        <!-- Sync Info Section -->
+        <div id="section-sync-info" class="guide-section">
+          <h3>🔄 Sync Schedule</h3>
+          <p>Understanding when your updates will appear in the portal:</p>
+          
+          <div class="schedule-box">
+            <div class="schedule-item">
+              <div class="schedule-icon">📅</div>
+              <div class="schedule-details">
+                <h4>Daily Automated Sync</h4>
+                <p>The portal automatically syncs with Confluence <strong>every business day (Monday - Friday)</strong>.</p>
+                <p class="time-detail">⏰ Changes you make in Jira today will appear in the portal the next business day morning.</p>
+                <p class="note-text" style="margin-top: 8px;">📌 Weekend updates will appear on Monday morning.</p>
+              </div>
+            </div>
+            
+            <div class="schedule-item">
+              <div class="schedule-icon">⚡</div>
+              <div class="schedule-details">
+                <h4>Data Flow</h4>
+                <p class="flow-chain">Jira OPIF → Confluence Dashboard → E2E Fashion Portal</p>
+                <p class="note-text">📌 Make sure your OPIF is visible on the Confluence dashboard to ensure it syncs to the portal.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Contact Section -->
+        <div id="section-contact" class="guide-section">
+          <h3>📞 Need Help?</h3>
+          <p style="margin-bottom: 20px;">Contact your TPM by workstream:</p>
+          
+          <div style="display: grid; gap: 16px; margin-bottom: 24px;">
+            <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-left: 4px solid #667eea;">
+              <h4 style="margin: 0 0 12px 0; color: #667eea; font-size: 16px;">📊 Strategy & Design</h4>
+              <p style="margin: 0; font-size: 15px;"><a href="mailto:lori.jordal@walmart.com" style="color: #0053e2; text-decoration: none; font-weight: 600;">Lori Jordal</a></p>
+            </div>
+            
+            <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-left: 4px solid #f5576c;">
+              <h4 style="margin: 0 0 12px 0; color: #f5576c; font-size: 16px;">🛒 Buying & Allocation</h4>
+              <p style="margin: 0 0 8px 0; font-size: 15px;"><a href="mailto:prashanth.chalikandi@walmart.com" style="color: #0053e2; text-decoration: none; font-weight: 600;">Prashant Chalikandi</a></p>
+              <p style="margin: 0; font-size: 15px;"><a href="mailto:gaurav.chauhan@walmart.com" style="color: #0053e2; text-decoration: none; font-weight: 600;">Gaurav Chauhan</a></p>
+            </div>
+            
+            <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-left: 4px solid #2a8703;">
+              <h4 style="margin: 0 0 4px 0; color: #2a8703; font-size: 16px;">⭐ E2E Fashion Support</h4>
+              <p style="margin: 0 0 12px 0; font-size: 13px; color: #666; font-style: italic;">Any & All Workstreams</p>
+              <p style="margin: 0; font-size: 15px;"><a href="mailto:christopher.graves0@walmart.com" style="color: #0053e2; text-decoration: none; font-weight: 600;">Chris Graves</a></p>
+            </div>
+          </div>
+          
+          <div style="background: #f8f9fa; padding: 16px; border-radius: 8px; border: 1px solid #e0e0e0;">
+            <h4 style="margin: 0 0 8px 0; color: #0053e2; font-size: 14px;">📖 Documentation</h4>
+            <p style="margin: 0; font-size: 14px;"><a href="https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard" target="_blank" style="color: #0053e2; text-decoration: none;">LLTT Dashboard on Confluence →</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Guide Modal Functions
+function openGuideModal() {
+  document.getElementById('guideModalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeGuideModal() {
+  document.getElementById('guideModalOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function showGuideSection(sectionId) {
+  // Hide all sections
+  const sections = document.querySelectorAll('.guide-section');
+  sections.forEach(section => section.classList.remove('active'));
+  
+  // Show selected section
+  document.getElementById('section-' + sectionId).classList.add('active');
+  
+  // Update nav items
+  const navItems = document.querySelectorAll('.guide-nav-item');
+  navItems.forEach(item => item.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+
+// Close modal when clicking outside
+document.getElementById('guideModalOverlay').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeGuideModal();
+  }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeGuideModal();
+  }
+});
+</script>
+
+<!-- ============================================== -->
 </body>
 </html>

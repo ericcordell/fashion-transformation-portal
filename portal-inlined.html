@@ -2625,118 +2625,562 @@ details > summary::-webkit-details-marker { display: none; }
   flex-wrap: wrap;
 }
 
-/* ── Business Impact — goal header rows ────────────────────────── */
-.biz-goal-header { min-height: 48px; }
-
-.biz-goal-band {
-  position: absolute;
-  top: 0;
-  height: 100%;
+/* ── Business Impact — nav arrows inside header stub ───────────── */
+.biz-win-nav {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  padding-right: 8px;
-  pointer-events: none;
+  justify-content: space-between;
+  padding: 0 10px;
+  height: 100%;
+  box-sizing: border-box;
+  gap: 6px;
 }
 
-.biz-goal-band-empty { opacity: 0.3; }
+.biz-nav-btn {
+  background: #f3f4f6;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 18px;
+  line-height: 1;
+  padding: 3px 9px 5px;
+  cursor: pointer;
+  color: #374151;
+  font-weight: 700;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+  flex-shrink: 0;
+  user-select: none;
+}
 
-/* ── Business Impact — capability rows ──────────────────────────── */
-.biz-cap-row     { min-height: 44px; background: white; }
-.biz-cap-row-alt { background: #fafbff; }
+.biz-nav-btn:hover:not(:disabled) {
+  background: #dbeafe;
+  border-color: #0053e2;
+  color: #0053e2;
+}
 
-.biz-cap-label {
-  padding: 6px 10px 6px 16px !important;
+.biz-nav-btn:disabled {
+  opacity: 0.28;
+  cursor: not-allowed;
+}
+
+.biz-nav-label {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+  line-height: 1.3;
+  flex: 1;
+}
+
+/* ── Business Impact — quarter header columns (always 2, always 50/50) ─ */
+.biz-qcol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 12px;
+  gap: 3px;
+  border-left: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.biz-qcol:first-child { border-left: none; }
+
+.biz-qcol-label {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+
+.biz-qcol-sub {
+  font-size: 10px;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+/* ── Business Impact — goal rows ────────────────────────────── */
+.biz-goal-row {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid #e5e7eb;
+  transition: background 0.1s;
+}
+
+/* LEFT: goal identity panel */
+.biz-goal-label-panel {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 12px 12px 12px 16px;
+  gap: 4px;
+  background: inherit;
+  z-index: 1;
+}
+
+.biz-goal-panel-icon {
+  font-size: 22px;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.biz-goal-panel-name {
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.2px;
+}
+
+.biz-goal-panel-desc {
+  font-size: 10.5px;
+  color: #6b7280;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.biz-goal-panel-summary {
+  font-size: 10px;
+  color: #9ca3af;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* RIGHT: timeline track holding capability chips */
+.biz-goal-track {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ── Business Impact — expanded view ─────────────────────────── */
+/* Row wrapper overrides */
+.biz-goal-row-expanded {
+  align-items: flex-start;
+}
+
+/* Label panel: top-align in expanded mode */
+.biz-goal-label-panel-expanded {
+  justify-content: flex-start !important;
+  padding-top: 16px;
+  align-self: flex-start;
+}
+
+/* Expanded track: flowing flex column, full width */
+.biz-goal-track-expanded {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 14px 14px;
+  gap: 14px;
   background: inherit;
 }
 
-.biz-cap-inner {
+/* Quarter section heading inside expanded track */
+.biz-expand-group {
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
   gap: 6px;
-  flex-wrap: nowrap;
 }
 
-.biz-cap-text {
-  font-size: 11.5px;
-  font-weight: 500;
-  color: #1f2937;
-  line-height: 1.4;
+.biz-expand-q-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding-bottom: 5px;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.biz-expand-q-sub {
+  font-size: 9.5px;
+  font-weight: 400;
+  opacity: 0.6;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* Individual chip in expanded (flowing, not absolute) */
+.biz-expand-chip {
+  border-radius: 6px;
+  padding: 8px 10px 7px 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+  transition: filter 0.12s, box-shadow 0.12s, transform 0.1s;
+}
+
+.biz-expand-chip:hover {
+  filter: brightness(0.96);
+  box-shadow: 0 3px 10px rgba(0,0,53,0.12);
+  transform: translateY(-1px);
+}
+
+/* Expand / collapse toggle button */
+.biz-expand-btn {
+  margin-top: 8px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1.5px solid;
+  font-size: 9.5px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.2px;
+  align-self: flex-start;
+  transition: background 0.12s, border-color 0.12s;
+  white-space: nowrap;
+}
+
+.biz-expand-btn-closed {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1d4ed8;
+}
+
+.biz-expand-btn-closed:hover {
+  background: #dbeafe;
+  border-color: #93c5fd;
+}
+
+.biz-expand-btn-open {
+  background: #f9fafb;
+  border-color: #e5e7eb;
+  color: #6b7280;
+}
+
+.biz-expand-btn-open:hover {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+/* ── Business Impact — capability chips (text-dominant) ───────── */
+.biz-chip {
+  position: absolute;
+  border-radius: 6px;
+  padding: 7px 10px 6px 12px;
+  cursor: pointer;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.09);
+  transition: filter 0.12s, box-shadow 0.12s, transform 0.1s;
+  z-index: 3;
+}
+
+.biz-chip:hover {
+  filter: brightness(0.96);
+  box-shadow: 0 4px 12px rgba(0,0,53,0.14);
+  transform: translateY(-1px);
+  z-index: 4;
+}
+
+/* PRIMARY: impact statement — this is the hero text, 2-line max */
+.biz-chip-text {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #111827;
+  line-height: 1.4;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+  margin: 0;
 }
 
-.biz-cap-meta {
+/* SECONDARY: tiny meta row at bottom (type + program name) */
+.biz-chip-meta {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-top: 4px;
-  padding-left: 2px;
-  font-size: 10px;
-  color: #9ca3af;
-}
-
-.biz-prog-pill {
-  display: inline-block;
-  padding: 1px 6px;
-  border-radius: 10px;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.2px;
-  white-space: nowrap;
-}
-
-.biz-cap-track { height: 44px !important; }
-
-/* ── Business Impact — bar (spans the whole quarter band) ─────────── */
-.biz-cap-bar {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  height: 22px;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  padding: 0 10px;
-  z-index: 2;
-  opacity: 0.82;
+  gap: 4px;
+  flex-shrink: 0;
   overflow: hidden;
 }
 
-.biz-cap-bar-label {
-  font-size: 9px;
-  font-weight: 800;
-  color: white;
-  white-space: nowrap;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-  letter-spacing: 0.3px;
-}
-
-/* ── Business Impact — type badges ────────────────────────────── */
-.biz-badge {
-  display: inline-block;
-  flex-shrink: 0;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 9px;
+.biz-chip-type {
+  font-size: 8.5px;
   font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 3px;
   letter-spacing: 0.3px;
   white-space: nowrap;
-  margin-top: 1px;
+  flex-shrink: 0;
 }
 
-.biz-badge-automation {
+.biz-chip-type-auto {
   background: #fef3c7;
   color: #92400e;
-  border: 1px solid #fcd34d;
 }
 
-.biz-badge-capability {
+.biz-chip-type-cap {
   background: #d1fae5;
   color: #065f46;
-  border: 1px solid #6ee7b7;
+}
+
+.biz-chip-sep {
+  color: #d1d5db;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.biz-chip-prog {
+  font-size: 9px;
+  color: #9ca3af;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Workstream persona pill */
+.biz-chip-ws {
+  display: inline-block;
+  font-size: 8px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 3px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: 0.2px;
+}
+
+/* Empty state placeholder when a goal has no chips in the visible window */
+.biz-chip-empty {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #d1d5db;
+  font-style: italic;
+  letter-spacing: 0.2px;
+  border: 1.5px dashed #e5e7eb;
+  border-radius: 6px;
+  height: 36px;
+  pointer-events: none;
+}
+
+
+
+/* ── Business Impact — popout modal ────────────────────────────── */
+#biz-cap-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  align-items: center;
+  justify-content: center;
+}
+
+#biz-cap-modal.open {
+  display: flex;
+}
+
+.biz-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(2px);
+}
+
+.biz-modal-card {
+  position: relative;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 24px 64px rgba(0,0,53,0.22);
+  width: min(620px, 94vw);
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 28px;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+.biz-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: #f3f4f6;
+  color: #374151;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s;
+}
+
+.biz-modal-close:hover { background: #e5e7eb; }
+
+.biz-modal-goal-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 0 0 16px 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.biz-modal-goal-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.biz-modal-goal-label {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.biz-modal-goal-desc {
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.biz-modal-qbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.biz-modal-counts {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+
+.biz-modal-items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.biz-modal-item {
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid #f3f4f6;
+  background: #fafafa;
+  transition: background 0.1s;
+}
+
+.biz-modal-item:hover { background: #f5f9ff; }
+
+.biz-modal-item-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+/* ── Business Impact modal — impact statement + narrative ─────── */
+.biz-modal-impact-statement {
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: #f8faff;
+  border: 1px solid #e0e7ff;
+  margin-bottom: 16px;
+}
+
+.biz-modal-impact-headline {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.45;
+  margin-bottom: 10px;
+}
+
+.biz-modal-impact-narrative {
+  font-size: 13px;
+  color: #374151;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ── Business Impact modal — program card + OPIF link buttons ── */
+.biz-modal-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.biz-modal-link-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #9ca3af;
+  margin-bottom: 2px;
+}
+
+.biz-modal-link-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1.5px solid;
+  transition: background 0.12s, box-shadow 0.12s;
+  width: 100%;
+  text-align: left;
+}
+
+.biz-modal-link-card {
+  background: #eef4ff;
+  border-color: #bfdbfe;
+  color: #1e40af;
+}
+.biz-modal-link-card:hover {
+  background: #dbeafe;
+  box-shadow: 0 2px 8px rgba(0,83,226,0.12);
+}
+
+.biz-modal-link-opif {
+  background: #fefce8;
+  border-color: #fde68a;
+  color: #92400e;
+}
+.biz-modal-link-opif:hover {
+  background: #fef08a;
+  box-shadow: 0 2px 8px rgba(180,93,0,0.1);
+}
+
+.biz-modal-link-ext {
+  margin-left: auto;
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+.biz-modal-target {
+  font-size: 10px;
+  color: #9ca3af;
 }
 </style>
 </head>
@@ -6498,11 +6942,11 @@ function renderReviewContent(reviewType) {
           ${wsButtons}
         </div>
         <div class="gantt-view-toggle" style="margin-left:auto">
-          <button id="gantt-view-btn-program" class="gantt-view-btn active"
+          <button id="gantt-view-btn-program" class="gantt-view-btn"
             onclick="ganttSetView('program')">
             📋 Program Timeline
           </button>
-          <button id="gantt-view-btn-biz" class="gantt-view-btn"
+          <button id="gantt-view-btn-biz" class="gantt-view-btn active"
             onclick="ganttSetView('biz-impact')">
             🎯 Business Impact
           </button>
@@ -6525,8 +6969,8 @@ function renderReviewContent(reviewType) {
       </div>
     `;
 
-    // Header is built inside renderGanttChart() via buildGanttHeader()
-    renderGanttChart();
+    // Default to Business Impact view
+    ganttSetView('biz-impact');
     return;
   }
 
@@ -7282,7 +7726,12 @@ window.ganttToggleWS = function(ws) {
   document.querySelectorAll('.gantt-ws-btn').forEach(btn =>
     btn.classList.toggle('active', ganttActiveWS.has(btn.dataset.ws))
   );
-  renderGanttChart();
+  // Re-render whichever view is currently active
+  if (typeof ganttGetView === 'function' && ganttGetView() === 'biz-impact') {
+    if (typeof renderBizImpactChart === 'function') renderBizImpactChart();
+  } else {
+    renderGanttChart();
+  }
 };
 
 // ── Main render ───────────────────────────────────────────────────────────────
@@ -7375,168 +7824,458 @@ window.renderGanttChart = function() {
 </script>
 <script>
 // data-biz-impact.js — Business Impact Timeline data
-// Scope: Q1 + Q2 FY27 only (Feb–Jul 2026)
-// Programs: Automated Item Setup, AEX Stability, Centric Visual Board MVP
+// Scope: Q1 + Q2 FY27 (Feb–Jul 2026) | All LLTT Programs
 //
-// Philosophy: focus on the PROBLEM being solved, not the "how".
-//   type: 'automation' — work REMOVED from the team (they no longer do this)
-//   type: 'capability' — new thing the team CAN now do
-//
-// Organized by business goal (horizontal axis of the impact chart).
+// Each capability has:
+//   label     — SHORT (fits ~1 line in a chip)
+//   narrative — RICH paragraph shown in the modal click-through
+//   cardId    — Program Card ID in the portal (used to open modal)
+//   workstream — buying | design | strategy | allocation
+//   opifLabel  — OPIF-XXXXXX (or 'LLTT Dashboard')
+//   opifUrl    — Jira or Confluence link
+//   type       — 'automation' (work removed) | 'capability' (new ability)
+//   quarter    — 'Q1' | 'Q2'
+//   target     — target date string
 
+const LLTT = 'https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard';
 const BIZ_IMPACT_GOALS = [
+  // ──────────────────────────────────────────────────────────────
+  // GOAL 1: ZERO REKEYS
+  // ──────────────────────────────────────────────────────────────
   {
     id: 'zero-rekeys',
     label: 'Zero Rekeys',
     icon: '✏️',
     color: '#0053e2',
-    description: 'Stop re-entering data between systems. Every decision captured once, flowing everywhere.',
+    description: 'Every decision captured once — data flows everywhere automatically, no copy-paste, no re-entry.',
     capabilities: [
       {
-        label: 'Item data flows from AEX decisions directly into item setup — no merchant re-entry',
-        program: 'Automated Item Setup',
-        programId: 'auto-item-setup',
-        type: 'automation',
-        quarter: 'Q1',
-        target: 'April 30, 2026',
+        label: 'As a merchant, I no longer need to re-enter assortment decisions — AEX auto-flows directly into item setup the moment I finalize in AEX',
+        narrative: 'Once a merchant finalizes decisions in AEX, item setup kicks off automatically. The same intent captured in AEX becomes the item record — no download, no re-upload, no separate form to fill. This eliminates the most documented rekey point in the Fashion workflow.',
+        cardId: 'auto-item-setup', workstream: 'buying',
+        opifLabel: 'OPIF-344926', opifUrl: 'https://jira.walmart.com/browse/OPIF-344926',
+        program: 'Automated Item Setup', programId: 'auto-item-setup',
+        type: 'automation', quarter: 'Q1FY27', target: 'April 30, 2026',
       },
       {
-        label: 'Structured AEX intent replaces supplier clarification cycles — data captured once, upstream',
-        program: 'Automated Item Setup',
-        programId: 'auto-item-setup',
-        type: 'automation',
-        quarter: 'Q1',
-        target: 'April 30, 2026',
+        label: 'As a merchant, I no longer need to manually fill in missing item attributes — AI completes them before submission so I\u2019m not the quality backstop for item data',
+        narrative: 'Gen AI enrichment fills missing item attribute fields before submission — merchants are no longer the quality backstop for item data. AI completes the work that previously required manual lookup, supplier clarification, and re-entry across multiple systems.',
+        cardId: 'auto-item-setup', workstream: 'buying',
+        opifLabel: 'OPIF-344926', opifUrl: 'https://jira.walmart.com/browse/OPIF-344926',
+        program: 'Automated Item Setup', programId: 'auto-item-setup',
+        type: 'automation', quarter: 'Q1FY27', target: 'April 30, 2026',
       },
       {
-        label: 'AI auto-completes missing item attributes — merchants stop filling data gaps manually',
-        program: 'Automated Item Setup',
-        programId: 'auto-item-setup',
-        type: 'automation',
-        quarter: 'Q1',
-        target: 'April 30, 2026',
+        label: 'As a merchant, I no longer need to reconcile conflicting size sequences across AEX Size & Pack and downstream tools — data entered once is consistent everywhere',
+        narrative: 'Size discrepancies between AEX Size & Pack and other tools have historically forced merchants to manually reconcile conflicting size sequences. This Q1 fix unifies size ordering so data entered once is consistent everywhere — no more reconciliation loop.',
+        cardId: 'aex-stability', workstream: 'buying',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'AEX Stability & Quality of Life', programId: 'aex-stability',
+        type: 'automation', quarter: 'Q1FY27', target: 'April 30, 2026',
       },
       {
-        label: 'Size ordering unified across Size & Pack — no more reconciling size discrepancies between tools',
-        program: 'AEX Stability',
-        programId: 'aex-stability',
-        type: 'automation',
-        quarter: 'Q1',
-        target: 'April 30, 2026',
+        label: 'As a designer, I no longer need to manually distribute spec packages to vendors — specs authored in Centric propagate automatically to Supplier One and item setup',
+        narrative: 'With Centric as the system of record for design specifications, specs are authored once and propagate automatically to Supplier One and item setup systems. Vendors receive spec packages without manual email distribution — breaking a long-standing multi-step rekey loop.',
+        cardId: 'product-specs', workstream: 'design',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'Product Specifications', programId: 'product-specs',
+        type: 'automation', quarter: 'Q1FY27', target: 'April 30, 2026',
       },
       {
-        label: 'Design data entered once in Centric — no re-entry into Bamboo Rose or Miro',
-        program: 'Centric Viz Board MVP',
-        programId: 'visual-boards',
-        type: 'automation',
-        quarter: 'Q2',
-        target: 'July 30, 2026',
+        label: 'As a designer, I no longer need to maintain design data across Bamboo Rose and disconnected tools — everything lives in Centric with live product data, not static snapshots',
+        narrative: 'Centric Visual Board MVP replaces Bamboo Rose entirely. Design decisions are captured once in Centric with live product data — no more re-entering the same information across disconnected whiteboard and PLM tools. 5,000+ Miro boards also move into a managed Centric workflow.',
+        cardId: 'visual-boards', workstream: 'design',
+        opifLabel: 'OPIF-325208', opifUrl: 'https://jira.walmart.com/browse/OPIF-325208',
+        program: 'Centric Visual Board MVP', programId: 'visual-boards',
+        type: 'automation', quarter: 'Q2FY27', target: 'July 30, 2026',
       },
       {
-        label: 'Sample status & fit feedback live in the product record — spreadsheets and email threads retired',
-        program: 'Centric Viz Board MVP',
-        programId: 'visual-boards',
-        type: 'automation',
-        quarter: 'Q2',
-        target: 'July 30, 2026',
+        label: 'As a designer, I no longer need to maintain separate spreadsheets or email threads for sample tracking — fit feedback and milestones live directly in the Centric product record',
+        narrative: 'Fit evaluation outcomes and sample milestone tracking now live directly inside the Centric product record. Teams no longer maintain parallel spreadsheets or email threads to track sample status — everything is timestamped and linked to the actual item in PLM.',
+        cardId: 'sample-mgmt-fit-eval', workstream: 'design',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'Sample Management & Fit Evaluation', programId: 'sample-mgmt-fit-eval',
+        type: 'automation', quarter: 'Q2FY27', target: 'July 30, 2026',
+      },
+      {
+        label: 'As a designer, I no longer need to manually sync updates across AP Tool, Centric, and OneSource — when data changes in one system it propagates in real time across all three',
+        narrative: 'The Shared Event Layer connects AP Tool, Centric, and OneSource through a real-time event bus. When data changes in one system it propagates automatically — eliminating the manual sync, reconciliation, and batch delay that currently force teams to re-enter the same updates across tools.',
+        cardId: 'shared-event-layer', workstream: 'design',
+        opifLabel: 'OPIF-325188', opifUrl: 'https://jira.walmart.com/browse/OPIF-325188',
+        program: 'Shared Event Layer', programId: 'shared-event-layer',
+        type: 'automation', quarter: 'Q2FY27', target: 'July 30, 2026',
+      },
+      {
+        label: 'As a leader, I no longer need to manually export and re-upload buy reports — committed AEX data flows automatically to markdown and replenishment systems the moment commitments lock',
+        narrative: 'The Commitment Report Redesign connects committed buy data directly to downstream markdown and replenishment systems. Planners stop manually exporting, transforming, and re-uploading buy reports — the data moves automatically the moment commitments are locked in AEX.',
+        cardId: 'commitment-report-redesign', workstream: 'strategy',
+        opifLabel: 'OPIF-325204', opifUrl: 'https://jira.walmart.com/browse/OPIF-325204',
+        program: 'Commitment Report Redesign', programId: 'commitment-report-redesign',
+        type: 'automation', quarter: 'Q3FY27', target: 'October 31, 2026',
+      },
+      {
+        label: 'As a merchant, I no longer need to search separate catalogs for ROM, 3P, and Circana items — OneItem surfaces all sources automatically and the line plan auto-populates before I start',
+        narrative: 'OneItem expanded to all sources means the line plan auto-populates with item candidates from every source — ROM, third-party, and Circana syndicated data — without merchants manually searching separate catalogs and re-entering items. One search, all sources, no rekey.',
+        cardId: 'oneitem-expanded-sources', workstream: 'buying',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'OneItem Expanded Sources', programId: 'oneitem-expanded-sources',
+        type: 'automation', quarter: 'Q4FY27', target: 'January 31, 2027',
       },
     ],
   },
+
+  // ──────────────────────────────────────────────────────────────
+  // GOAL 2: HAPPY PATH BUYING
+  // ──────────────────────────────────────────────────────────────
   {
     id: 'happy-path',
     label: 'Happy Path Buying',
     icon: '🛤️',
     color: '#059669',
-    description: 'AEX decisions execute end-to-end — no manual workarounds, no exits, no engineering calls.',
+    description: 'AEX decisions execute end-to-end without manual workarounds, system exits, or engineering calls.',
     capabilities: [
       {
-        label: 'Items set up automatically once AEX decisions are finalized — buying flows end-to-end without merchant intervention',
-        program: 'Automated Item Setup',
-        programId: 'auto-item-setup',
-        type: 'capability',
-        quarter: 'Q1',
-        target: 'April 30, 2026',
+        label: 'As a merchant, I now have a stable AEX foundation under me — 700+ automated tests and 50% fewer support tickets mean every Q1 capability builds on solid ground',
+        narrative: 'The Neo replatform migrated all AEX Fashion departments to a modern architecture — 700+ automated test cases, 360+ issues resolved, and 50% fewer support tickets YoY. Every Q1 capability delivery builds on this new foundation. This is the inflection point that makes the rest of the happy path possible.',
+        cardId: 'neo-replatform', workstream: 'buying',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'AEX Replatform — Neo', programId: 'neo-replatform',
+        type: 'capability', quarter: 'Q1FY27', target: 'March 2, 2026 ✅',
       },
       {
-        label: 'IDC team owns item exceptions — merchants stay in AEX focused on buying, not setup troubleshooting',
-        program: 'Automated Item Setup',
-        programId: 'auto-item-setup',
-        type: 'capability',
-        quarter: 'Q1',
-        target: 'April 30, 2026',
+        label: 'As a merchant, I no longer need to manually trigger item and PO creation — once I finalize in AEX, item creation, PO generation, and supplier notification all execute automatically',
+        narrative: 'Once assortment decisions are finalized in AEX, the buying workflow completes automatically — item creation, PO generation, and supplier notification all execute without merchant intervention. IDC owns exceptions through a managed queue, keeping merchants out of the execution loop entirely.',
+        cardId: 'auto-item-setup', workstream: 'buying',
+        opifLabel: 'OPIF-344926', opifUrl: 'https://jira.walmart.com/browse/OPIF-344926',
+        program: 'Automated Item Setup', programId: 'auto-item-setup',
+        type: 'capability', quarter: 'Q1FY27', target: 'April 30, 2026',
       },
       {
-        label: 'Confirmation required before fineline or style deletions — accidental workflow breaks prevented',
-        program: 'AEX Stability',
-        programId: 'aex-stability',
-        type: 'capability',
-        quarter: 'Q1',
-        target: 'April 30, 2026',
+        label: 'As a merchant, I no longer need to worry about accidental fineline deletions silently breaking downstream workflows — a confirmation dialog now blocks the mistake before it happens',
+        narrative: 'A confirmation dialog now blocks accidental fineline and style deletions that previously broke downstream workflows silently. This safeguard directly addresses one of the top-cited causes of AEX workflow failures — protecting in-flight buys from inadvertent state corruption.',
+        cardId: 'aex-stability', workstream: 'buying',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'AEX Stability & Quality of Life', programId: 'aex-stability',
+        type: 'capability', quarter: 'Q1FY27', target: 'April 30, 2026',
       },
       {
-        label: 'New store POs generated automatically — buying team no longer creates new store orders manually',
-        program: 'AEX Stability',
-        programId: 'aex-stability',
-        type: 'automation',
-        quarter: 'Q1',
-        target: 'April 30, 2026',
+        label: 'As a merchant, I no longer need to manually create new store POs by hand — when new stores are added to my assortment, POs generate automatically from AEX data',
+        narrative: 'When new stores are added to the assortment, POs are now generated automatically from AEX data — buyers no longer create new store orders by hand. This removes one of the most time-consuming manual execution steps from the buying workflow.',
+        cardId: 'aex-stability', workstream: 'buying',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'AEX Stability & Quality of Life', programId: 'aex-stability',
+        type: 'automation', quarter: 'Q1FY27', target: 'April 30, 2026',
+      },
+      {
+        label: 'As a merchant, I no longer need to run manual size calculations — pack size curves and buy quantities are pre-generated for all 3 AEX-recommended like-finelines so I review outputs, not build them',
+        narrative: 'The Automated Size/Pack BQ program moves size curve selection and pack configuration into an automated engine — pre-generating Distribution Service results for the 3 like-finelines recommended by AEX, with configurable minimum initial set quantity for core sizes. Merchants stop running manual size calculations entirely.',
+        cardId: 'size-pack-bq', workstream: 'buying',
+        opifLabel: 'OPIF-325374', opifUrl: 'https://jira.walmart.com/browse/OPIF-325374',
+        program: 'Automated Size/Pack BQ', programId: 'size-pack-bq',
+        type: 'automation', quarter: 'Q2FY27', target: 'July 31, 2026',
+      },
+      {
+        label: 'As a merchant, I no longer need to manually search the Supplier Catalog — AI surfaces the closest matching existing items directly in my AP Tool workflow before I start building',
+        narrative: 'The AI Item Repository uses ML similarity scoring to surface the closest matching existing items from the Supplier Catalog directly in the AP Tool line plan workflow. Merchants reuse, modify, or replace — rather than rebuild from scratch. The line plan auto-populates with potential items before merchants even start.',
+        cardId: 'ai-item-repository', workstream: 'buying',
+        opifLabel: 'OPIF-337970', opifUrl: 'https://jira.walmart.com/browse/OPIF-337970',
+        program: 'AI Item Repository', programId: 'ai-item-repository',
+        type: 'capability', quarter: 'Q2FY27', target: 'July 31, 2026',
+      },
+      {
+        label: 'As a merchant, I no longer need to exit AP Tool to complete my line plan — every assortment decision flows from a single entry point without switching to AEX or downstream systems',
+        narrative: 'The AP Tool Line Plan integration completes the buying workflow so merchants plan and execute entirely within the AP Tool. Buyers no longer switch between the AP Tool, AEX, and downstream systems to complete a line plan — every assortment decision flows from one entry point without tool exits or manual handoffs.',
+        cardId: 'ap-tool-lineplan', workstream: 'buying',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'AP Tool Line Plan', programId: 'ap-tool-lineplan',
+        type: 'capability', quarter: 'Q3FY27', target: 'October 31, 2026',
+      },
+      {
+        label: 'As a merchant, I no longer need to run my own manual size curve and pack calculations — BQ runs as an enterprise service and delivers consistent automated recommendations for my whole team',
+        narrative: 'Buy Quantification as an Enterprise Service delivers automated size curve and pack recommendations as a shared service consumed by all buying teams. The individualized, team-by-team manual runs that currently require expert institutional knowledge are replaced by a consistent, automated output — standardizing quality across the org.',
+        cardId: 'bq-enterprise-service', workstream: 'buying',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'BQ Enterprise Service', programId: 'bq-enterprise-service',
+        type: 'automation', quarter: 'Q3FY27', target: 'October 31, 2026',
+      },
+      {
+        label: 'As a merchant, I no longer need to switch between market-specific legacy tools to manage international lines — domestic and international assortment planning live in the same AP Tool and AEX workflow',
+        narrative: 'The Global Buying Platform brings international market assortment planning into the same AP Tool and AEX workflow — buyers manage domestic and international lines without switching to market-specific legacy tools. A unified buying experience that eliminates the duplication of decisions across separate global systems.',
+        cardId: 'global-buying-platform', workstream: 'buying',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'Global Buying Platform', programId: 'global-buying-platform',
+        type: 'capability', quarter: 'Q4FY27', target: 'January 31, 2027',
       },
     ],
   },
+
+  // ──────────────────────────────────────────────────────────────
+  // GOAL 3: REDUCE MERCHANT HOURS
+  // ──────────────────────────────────────────────────────────────
   {
     id: 'reduce-hours',
     label: 'Reduce Merchant Hours',
     icon: '⏱️',
     color: '#b86000',
-    description: 'Automate the manual, repetitive work so the team can focus on strategy and decisions.',
+    description: 'Automate the repetitive, manual work so the team can focus on strategy and buying decisions.',
     capabilities: [
       {
-        label: 'Merchants removed from item setup entirely — estimated hundreds of hours saved per season',
-        program: 'Automated Item Setup',
-        programId: 'auto-item-setup',
-        type: 'automation',
-        quarter: 'Q1',
-        target: 'April 30, 2026',
+        label: 'As a merchant, I no longer need to touch item setup at all — I\u2019m fully removed from item creation and PO execution, with hundreds of hours per season returned to actual buying decisions',
+        narrative: 'Automated Item Setup eliminates fashion merchants from the item creation and PO execution workflow completely. The IDC team owns all exceptions through a managed queue. Estimated impact: hundreds of hours per season returned to the merchant org — time previously spent on data entry, supplier follow-up, and manual setup troubleshooting.',
+        cardId: 'auto-item-setup', workstream: 'buying',
+        opifLabel: 'OPIF-344926', opifUrl: 'https://jira.walmart.com/browse/OPIF-344926',
+        program: 'Automated Item Setup', programId: 'auto-item-setup',
+        type: 'automation', quarter: 'Q1FY27', target: 'April 30, 2026',
       },
       {
-        label: 'AI completes item attribute gaps — merchants no longer the quality backstop for item data',
-        program: 'Automated Item Setup',
-        programId: 'auto-item-setup',
-        type: 'automation',
-        quarter: 'Q1',
-        target: 'April 30, 2026',
+        label: 'As a planner, I no longer need to re-enter the same forecast override across multiple tools — I work in one unified environment and it propagates automatically everywhere else',
+        narrative: 'Unified Planning Workflow consolidates fragmented BPE, DBP, and manual reconciliation tools into a single environment. Forecast overrides entered once propagate automatically — planners stop duplicating the same decision across multiple tools and stop maintaining off-system workarounds.',
+        cardId: 'unified-planning', workstream: 'allocation',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'Unified Planning Workflow', programId: 'unified-planning',
+        type: 'automation', quarter: 'Q1FY27', target: 'April 30, 2026',
       },
       {
-        label: 'AEX platform issues reduced — buying team spends less time escalating bugs and troubleshooting',
-        program: 'AEX Stability',
-        programId: 'aex-stability',
-        type: 'capability',
-        quarter: 'Q1',
-        target: 'April 30, 2026',
+        label: 'As a planner, I no longer need to maintain manual season-by-season Excel rebuilds — seasonal demand and buy quantity decisions now happen inside BPE with historical data and OTB already surfaced',
+        narrative: 'BPE Seasonal Planning moves seasonal demand and buy quantity decisions out of Excel and into an integrated planning environment covering approximately 5 fashion departments. Historical data, open-to-buy, and seasonal performance are all surfaced in one view — merchants stop maintaining manual season-by-season spreadsheet rebuilds.',
+        cardId: 'bpe-seasonal', workstream: 'allocation',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'BPE Seasonal Planning', programId: 'bpe-seasonal',
+        type: 'automation', quarter: 'Q1FY27', target: 'April 30, 2026',
       },
       {
-        label: '5,000+ Miro boards consolidated into Centric — design teams stop managing visual boards manually',
-        program: 'Centric Viz Board MVP',
-        programId: 'visual-boards',
-        type: 'automation',
-        quarter: 'Q2',
-        target: 'July 30, 2026',
+        label: 'As a merchant, I no longer need to spend buying hours on bug escalations and manual workarounds — a 50% YoY reduction in support tickets means my time shifts to actual buying decisions',
+        narrative: 'The Neo-era AEX Stability program delivers measurable support ticket reduction (50% YoY from Neo baseline) and platform reliability improvements. Merchants spend less time initiating bug escalations, building manual workarounds, and waiting for engineering intervention — buying hours shift toward actual buying decisions.',
+        cardId: 'aex-stability', workstream: 'buying',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'AEX Stability & Quality of Life', programId: 'aex-stability',
+        type: 'capability', quarter: 'Q1FY27', target: 'April 30, 2026',
       },
       {
-        label: 'Bamboo Rose workflows retired — design merchants work in one system, context-switching eliminated',
-        program: 'Centric Viz Board MVP',
-        programId: 'visual-boards',
-        type: 'automation',
-        quarter: 'Q2',
-        target: 'July 30, 2026',
+        label: 'As a designer, I no longer need to manually maintain and update 5,000+ Miro boards — all visual assortment planning moves into Centric with live product data, not static snapshots',
+        narrative: 'Centric Visual Board MVP migrates all design team visual assortment planning from Miro into Centric — with live product data, not static snapshots. 5,000+ boards that required ongoing manual maintenance and update cycles across multiple tools are replaced with a single managed workspace directly connected to the product record.',
+        cardId: 'visual-boards', workstream: 'design',
+        opifLabel: 'OPIF-325208', opifUrl: 'https://jira.walmart.com/browse/OPIF-325208',
+        program: 'Centric Visual Board MVP', programId: 'visual-boards',
+        type: 'automation', quarter: 'Q2FY27', target: 'July 30, 2026',
       },
       {
-        label: 'Visual assortment planning in Centric with live product data — no manual export or sync needed',
-        program: 'Centric Viz Board MVP',
-        programId: 'visual-boards',
-        type: 'capability',
-        quarter: 'Q2',
-        target: 'July 30, 2026',
+        label: 'As a merchant, I no longer need to run pack size calculations manually — DS results are pre-generated for all 3 AEX-recommended like-finelines so I review outputs instead of building them',
+        narrative: 'Pre-generated DS results for all 3 AEX-recommended like-finelines eliminate the manual sizing step that currently requires merchant expertise and time. Pack simplification further reduces AEX BQ execution complexity — merchants move from running calculations to reviewing outputs.',
+        cardId: 'size-pack-bq', workstream: 'buying',
+        opifLabel: 'OPIF-325374', opifUrl: 'https://jira.walmart.com/browse/OPIF-325374',
+        program: 'Automated Size/Pack BQ', programId: 'size-pack-bq',
+        type: 'automation', quarter: 'Q2FY27', target: 'July 31, 2026',
+      },
+      {
+        label: 'As a merchant, I no longer need to build every line plan item from scratch — AI indexes the Supplier Catalog and surfaces the best matching existing items before I even start',
+        narrative: 'The AI Item Repository indexes the Supplier Catalog and historical AEX items, using ML similarity scoring to surface the best matches before merchants start a line plan. Instead of building each item from scratch, merchants review AI-curated suggestions — significantly reducing time spent on new-item creation for carryover and near-duplicate styles.',
+        cardId: 'ai-item-repository', workstream: 'buying',
+        opifLabel: 'OPIF-337970', opifUrl: 'https://jira.walmart.com/browse/OPIF-337970',
+        program: 'AI Item Repository', programId: 'ai-item-repository',
+        type: 'capability', quarter: 'Q2FY27', target: 'July 31, 2026',
+      },
+      {
+        label: 'As a merchant, I no longer need to manage fixture plans in complex spreadsheets — I work in a visual AI-assisted canvas that recommends assortments per fixture based on tagging data',
+        narrative: 'Fashion Fixture Allocation provides an AI-assisted visual interface for product-to-fixture planning — replacing complex spreadsheets with a visual canvas surfacing AI recommendations based on tagging and affinity graph data. Merchants see recommended assortments per fixture rather than building fixture plans manually from scratch.',
+        cardId: 'fashion-fixture-allocation-buying', workstream: 'buying',
+        opifLabel: 'OPIF-325598', opifUrl: 'https://jira.walmart.com/browse/OPIF-325598',
+        program: 'Fashion Fixture Allocation', programId: 'fashion-fixture-allocation-buying',
+        type: 'capability', quarter: 'Q2FY27', target: 'July 31, 2026',
+      },
+      {
+        label: 'As a leader, I no longer need to wait for manually assembled buy report exports — style-level commitment views are navigable and shareable in seconds, not rebuilt for every stakeholder request',
+        narrative: 'The redesigned Commitment Report surfaces style-level buy commitments in a structured, navigable format instead of a manually assembled export. Planners generate and share buy views in seconds rather than rebuilding the report for every stakeholder request — reclaiming hours previously spent on formatting and data reconciliation.',
+        cardId: 'commitment-report-redesign', workstream: 'strategy',
+        opifLabel: 'OPIF-325204', opifUrl: 'https://jira.walmart.com/browse/OPIF-325204',
+        program: 'Commitment Report Redesign', programId: 'commitment-report-redesign',
+        type: 'automation', quarter: 'Q3FY27', target: 'October 31, 2026',
+      },
+      {
+        label: 'As a sourcing associate, I no longer need to chase sample status and revision approvals over email — vendors access milestones, spec packages, and fit feedback directly in Supplier One',
+        narrative: 'Supplier One integration into the design workflow gives vendors structured access to sample milestones, spec packages, and fit feedback directly in the platform. The multi-step email loop for sample status updates, revision requests, and approval confirmations is replaced by a connected vendor workflow.',
+        cardId: 'supplier-one-collab', workstream: 'design',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'Supplier One Collaboration', programId: 'supplier-one-collab',
+        type: 'automation', quarter: 'Q3FY27', target: 'October 31, 2026',
+      },
+      {
+        label: 'As a merchant, I no longer need to run team-level size curve and pack calculations manually — the BQ enterprise service delivers automated recommendations consistently across all fashion departments',
+        narrative: 'With Buy Quantification running as an enterprise service, individual teams stop running their own manual size curve and pack calculations. The service delivers consistent, automated recommendations across all fashion departments — reclaiming hours that currently go toward individualized BQ execution and quality-checking the outputs.',
+        cardId: 'bq-enterprise-service', workstream: 'buying',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'BQ Enterprise Service', programId: 'bq-enterprise-service',
+        type: 'automation', quarter: 'Q4FY27', target: 'January 31, 2027',
+      },
+    ],
+  },
+
+  // ──────────────────────────────────────────────────────────────
+  // GOAL 4: SMARTER DECISIONS
+  // ──────────────────────────────────────────────────────────────
+  {
+    id: 'smarter-decisions',
+    label: 'Smarter Decisions',
+    icon: '🧠',
+    color: '#7c3aed',
+    description: 'AI and data signals replace manual research — teams make confident decisions faster.',
+    capabilities: [
+      {
+        label: 'As a leader, I no longer need to wait for trend reports to arrive — macro trend signals surface directly in Centric and AEX so my teams make trend-informed decisions earlier in the season',
+        narrative: 'The Trend API delivers macro trend signals directly into Centric and AEX workflows — merchants and designers see consolidated trend context without running separate research, manually triangulating sources, or waiting for trend report delivery. Trend-informed decisions happen earlier in the season.',
+        cardId: 'trend-api-longlead', workstream: 'strategy',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'Trend API — Long Lead & In-Season', programId: 'trend-api-longlead',
+        type: 'capability', quarter: 'Q1FY27', target: 'April 30, 2026',
+      },
+      {
+        label: 'As a leader, I no longer need to wait for in-market sell-through signals to validate line plan choices — simulated customer response data is available before the line plan locks, reducing costly misses',
+        narrative: 'The V1 Synthetic Consumer Panel (built with Walmart Data Ventures) provides simulated customer response data before designs go to production — giving teams a signal on what customers are likely to buy before the line plan locks. This reduces the risk of costly new product misses and markdown-prone assortment choices.',
+        cardId: 'synthetic-panel', workstream: 'strategy',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'Synthetic Panel (WMT Data Ventures)', programId: 'synthetic-panel',
+        type: 'capability', quarter: 'Q1FY27', target: 'April 30, 2026',
+      },
+      {
+        label: 'As a leader, I no longer need to reconcile conflicting financial targets across workstreams — Strategy Hub is the single upstream source for all seasonal targets and they cascade downstream automatically',
+        narrative: 'Strategy Hub (TTP) is now the upstream source of record for all seasonal financial targets across Design, Buying, and Allocation. Targets cascade downstream automatically — teams stop receiving conflicting priority directives from different sources. Decisions across workstreams are aligned to the same financial guardrails from day one.',
+        cardId: 'strategy-hub', workstream: 'strategy',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'Strategy Hub (TTP)', programId: 'strategy-hub',
+        type: 'capability', quarter: 'Q1FY27', target: 'April 30, 2026',
+      },
+      {
+        label: 'As a planner, I no longer need to rely solely on intuition to spot assortment blind spots — AI detects coverage gaps proactively before in-season sell-out signals arrive so I have time to act',
+        narrative: 'The Tagging & Affinity Graph pilot uses product taxonomy and ML-powered affinity models to identify assortment coverage gaps that merchant intuition alone typically misses. Gaps are surfaced proactively — before in-season sell-out signals arrive — giving allocation teams time to act rather than react.',
+        cardId: 'tagging-pilot', workstream: 'allocation',
+        opifLabel: 'OPIF-325602', opifUrl: 'https://jira.walmart.com/browse/OPIF-325602',
+        program: 'Tagging & Affinity Graph Pilot', programId: 'tagging-pilot',
+        type: 'capability', quarter: 'Q1FY27', target: 'April 30, 2026',
+      },
+      {
+        label: 'As a designer, I no longer need to manually triangulate between individual trend reports — 5+ integrated sources give me a consolidated multi-signal trend consensus directly in Centric before line plan locks',
+        narrative: 'Trend API Pre-Season launches with 5+ integrated trend data providers — giving designers and merchants a consolidated multi-source trend consensus before the line plan locks for the season. Teams stop manually triangulating between individual trend reports and instead see an aggregated signal surfaced directly in Centric and AEX.',
+        cardId: 'trend-api-preseason', workstream: 'design',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'Trend API — 5+ Sources Pre-Season', programId: 'trend-api-preseason',
+        type: 'capability', quarter: 'Q2FY27', target: 'July 31, 2026',
+      },
+      {
+        label: 'As a leader, I no longer need to manage conflicting demand signals between Buying and Allocation — one shared forecast with model explainability means both teams make decisions from the same data',
+        narrative: 'Forecast as an Enterprise Service delivers one channel-level (eComm vs. store) and placement-split forecast consumed by both Buying (AEX BQ) and Allocation (BPE/DBP). Conflicting demand signals between workstreams are eliminated — teams make buy and distribution decisions from the same data, with model explainability and automated training pipelines.',
+        cardId: 'forecast-enterprise-service', workstream: 'strategy',
+        opifLabel: 'OPIF-325221', opifUrl: 'https://jira.walmart.com/browse/OPIF-325221',
+        program: 'Forecast as Enterprise Service', programId: 'forecast-enterprise-service',
+        type: 'capability', quarter: 'Q2FY27', target: 'July 31, 2026',
+      },
+      {
+        label: 'As a planner, I no longer need to manually reconcile store inventory positions, committed buys, and demand signals across tools — the optimization engine combines them in real time and drives allocation automatically',
+        narrative: 'Distribution Planning Optimization improves store-level allocation accuracy in DBP by consuming real-time store inventory positions, AEX committed buy data, and BPE demand signals together. More product lands at the right store at the right time — reducing both over-allocation markdowns and under-allocation lost sales.',
+        cardId: 'distrib-optimization', workstream: 'allocation',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'Distribution Planning Optimization', programId: 'distrib-optimization',
+        type: 'capability', quarter: 'Q2FY27', target: 'July 31, 2026',
+      },
+      {
+        label: 'As a planner, I no longer need to manually hunt for complementary items or coverage gaps — AI-generated assortment recommendations surface inline inside my AP Tool line plan as I work',
+        narrative: 'With the Tagging & Affinity Graph live in production, ML-generated recommendations surface directly in the AP Tool line plan — surfacing complementary items, flagging coverage gaps, and suggesting affinity-matched alternatives. Teams act on AI insight at the exact moment they are making assortment decisions, not after the fact.',
+        cardId: 'tagging-pilot', workstream: 'allocation',
+        opifLabel: 'OPIF-325602', opifUrl: 'https://jira.walmart.com/browse/OPIF-325602',
+        program: 'Tagging & Affinity Graph Pilot', programId: 'tagging-pilot',
+        type: 'capability', quarter: 'Q3FY27', target: 'October 31, 2026',
+      },
+      {
+        label: 'As a planner, I no longer need to manually monitor sell-through performance to trigger swaps — AI detects degradation in real time and generates replacement item recommendations before markdowns are the only option',
+        narrative: 'In-Season AI Swap Recommendations monitor sell-through signals in real time and automatically generate swap suggestions when performance degrades. Merchants receive targeted recommendations for replacement items before markdowns are the only option — enabling proactive assortment management instead of reactive clearance.',
+        cardId: 'in-season-swaps', workstream: 'allocation',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'In-Season Swap Recommendations', programId: 'in-season-swaps',
+        type: 'capability', quarter: 'Q3FY27', target: 'October 31, 2026',
+      },
+      {
+        label: 'As a leader, I no longer need to manually build clearance plans — AI analyzes sell-through trajectory and inventory position to recommend optimal markdown depth and timing for my review and approval',
+        narrative: 'AI-generated markdown recommendations analyze sell-through trajectory, inventory position, and season-end targets to recommend optimal markdown depth and timing. Merchants shift from manually building clearance plans to reviewing and approving AI-generated recommendations — reducing decision time and improving markdown efficiency.',
+        cardId: 'markdown-ai', workstream: 'strategy',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'AI Markdown Recommendations', programId: 'markdown-ai',
+        type: 'capability', quarter: 'Q4FY27', target: 'January 31, 2027',
+      },
+    ],
+  },
+
+  // ──────────────────────────────────────────────────────────────
+  // GOAL 5: CONNECTED TEAMS
+  // ──────────────────────────────────────────────────────────────
+  {
+    id: 'connected-teams',
+    label: 'Connected Teams',
+    icon: '🔗',
+    color: '#0891b2',
+    description: 'Design, Buying, Strategy, and Allocation work from the same data in real time — no handoff lag.',
+    capabilities: [
+      {
+        label: 'As a designer, I no longer need to wait days for design decisions to reach Buying and vendors — my work in Centric is immediately visible to buying and automatically available through Supplier One',
+        narrative: 'Design Hub launch makes Centric PLM the single system of record shared across Design, Buying, and Sourcing. Design decisions made in Centric are immediately visible to buying and automatically available to vendors through Supplier One — the handoff delay between design intent and downstream execution collapses from days to minutes.',
+        cardId: 'design-hub-centric', workstream: 'design',
+        opifLabel: 'OPIF-325208', opifUrl: 'https://jira.walmart.com/browse/OPIF-325208',
+        program: 'Launch Design Hub (Centric PLM)', programId: 'design-hub-centric',
+        type: 'capability', quarter: 'Q1FY27', target: 'April 30, 2026',
+      },
+      {
+        label: 'As a designer, I no longer need to manually distribute calendar updates — buying teams see my design milestones and planning deadlines in Centric in real time as they happen',
+        narrative: 'Line Planning & Calendar Management in Centric gives all workstreams visibility into the same design milestones and planning calendar. Buying teams see exactly when line plans are finalized and buying readiness targets are set — without waiting for design to distribute calendar updates manually.',
+        cardId: 'line-planning', workstream: 'design',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'Line Planning & Calendar Management', programId: 'line-planning',
+        type: 'capability', quarter: 'Q1FY27', target: 'April 30, 2026',
+      },
+      {
+        label: 'As a leader, I no longer need to reforecast mid-buy when teams discover conflicting guardrails — pre-approved space and financial targets are distributed to all workstreams before each season begins',
+        narrative: 'Space & Financial Planning capabilities distribute pre-approved space and financial targets to all workstreams before each seasonal planning cycle begins. Design, Buying, and Allocation start aligned — reducing the mid-season financial reforecasting that occurs when teams discover conflicting guardrails mid-buy.',
+        cardId: 'space-planning', workstream: 'strategy',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'Space & Financial Planning', programId: 'space-planning',
+        type: 'capability', quarter: 'Q1FY27', target: 'April 30, 2026',
+      },
+      {
+        label: 'As a designer, I no longer need to deliver a finished document weeks later — buying teams see my evolving design intent during ideation, which cuts the late-stage line plan rework that currently hits both of us',
+        narrative: 'AP Tool Shared Ideation integration connects Centric design ideation events to the AP Tool assortment view in real time. Buying teams see evolving design intent during ideation — not a finished document handed off weeks later. Early signal reduces the late-stage line plan changes that currently create rework across both workstreams.',
+        cardId: 'ap-tool-shared-ideation', workstream: 'design',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'AP Tool Shared Ideation', programId: 'ap-tool-shared-ideation',
+        type: 'capability', quarter: 'Q2FY27', target: 'July 31, 2026',
+      },
+      {
+        label: 'As a designer, I no longer need to email asset files or chase version confirmations — current imagery and CADs are always linked to the live product record and instantly accessible to vendors and teams',
+        narrative: 'Centralized DAM Launch provides a single location for all product imagery, CAD files, and design assets integrated with Centric. Product imagery is always current and linked to the live product record — vendors receive assets through Supplier One without manual email distribution, and internal teams stop spending time locating the right version of the right file.',
+        cardId: 'centralized-dam', workstream: 'design',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'Centralized DAM Launch', programId: 'centralized-dam',
+        type: 'capability', quarter: 'Q2FY27', target: 'July 31, 2026',
+      },
+      {
+        label: 'As a merchant, I no longer need to run multiple email rounds to capture supplier intent — vendors enter it directly in AEX as structured data and it stays in sync with buying automatically',
+        narrative: 'BAM / Collab Intent Integration captures supplier intent directly inside AEX as structured data — replacing the current email-based BAM communication cycle. Supplier clarification rounds that currently require multiple emails, follow-ups, and manual data entry are replaced by a connected workflow that keeps buying and supplier data in sync automatically.',
+        cardId: 'bam-collab-intent', workstream: 'buying',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'BAM / Collab Intent Integration', programId: 'bam-collab-intent',
+        type: 'automation', quarter: 'Q2FY27', target: 'October 30, 2026',
+      },
+      {
+        label: 'As a merchant, I no longer need to maintain a separate item definition from Design or Allocation — when design updates a spec I see it immediately, and when I commit a buy Allocation works from the same record',
+        narrative: 'OneItem as a Shared Repository creates a single item record visible and writable by Design, Buying, and Allocation simultaneously. Teams stop maintaining parallel item definitions across separate tools — when design updates a spec, buying sees it immediately; when buying commits a buy, allocation sees the exact same item. One item, one truth, across every workstream.',
+        cardId: 'shared-item-repository', workstream: 'buying',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'OneItem Shared Repository', programId: 'shared-item-repository',
+        type: 'capability', quarter: 'Q3FY27', target: 'October 31, 2026',
+      },
+      {
+        label: 'As a merchant, I no longer need to switch between market-specific tools for international sourcing — global, domestic, and 3P items share one item definition and I manage them all from one place',
+        narrative: 'OneItem Extended Markets brings international sourcing data into the same item repository used for domestic fashion buying. Global, domestic, and 3P items share one definition — buyers manage a unified assortment without switching between market-specific tools or reconciling conflicting item records across markets.',
+        cardId: 'oneitem-extended-markets', workstream: 'buying',
+        opifLabel: 'LLTT Dashboard', opifUrl: LLTT,
+        program: 'OneItem Extended Markets', programId: 'oneitem-extended-markets',
+        type: 'capability', quarter: 'Q4FY27', target: 'January 31, 2027',
       },
     ],
   },
@@ -7544,221 +8283,464 @@ const BIZ_IMPACT_GOALS = [
 
 // Program → display config (color, short label)
 const BIZ_PROGRAM_CONFIG = {
-  'auto-item-setup': { label: 'Item Setup',   color: '#f59e0b', textColor: '#1f2937' },
-  'aex-stability':   { label: 'AEX Stability', color: '#0053e2', textColor: '#ffffff' },
-  'visual-boards':   { label: 'Centric Viz',   color: '#6366f1', textColor: '#ffffff' },
+  'auto-item-setup':               { label: 'Item Setup',         color: '#f59e0b', textColor: '#1f2937' },
+  'aex-stability':                 { label: 'AEX Stability',      color: '#0053e2', textColor: '#ffffff' },
+  'visual-boards':                 { label: 'Centric Viz',        color: '#6366f1', textColor: '#ffffff' },
+  'neo-replatform':                { label: 'Neo Replatform',     color: '#16a34a', textColor: '#ffffff' },
+  'size-pack-bq':                  { label: 'Size/Pack BQ',       color: '#d97706', textColor: '#ffffff' },
+  'ai-item-repository':            { label: 'AI Repository',      color: '#0891b2', textColor: '#ffffff' },
+  'fashion-fixture-allocation-buying': { label: 'Fixture Alloc',  color: '#7c3aed', textColor: '#ffffff' },
+  'product-specs':                 { label: 'Product Specs',      color: '#64748b', textColor: '#ffffff' },
+  'sample-mgmt-fit-eval':          { label: 'Sample Mgmt',        color: '#db2777', textColor: '#ffffff' },
+  'shared-event-layer':            { label: 'Event Layer',        color: '#059669', textColor: '#ffffff' },
+  'unified-planning':              { label: 'Unified Planning',   color: '#b86000', textColor: '#ffffff' },
+  'bpe-seasonal':                  { label: 'BPE Seasonal',       color: '#854d0e', textColor: '#ffffff' },
+  'trend-api-longlead':            { label: 'Trend API',          color: '#7c3aed', textColor: '#ffffff' },
+  'synthetic-panel':               { label: 'Synth Panel',        color: '#831843', textColor: '#ffffff' },
+  'strategy-hub':                  { label: 'Strategy Hub',       color: '#374151', textColor: '#ffffff' },
+  'tagging-pilot':                 { label: 'Tagging/AI',         color: '#0f766e', textColor: '#ffffff' },
+  'trend-api-preseason':           { label: 'Trend Pre-Season',   color: '#6d28d9', textColor: '#ffffff' },
+  'forecast-enterprise-service':   { label: 'Forecast Svc',       color: '#1d4ed8', textColor: '#ffffff' },
+  'distrib-optimization':          { label: 'Distrib Optim',      color: '#9a3412', textColor: '#ffffff' },
+  'design-hub-centric':            { label: 'Design Hub',         color: '#0053e2', textColor: '#ffffff' },
+  'line-planning':                 { label: 'Line Planning',      color: '#047857', textColor: '#ffffff' },
+  'space-planning':                { label: 'Space & Finance',    color: '#1e40af', textColor: '#ffffff' },
+  'ap-tool-shared-ideation':       { label: 'AP Ideation',        color: '#b45309', textColor: '#ffffff' },
+  'centralized-dam':               { label: 'Centralized DAM',    color: '#0e7490', textColor: '#ffffff' },
+  'bam-collab-intent':             { label: 'BAM / Collab',       color: '#4f46e5', textColor: '#ffffff' },
+  'commitment-report-redesign':    { label: 'Commit Report',      color: '#15803d', textColor: '#ffffff' },
+  'ap-tool-lineplan':              { label: 'AP Line Plan',        color: '#92400e', textColor: '#ffffff' },
+  'bq-enterprise-service':         { label: 'BQ Enterprise',       color: '#1e3a8a', textColor: '#ffffff' },
+  'global-buying-platform':        { label: 'Global Buying',       color: '#065f46', textColor: '#ffffff' },
+  'supplier-one-collab':           { label: 'Supplier One',        color: '#9f1239', textColor: '#ffffff' },
+  'oneitem-expanded-sources':      { label: 'OneItem Sources',     color: '#b45309', textColor: '#ffffff' },
+  'in-season-swaps':               { label: 'In-Season Swaps',     color: '#0f766e', textColor: '#ffffff' },
+  'markdown-ai':                   { label: 'Markdown AI',         color: '#6b21a8', textColor: '#ffffff' },
+  'shared-item-repository':        { label: 'OneItem Repo',        color: '#0369a1', textColor: '#ffffff' },
+  'oneitem-extended-markets':      { label: 'OneItem Markets',     color: '#047857', textColor: '#ffffff' },
 };
 
 window.BIZ_IMPACT_GOALS   = BIZ_IMPACT_GOALS;
 window.BIZ_PROGRAM_CONFIG = BIZ_PROGRAM_CONFIG;
-
 </script>
 <script>
 // gantt-biz.js — Business Impact Timeline renderer
-// Scope: Q1 + Q2 FY27 (Feb–Jul 2026) | 3 programs only
-// Toggle between this and renderGanttChart() via ganttSetView()
+// Sliding 2-quarter window | Quarter-only header | Text-dominant chips
 
-// ── Timeline constants (Q1+Q2 FY27 only) ─────────────────────────
-const BIZ_FY = {
-  start: new Date(2026, 1, 1),  // Feb 1 2026
-  end:   new Date(2026, 7, 1),  // Aug 1 2026 (end of Q2)
-  quarters: [
-    { label: 'Q1 FY27 — Feb – Apr', start: new Date(2026, 1, 1), end: new Date(2026, 4, 1), stripe: '#eef4ff', color: '#0053e2' },
-    { label: 'Q2 FY27 — May – Jul', start: new Date(2026, 4, 1), end: new Date(2026, 7, 1), stripe: '#f8faff', color: '#2a8703' },
-  ],
-  months: [
-    { label: 'Feb', start: new Date(2026, 1, 1), end: new Date(2026, 2, 1) },
-    { label: 'Mar', start: new Date(2026, 2, 1), end: new Date(2026, 3, 1) },
-    { label: 'Apr', start: new Date(2026, 3, 1), end: new Date(2026, 4, 1) },
-    { label: 'May', start: new Date(2026, 4, 1), end: new Date(2026, 5, 1) },
-    { label: 'Jun', start: new Date(2026, 5, 1), end: new Date(2026, 6, 1) },
-    { label: 'Jul', start: new Date(2026, 6, 1), end: new Date(2026, 7, 1) },
-  ],
+// ── Full quarter calendar (Q1 FY27 – Q1 FY28) ───────────────────────
+const BIZ_QUARTERS = [
+  { key: 'Q1FY27', label: 'Q1 FY27', sub: 'Feb – Apr 2026',
+    start: new Date(2026, 1, 1), end: new Date(2026, 4, 1),
+    stripe: '#eef4ff', color: '#0053e2' },
+  { key: 'Q2FY27', label: 'Q2 FY27', sub: 'May – Jul 2026',
+    start: new Date(2026, 4, 1), end: new Date(2026, 7, 1),
+    stripe: '#edfcf2', color: '#2a8703' },
+  { key: 'Q3FY27', label: 'Q3 FY27', sub: 'Aug – Oct 2026',
+    start: new Date(2026, 7, 1), end: new Date(2026, 10, 1),
+    stripe: '#fff9f0', color: '#b86000' },
+  { key: 'Q4FY27', label: 'Q4 FY27', sub: 'Nov 2026 – Jan 2027',
+    start: new Date(2026, 10, 1), end: new Date(2027, 1, 1),
+    stripe: '#f5f0ff', color: '#6d28d9' },
+  { key: 'Q1FY28', label: 'Q1 FY28', sub: 'Feb – Apr 2027',
+    start: new Date(2027, 1, 1), end: new Date(2027, 4, 1),
+    stripe: '#eef4ff', color: '#0053e2' },
+];
+
+// Legacy alias — modal code references BIZ_FY.quarters
+const BIZ_FY = { quarters: BIZ_QUARTERS };
+
+const BIZ_LABEL_W = 240; // px — sticky goal panel
+
+// Chip: 2-line impact text + small meta footer
+const CHIP_H   = 60;  // px — 2 lines text + meta + padding
+const CHIP_GAP = 6;   // px between stacked chips
+const CHIP_PAD = 10;  // px top/bottom padding in track
+
+// Workstream display config — persona labels + pill colors
+const BIZ_WS_CONFIG = {
+  buying:     { label: 'Merchants',      bg: '#fef3c7', color: '#92400e' },
+  design:     { label: 'Product Design', bg: '#ede9fe', color: '#5b21b6' },
+  strategy:   { label: 'Leadership',    bg: '#e0f2fe', color: '#075985' },
+  allocation: { label: 'Planners',      bg: '#dcfce7', color: '#166534' },
 };
-const BIZ_TOTAL_MS  = BIZ_FY.end - BIZ_FY.start;
-const BIZ_LABEL_W   = 260;  // px — wider than program view to fit capability text
 
-// ── View-mode state ──────────────────────────────────────────────────
-let bizGanttView = 'program'; // 'program' | 'biz-impact'
+// Helper: get the currently active workstream filter (mirrors ganttActiveWS)
+function bizActiveWs() {
+  if (typeof ganttActiveWS === 'undefined') return null; // safety
+  if (ganttActiveWS.has('all')) return null;             // null = show all
+  return ganttActiveWS;                                   // Set of active ws keys
+}
+
+let bizWinStart = 0;
+
+function bizVisibleQs() {
+  return BIZ_QUARTERS.slice(bizWinStart, bizWinStart + 2);
+}
+
+// ── View state ───────────────────────────────────────────────────────
+let bizGanttView = 'biz-impact';
 
 window.ganttGetView = function() { return bizGanttView; };
 
 window.ganttSetView = function(view) {
   bizGanttView = view;
-
-  const btnProgram = document.getElementById('gantt-view-btn-program');
-  const btnBiz     = document.getElementById('gantt-view-btn-biz');
-  const wsFilters  = document.getElementById('gantt-ws-filters');
-
-  if (btnProgram) btnProgram.classList.toggle('active', view === 'program');
-  if (btnBiz)     btnBiz.classList.toggle('active',     view === 'biz-impact');
-
-  // Workstream filters only relevant in program view
-  if (wsFilters) wsFilters.style.opacity = view === 'program' ? '1' : '0.35';
-  if (wsFilters) wsFilters.style.pointerEvents = view === 'program' ? '' : 'none';
-
-  // Swap chart min-width for the narrower biz timeline
+  const btnP = document.getElementById('gantt-view-btn-program');
+  const btnB = document.getElementById('gantt-view-btn-biz');
+  const wsF  = document.getElementById('gantt-ws-filters');
+  if (btnP) btnP.classList.toggle('active', view === 'program');
+  if (btnB) btnB.classList.toggle('active', view === 'biz-impact');
+  // Workstream filters are active in BOTH views
+  if (wsF) { wsF.style.opacity = '1'; wsF.style.pointerEvents = ''; }
   const chart = document.querySelector('.gantt-chart');
-  if (chart) chart.style.minWidth = view === 'biz-impact' ? '900px' : '';
-
-  if (view === 'program') {
-    renderGanttChart();
-  } else {
-    renderBizImpactChart();
-  }
+  if (chart) chart.style.minWidth = view === 'biz-impact' ? '820px' : '';
+  view === 'program' ? renderGanttChart() : renderBizImpactChart();
 };
 
-// ── Helpers ────────────────────────────────────────────────────────
-function bizPct(date) {
-  const clamped = Math.max(+BIZ_FY.start, Math.min(+BIZ_FY.end, +date));
-  return ((clamped - BIZ_FY.start) / BIZ_TOTAL_MS) * 100;
-}
+window.bizNavPrev = function() {
+  if (bizWinStart > 0) { bizWinStart--; renderBizImpactChart(); }
+};
 
-function bizQtrBounds(qLabel) {
-  const q = BIZ_FY.quarters.find(q => q.label.startsWith(qLabel.substring(0,2)));
-  return q || BIZ_FY.quarters[0];
-}
+window.bizNavNext = function() {
+  if (bizWinStart < BIZ_QUARTERS.length - 2) { bizWinStart++; renderBizImpactChart(); }
+};
 
-// Track background decoration (stripes + month dividers + today tick)
-function bizDeco() {
-  const stripes = BIZ_FY.quarters.map(q => {
-    const l = bizPct(q.start).toFixed(2);
-    const w = ((q.end - q.start) / BIZ_TOTAL_MS * 100).toFixed(2);
-    return `<div class="gantt-stripe" style="left:${l}%;width:${w}%;background:${q.stripe}"></div>`;
-  }).join('');
+// ── Expand / collapse per goal (persists across quarter navigation) ────
+const bizExpandedGoals = new Set();
 
-  const divs = BIZ_FY.months.map((mo, i) => {
-    if (i === 0) return '';
-    const isQBoundary = i % 3 === 0;
-    return `<div class="${isQBoundary ? 'gantt-divider' : 'gantt-month-divider'}" style="left:${bizPct(mo.start).toFixed(2)}%"></div>`;
-  }).join('');
-
-  let todayTick = '';
-  const now = new Date();
-  if (now >= BIZ_FY.start && now <= BIZ_FY.end) {
-    todayTick = `<div class="gantt-today-track" style="left:${bizPct(now).toFixed(2)}%"></div>`;
+window.bizToggleExpand = function(goalId) {
+  if (bizExpandedGoals.has(goalId)) {
+    bizExpandedGoals.delete(goalId);
+  } else {
+    bizExpandedGoals.add(goalId);
   }
-  return stripes + divs + todayTick;
+  renderBizImpactChart();
+};
+
+// ── Row height: variable per goal, respects active WS filter ────────
+function bizGoalRowH(goal, visibleQs) {
+  const ws = bizActiveWs();
+  const maxStack = Math.max(
+    ...visibleQs.map(q => goal.capabilities.filter(
+      c => c.quarter === q.key && (!ws || ws.has(c.workstream))
+    ).length),
+    1
+  );
+  return Math.max(maxStack * (CHIP_H + CHIP_GAP) - CHIP_GAP + CHIP_PAD * 2, 72);
 }
 
-// ── Header builder for biz-impact view ──────────────────────────────
-function buildBizImpactHeader() {
+// ── Background: 50/50 stripes + center divider (no today line in biz view) ──
+function bizDeco(visibleQs) {
+  const [q0, q1] = visibleQs;
+  const stripes = [
+    `<div class="gantt-stripe" style="left:0;width:50%;height:100%;background:${q0.stripe}"></div>`,
+    `<div class="gantt-stripe" style="left:50%;width:50%;height:100%;background:${q1.stripe}"></div>`,
+  ].join('');
+  const divider = `<div class="gantt-divider" style="left:50%;height:100%"></div>`;
+  return stripes + divider;
+}
+
+// ── Header: quarter cols only, nav arrows in stub ────────────────────
+function buildBizImpactHeader(visibleQs) {
   const el = document.getElementById('gantt-qheader');
   if (!el) return;
 
-  const qRow = BIZ_FY.quarters.map(q => {
-    const w = ((q.end - q.start) / BIZ_TOTAL_MS * 100).toFixed(2);
-    return `<div class="gantt-qcol" style="width:${w}%;color:${q.color};border-bottom:3px solid ${q.color}40">${q.label}</div>`;
-  }).join('');
+  const canPrev  = bizWinStart > 0;
+  const canNext  = bizWinStart < BIZ_QUARTERS.length - 2;
+  const prevQ    = canPrev ? BIZ_QUARTERS[bizWinStart - 1] : null;
+  const nextQ    = canNext ? BIZ_QUARTERS[bizWinStart + 2] : null;
+  const prevTip  = canPrev ? `← ${prevQ.label}` : '';
+  const nextTip  = canNext ? `${nextQ.label} →` : '';
 
-  const mRow = BIZ_FY.months.map((mo, i) => {
-    const cls = ['gantt-mcol', i % 3 === 0 ? 'gantt-mcol-qstart' : ''].filter(Boolean).join(' ');
-    const w   = ((mo.end - mo.start) / BIZ_TOTAL_MS * 100).toFixed(2);
-    return `<div class="${cls}" style="width:${w}%">${mo.label}</div>`;
-  }).join('');
+  const qCols = visibleQs.map(q => `
+    <div class="biz-qcol" style="color:${q.color};border-bottom:3px solid ${q.color}60">
+      <span class="biz-qcol-label">${q.label}</span>
+      <span class="biz-qcol-sub">${q.sub}</span>
+    </div>`).join('');
 
-  // Wider stub to match BIZ_LABEL_W
   el.innerHTML = `
-    <div class="gantt-header-stub" style="width:${BIZ_LABEL_W}px"></div>
-    <div class="gantt-header-timeline">
-      <div class="gantt-header-qrow">${qRow}</div>
-      <div class="gantt-header-mrow">${mRow}</div>
+    <div class="gantt-header-stub" style="width:${BIZ_LABEL_W}px">
+      <div class="biz-win-nav">
+        <button class="biz-nav-btn" onclick="bizNavPrev()"
+                ${canPrev ? '' : 'disabled'} title="${prevTip}">&#8249;</button>
+        <span class="biz-nav-label">Quarter view</span>
+        <button class="biz-nav-btn" onclick="bizNavNext()"
+                ${canNext ? '' : 'disabled'} title="${nextTip}">&#8250;</button>
+      </div>
     </div>
-  `;
+    <div class="gantt-header-timeline" style="display:flex">
+      ${qCols}
+    </div>`;
 }
 
-// ── Main render ────────────────────────────────────────────────────────
+// ── Modal ────────────────────────────────────────────────────────────
+function _getBizModal() {
+  let m = document.getElementById('biz-cap-modal');
+  if (!m) {
+    m = document.createElement('div');
+    m.id = 'biz-cap-modal';
+    m.innerHTML = `
+      <div class="biz-modal-backdrop" onclick="bizCloseModal()"></div>
+      <div class="biz-modal-card" role="dialog" aria-modal="true">
+        <button class="biz-modal-close" onclick="bizCloseModal()" aria-label="Close">&times;</button>
+        <div id="biz-modal-body"></div>
+      </div>`;
+    document.body.appendChild(m);
+  }
+  return m;
+}
+
+window.bizCloseModal = function() {
+  const m = document.getElementById('biz-cap-modal');
+  if (m) m.classList.remove('open');
+  document.removeEventListener('keydown', _bizEscHandler);
+};
+
+function _bizEscHandler(e) { if (e.key === 'Escape') window.bizCloseModal(); }
+
+// Open detail modal for a capability chip.
+window.bizOpenCap = function(goalId, capIdx) {
+  const goals   = window.BIZ_IMPACT_GOALS  || [];
+  const progCfg = window.BIZ_PROGRAM_CONFIG || {};
+  const goal    = goals.find(g => g.id === goalId);
+  if (!goal) return;
+  const cap  = goal.capabilities[capIdx];
+  if (!cap)  return;
+
+  const prog     = progCfg[cap.programId] || { label: cap.program, color: '#6b7280', textColor: '#fff' };
+  const qObj     = BIZ_QUARTERS.find(q => q.key === cap.quarter) || BIZ_QUARTERS[0];
+  const badgeCls = cap.type === 'automation' ? 'biz-badge-automation' : 'biz-badge-capability';
+  const badgeTxt = cap.type === 'automation' ? '✕ Work Removed' : '+ New Capability';
+
+  const modal = _getBizModal();
+  document.getElementById('biz-modal-body').innerHTML = `
+    <div class="biz-modal-goal-header" style="border-left:4px solid ${goal.color}">
+      <span class="biz-modal-goal-icon">${goal.icon}</span>
+      <div>
+        <div class="biz-modal-goal-label" style="color:${goal.color}">${goal.label}</div>
+        <div class="biz-modal-goal-desc">${goal.description}</div>
+      </div>
+    </div>
+    <div class="biz-modal-qbar" style="background:${qObj.color}15;border:1px solid ${qObj.color}40">
+      <span style="color:${qObj.color};font-weight:800;font-size:13px">
+        ${qObj.label}
+        <span style="font-weight:400;font-size:11px;opacity:0.75"> &mdash; ${qObj.sub}</span>
+      </span>
+      <span class="biz-badge ${badgeCls}" style="margin-left:auto">${badgeTxt}</span>
+      <span class="biz-prog-pill" style="background:${prog.color};color:${prog.textColor}">${prog.label}</span>
+      <span class="biz-modal-target">📅 ${cap.target}</span>
+    </div>
+    <div class="biz-modal-impact-statement">
+      <div class="biz-modal-impact-headline">${cap.label}</div>
+      <p class="biz-modal-impact-narrative">${cap.narrative}</p>
+    </div>
+    <div class="biz-modal-links">
+      <div class="biz-modal-link-label">Jump to:</div>
+      <button id="biz-open-card-btn" class="biz-modal-link-btn biz-modal-link-card"
+              data-cid="${cap.cardId}" data-ws="${cap.workstream}">
+        📋 Program Card &mdash; ${cap.program}
+      </button>
+      <a class="biz-modal-link-btn biz-modal-link-opif"
+         href="${cap.opifUrl}" target="_blank" rel="noopener">
+        🎫 ${cap.opifLabel}
+        <span class="biz-modal-link-ext">↗</span>
+      </a>
+    </div>`;
+
+  const cardBtn = document.getElementById('biz-open-card-btn');
+  if (cardBtn) {
+    cardBtn.addEventListener('click', function() {
+      window.bizCloseModal();
+      if (typeof openModal === 'function') openModal(this.dataset.cid, this.dataset.ws, null);
+    });
+  }
+
+  modal.classList.add('open');
+  document.addEventListener('keydown', _bizEscHandler);
+};
+
+// ── Main render ──────────────────────────────────────────────────────
 window.renderBizImpactChart = function() {
   const body = document.getElementById('gantt-body');
   if (!body) return;
 
-  buildBizImpactHeader();
+  const visibleQs = bizVisibleQs();
+  buildBizImpactHeader(visibleQs);
 
-  const goals  = window.BIZ_IMPACT_GOALS  || [];
+  const goals   = window.BIZ_IMPACT_GOALS  || [];
   const progCfg = window.BIZ_PROGRAM_CONFIG || {};
-  const deco   = bizDeco();
-  let html = '';
+  const [q0, q1] = visibleQs;
 
-  // Preamble banner
-  html += `
+  // Dynamic preamble title based on visible window
+  const winLabel = q0.label === q1.label ? q0.label : `${q0.label} + ${q1.label}`;
+
+  let html = `
     <div class="biz-preamble">
       <span class="biz-preamble-icon">🎯</span>
       <div>
-        <div class="biz-preamble-title">Business Impact View &mdash; Q1 &amp; Q2 FY27</div>
-        <div class="biz-preamble-sub">What changes for your team, not how we&rsquo;re building it. Scope: Automated Item Setup &bull; AEX Stability &bull; Centric Visual Board MVP.</div>
+        <div class="biz-preamble-title">Business Impact &mdash; ${winLabel}</div>
+        <div class="biz-preamble-sub">What changes for your team this window.
+          <strong>Click any impact to read the full statement.</strong>
+        </div>
       </div>
       <div class="biz-legend">
-        <span class="biz-badge biz-badge-automation">Work Removed</span> task automated away
-        &nbsp;&nbsp;
-        <span class="biz-badge biz-badge-capability">New Capability</span> something you can now do
+        <span class="biz-chip-type biz-chip-type-auto" style="font-size:10px;padding:3px 8px">✕ Work Removed</span>
+        <span class="biz-chip-type biz-chip-type-cap" style="font-size:10px;padding:3px 8px">+ New Capability</span>
       </div>
     </div>`;
 
-  goals.forEach(goal => {
-    const q1Caps = goal.capabilities.filter(c => c.quarter === 'Q1');
-    const q2Caps = goal.capabilities.filter(c => c.quarter === 'Q2');
-    const all    = [...q1Caps, ...q2Caps];
+  const ws = bizActiveWs(); // null = show all; Set = active workstream keys
 
-    // Goal header row
-    html += `
-      <div class="gantt-phase-header biz-goal-header">
-        <div class="gantt-label gantt-phase-label-cell" style="width:${BIZ_LABEL_W}px;border-left:4px solid ${goal.color};background:#f8faff">
-          <span class="gantt-phase-emoji">${goal.icon}</span>
-          <div>
-            <div class="gantt-phase-name" style="color:${goal.color}">${goal.label}</div>
-            <div class="gantt-phase-win">${goal.description}</div>
-          </div>
-        </div>
-        <div class="gantt-track" style="height:48px">
-          ${deco}
-          ${BIZ_FY.quarters.map(q => {
-            const l = bizPct(q.start).toFixed(2);
-            const w = ((q.end - q.start) / BIZ_TOTAL_MS * 100).toFixed(2);
-            const count = goal.capabilities.filter(c => c.quarter === q.label.substring(0,2)).length;
-            return count > 0
-              ? `<div class="biz-goal-band" style="left:${l}%;width:${w}%;border-bottom:3px solid ${goal.color}40">
-                   <span style="color:${goal.color};font-size:10px;font-weight:700">${count} impact${count !== 1 ? 's' : ''}</span>
-                 </div>`
-              : `<div class="biz-goal-band biz-goal-band-empty" style="left:${l}%;width:${w}%"></div>`;
-          }).join('')}
-        </div>
-      </div>`;
+  goals.forEach((goal, goalIdx) => {
+    // Hide goals where every capability is filtered by workstream
+    const goalCaps = goal.capabilities.filter(c => !ws || ws.has(c.workstream));
+    if (goalCaps.length === 0) return;
 
-    // Capability rows
-    all.forEach((cap, idx) => {
-      const prog   = progCfg[cap.programId] || { label: cap.program, color: '#6b7280', textColor: '#fff' };
-      const qBound = BIZ_FY.quarters.find(q => q.label.startsWith(cap.quarter)) || BIZ_FY.quarters[0];
-      const barL   = bizPct(qBound.start).toFixed(2);
-      const barW   = ((qBound.end - qBound.start) / BIZ_TOTAL_MS * 100).toFixed(2);
-      const isEven = idx % 2 === 0;
+    const isExpanded = bizExpandedGoals.has(goal.id);
+    const totalCount = goalCaps.length;
+    const altBg      = goalIdx % 2 === 0 ? '#fafcff' : '#f7fbf7';
+
+    // Workstream pill helper
+    const wsPill = (workstream) => {
+      const cfg = BIZ_WS_CONFIG[workstream] || { label: workstream, bg: '#f3f4f6', color: '#374151' };
+      return `<span class="biz-chip-ws" style="background:${cfg.bg};color:${cfg.color}">${cfg.label}</span>`;
+    };
+
+    // ── EXPANDED: flowing vertical list, all quarters ──────────────
+    if (isExpanded) {
+      const qOrder = BIZ_QUARTERS.reduce((m, q, i) => { m[q.key] = i; return m; }, {});
+      const sorted = goal.capabilities
+        .map((c, i) => ({ cap: c, idx: i }))
+        .filter(({ cap }) => !ws || ws.has(cap.workstream))
+        .sort((a, b) => (qOrder[a.cap.quarter] || 0) - (qOrder[b.cap.quarter] || 0));
+
+      const groups = {};
+      sorted.forEach(({ cap, idx }) => {
+        if (!groups[cap.quarter]) groups[cap.quarter] = [];
+        groups[cap.quarter].push({ cap, idx });
+      });
+
+      let groupsHtml = '';
+      BIZ_QUARTERS.forEach(q => {
+        if (!groups[q.key] || groups[q.key].length === 0) return;
+        const chips = groups[q.key].map(({ cap, idx }) => {
+          const prog      = progCfg[cap.programId] || { label: cap.program };
+          const typeClass = cap.type === 'automation' ? 'biz-chip-type-auto' : 'biz-chip-type-cap';
+          const typeTxt   = cap.type === 'automation' ? '✕ Removed' : '＋ Added';
+          return `
+            <div class="biz-expand-chip"
+                 style="border-left:3px solid ${goal.color};background:${goal.color}0a"
+                 onclick="event.stopPropagation();bizOpenCap('${goal.id}',${idx})">
+              <div class="biz-chip-text" style="-webkit-line-clamp:unset;display:block">${cap.label}</div>
+              <div class="biz-chip-meta">
+                <span class="biz-chip-type ${typeClass}">${typeTxt}</span>
+                <span class="biz-chip-sep">&middot;</span>
+                <span class="biz-chip-prog">${prog.label}</span>
+                <span class="biz-chip-sep">&middot;</span>
+                ${wsPill(cap.workstream)}
+              </div>
+            </div>`;
+        }).join('');
+        groupsHtml += `
+          <div class="biz-expand-group">
+            <div class="biz-expand-q-label" style="color:${q.color};border-bottom:2px solid ${q.color}35">
+              ${q.label}
+              <span class="biz-expand-q-sub">&mdash; ${q.sub}</span>
+            </div>
+            ${chips}
+          </div>`;
+      });
 
       html += `
-        <div class="gantt-row biz-cap-row${isEven ? '' : ' biz-cap-row-alt'}">
-          <div class="gantt-label biz-cap-label" style="width:${BIZ_LABEL_W}px">
-            <div class="biz-cap-inner">
-              <span class="biz-badge ${cap.type === 'automation' ? 'biz-badge-automation' : 'biz-badge-capability'}">
-                ${cap.type === 'automation' ? '✕ Removed' : '+ Gained'}
-              </span>
-              <span class="biz-cap-text">${cap.label}</span>
-            </div>
-            <div class="biz-cap-meta">
-              <span class="biz-prog-pill" style="background:${prog.color};color:${prog.textColor}">${prog.label}</span>
-              <span style="color:#9ca3af">${cap.target}</span>
-            </div>
+        <div class="biz-goal-row biz-goal-row-expanded" style="background:${altBg};border-top:2px solid ${goal.color}20">
+          <div class="biz-goal-label-panel biz-goal-label-panel-expanded"
+               style="width:${BIZ_LABEL_W}px;border-left:4px solid ${goal.color}">
+            <div class="biz-goal-panel-icon">${goal.icon}</div>
+            <div class="biz-goal-panel-name" style="color:${goal.color}">${goal.label}</div>
+            <div class="biz-goal-panel-desc">${goal.description}</div>
+            <div class="biz-goal-panel-summary">${totalCount} total impacts</div>
+            <button class="biz-expand-btn biz-expand-btn-open"
+                    onclick="bizToggleExpand('${goal.id}')">&#9650; Collapse</button>
           </div>
-          <div class="gantt-track biz-cap-track">
-            ${deco}
-            <div class="biz-cap-bar" style="left:${barL}%;width:${barW}%;background:${goal.color}">
-              <span class="biz-cap-bar-label">${cap.quarter} FY27</span>
-            </div>
-          </div>
+          <div class="biz-goal-track-expanded">${groupsHtml}</div>
         </div>`;
+      return;
+    }
+
+    // ── COLLAPSED: windowed 50/50 chip grid ────────────────────────
+    const rowH = bizGoalRowH(goal, visibleQs);
+    const deco = bizDeco(visibleQs);
+
+    let chipsHtml = '';
+    visibleQs.forEach((q, qColIdx) => {
+      const qCaps = goal.capabilities
+        .map((c, i) => ({ cap: c, idx: i }))
+        .filter(({ cap }) => cap.quarter === q.key && (!ws || ws.has(cap.workstream)));
+
+      const chipLeft  = qColIdx === 0 ? '8px' : 'calc(50% + 8px)';
+      const chipWidth = 'calc(50% - 16px)';
+
+      qCaps.forEach(({ cap, idx }, stackIdx) => {
+        const prog      = progCfg[cap.programId] || { label: cap.program, color: '#6b7280', textColor: '#fff' };
+        const chipTop   = CHIP_PAD + stackIdx * (CHIP_H + CHIP_GAP);
+        const typeClass = cap.type === 'automation' ? 'biz-chip-type-auto' : 'biz-chip-type-cap';
+        const typeTxt   = cap.type === 'automation' ? '✕ Removed' : '＋ Added';
+
+        chipsHtml += `
+          <div class="biz-chip"
+               style="left:${chipLeft};width:${chipWidth};top:${chipTop}px;height:${CHIP_H}px;
+                      border-left:3px solid ${goal.color};background:${goal.color}0e;"
+               onclick="event.stopPropagation();bizOpenCap('${goal.id}',${idx})"
+               title="${cap.label.replace(/"/g, '&quot;')}">
+            <div class="biz-chip-text">${cap.label}</div>
+            <div class="biz-chip-meta">
+              <span class="biz-chip-type ${typeClass}">${typeTxt}</span>
+              <span class="biz-chip-sep">&middot;</span>
+              <span class="biz-chip-prog">${prog.label}</span>
+              <span class="biz-chip-sep">&middot;</span>
+              ${wsPill(cap.workstream)}
+            </div>
+          </div>`;
+      });
+
+      if (qCaps.length === 0) {
+        chipsHtml += `
+          <div class="biz-chip-empty"
+               style="left:${chipLeft};width:${chipWidth};top:${CHIP_PAD}px">
+            No impacts this quarter
+          </div>`;
+      }
     });
+
+    const visibleCount = visibleQs.reduce(
+      (n, q) => n + goal.capabilities.filter(
+        c => c.quarter === q.key && (!ws || ws.has(c.workstream))
+      ).length, 0
+    );
+    const hiddenCount  = totalCount - visibleCount;
+    const summaryTxt   = hiddenCount > 0
+      ? `${visibleCount} in view &bull; ${totalCount} total`
+      : `${visibleCount} in view`;
+
+    html += `
+      <div class="biz-goal-row" style="background:${altBg};border-top:2px solid ${goal.color}20">
+        <div class="biz-goal-label-panel" style="width:${BIZ_LABEL_W}px;min-height:${rowH}px;border-left:4px solid ${goal.color}">
+          <div class="biz-goal-panel-icon">${goal.icon}</div>
+          <div class="biz-goal-panel-name" style="color:${goal.color}">${goal.label}</div>
+          <div class="biz-goal-panel-desc">${goal.description}</div>
+          <div class="biz-goal-panel-summary">${summaryTxt}</div>
+          ${hiddenCount > 0 ? `
+          <button class="biz-expand-btn biz-expand-btn-closed"
+                  onclick="bizToggleExpand('${goal.id}')">&#9660; See all ${totalCount}</button>` : ''}
+        </div>
+        <div class="biz-goal-track" style="min-height:${rowH}px">
+          ${deco}
+          ${chipsHtml}
+        </div>
+      </div>`;
   });
 
-  body.innerHTML = html || '<div class="gantt-empty">No business impact data defined.</div>';
+  body.innerHTML = html;
 };
-
 </script>
 <script>
 
@@ -8084,9 +9066,10 @@ function openModal(cardId, workstream, tool) {
 
   const recipientRows = (bpRows + singleRows) || '<p style="font-size:0.8rem;color:#94a3b8;padding:12px 0;">No owners assigned yet.</p>';
 
-  // Collect ALL valid TO addresses (BP array + single roles)
+  // Collect TO addresses for email draft — UX and Engineering shown on page but excluded from email
   const bpEmails     = bpList.map(p => p.email).filter(Boolean);
-  const singleEmails = singleRoles.map(r => (owners[r.key] || {}).email).filter(Boolean);
+  const emailRoles   = singleRoles.filter(r => r.key !== 'uxLead' && r.key !== 'softwareLead');
+  const singleEmails = emailRoles.map(r => (owners[r.key] || {}).email).filter(Boolean);
   const toAddresses  = [...bpEmails, ...singleEmails].join(',') || 'fashion-transformation@walmart.com';
 
   document.getElementById('tab-inquiry').innerHTML = `
@@ -8221,9 +9204,10 @@ function sendInquiry(cardId, workstream, tool) {
   const qMeta   = QUARTER_META[card.quarter] || QUARTER_META['Future'];
 
   // businessPartner is an array; collect emails from all entries
+  // UX (uxLead) and Engineering (softwareLead) are intentionally excluded from the email draft
   const bpEmails = (Array.isArray(owners.businessPartner) ? owners.businessPartner : [])
     .map(p => p.email).filter(Boolean);
-  const singleEmails = ['transformationLead','productLead','uxLead','softwareLead']
+  const singleEmails = ['transformationLead','productLead']
     .map(k => (owners[k] || {}).email).filter(Boolean);
   const emailAddresses = [...bpEmails, ...singleEmails].join(',') || 'fashion-transformation@walmart.com';
 

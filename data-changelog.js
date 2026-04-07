@@ -4,9 +4,9 @@
  * Format per entry: { date, field, from, to }
  * DO NOT EDIT MANUALLY — this file is overwritten on every sync run.
  *
- * Last sync: March 23, 2026
+ * Last sync: April 7, 2026
  */
-const LAST_SYNC_DATE = 'March 25, 2026';
+const LAST_SYNC_DATE = 'April 7, 2026';
 
 const CARD_CHANGELOG = {
   'ap-tool-lineplan': [

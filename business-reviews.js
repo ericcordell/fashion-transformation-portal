@@ -623,6 +623,35 @@ function getCardUpdate(card) {
   return '<span style="color:#9ca3af;font-size:12px;font-style:italic;">Updates pending...</span>';
 }
 
+// ── Doc badge helper ─────────────────────────────────────────
+// Returns BRD + PRD badges for a card. Linked = clickable; missing = muted.
+function getDocBadges(card) {
+  const r = card.resources || {};
+  const other = r.other || [];
+
+  // PRD: positional arg OR any other[] entry labelled 'PRD: ...'
+  const prdUrl  = (r.prd  && r.prd  !== '#') ? r.prd  : null;
+  const prdOther = other.find(o => o.label && /^PRD[: ]/i.test(o.label));
+  const prdHref = prdUrl || prdOther?.url || null;
+
+  // BRD: positional arg OR any other[] entry labelled 'BRD: ...'
+  const brdUrl  = (r.brd  && r.brd  !== '#') ? r.brd  : null;
+  const brdOther = other.find(o => o.label && /^BRD[: ]/i.test(o.label));
+  const brdHref = brdUrl || brdOther?.url || null;
+
+  const prdBadge = prdHref
+    ? `<a href="${prdHref}" target="_blank" onclick="event.stopPropagation()"
+          class="wpr-doc-badge prd-linked" title="Open PRD">&#x1F4C4; PRD &#x2197;</a>`
+    : `<span class="wpr-doc-badge prd-missing">PRD &mdash;</span>`;
+
+  const brdBadge = brdHref
+    ? `<a href="${brdHref}" target="_blank" onclick="event.stopPropagation()"
+          class="wpr-doc-badge brd-linked" title="Open BRD">&#x1F4C4; BRD &#x2197;</a>`
+    : `<span class="wpr-doc-badge brd-missing">BRD &mdash;</span>`;
+
+  return `<div class="wpr-doc-badges">${prdBadge}${brdBadge}</div>`;
+}
+
 // Render WPR section as a table
 function renderWPRSection(title, cards, icon) {
   // Sort cards by target date ascending — earliest date on top
@@ -678,6 +707,7 @@ function renderWPRSection(title, cards, icon) {
         <td>
           <div class="wpr-workstreams">${wsLabels || '<span style="color:#9ca3af;font-size:12px;">—</span>'}</div>
         </td>
+        <td>${getDocBadges(card)}</td>
       </tr>
     `;
   }).join('');
@@ -693,12 +723,13 @@ function renderWPRSection(title, cards, icon) {
       </div>
       <table class="wpr-table">
         <colgroup>
-          <col style="width: 26%">
-          <col style="width: 14%">
+          <col style="width: 23%">
           <col style="width: 13%">
           <col style="width: 11%">
-          <col style="width: 26%">
           <col style="width: 10%">
+          <col style="width: 23%">
+          <col style="width: 9%">
+          <col style="width: 11%">
         </colgroup>
         <thead>
           <tr>
@@ -708,6 +739,7 @@ function renderWPRSection(title, cards, icon) {
             <th>Target Date</th>
             <th>Update (Last 14 Days)</th>
             <th>Workstreams</th>
+            <th>Docs</th>
           </tr>
         </thead>
         <tbody>

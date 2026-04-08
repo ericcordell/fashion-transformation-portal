@@ -6,10 +6,10 @@
 const CARDS_STRATEGY = [
   {
     id: 'strategy-hub', title: 'Strategy Hub: Create and Centralize Business Strategy', icon: '\uD83C\uDFDB\uFE0F',
-    status: 'roadmap', statusLabel: 'Roadmap \u2014 Initial Requirements',
+    status: 'green', statusLabel: 'Green \u2014 Initial Requirements',
     jiraStatus: 'Initial Requirements',
     quarter: 'Q2', targetDate: 'Oct 31, 2026',
-    description: 'Walmart struggles to operationalize strategy at scale because strategic intent is fragmented across PPTs, spreadsheets, and heuristic-driven processes. Strategy Hub (TTP) solves this by creating a connected, data-driven central repository where business strategy is captured once and operationalized downstream \u2014 cascading to AEX (Buying), Centric (Design), and BPE/DBP (Allocation) without re-entry.',
+    description: 'Walmart struggles to operationalize strategy at scale because strategic intent is fragmented across PPTs, spreadsheets, and heuristic-driven processes. Strategy Hub (TTP) solves this by creating a connected, data-driven central repository where business strategy is captured once and operationalized downstream.',
     businessBenefit: 'Operationalizes business strategy in downstream systems and increases strategy creation, management, and distribution efficiency. Eliminates redundant strategy sessions and conflicting priorities across workstreams. Single source of truth for seasonal financial targets and category priorities cascaded to all fashion tools.',
     techIntegration: 'Primary OPIF: OPIF-368304 (Strategy Hub: Create and centralize business strategy). Currently in Discovery \u2014 Apr 8 onward: DMM interviews, collecting strategy documents, connecting with data partners, formulating MLP scope, estimating engineering resources. Strategy Hub serves as the upstream data source for AEX, Centric, and BPE/DBP; decisions recorded here propagate downstream without manual re-entry.',
     successMetrics: 'Business strategy captured in a connected system rather than fragmented across PPTs and spreadsheets. All workstreams (Design, Buying, Allocation) reference Strategy Hub as primary source. Zero conflicting financial targets across workstreams in any given season. MLP scope and engineering estimates completed by end of discovery phase.',

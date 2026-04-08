@@ -14,7 +14,7 @@ const CARDS_STRATEGY = [
     techIntegration: 'Primary OPIF: OPIF-368304 (Strategy Hub: Create and centralize business strategy). Currently in Discovery \u2014 Apr 8 onward: DMM interviews, collecting strategy documents, connecting with data partners, formulating MLP scope, estimating engineering resources. Strategy Hub serves as the upstream data source for AEX, Centric, and BPE/DBP; decisions recorded here propagate downstream without manual re-entry.',
     successMetrics: 'Business strategy captured in a connected system rather than fragmented across PPTs and spreadsheets. All workstreams (Design, Buying, Allocation) reference Strategy Hub as primary source. Zero conflicting financial targets across workstreams in any given season. MLP scope and engineering estimates completed by end of discovery phase.',
     recentUpdate: 'Apr 8, 2026 \u2013 Discovery underway: DMM interviews, collecting strategy documents, connecting with data partners to share needs, formulating MLP scope and experience, estimating engineering resources.',
-    owners: pptOwners('Bill Chiodetti', 'Ramesh Simhambhatla', 'Charitha Katupitiya', 'Leon Hovanesian', ''),
+    owners: pptOwners('Eric Cordell', 'Ramesh Simhambhatla', 'Charitha Katupitiya', 'Leon Hovanesian', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-368304',
       '#', '#', '#',

@@ -1893,3 +1893,34 @@ DRY RUN complete — no files written.
 [20:01:44]      Or open in Incognito to bypass any cached session state.
 [20:01:44] ✅ Published PROD
 [20:01:44] [7/7] Git commit
+[20:01:44] ✅ Git committed ( 2 files changed, 153 insertions(+), 1 deletion(-))
+[20:01:44] 
+[20:01:44] 
+┌──────────────────────────────────────────────────────────────┐
+[20:01:44] │  Summary                                                     │
+[20:01:44] └──────────────────────────────────────────────────────────────┘
+[20:01:44] ✅ Completed in 6.5s  |  Source: skipped (--build-only)
+[20:01:44] 
+[20:01:44] 🔗 Live portals:
+[20:01:44]    https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
+[20:01:44]    https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod
+[20:01:44] 
+[20:01:44] 💡 Hard-refresh browser (⌘+Shift+R) to see latest content.
+[20:02:18] 
+┌──────────────────────────────────────────────────────────────┐
+[20:02:18] │  E2E Fashion Portal — Full Refresh    2026-04-07 20:02       │
+[20:02:18] └──────────────────────────────────────────────────────────────┘
+[20:02:18] Portal dir : /Users/e0c0lzr/Downloads/fashion-portal
+[20:02:18] Mode       : DRY RUN
+[20:02:18] 
+[20:02:18] [1/7] Pull Confluence data
+[20:02:18] Checking for existing 'Long Lead Time' tab in Chrome…
+[20:02:19] ✅ Live tab extracted 784 rows from 64 tables ✨
+[20:02:19] ✅ Saved fresh export (784 rows, 64 tables)
+[20:02:19] ✅ Parsed 48 OPIF records, 32 timeline rows  [live Confluence (Chrome)]
+[20:02:19] [2/7] Detect + apply Program Card changes
+[20:02:19]   DRY RUN: skipping card patches
+[20:02:19] [3/7] Stamp changelog → April 7, 2026
+[20:02:19]   DRY RUN: skipping
+[20:02:19] 
+DRY RUN complete — no files written.

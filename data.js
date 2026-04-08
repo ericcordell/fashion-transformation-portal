@@ -39,7 +39,8 @@ const res = (opif = '#', brd = '#', prd = '#', uxDemo = '#', other = []) =>
 // Fallback owner source: confluence.walmart.com/display/APREC/Who%27s+Who+Among+the+Long+Lead+Time+Transformation
 const PEOPLE = {
   // ---- Business Transformation Leads (Confluence) ----
-  'Brett Reid':          { email: 'Brett.Reid@walmart.com',         title: 'Director, Business Transformation (AEX & Space/Draw)' },
+  'Eric Cordell':        { email: 'Eric.Cordell@walmart.com',         title: 'Business Owner, Strategy Hub (TTP) · Fashion Long Lead Time Transformation' },
+  'Brett Reid':          { email: 'Brett.Reid@walmart.com',           title: 'Director, Business Transformation (AEX & Space/Draw)' },
   'Bill Chiodetti':      { email: 'William.Chiodetti@walmart.com',   title: 'Sr. Director, Product Management (Strategy)' },
   'William Chiodetti':   { email: 'William.Chiodetti@walmart.com',   title: 'Sr. Director, Product Management (Strategy)' },
   'Tammy Hawkins':       { email: 'Tammy.Hawkins@walmart.com',       title: 'Sr. Director, Business Transformation (OneSource / GMF PLM)' },

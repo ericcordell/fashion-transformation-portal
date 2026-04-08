@@ -1842,3 +1842,54 @@ DRY RUN complete — no files written.
 [16:08:35]    https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod
 [16:08:35] 
 [16:08:35] 💡 Hard-refresh browser (⌘+Shift+R) to see latest content.
+[20:01:38] 
+┌──────────────────────────────────────────────────────────────┐
+[20:01:38] │  E2E Fashion Portal — Full Refresh    2026-04-07 20:01       │
+[20:01:38] └──────────────────────────────────────────────────────────────┘
+[20:01:38] Portal dir : /Users/e0c0lzr/Downloads/fashion-portal
+[20:01:38] Mode       : LIVE
+[20:01:38] 
+[20:01:38] [1/7] Pull Confluence data
+[20:01:38]   --build-only: skipping Confluence pull
+[20:01:38] [2/7] Detect + apply Program Card changes
+[20:01:38] [3/7] Stamp changelog → April 7, 2026
+[20:01:38] ✅ data-changelog.js updated
+[20:01:38] [4/7] Build portal-inlined.html + portal-final.html
+[20:01:38]   Written portal-inlined.html (431.0 KB)
+[20:01:38]   Written portal-final.html (334.7 KB) — ready for puppy publish
+[20:01:38] ✅ build-inlined.py
+[20:01:38] [5/7] Inject OPIF Field Guide
+[20:01:38]   ✅ Successfully injected OPIF Field Mapping Guide
+[20:01:38]      CSS: 13365 characters
+[20:01:38]      HTML: 19884 characters
+[20:01:38]      Updated: portal-final.html
+[20:01:38] ✅ add-opif-guide.py
+[20:01:38] [6/7] Publish
+[20:01:38]   → TEST (canary preflight)…
+[20:01:42]   📦 Publishing to TEST → e2e-fashion-portal-test
+[20:01:42]      File  : portal-final.html (432 KB)
+[20:01:42]      URL   : https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
+[20:01:42]   
+[20:01:42]     [canary] uploading preflight probe...
+[20:01:42]     [canary] ✅ v77 — pipeline is alive
+[20:01:42]     Uploading 434 KB...  [access: business]
+[20:01:42]     ✅ Published! v78
+[20:01:42]     ✅ Version check passed: canary=v77 → real=v78 (consecutive ✓)
+[20:01:42]   
+[20:01:42]   🔗 https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
+[20:01:42]   💡 To see changes: hard-refresh in browser (⌘+Shift+R on Mac / Ctrl+Shift+R on Win)
+[20:01:42]      Or open in Incognito to bypass any cached session state.
+[20:01:42] ✅ Published TEST
+[20:01:42]   → PROD…
+[20:01:44]   📦 Publishing to PROD → e2e-fashion-portal-prod
+[20:01:44]      File  : portal-final.html (432 KB)
+[20:01:44]      URL   : https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod
+[20:01:44]   
+[20:01:44]     Uploading 434 KB...  [access: public]
+[20:01:44]     ✅ Published! v27
+[20:01:44]   
+[20:01:44]   🔗 https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod
+[20:01:44]   💡 To see changes: hard-refresh in browser (⌘+Shift+R on Mac / Ctrl+Shift+R on Win)
+[20:01:44]      Or open in Incognito to bypass any cached session state.
+[20:01:44] ✅ Published PROD
+[20:01:44] [7/7] Git commit

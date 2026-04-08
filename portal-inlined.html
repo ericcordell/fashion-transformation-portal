@@ -3728,13 +3728,15 @@ const CARDS_STRATEGY = [
   {
     id: 'strategy-hub', title: 'Strategy Hub: Create and Centralize Business Strategy', icon: '\uD83C\uDFDB\uFE0F',
     status: 'green', statusLabel: 'Green \u2014 Initial Requirements',
-    jiraStatus: 'Initial Requirements',
-    quarter: 'Q2', targetDate: 'Oct 31, 2026',
+    jiraStatus: 'Discovery in Progress',
+    quarter: 'Q3', targetDate: 'Oct 31, 2026',
     description: 'Walmart struggles to operationalize strategy at scale because strategic intent is fragmented across PPTs, spreadsheets, and heuristic-driven processes. Strategy Hub (TTP) solves this by creating a connected, data-driven central repository where business strategy is captured once and operationalized downstream.',
     businessBenefit: 'Operationalizes business strategy in downstream systems and increases strategy creation, management, and distribution efficiency. Eliminates redundant strategy sessions and conflicting priorities across workstreams. Single source of truth for seasonal financial targets and category priorities cascaded to all fashion tools.',
     techIntegration: 'Primary OPIF: OPIF-368304 (Strategy Hub: Create and centralize business strategy). Currently in Discovery \u2014 Apr 8 onward: DMM interviews, collecting strategy documents, connecting with data partners, formulating MLP scope, estimating engineering resources. Strategy Hub serves as the upstream data source for AEX, Centric, and BPE/DBP; decisions recorded here propagate downstream without manual re-entry.',
     successMetrics: 'Business strategy captured in a connected system rather than fragmented across PPTs and spreadsheets. All workstreams (Design, Buying, Allocation) reference Strategy Hub as primary source. Zero conflicting financial targets across workstreams in any given season. MLP scope and engineering estimates completed by end of discovery phase.',
     recentUpdate: 'Apr 8, 2026 \u2013 Discovery underway: DMM interviews, collecting strategy documents, connecting with data partners to share needs, formulating MLP scope and experience, estimating engineering resources.',
+    problemStatement: 'Walmart struggles to operationalize strategy at scale because strategic intent is fragmented across PPTs, spreadsheets, and heuristic-driven processes rather than captured in a connected, data-driven system. Strategy inputs are hard to find and synthesize, and decisions are not robustly or measurably documented. As a result, strategic intent does not reliably drive downstream execution across assortment, space, and allocation, preventing automation and requiring ongoing manual intervention.',
+    businessImpact: 'Business Value: Operationalize business strategy in downstream systems/increase strategy creation, management and distribution efficiency\n\n',
     owners: pptOwners('Eric Cordell', 'Ramesh Simhambhatla', 'Charitha Katupitiya', 'Leon Hovanesian', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-368304',
@@ -3753,6 +3755,7 @@ const CARDS_STRATEGY = [
     businessBenefit: 'Clear, pre-approved financial boundaries before assortment and buy decisions begin — reducing mid-season corrections.',
     techIntegration: 'Integrates with AEX for buy quantity guardrails, BPE for inventory plan inputs, and Centric for space-informed line plan constraints.',
     successMetrics: 'Space and financial targets distributed to all workstreams before each seasonal planning cycle. Reduction in mid-season financial reforecasting.',
+    problemStatement: 'Enable AEX to consume forecasts in a form that supports executable planning today while aligning with Assortment Planning\'s service based forecasting architecture.\n\nThe Forecast service provides demand-channel forecasts, but AEX users still plan, buy, and execute at the fulfillment node level.\nWithout fulfillment-channel visibility in AEX:\nBuy quantities will be understated.\nSpace planning will be incorrect.\nExecution teams will compensate manually.\nTrust in AEX outputs will erode.\nDemand-only planning represents a future operating model, but the organization is not yet equipped—technically or behaviorally—to adopt it fully.',
     owners: TBD_OWNERS(), resources: res(), workstreams: ['strategy'],
   },
   {
@@ -3814,6 +3817,7 @@ const CARDS_STRATEGY = [
     businessBenefit: 'Merchants shift from encoding decisions manually to encoding strategy and goals — the system generates and evaluates scenarios. Dramatically reduces planning cycle time and enables what-if evaluation before financial commitment. Connected and shared merch strategy eliminates duplicative strategy sessions across Design, Buying, and Allocation.',
     techIntegration: 'Primary OPIF: OPIF-325206 (Shared Merch Strategy). Related: OPIF-325203 (Shared Item Repository), OPIF-325208 (Design Hub / Centric Integration). Strategy repository connects TTP inputs to AEX line plan generation and Centric conceptual plan. Scenario engine evaluates financial and space implications of strategy choices automatically. PRD: Connected and Shared Merch Strategy (IESP Confluence space).',
     successMetrics: 'Strategy-based conceptual line plans generated automatically for target departments. Scenario generation and selection adopted by merchant planning teams. Manual strategy-to-plan translation steps eliminated. Single shared merch strategy consumed by all workstreams without re-entry.',
+    problemStatement: 'Merchant strategy is currently defined outside of core systems (presentations, spreadsheets, meetings) and manually interpreted by downstream teams. As a result:\nStrategy is not consistently enforced.\nDesign and assortment decisions drift from merchant intent.\nSystems reflect outputs but not intent.\nChanges in strategy cause rework and confusion.\nThere is no system-level mechanism to input, version, and execute merchant strategy across OneSource and Centric.',
     owners: pptOwners('Bill Chiodetti', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Leon Hovanesian', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325206',
@@ -3904,6 +3908,7 @@ const CARDS_DESIGN = [
     businessBenefit: 'Design teams work in one system connected to buying and sourcing — eliminating handoff delays and duplicate data entry between disconnected tools. Deprecates Bamboo Rose and eliminates Miro dependency for assortment visualization. Centric becomes the single source of truth for all product design, specification, and sample management.',
     techIntegration: 'Primary OPIF: OPIF-325208 (Design Hub — Centric Integration). Related: OPIF-347498 (Milestone: Centric capabilities review vs AP Tool vs OneSource — DONE), OPIF-347500 (Milestone: Full verticals and ownership proposal — Backlog), OPIF-325206 (Shared Merch Strategy). Centric PLM is system of record for design. Integration plan covers AEX line plan sync, Supplier One spec distribution, DAM asset linking, and OneSource data feed via shared event layer. PRD: OneSource Design Integration (IESP Confluence space).',
     successMetrics: 'Contract signed and integration plan finalized. All target design teams onboarded to Centric. Bamboo Rose decommissioned. Design-to-buying handoff cycle time reduced. Milestone OPIFs (347498, 347500) both completed and proposals actioned.',
+    problemStatement: 'Merchant, design, and supplier systems operate independently.\nSupplier collaboration is fragmented across multiple platforms.\nNo shared digital thread between product design and sourcing.\n3D assets and digital materials lack a single home or lifecycle context.',
     owners: pptOwners('Tammy Hawkins', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Stephen Wolf', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325208',
@@ -3929,6 +3934,7 @@ const CARDS_DESIGN = [
     businessBenefit: 'Sample review cycles are tracked, time-stamped, and linked to the product record — reducing duplicate sampling, missed fit issues, and approval delays.',
     techIntegration: 'Built within Centric PLM. Fit evaluation data connected to product spec record. Integration with sourcing calendar to enforce sample milestone gates.',
     successMetrics: 'All sample milestones tracked in Centric. Fit evaluation turnaround time reduced. Zero unreviewedsamples reaching production.',
+    problemStatement: 'Walmart requires a shared event calendar and lightweight project management system that synchronizes workflows, timelines, and milestones across MerchOne (merchants), OneSource (sourcing/technical), and SupplierOne (suppliers) in order to ensure all users—internal and external—operate on the same sequence of events and critical business milestones tied to PLM, sourcing, and product readiness.',
     owners: pptOwners('Tammy Hawkins', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Stephen Wolf', ''), resources: res(), workstreams: ['design'],
   },
   {
@@ -4036,6 +4042,7 @@ const CARDS_DESIGN = [
     techIntegration: 'Primary OPIF: OPIF-325208 (Design Hub — Centric Integration). Related: OPIF-347498 (Milestone: Centric Capabilities Review — DONE), OPIF-347500 (Milestone: Full Verticals & Ownership Review). Built natively within Centric PLM. Visual boards pull live product imagery, color, and spec data from Centric records. No separate sync required. Replaces Bamboo Rose and Miro for all in-scope design workflows. PRD: OneSource Design Integration (Confluence IESP).',
     pathToGreen: 'Finalize contracts with Centric by target date to secure required 12-week onboarding lead time. Contract finalization is the critical path item — once signed, pilot launch moves to end of May 2026.',
     successMetrics: 'Bamboo Rose decommissioned. Miro usage for assortment visualization retired by end of pilot. Design review cycle time reduced. Associate adoption > 80% within first season.',
+    problemStatement: 'Merchant, design, and supplier systems operate independently.\nSupplier collaboration is fragmented across multiple platforms.\nNo shared digital thread between product design and sourcing.\n3D assets and digital materials lack a single home or lifecycle context.',
     owners: pptOwners('Tammy Hawkins', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Stephen Wolf', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325208',
@@ -4114,9 +4121,9 @@ const CARDS_BUYING = [
   {
     id: 'auto-item-setup', title: 'Automated Item Setup', icon: '\u2699\uFE0F',
     critical: true,
-    status: 'yellow', statusLabel: 'Yellow \u2014 Ready to Start (P1 \u26a0\ufe0f)',
-    quarter: 'Q2', targetDate: 'April 30, 2026', tag: 'Critical Program',
-    jiraStatus: 'Pending Sizing',
+    status: 'green', statusLabel: 'Green — On Track',
+    quarter: 'Q1', targetDate: 'Apr 30, 2026', tag: 'Critical Program',
+    jiraStatus: 'Work in Progress',
     priority: 'P1',
     techRank: 1,
     recentUpdate: '7-Apr-2026 - Development in progress. Based on discussion additional reporting scope has been added This will require changes in both IIR and Execution. 80-90% of the scope fully defined and meetings setup to finalize rest of the requirements. Meeting with Reesa to finalize the rest of the scope of…',
@@ -4125,6 +4132,8 @@ const CARDS_BUYING = [
     techIntegration: 'Primary OPIF: OPIF-344926 (AEX — Automated Item Set Up — Walkthroughs underway, target April 30 2026). AEX captures assortment intent and triggers automated item setup via integration with ISAM, Supplier One, and item setup systems. IDC handles exceptions through a managed queue. Gen AI enrichment layer processes item data before submission. PRD: Automated Item Set Up for AEX Intents (Confluence APREC).',
     pathToGreen: 'Next Steps: Finalize engineering timelines for Supplier One and ISAM capabilities to resolve remaining merchant pain points.',
     successMetrics: 'Automated item setup rate >90% of eligible items. Merchant time on manual item setup reduced to near zero. PO creation cycle time reduced from days to hours.',
+    problemStatement: 'Today, item setup in the execution workflow requires multiple handoffs between merchants and suppliers. While AEX captures a significant amount of planning and execution data , the item creation process still relies on suppliers to:\n• Review pre-populated information\n• Manually supplement missing data\n• Submit additional attributes required for item creation\n• Await merchant approval for critical fields\nThis results in:\n• Manual rework and back-and-forth communication\n• Delays in item creation and PO readiness\n• Increased risk of data inconsistencies\n• Dependency on merchant approvals to validate supplier-submitted changes\n• Reduced scalability of execution workflows\nIn many cases, many item creation critical data already exists within AEX at the time of bridging. Additionally, because suppliers can modify certain fields during item setup, merchant approval steps are required to confirm critical changes adding further delay and operational overhead.\nThere is also downstream enrichment (such as variant grouping) that is currently either manual or partially automated, despite the necessary inputs already existing within AEX.',
+    businessImpact: 'Business Value: $58,611,600\nBusiness Value Assessment (BVA) — Automate Item Creation in AEX\nMethodology: Reinertsen CD3 + SAFe 4-bucket benefit model (confidence-weighted conservative valuation)\nJira Reference: OPIF-344926\nTarget System: Item360 (system-of-record)\nDate: 2026-03-11\nAssessment Owner: business-value-assessment-23c9e0',
     owners: pptOwners('Brett Reid', 'Chris Graves', 'Abhishek Jannawar', 'Robbie Dutta', 'Mike Dunn'),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-344926',
@@ -4143,11 +4152,13 @@ const CARDS_BUYING = [
   {
     id: 'fashion-fixture-allocation-buying', title: 'Fashion Fixture Allocation (Visual)', icon: '\uD83C\uDFEA',
     status: 'yellow', statusLabel: 'Yellow — At Risk',
-    quarter: 'Q3', targetDate: 'Aug 1, 2026',
+    quarter: 'Q3', targetDate: 'Oct 31, 2026',
+    jiraStatus: 'Initial Requirements',
     description: 'Assisted Fixture Allocation capability enabling merchants to plan product placement across store fixtures with an AI-assisted visual interface — requirements gathering underway. Builds on tagging and affinity graph data as a foundation. PRD in progress. Scope planning note: Corresponding with Dhaarna to determine if this OPIF is anticipated to be worked on in Q1. It\'s a maybe, but will move it to Q2 for now and if capacity allows for it, we can plan it back into Q1. OPIF-325598 Status: PRD In Progress. Related: OPIF-325599 (Category Space Planning) — Status: Backlog, Assignee: Dhaarna Singh.',
     businessBenefit: 'Merchants can visualize and optimize fixture allocation without complex spreadsheets, leading to better product placement decisions and fewer fixture conflicts. AI assistance surfaces recommended assortments per fixture based on tagging and affinity data — reducing manual merchant judgment burden.',
     techIntegration: 'Primary OPIF: OPIF-325598 (Assisted Fixture Allocation and Recommendations — Requirements gathering underway). Related: OPIF-325599 (Category Space Planning & Dynamic In-season Execution — Backlog, Dhaarna Singh), OPIF-325602 (Tagging and Affinity Graph — foundation). Integrates with AEX assortment data for product-to-fixture mapping and with store planogram systems. Builds on tagging taxonomy and affinity graph from tagging pilot. PRD: Confluence APREC space.',
     successMetrics: 'Assisted fixture allocation adopted across target departments. Fixture conflicts reduced. Merchant fixture planning time measurably reduced. AI recommendation acceptance rate tracked and improving.',
+    problemStatement: 'Merchants spend disproportionate time manipulating data instead of curating strategy. Goal is to build system which must actively assist merchants in forming decisions.\n\nCurrent fashion planning systems primarily record merchant decisions after they are made, requiring manual effort, fragmented tools, and significant complex . Merchants spend disproportionate time manipulating data instead of curating strategy. Goal is to build system which must actively assist merchants in forming decisions.',
     owners: pptOwners('Brett Reid', 'Sakshi Datta', 'Dhaarna Singh', 'Minwoo Kim', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325598',
@@ -4172,6 +4183,7 @@ const CARDS_BUYING = [
     businessBenefit: 'Reduces time spent creating near-duplicate items from scratch. AI surfaces the closest existing items from Supplier Catalog, enabling merchants to reuse, modify, or replace rather than rebuild. Auto-population of line plan with potential items eliminates manual search and re-entry.',
     techIntegration: 'Primary OPIF: OPIF-337970 (Auto-populate Line Plan with Potential Items from Supplier Catalog through Item Repository/One Item workflow — Backlog). Related: OPIF-325203 (Shared Item Repository — Initial Requirements, Christopher Chiodo), OPIF-325568 (Move Fashion Line Planning to AP Tool — WIP). AI repository indexes Supplier Catalog and AEX item history. ML similarity scoring surfaces recommended items in AP Tool Assortment List and AEX line plan workflows. PRD: Shared Item Repository (Confluence APREC).',
     successMetrics: 'AI item reuse rate tracked and improving. New item creation time reduced for target merchant groups. Duplicate item rate decreasing quarter over quarter. Line plan auto-population from Supplier Catalog live for target departments.',
+    problemStatement: 'Today, merchants manually compile potential items from multiple systems, emails, and external sources, often re-entering attributes across tools like sourcing, product development, and AEX.',
     owners: pptOwners('Brett Reid', 'Chris Graves', 'Ryan Henderson', 'Robbie Dutta', 'Mike Dunn'),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-337970',
@@ -4192,10 +4204,12 @@ const CARDS_BUYING = [
     id: 'size-pack-bq', title: 'Automated Size/Pack Buy Quantification', icon: '\uD83D\uDCE6',
     status: 'yellow', statusLabel: 'Yellow — At Risk',
     quarter: 'Q4', targetDate: 'Oct 31, 2026',
+    jiraStatus: 'Initial Requirements',
     description: 'Automation of size and pack buy quantification (BQ) calculations — eliminating the manual sizing step currently owned by merchants. Moves size logic into BQ module (calc changes in Flow Plan, removal of manual Size Profile screen in Size & Pack). Configurable minimum initial set qty for core sizes. Pre-generated DS results for all 3 Like Finelines recommended by AEX. Encompasses pack simplification for simpler execution. Requirements gathering underway. Jira: OPIF-325374.',
     businessBenefit: 'Removes the most time-consuming manual calculation in the buying process. Size curves derived from data rather than merchant memory, reducing size-related markdowns. Pack simplification reduces setup complexity in AEX BQ execution. Unified planner experience surfaces BQ and forecast outputs in one view without merchant reconciliation.',
     techIntegration: 'Primary OPIF: OPIF-325374 (Simplification of Pack for Simpler Execution — Requirements gathering). Related: OPIF-325218 (Buy Quantification and Flow as a Service — PRD: Confluence APREC), OPIF-325373 (Unified Planner Experience — PRD: Confluence APREC), OPIF-325221 (Forecast as a Service with Channel and Placement Split). Size/Pack BQ engine integrates with AEX demand signal, historical sell-through by size, and BPE for seasonal demand curve inputs. Discovery completed. PRD: Simplification of Pack (Confluence APREC).',
     successMetrics: 'Automated size/pack BQ in use across target departments by Jul 31. Manual sizing calculation time reduced to near zero. Size-based markdown rate decreasing. Unified planner experience adopted by all target buying teams.',
+    problemStatement: 'Today, AEX produces:\nHighly localized packs by store, size, and color.\nMany unique pack combinations per fineline.\nOne-off packs that are difficult to manufacture at scale.\nThis results in:\nSupplier inefficiency and errors.\nIncreased costs and lead times.\nManual intervention by Global Sourcing.\nReduced confidence in AEX-generated plans.',
     owners: pptOwners('Brett Reid', 'Chris Graves', 'Abhishek Jannawar', 'Robbie Dutta', 'Mike Dunn'),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325374',
@@ -4218,9 +4232,9 @@ const CARDS_BUYING = [
   {
     id: 'ap-tool-lineplan', title: 'AP Tool Line Plan Integration w/ AEX', icon: '\uD83D\uDCC8',
     critical: true,
-    status: 'yellow', statusLabel: 'Yellow — At Risk',
-    quarter: 'Q3', targetDate: 'Aug 1, 2026',
-    jiraStatus: 'On Track',
+    status: 'green', statusLabel: 'Green — On Track',
+    quarter: 'Q2', targetDate: 'Jul 31, 2026',
+    jiraStatus: 'Work in Progress',
     priority: 'P1',
     techRank: 2,
     tag: 'Critical Program',
@@ -4229,6 +4243,7 @@ const CARDS_BUYING = [
     businessBenefit: 'Eliminates the gap between line planning (AP Tool) and buying execution (AEX). Merchants no longer re-enter line plan decisions into AEX manually. Fashion metrics are surfaced correctly in the new AP Assortment List environment. Excel upload capability reused eliminates re-keying of potential items.',
     techIntegration: 'Primary OPIF: OPIF-325568 (Move Fashion Line Planning to AP Tool Assortment List — Green / On Track, Q2 FY27). Related: OPIF-325216 (AEX Fashion: Use AP Plan Creation & Plan List — Initial Requirements), OPIF-325217 (Fashion Metrics Enablement in Assortment List & Downstream Validation), OPIF-325565 (Fashion Re-Use of AP Potential Item Excel Upload — Initial Requirements), OPIF-325569 (Streamline Merchant Supplier Comm Through Collab — related workflow). AP Tool line plan data syncs to AEX via shared integration layer. Fashion Excel Upload enabled via existing Assortment Planning capability. PRD: Transition Plan Creation and Line Planning to Assortment Planning (Confluence APREC).',
     successMetrics: 'AP Tool and AEX sharing live line plan data by Oct 30. Zero manual exports from AP Tool to AEX for in-scope workflows. Fashion metrics and attributes fully enabled in Assortment List. Supplier communication streamlined through Collab.',
+    problemStatement: 'When the AEX Fashion Line Planning experience was originally built, historical LY and LLY selling data was intended to help merchants make informed Pre-Season assortment decisions by reviewing prior performance, determining how many styles and colors to carry under each fineline, adding those to their current Line Plan in the tool, and then editing TY plan metrics (Pre-Season) or adding incremental styles and colors as needed.\n\nIn practice, Fashion merchants rely on enterprise selling history tools such as MerchOne and Scintilla**, outside of AEX Fashion,** to inform high-level assortment breadth, such as how many finelines, styles, and colors they can carry in a season. Those high-level decisions are then shared with Suppliers, Product Development, and Sourcing Partners, and detailed assortment inputs for the season are later provided back to merchants through spreadsheets from Suppliers (primarily National Brands) and internal Product Development and Sourcing partners (primarily Private Label).\n\nMerchants use historical LY and LLY data and/or the “Add Existing” fineline functionality, along with the ability to add styles and colors in AEX Fashion Line Planning, to set up the required fineline, style, and color structure that aligns to these partner inputs and to complete the attributes needed for AEX downstream modules and execution integration, not as the primary source of Pre-Season assortment details.\n\nAs a result, Line Planning today requires significant manual consolidation and re-entry of partner inputs, increasing effort and risk of errors, and limiting the ability of AEX Fashion to serve as an integrated starting point for Pre-Season assortment planning.',
     owners: pptOwners('Brett Reid', 'Ashwin Chidambaram', 'Taylor Watson', 'CJ Weatherford', 'Arun Santhiagu'),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325568',
@@ -4249,12 +4264,14 @@ const CARDS_BUYING = [
   },
   {
     id: 'bam-collab-intent', title: 'BAM / Collab Intent Integration', icon: '\uD83E\uDD1D',
-    status: 'green', statusLabel: 'Green \u2014 On Track',
-    quarter: 'Q3', targetDate: 'Oct 30, 2026',
+    status: 'yellow', statusLabel: 'Yellow — At Risk',
+    quarter: 'Q3', targetDate: 'Oct 31, 2026',
+    jiraStatus: 'Discovery in Progress',
     description: 'Streamline merchant and supplier communication through Collab — integrating Collab as the single system of record for all supplier discussions within AEX, eliminating fragmented email communication. Requirements gathering underway. Jira: OPIF-325569 (Assignee: TBD).',
     businessBenefit: 'Buying decisions reflect collaborative intent data automatically — reducing the lag between collaboration signals and committed buy decisions. Eliminates email-based back-and-forth between merchants and suppliers. All supplier communication traceable and linked to specific assortment decisions.',
     techIntegration: 'Primary OPIF: OPIF-325569 (Streamline Merchant Supplier Communication Through Collab — Requirements gathering). Collab embedded into AEX as single system of record for supplier discussions. BAM and Collab Intent signals integrated into AEX via the shared event layer. Assortment recommendations weighted by collaborative intent scores. PRD: Streamline Merchant Supplier Communication through Collab (Confluence APREC).',
     successMetrics: 'BAM/Collab Intent data live in AEX buying workflow. Zero email-based supplier communication for in-scope workflows. Adoption confirmed across target buying teams by Oct 30. All supplier discussions linked to Jira OPIF or AEX assortment record.',
+    problemStatement: 'Merchant-supplier communication is disconnected from AEX.\nCritical decisions are made via email with no system traceability.\nMerchants re-enter supplier feedback manually.\nIteration cycles are slow and error-prone.\nSupplier acknowledgment is not captured systemically.\nThis undermines trust, speed, and auditability of AEX-generated plans.',
     owners: pptOwners('Brett Reid', 'Chris Graves', 'Ryan Henderson', 'Robbie Dutta', 'Mike Dunn'),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325569',
@@ -4277,6 +4294,7 @@ const CARDS_BUYING = [
     businessBenefit: 'Merchants access a broader, richer set of market and performance signals in one place — improving buying decisions with external market context alongside internal data.',
     techIntegration: 'OneItem data pipeline expanded to ingest ROM, 3P market data feeds, and Circana retail data. Surfaced in AEX item records and assortment planning views.',
     successMetrics: 'ROM, 3P, and Circana sources live in OneItem. Merchant adoption of expanded data sources confirmed. Assortment decision quality (measured by sell-through) trending up.',
+    problemStatement: 'Enable AEX to determine buy quantity and how inventory flows through a rule based, service driven system, so planners focus on validating quantities rather than manually constructing flow strategies. The aim is to...\n\nBuy Quantification, flow planning, and size disaggregation occur in multiple steps/screens; planners see different unit counts and must reconcile manually.\nPlanners iterate across flow scenarios to make totals fit receipts, which can cause under/over-buys.\nSize logic living outside BQ causes rework and confusion when flows are applied.',
     owners: pptOwners('Brett Reid', 'Chris Graves', 'Abhishek Jannawar', 'Robbie Dutta', 'Mike Dunn'), resources: res(), workstreams: ['buying', 'strategy'],
   },
   {
@@ -4321,10 +4339,12 @@ const CARDS_BUYING = [
     id: 'shared-item-repository', title: 'Shared Item Repository (OneItem)', icon: '\uD83D\uDDC4\uFE0F',
     status: 'roadmap', statusLabel: 'Roadmap \u2014 Recommend & Optimize Phase',
     quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
+    jiraStatus: 'Initial Requirements',
     description: 'Unified item repository serving as the single source of truth for Fashion product items across the E2E workflow — connecting AEX, Line Planning, Supplier Catalog, and item creation systems. Requirements gathering underway. Jira: OPIF-325203 (Christopher Chiodo, Initial Requirements). Enables auto-population of line plan with potential items from Supplier Catalog through OneItem. Expanded sources include ROM, 3P data, and Circana retail signals.',
     businessBenefit: 'Eliminates duplicate item creation and conflicting item data across systems. Merchants select from a shared, AI-curated item repository rather than building items from scratch each season. Single item record shared across AEX, Centric, and Supplier One eliminates re-entry.',
     techIntegration: 'Primary OPIF: OPIF-325203 (Shared Item Repository — Initial Requirements, Christopher Chiodo). Related: OPIF-337970 (Auto-populate Line Plan with Potential Items from Supplier Catalog — Backlog), OPIF-325188 (Shared Project Tracking and Event Calendar — Initial Requirements), OPIF-325568 (Move Fashion LP to AP Tool — WIP). Integrates with AEX Assortment List, Supplier One catalog, OneItem workflow, and ISAM for item setup. Auto-populates LP with potential items. Circana, ROM, and 3P data feeds expand intelligence. PRD: Shared Item Repository (Confluence APREC).',
     successMetrics: 'Shared Item Repository live and auto-populating line plans for target departments. Duplicate item creation rate eliminated. Item repository sourcing all ROM, 3P, and Circana signals confirmed.',
+    problemStatement: 'Walmart\'s early-stage product development and evaluation processes are fragmented across multiple systems:\n- PD develops proprietary/private brand concepts in OneSource, where merchants cannot see early work.\n- Designers and PD teams develop concepts in Centric, also without merchant visibility.\n- Merchants operate in AEX or Assortment Planning (AP), lacking visibility into upstream PD/Design intent.\n- Suppliers submit concepts via Supplier One or email, creating parallel "shadow repositories."\nEach tool maintains its own version of "potential items," blocking collaboration, duplicating effort, and preventing downstream services from operating on a single, consistent dataset. This delays merchant decisions, creates redundant concept creation, and prevents SKU-level forecasting until very late in the process.',
     owners: pptOwners('Brett Reid', 'Chris Graves', 'David Nelms', 'Robbie Dutta', 'Mike Dunn'),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325203',
@@ -4368,6 +4388,7 @@ const CARDS_ALLOCATION = [
     businessBenefit: 'Planners work in one environment instead of reconciling multiple competing tools. Forecast changes propagate automatically across BPE, DBP, and downstream systems.',
     techIntegration: 'BPE is unified planning system of record. Integration with AEX ensures buy quantities reflect the latest demand signal. DBP consumes BPE outputs for distribution planning.',
     successMetrics: 'All planning decisions recorded in BPE as single source of truth. Off-system workarounds eliminated. Forecast override propagation reduced from days to hours.',
+    problemStatement: 'There is currently nothing in place to efficiently provide recommendations across store, shop, and item.',
     owners: pptOwners('Brett Reid', 'Chris Graves', 'Abhishek Jannawar', 'Robbie Dutta', 'Mike Dunn'), resources: res(), workstreams: ['allocation'],
   },
   {
@@ -4411,6 +4432,7 @@ const CARDS_ALLOCATION = [
     businessBenefit: 'More product lands in the right store at the right time — reducing markdowns from over-allocation and lost sales from under-allocation.',
     techIntegration: 'DBP optimization layer consumes real-time store inventory, AEX committed buy data, and BPE demand signals for improved allocation recommendations.',
     successMetrics: 'Store-level in-stock rate improves vs. prior season. Over-allocation markdown rate decreases. Allocation accuracy score tracked weekly.',
+    problemStatement: 'Provide merchants and planners with a single, unified planning experience that brings together outputs from the Forecast service and Buy Quantification / Flow services, allowing users to review, understand, and commit plans without navigating multiple disconnected steps.\n\nMerchants and planners lack a single view of the full unit plan.\nDecisions made in one step are difficult to reconcile in another.\nIteration is slow when forecasts or assumptions change.\nTranslating plans into supplier intent and purchase orders is cumbersome.\nHigh cognitive load increases execution risk.\nAs a result, planners spend more time navigating tools than making informed decisions.',
     owners: pptOwners('Veena Swaminathan', 'Sakshi Datta', 'Vivek Mishra', '', ''), resources: res(), workstreams: ['allocation'],
   },
   {
@@ -4450,12 +4472,15 @@ const CARDS_ALLOCATION = [
   },
   {
     id: 'assort-product-phase2', title: 'Assort Product (AP) Phase 2 Enhancements', icon: '\uD83D\uDCCB',
-    status: 'roadmap', statusLabel: 'Roadmap \u2014 Recommend & Optimize Phase',
-    quarter: 'Q2', targetDate: 'May 1, 2026',
+    status: 'yellow', statusLabel: 'Yellow — At Risk',
+    quarter: 'Q2', targetDate: 'Jul 31, 2026',
+    jiraStatus: 'Work in Progress',
     description: 'Phase 2 of AP Tool enhancements — including modular volume groups (MVG), on-demand store volume groups and size curves, assortment optimization engine, and fixture preference workflow improvements. Enables shared event calendar and unified potential items view (OneSource + MINT integration). Connects AP Tool to the enterprise forecast service. Jira update (Feb 10, 2026): 02-10-2026 : Working with Arun on overall timeline. Dev Complete : TBD  Integration Testing : TBD  E2E Testing : TBD Current status: Work in Progress. Assignee: Arun Santhiagu (TPM). Reporter: Taylor Watson. Target completion: 2026-07-31.',
     businessBenefit: 'AP Tool transitions from allocation execution tool to a connected recommendation engine — surfacing AI-driven suggestions for fixture allocation, CC rules, and store clustering based on tagging and demand signals. Shared event calendar eliminates planning milestone re-entry across AP, Centric, and OneSource.',
     techIntegration: 'Primary OPIF: OPIF-336019 (AP Tool Phase 2 Enhancements — Dev underway, target Jul 31 2026, Ashwin Chidambaram). PRD: Phase 2 Enhancements (Confluence OLR space). Related: OPIF-325188 (Shared Project Tracking & Event Calendar — Initial Requirements, Christopher Chiodo), OPIF-325568 (Move Fashion LP to AP Tool — WIP, Ashwin Chidambaram), OPIF-325602 (Tagging and Affinity Graph — foundation). MVG and on-demand volume groups built into AP Tool. Assortment optimization engine consumes tagging, affinity graph, and BQ forecast service. Shared event calendar connects AP, Centric, and OneSource.',
     successMetrics: 'AP Phase 2 features adopted by target merchant groups. CC rule automation live. Assortment optimization engine surfacing recommendations for >80% of assortment decisions. Shared event calendar live across AP, Centric, OneSource. Jul 31 delivery met.',
+    problemStatement: 'The Assortment Planning (AP) Tool was built to manage fixture allocation decisions, but today it operates without the intelligence layer needed to recommend. Merchants manually define CC rules, fixture preferences, and store clusters without AI-driven signals. Modular volume groups (MVGs) are static, size curves require manual on-demand generation, and the assortment optimization engine that should surface data-driven recommendations doesn\'t yet exist. The result: merchants spend significant time on decisions that should be automated, while the tool remains disconnected from tagging, demand signal, and shared event calendar data that would make those decisions smarter and faster.',
+    _aiGenerated: ['problemStatement'],
     owners: pptOwners('Ken Brockland', 'Ashwin Chidambaram', 'Taylor Watson', 'CJ Weatherford', 'Arun Santhiagu'),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-336019',
@@ -4476,10 +4501,12 @@ const CARDS_ALLOCATION = [
   {
     id: 'enterprise-wave-planning', title: 'Enterprise Wave Planning & Allocation', icon: '\uD83C\uDFEA',
     status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
+    jiraStatus: 'Initial Requirements',
     description: 'Enterprise-grade wave planning and distribution execution capabilities — from committed buy through to store distribution and exits. Part of the LLTT Setup phase goal: automate new store PO process and enable dynamic redistribution of confirmed POs as in-season demand signals emerge. Includes Category Space Planning & Dynamic In-season Execution (OPIF-325599). OPIF-325599: Status Backlog, Assignee Dhaarna Singh. OPIF-325598: Status PRD In Progress. Scope note: Corresponding with Dhaarna to determine if this OPIF is anticipated to be worked on in Q1. It\'s a maybe, but will move it to Q2 for now and if capacity allows for it, we can plan .',
     businessBenefit: 'Allocation teams get an automated wave planning tool connected to assortment and buy decisions in AEX and BPE — closing the E2E loop from commit to shelf. Category Space Planning and dynamic in-season execution enable allocation teams to react to real-time signals without manual redistribution.',
     techIntegration: 'Primary OPIF: OPIF-325599 (Category Space Planning & Dynamic In-season Execution — Requirements gathering, Dhaarna Singh). Related: OPIF-325598 (Assisted Fixture Allocation and Recommendations — Requirements gathering, Dhaarna Singh), OPIF-325373 (Unified Planner Experience), OPIF-325218 (BQ and Flow as a Service). DBP consumes finalized buy and assortment data from AEX and BPE to generate wave plans. Integration with store systems and supply chain for automated distribution execution. New Store PO automation included. PRD: Category Space Planning (Confluence APREC).',
     successMetrics: 'Wave plans generated automatically from committed buy data. Distribution executed without manual re-entry into store systems. In-stock rate improvement measurable within first season. Category space planning recommendations live and adopted by target allocation teams.',
+    problemStatement: 'Current tools and processes do not support dynamic space adjustments, making it difficult to respond to inventory shifts, trend changes, or fixture adjustments with timing requiring multiple manual updates across the existing system workflows.\nSpreadsheet-driven, rigid planning weeks by season , relying on fixed modular specs and reset timelines that do not reflect real-time store demand.',
     owners: pptOwners('Veena Swaminathan', 'Sakshi Datta', 'Dhaarna Singh', 'Minwoo Kim', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325599',
@@ -4506,6 +4533,7 @@ const CARDS_ALLOCATION = [
     businessBenefit: 'Fixture assortment driven by data-informed tagging rather than manual merchant judgment — improving product placement relevance and reducing slow-sellers in key fixtures. Affinity graph ensures complementary products are placed together for maximum basket affinity.',
     techIntegration: 'Builds on Q2 Tagging Pilot infrastructure (OPIF-325602 — Tagging and Affinity Graph). Related: OPIF-325598 (Assisted Fixture Allocation and Recommendations — Primary fixture capability), OPIF-325599 (Category Space Planning & Dynamic In-season Execution). Affinity graph and tagging model output integrated into fixture allocation planning workflow in DBP and AP Tool. PRD: Assisted Fixture Allocation (Confluence APREC).',
     successMetrics: 'Tagging-based fixture assortment recommendations live for target categories. Fixture-level sell-through rate improving vs. manually-planned fixtures. Affinity-based product placement co-location tracked and validated.',
+    problemStatement: 'Merchants spend disproportionate time manipulating data instead of curating strategy. Goal is to build system which must actively assist merchants in forming decisions.\n\nCurrent fashion planning systems primarily record merchant decisions after they are made, requiring manual effort, fragmented tools, and significant complex . Merchants spend disproportionate time manipulating data instead of curating strategy. Goal is to build system which must actively assist merchants in forming decisions.',
     owners: pptOwners('Brett Reid', 'Sakshi Datta', 'Dhaarna Singh', 'Minwoo Kim', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325598',
@@ -6893,8 +6921,14 @@ if (document.readyState === 'loading') {
 // ============================================================
 
 const WPR_HOUSEKEEPING = {
-  lastUpdated: 'Apr 7, 2026',
+  lastUpdated: 'Apr 8, 2026',
   items: [
+    {
+      title: 'WPR Moving to Thursdays — Starting Apr 16',
+      body:  'Weekly Program Review shifts to Thursdays at 9:00am CST beginning April 16th.',
+      owner: 'Chris Graves',
+      eta:   'Effective Apr 16',
+    },
     {
       title: 'Fashion Team Meeting / MBR Preparation',
       body:  'Key E2E Leads to align on next leadership review agenda and topics.',
@@ -6902,22 +6936,46 @@ const WPR_HOUSEKEEPING = {
       eta:   'Meeting Apr 9',
     },
     {
-      title: 'Next Season Prep / Shoes Action Plan',
-      body:  'Working to align a go forward improvement action plan for the shoes business.',
-      owner: 'Brett',
-      eta:   'Plan aligned Apr 6 — tracking going forward',
+      title: 'Automated Item Setup (OPIF-344926) — Green ✅',
+      body:  'Development in progress. Additional IIR reporting scope added — 80–90% fully defined. Meetings underway to finalize remaining requirements (ETA Apr 7). Target: Apr 30.',
+      owner: 'Abhishek Jannawar',
+      eta:   'Apr 30, 2026',
+    },
+    {
+      title: 'AP Tool / Line Planning (OPIF-325568) — Green ✅',
+      body:  'Architecture approach decision meeting set for Apr 8 (Ryan Henderson / Satya). LOE being finalized with Ashwin. Target: Jul 31.',
+      owner: 'Taylor Watson',
+      eta:   'Jul 31, 2026',
+    },
+    {
+      title: 'Strategy Hub (OPIF-368304) — Discovery Kick-Off',
+      body:  'Discovery on current process, data, user experience, and initial requirements starting Apr 8. New OPIF filed for this initiative.',
+      owner: 'Charitha Katupitiya',
+      eta:   'Target Oct 31, 2026',
+    },
+    {
+      title: 'BAM / Collab & Intent (OPIF-325569) — Yellow ⚠️',
+      body:  'Status updated to At Risk. Q2 Discovery and Start planned; Q3 targeted for rollout. Requirements gathering in progress.',
+      owner: 'Chris Graves',
+      eta:   'Q2 Discovery · Oct 31, 2026',
+    },
+    {
+      title: 'AP Tool Phase 2 Enhancements (OPIF-336019) — Timelines TBD',
+      body:  'Working with Arun on overall timeline. Dev Complete / Integration Testing / E2E Testing dates all pending. Status moved to At Risk.',
+      owner: 'Taylor Watson',
+      eta:   'Jul 31, 2026',
     },
     {
       title: 'Item Setup Deep Dives / Action Plan',
-      body:  'Identify go forward plan for how to remove friction from Fashion Item Setup processes.',
+      body:  'Identify go-forward plan for removing friction from Fashion Item Setup processes.',
       owner: 'Annie (+ Kyle, Brett)',
-      eta:   'Review go forward plan by Apr 17',
+      eta:   'Review go-forward plan by Apr 17',
     },
     {
-      title: 'Move Weekly Program Review (WPR) to Thursdays',
-      body:  'Starting April 16th at 9:00am CST.',
-      owner: 'Chris Graves',
-      eta:   'Apr 10',
+      title: 'Next Season Prep / Shoes Action Plan',
+      body:  'Working to align a go-forward improvement action plan for the shoes business.',
+      owner: 'Brett',
+      eta:   'Plan aligned Apr 6 — tracking going forward',
     },
   ],
 };
@@ -9224,29 +9282,55 @@ function openModal(cardId, workstream, tool) {
   tagEl.className     = 'tag ' + (card.tag && card.tag.includes('Win') ? 'tag-win' : '');
 
   // --- overview tab ---
-  document.getElementById('tab-overview').innerHTML = `
-    <div class="space-y-5 py-5 px-6">
-      <div>
-        <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">&#128196; Description</p>
-        <p class="text-sm text-gray-700 leading-relaxed">${card.description || '\u2014'}</p>
-      </div>
-      <div class="border-t border-gray-100 pt-4">
-        <p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:#0053e2">&#128188; Business Benefit / Capability</p>
-        <p class="text-sm text-gray-700 leading-relaxed">${card.businessBenefit || 'TBD'}</p>
-      </div>
-      <div class="border-t border-gray-100 pt-4">
-        <p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:#2a8703">&#9881;&#65039; Product / Tech Integration &amp; Execution</p>
-        <p class="text-sm text-gray-700 leading-relaxed">${card.techIntegration || 'TBD'}</p>
-      </div>
-      <div class="border-t border-gray-100 pt-4">
-        <p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:#8a5000">&#127937; How Do We Know We Are Successful?</p>
-        <p class="text-sm text-gray-700 leading-relaxed">${card.successMetrics || 'TBD'}</p>
-      </div>
+  // AI badge — shown when a section was summarised from available OPIF content
+  const _aiOwnerName = (card.owners && card.owners.businessPartner && card.owners.businessPartner[0])
+    ? card.owners.businessPartner[0].name : null;
+  const _aiOwnerEmail = (card.owners && card.owners.businessPartner && card.owners.businessPartner[0])
+    ? card.owners.businessPartner[0].email : null;
+  const _aiContactHtml = _aiOwnerName
+    ? `<a href="mailto:${_aiOwnerEmail}" style="color:#7c3aed;font-weight:700;text-decoration:underline;">${_aiOwnerName}</a>`
+    : 'the program owners';
+  const _aiBadge = `<div style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;
+      padding:5px 11px;border-radius:99px;
+      background:linear-gradient(135deg,#f5f3ff,#ede9fe);
+      border:1px solid #c4b5fd;">
+    <span style="font-size:0.85rem;">&#10024;</span>
+    <span style="font-size:0.67rem;font-weight:600;color:#6d28d9;line-height:1.3;">
+      Powered by AI &mdash; summarised from available OPIF content.
+      Questions? Contact ${_aiContactHtml}.
+    </span>
+  </div>`;
+  const _aiFields = Array.isArray(card._aiGenerated) ? card._aiGenerated : [];
+  const _ai = (field) => _aiFields.includes(field) ? _aiBadge : '';
+
+  // Section renderer — renders text with preserved line breaks
+  const _overviewSection = (icon, label, color, field, fallback) => {
+    const raw = card[field] || '';
+    const text = raw || fallback || '\u2014';
+    const html = text.replace(/\n{2,}/g, '</p><p class="text-sm text-gray-700 leading-relaxed" style="margin-top:8px;">').replace(/\n/g, '<br>');
+    return `<div style="padding:20px 24px;">
+      <p style="font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:0.07em;
+                color:${color};margin:0 0 8px 0;">${icon}&nbsp;&nbsp;${label}</p>
+      <p class="text-sm text-gray-700 leading-relaxed" style="margin:0;white-space:pre-line;">${html}</p>
+      ${_ai(field)}
     </div>`;
+  };
+
+  document.getElementById('tab-overview').innerHTML =
+    '<div style="display:flex;flex-direction:column;">'
+    + _overviewSection('&#127919;', 'Problem Statement', '#7c3aed', 'problemStatement', card.description || null)
+    + '<div style="border-top:1px solid #f1f5f9;"></div>'
+    + _overviewSection('&#128196;', 'Description', '#374151', 'description', null)
+    + '<div style="border-top:1px solid #f1f5f9;"></div>'
+    + _overviewSection('&#128200;', 'Business Impact', '#0053e2', 'businessImpact', card.businessBenefit || null)
+    + '</div>';
 
   // --- status tab ---
-  // Build OPIF status details (no owners here — owners live in Inquiry tab)
-  const opifIds = (card.techIntegration || '').match(/OPIF-\d+/g) || [];
+  // Derive primary OPIF from resources (no longer depends on techIntegration text)
+  const _opifUrl = card.resources && card.resources.opif && card.resources.opif !== '#'
+    ? card.resources.opif : '';
+  const _opifMatch = _opifUrl.match(/OPIF-\d+/);
+  const opifIds = _opifMatch ? [_opifMatch[0]] : [];
   const primaryOpif = opifIds[0] || null;
   const opifBadge = primaryOpif
     ? `<a href="https://jira.walmart.com/browse/${primaryOpif}" target="_blank" rel="noopener"

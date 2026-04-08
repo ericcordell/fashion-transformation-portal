@@ -799,3 +799,137 @@
   color: #6b7280;
   line-height: 1.6;
 }
+
+/* ── Team Updates & Business Initiatives module ───────────── */
+.wpr-team-updates {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+
+.wpr-tu-header {
+  background: #0053e2;
+  padding: 16px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.wpr-tu-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+}
+
+.wpr-tu-title-icon { font-size: 22px; }
+
+.wpr-tu-badges {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.wpr-tu-count {
+  background: rgba(255,255,255,0.2);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.wpr-tu-date {
+  color: rgba(255,255,255,0.7);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.wpr-tu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 16px;
+  padding: 20px 24px;
+  background: #f9fafb;
+}
+
+.wpr-tu-card {
+  background: white;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  border-top: 4px solid #0053e2;
+  padding: 16px 18px 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.wpr-tu-card-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: #0053e2;
+  color: white;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+
+.wpr-tu-card-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.35;
+  margin-bottom: 6px;
+}
+
+.wpr-tu-card-body {
+  font-size: 12.5px;
+  color: #4b5563;
+  line-height: 1.55;
+  flex: 1;
+  margin-bottom: 12px;
+}
+
+.wpr-tu-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-top: 10px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.wpr-tu-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.wpr-tu-chip.owner {
+  background: #eef2ff;
+  color: #0053e2;
+  border: 1px solid #c7d7fb;
+}
+
+.wpr-tu-chip.eta {
+  background: #fffbf0;
+  color: #995213;
+  border: 1px solid #ffc220;
+}

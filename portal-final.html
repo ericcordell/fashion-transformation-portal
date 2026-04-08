@@ -3966,6 +3966,123 @@ font-size: 14px;
 color: #6b7280;
 line-height: 1.6;
 }
+.wpr-team-updates {
+background: white;
+border-radius: 12px;
+border: 1px solid #e5e7eb;
+box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+margin-bottom: 24px;
+overflow: hidden;
+}
+.wpr-tu-header {
+background: #0053e2;
+padding: 16px 28px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 12px;
+}
+.wpr-tu-title {
+display: flex;
+align-items: center;
+gap: 10px;
+font-size: 18px;
+font-weight: 700;
+color: white;
+}
+.wpr-tu-title-icon { font-size: 22px; }
+.wpr-tu-badges {
+display: flex;
+align-items: center;
+gap: 10px;
+flex-shrink: 0;
+}
+.wpr-tu-count {
+background: rgba(255,255,255,0.2);
+color: white;
+padding: 4px 12px;
+border-radius: 12px;
+font-size: 12px;
+font-weight: 700;
+}
+.wpr-tu-date {
+color: rgba(255,255,255,0.7);
+font-size: 12px;
+font-weight: 400;
+}
+.wpr-tu-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+gap: 16px;
+padding: 20px 24px;
+background: #f9fafb;
+}
+.wpr-tu-card {
+background: white;
+border-radius: 10px;
+border: 1px solid #e5e7eb;
+border-top: 4px solid #0053e2;
+padding: 16px 18px 14px;
+box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+display: flex;
+flex-direction: column;
+gap: 0;
+}
+.wpr-tu-card-num {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+width: 22px;
+height: 22px;
+background: #0053e2;
+color: white;
+border-radius: 50%;
+font-size: 11px;
+font-weight: 700;
+margin-bottom: 8px;
+flex-shrink: 0;
+}
+.wpr-tu-card-title {
+font-size: 13.5px;
+font-weight: 700;
+color: #111827;
+line-height: 1.35;
+margin-bottom: 6px;
+}
+.wpr-tu-card-body {
+font-size: 12.5px;
+color: #4b5563;
+line-height: 1.55;
+flex: 1;
+margin-bottom: 12px;
+}
+.wpr-tu-meta {
+display: flex;
+flex-wrap: wrap;
+gap: 6px;
+padding-top: 10px;
+border-top: 1px solid #f3f4f6;
+}
+.wpr-tu-chip {
+display: inline-flex;
+align-items: center;
+gap: 4px;
+padding: 3px 9px;
+border-radius: 20px;
+font-size: 11px;
+font-weight: 700;
+white-space: nowrap;
+}
+.wpr-tu-chip.owner {
+background: #eef2ff;
+color: #0053e2;
+border: 1px solid #c7d7fb;
+}
+.wpr-tu-chip.eta {
+background: #fffbf0;
+color: #995213;
+border: 1px solid #ffc220;
+}
 
 /* ========== OPIF Field Mapping Guide Styles ========== */
 /* opif-guide-styles.css */
@@ -7998,15 +8115,13 @@ contentDiv.innerHTML=html;}
 function getCardOPIFs(card){const opifs=[];const otherLinks=[];if(!card.resources)return{opifs,otherLinks};if(card.resources.opif&&card.resources.opif!=='#'&&card.resources.opif.includes('OPIF-')){const match=card.resources.opif.match(/OPIF-\d+/);if(match){opifs.push({id:match[0],url:card.resources.opif,isPrimary:true});}}
 if(card.resources.other&&Array.isArray(card.resources.other)){card.resources.other.forEach(item=>{if(!item.url)return;if(item.url.includes('OPIF-')){const match=item.url.match(/OPIF-\d+/);if(match&&!opifs.some(o=>o.id===match[0])){opifs.push({id:match[0],url:item.url,label:item.label||match[0],isPrimary:false});}}else{otherLinks.push({label:item.label||'Reference',url:item.url});}});}
 return{opifs,otherLinks};}
-function renderWPRHousekeeping(){const hk=(typeof WPR_HOUSEKEEPING!=='undefined')?WPR_HOUSEKEEPING:null;if(!hk||!hk.items||hk.items.length===0)return'';const rows=hk.items.map((item,i)=>`
-    <li style="margin-bottom:10px;padding-bottom:10px;${i < hk.items.length - 1 ? 'border-bottom:1px solid #dde5f7;' : ''}"><span style="font-weight:700;color:#1a1a2e;">${item.title}</span><span style="color:#444;font-size:0.92rem;"> &mdash; ${item.body}</span><span style="display:block;margin-top:3px;font-size:0.78rem;"
-            ><span style="color:#0053e2;font-weight:600;">Owner:</span><span style="color:#333;"> ${item.owner}</span>
-            &nbsp;&nbsp;
-            <span style="color:#0053e2;font-weight:600;">ETA:</span><span style="color:#333;"> ${item.eta}</span></span></li>`).join('');return`
-    <div style="background:#f0f4ff;border-left:4px solid #0053e2;border-radius:8px;
-                padding:16px 22px 12px;margin-bottom:22px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;"><span style="font-weight:700;font-size:0.97rem;color:#0053e2;">&#x1F4CB; Housekeeping &amp; Program Updates</span><span style="font-size:0.75rem;color:#666;font-weight:400;">Updated ${hk.lastUpdated}</span></div><ul style="margin:0;padding-left:18px;list-style:disc;">
-        ${rows}
-      </ul></div>`;}
+function renderWPRHousekeeping(){const hk=(typeof WPR_HOUSEKEEPING!=='undefined')?WPR_HOUSEKEEPING:null;if(!hk||!hk.items||hk.items.length===0)return'';const cards=hk.items.map((item,i)=>`
+    <div class="wpr-tu-card"><div class="wpr-tu-card-num">${i + 1}</div><div class="wpr-tu-card-title">${item.title}</div><div class="wpr-tu-card-body">${item.body}</div><div class="wpr-tu-meta"><span class="wpr-tu-chip owner">&#x1F464; ${item.owner}</span><span class="wpr-tu-chip eta">&#x1F4C5; ${item.eta}</span></div></div>`).join('');return`
+    <div class="wpr-team-updates"><div class="wpr-tu-header"><div class="wpr-tu-title"><span class="wpr-tu-title-icon">&#x1F4CB;</span>
+          Team Updates &amp; Business Initiatives
+        </div><div class="wpr-tu-badges"><span class="wpr-tu-count">${hk.items.length} items</span><span class="wpr-tu-date">Updated ${hk.lastUpdated}</span></div></div><div class="wpr-tu-grid">
+        ${cards}
+      </div></div>`;}
 function toggleWPRRow(cardId){const mainRow=document.querySelector(`tr[data-card-id="${cardId}"]`);if(!mainRow)return;const existingExpandRow=mainRow.nextElementSibling;const isAlreadyOpen=existingExpandRow&&existingExpandRow.classList.contains('wpr-expand-row');document.querySelectorAll('.wpr-expand-row').forEach(row=>row.remove());document.querySelectorAll('.wpr-row-expanded').forEach(row=>row.classList.remove('wpr-row-expanded'));if(isAlreadyOpen)return;const card=window.PILLARS.flatMap(p=>p.cards||[]).find(c=>c.id===cardId);if(!card)return;const{opifs,otherLinks}=getCardOPIFs(card);const colspan=mainRow.cells.length;const expandRow=document.createElement('tr');expandRow.className='wpr-expand-row';let expandContent='';if(opifs.length===0&&otherLinks.length===0){expandContent='<div class="wpr-expand-content"><div class="wpr-no-opifs">📋 No OPIFs directly mapped to this program</div></div>';}else{let allLinksHTML='';if(opifs.length>0){allLinksHTML+=opifs.map(opif=>{const badge=opif.isPrimary?'<span class="wpr-opif-primary-badge">Primary</span>':'';return`<a href="${opif.url}" target="_blank" class="wpr-opif-link" onclick="event.stopPropagation()"><span class="wpr-opif-icon">🔗</span><span class="wpr-opif-id">${opif.id}</span>
             ${badge}
           </a>`;}).join('');}

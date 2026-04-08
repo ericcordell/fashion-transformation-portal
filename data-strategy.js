@@ -7,13 +7,15 @@ const CARDS_STRATEGY = [
   {
     id: 'strategy-hub', title: 'Strategy Hub: Create and Centralize Business Strategy', icon: '\uD83C\uDFDB\uFE0F',
     status: 'green', statusLabel: 'Green \u2014 Initial Requirements',
-    jiraStatus: 'Initial Requirements',
-    quarter: 'Q2', targetDate: 'Oct 31, 2026',
+    jiraStatus: 'Discovery in Progress',
+    quarter: 'Q3', targetDate: 'Oct 31, 2026',
     description: 'Walmart struggles to operationalize strategy at scale because strategic intent is fragmented across PPTs, spreadsheets, and heuristic-driven processes. Strategy Hub (TTP) solves this by creating a connected, data-driven central repository where business strategy is captured once and operationalized downstream.',
     businessBenefit: 'Operationalizes business strategy in downstream systems and increases strategy creation, management, and distribution efficiency. Eliminates redundant strategy sessions and conflicting priorities across workstreams. Single source of truth for seasonal financial targets and category priorities cascaded to all fashion tools.',
     techIntegration: 'Primary OPIF: OPIF-368304 (Strategy Hub: Create and centralize business strategy). Currently in Discovery \u2014 Apr 8 onward: DMM interviews, collecting strategy documents, connecting with data partners, formulating MLP scope, estimating engineering resources. Strategy Hub serves as the upstream data source for AEX, Centric, and BPE/DBP; decisions recorded here propagate downstream without manual re-entry.',
     successMetrics: 'Business strategy captured in a connected system rather than fragmented across PPTs and spreadsheets. All workstreams (Design, Buying, Allocation) reference Strategy Hub as primary source. Zero conflicting financial targets across workstreams in any given season. MLP scope and engineering estimates completed by end of discovery phase.',
     recentUpdate: 'Apr 8, 2026 \u2013 Discovery underway: DMM interviews, collecting strategy documents, connecting with data partners to share needs, formulating MLP scope and experience, estimating engineering resources.',
+    problemStatement: 'Walmart struggles to operationalize strategy at scale because strategic intent is fragmented across PPTs, spreadsheets, and heuristic-driven processes rather than captured in a connected, data-driven system. Strategy inputs are hard to find and synthesize, and decisions are not robustly or measurably documented. As a result, strategic intent does not reliably drive downstream execution across assortment, space, and allocation, preventing automation and requiring ongoing manual intervention.',
+    businessImpact: 'Business Value: Operationalize business strategy in downstream systems/increase strategy creation, management and distribution efficiency\n\n',
     owners: pptOwners('Eric Cordell', 'Ramesh Simhambhatla', 'Charitha Katupitiya', 'Leon Hovanesian', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-368304',
@@ -32,6 +34,7 @@ const CARDS_STRATEGY = [
     businessBenefit: 'Clear, pre-approved financial boundaries before assortment and buy decisions begin — reducing mid-season corrections.',
     techIntegration: 'Integrates with AEX for buy quantity guardrails, BPE for inventory plan inputs, and Centric for space-informed line plan constraints.',
     successMetrics: 'Space and financial targets distributed to all workstreams before each seasonal planning cycle. Reduction in mid-season financial reforecasting.',
+    problemStatement: 'Enable AEX to consume forecasts in a form that supports executable planning today while aligning with Assortment Planning\'s service based forecasting architecture.\n\nThe Forecast service provides demand-channel forecasts, but AEX users still plan, buy, and execute at the fulfillment node level.\nWithout fulfillment-channel visibility in AEX:\nBuy quantities will be understated.\nSpace planning will be incorrect.\nExecution teams will compensate manually.\nTrust in AEX outputs will erode.\nDemand-only planning represents a future operating model, but the organization is not yet equipped—technically or behaviorally—to adopt it fully.',
     owners: TBD_OWNERS(), resources: res(), workstreams: ['strategy'],
   },
   {
@@ -93,6 +96,7 @@ const CARDS_STRATEGY = [
     businessBenefit: 'Merchants shift from encoding decisions manually to encoding strategy and goals — the system generates and evaluates scenarios. Dramatically reduces planning cycle time and enables what-if evaluation before financial commitment. Connected and shared merch strategy eliminates duplicative strategy sessions across Design, Buying, and Allocation.',
     techIntegration: 'Primary OPIF: OPIF-325206 (Shared Merch Strategy). Related: OPIF-325203 (Shared Item Repository), OPIF-325208 (Design Hub / Centric Integration). Strategy repository connects TTP inputs to AEX line plan generation and Centric conceptual plan. Scenario engine evaluates financial and space implications of strategy choices automatically. PRD: Connected and Shared Merch Strategy (IESP Confluence space).',
     successMetrics: 'Strategy-based conceptual line plans generated automatically for target departments. Scenario generation and selection adopted by merchant planning teams. Manual strategy-to-plan translation steps eliminated. Single shared merch strategy consumed by all workstreams without re-entry.',
+    problemStatement: 'Merchant strategy is currently defined outside of core systems (presentations, spreadsheets, meetings) and manually interpreted by downstream teams. As a result:\nStrategy is not consistently enforced.\nDesign and assortment decisions drift from merchant intent.\nSystems reflect outputs but not intent.\nChanges in strategy cause rework and confusion.\nThere is no system-level mechanism to input, version, and execute merchant strategy across OneSource and Centric.',
     owners: pptOwners('Bill Chiodetti', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Leon Hovanesian', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325206',

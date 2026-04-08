@@ -362,29 +362,55 @@ function openModal(cardId, workstream, tool) {
   tagEl.className     = 'tag ' + (card.tag && card.tag.includes('Win') ? 'tag-win' : '');
 
   // --- overview tab ---
-  document.getElementById('tab-overview').innerHTML = `
-    <div class="space-y-5 py-5 px-6">
-      <div>
-        <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">&#128196; Description</p>
-        <p class="text-sm text-gray-700 leading-relaxed">${card.description || '\u2014'}</p>
-      </div>
-      <div class="border-t border-gray-100 pt-4">
-        <p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:#0053e2">&#128188; Business Benefit / Capability</p>
-        <p class="text-sm text-gray-700 leading-relaxed">${card.businessBenefit || 'TBD'}</p>
-      </div>
-      <div class="border-t border-gray-100 pt-4">
-        <p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:#2a8703">&#9881;&#65039; Product / Tech Integration &amp; Execution</p>
-        <p class="text-sm text-gray-700 leading-relaxed">${card.techIntegration || 'TBD'}</p>
-      </div>
-      <div class="border-t border-gray-100 pt-4">
-        <p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:#8a5000">&#127937; How Do We Know We Are Successful?</p>
-        <p class="text-sm text-gray-700 leading-relaxed">${card.successMetrics || 'TBD'}</p>
-      </div>
+  // AI badge — shown when a section was summarised from available OPIF content
+  const _aiOwnerName = (card.owners && card.owners.businessPartner && card.owners.businessPartner[0])
+    ? card.owners.businessPartner[0].name : null;
+  const _aiOwnerEmail = (card.owners && card.owners.businessPartner && card.owners.businessPartner[0])
+    ? card.owners.businessPartner[0].email : null;
+  const _aiContactHtml = _aiOwnerName
+    ? `<a href="mailto:${_aiOwnerEmail}" style="color:#7c3aed;font-weight:700;text-decoration:underline;">${_aiOwnerName}</a>`
+    : 'the program owners';
+  const _aiBadge = `<div style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;
+      padding:5px 11px;border-radius:99px;
+      background:linear-gradient(135deg,#f5f3ff,#ede9fe);
+      border:1px solid #c4b5fd;">
+    <span style="font-size:0.85rem;">&#10024;</span>
+    <span style="font-size:0.67rem;font-weight:600;color:#6d28d9;line-height:1.3;">
+      Powered by AI &mdash; summarised from available OPIF content.
+      Questions? Contact ${_aiContactHtml}.
+    </span>
+  </div>`;
+  const _aiFields = Array.isArray(card._aiGenerated) ? card._aiGenerated : [];
+  const _ai = (field) => _aiFields.includes(field) ? _aiBadge : '';
+
+  // Section renderer — renders text with preserved line breaks
+  const _overviewSection = (icon, label, color, field, fallback) => {
+    const raw = card[field] || '';
+    const text = raw || fallback || '\u2014';
+    const html = text.replace(/\n{2,}/g, '</p><p class="text-sm text-gray-700 leading-relaxed" style="margin-top:8px;">').replace(/\n/g, '<br>');
+    return `<div style="padding:20px 24px;">
+      <p style="font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:0.07em;
+                color:${color};margin:0 0 8px 0;">${icon}&nbsp;&nbsp;${label}</p>
+      <p class="text-sm text-gray-700 leading-relaxed" style="margin:0;white-space:pre-line;">${html}</p>
+      ${_ai(field)}
     </div>`;
+  };
+
+  document.getElementById('tab-overview').innerHTML =
+    '<div style="display:flex;flex-direction:column;">'
+    + _overviewSection('&#127919;', 'Problem Statement', '#7c3aed', 'problemStatement', card.description || null)
+    + '<div style="border-top:1px solid #f1f5f9;"></div>'
+    + _overviewSection('&#128196;', 'Description', '#374151', 'description', null)
+    + '<div style="border-top:1px solid #f1f5f9;"></div>'
+    + _overviewSection('&#128200;', 'Business Impact', '#0053e2', 'businessImpact', card.businessBenefit || null)
+    + '</div>';
 
   // --- status tab ---
-  // Build OPIF status details (no owners here — owners live in Inquiry tab)
-  const opifIds = (card.techIntegration || '').match(/OPIF-\d+/g) || [];
+  // Derive primary OPIF from resources (no longer depends on techIntegration text)
+  const _opifUrl = card.resources && card.resources.opif && card.resources.opif !== '#'
+    ? card.resources.opif : '';
+  const _opifMatch = _opifUrl.match(/OPIF-\d+/);
+  const opifIds = _opifMatch ? [_opifMatch[0]] : [];
   const primaryOpif = opifIds[0] || null;
   const opifBadge = primaryOpif
     ? `<a href="https://jira.walmart.com/browse/${primaryOpif}" target="_blank" rel="noopener"

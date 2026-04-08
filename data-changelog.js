@@ -4,12 +4,38 @@
  * Format per entry: { date, field, from, to }
  * DO NOT EDIT MANUALLY — this file is overwritten on every sync run.
  *
- * Last sync: April 7, 2026
+ * Last sync: April 8, 2026
  */
-const LAST_SYNC_DATE = 'April 7, 2026';
+const LAST_SYNC_DATE = 'April 8, 2026';
 
 const CARD_CHANGELOG = {
+  'auto-item-setup': [
+    {
+      date: '2026-04-08',
+      field: 'status',
+      from: 'yellow',
+      to: 'green',
+      fromLabel: 'Yellow \u2014 Ready to Start (P1)',
+      toLabel: 'Green \u2014 On Track',
+      note: 'OPIF-344926 confirmed Green as of Apr 7. Development in progress. Additional IIR reporting scope added — 80\u201390% defined. Quarter updated Q2\u2192Q1.',
+    },
+    {
+      date: '2026-03-23',
+      field: 'status',
+      from: 'yellow',
+      to: 'yellow',
+      fromLabel: 'Yellow \u2014 Pending Sizing',
+      toLabel: 'Yellow \u2014 Ready to Start (P1 \u26a0\ufe0f)',
+    },
+  ],
   'ap-tool-lineplan': [
+    {
+      date: '2026-04-08',
+      field: 'targetDate',
+      from: 'Aug 1, 2026',
+      to: 'Jul 31, 2026',
+      note: 'OPIF-325568 target updated to Jul 31. Quarter confirmed Q2FY27. Architecture meeting Apr 8 (Ryan/Satya).',
+    },
     {
       date: '2026-03-25',
       field: 'status',
@@ -17,7 +43,47 @@ const CARD_CHANGELOG = {
       to: 'green',
       fromLabel: 'Yellow \u2014 Work in Progress',
       toLabel: 'Green \u2014 On Track',
-      note: 'OPIF-325568 updated to Green. Scope confirmed following Mar 16 spike completion. Development actively underway. Assignee: Ashwin Chidambaram.',
+      note: 'OPIF-325568 updated to Green. Scope confirmed following Mar 16 spike completion.',
+    },
+  ],
+  'bam-collab-intent': [
+    {
+      date: '2026-04-08',
+      field: 'status',
+      from: 'green',
+      to: 'yellow',
+      fromLabel: 'Green \u2014 On Track',
+      toLabel: 'Yellow \u2014 At Risk',
+      note: 'OPIF-325569 updated to Yellow. Q2 Discovery start, Q3 Rollout. Target date corrected to Oct 31.',
+    },
+  ],
+  'assort-product-phase2': [
+    {
+      date: '2026-04-08',
+      field: 'status',
+      from: 'roadmap',
+      to: 'yellow',
+      fromLabel: 'Roadmap \u2014 Recommend & Optimize Phase',
+      toLabel: 'Yellow \u2014 At Risk',
+      note: 'OPIF-336019 Dev underway but timelines TBD. Target date updated May 1\u2192Jul 31. Working with Arun Santhiagu on overall plan.',
+    },
+  ],
+  'strategy-hub': [
+    {
+      date: '2026-04-08',
+      field: 'quarter',
+      from: 'Q2',
+      to: 'Q3',
+      note: 'OPIF-368304 newly filed. Discovery kick-off Apr 8. Quarter corrected to Q3FY27.',
+    },
+  ],
+  'fashion-fixture-allocation-buying': [
+    {
+      date: '2026-04-08',
+      field: 'targetDate',
+      from: 'Aug 1, 2026',
+      to: 'Oct 31, 2026',
+      note: 'OPIF-325598 target updated — requirements gathering underway, target extended to Oct 31.',
     },
   ],
   'forecast-enterprise-service': [
@@ -38,16 +104,6 @@ const CARD_CHANGELOG = {
       to: 'yellow',
       fromLabel: 'Roadmap \u2014 Recommend & Optimize Phase',
       toLabel: 'Yellow \u2014 Ready for Walkthrough',
-    },
-  ],
-  'auto-item-setup': [
-    {
-      date: '2026-03-23',
-      field: 'status',
-      from: 'yellow',
-      to: 'yellow',
-      fromLabel: 'Yellow \u2014 Pending Sizing',
-      toLabel: 'Yellow \u2014 Ready to Start (P1 \u26a0\ufe0f)',
     },
   ],
   'design-hub-centric': [

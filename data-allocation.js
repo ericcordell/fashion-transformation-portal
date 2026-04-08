@@ -11,6 +11,7 @@ const CARDS_ALLOCATION = [
     businessBenefit: 'Planners work in one environment instead of reconciling multiple competing tools. Forecast changes propagate automatically across BPE, DBP, and downstream systems.',
     techIntegration: 'BPE is unified planning system of record. Integration with AEX ensures buy quantities reflect the latest demand signal. DBP consumes BPE outputs for distribution planning.',
     successMetrics: 'All planning decisions recorded in BPE as single source of truth. Off-system workarounds eliminated. Forecast override propagation reduced from days to hours.',
+    problemStatement: 'There is currently nothing in place to efficiently provide recommendations across store, shop, and item.',
     owners: pptOwners('Brett Reid', 'Chris Graves', 'Abhishek Jannawar', 'Robbie Dutta', 'Mike Dunn'), resources: res(), workstreams: ['allocation'],
   },
   {
@@ -54,6 +55,7 @@ const CARDS_ALLOCATION = [
     businessBenefit: 'More product lands in the right store at the right time — reducing markdowns from over-allocation and lost sales from under-allocation.',
     techIntegration: 'DBP optimization layer consumes real-time store inventory, AEX committed buy data, and BPE demand signals for improved allocation recommendations.',
     successMetrics: 'Store-level in-stock rate improves vs. prior season. Over-allocation markdown rate decreases. Allocation accuracy score tracked weekly.',
+    problemStatement: 'Provide merchants and planners with a single, unified planning experience that brings together outputs from the Forecast service and Buy Quantification / Flow services, allowing users to review, understand, and commit plans without navigating multiple disconnected steps.\n\nMerchants and planners lack a single view of the full unit plan.\nDecisions made in one step are difficult to reconcile in another.\nIteration is slow when forecasts or assumptions change.\nTranslating plans into supplier intent and purchase orders is cumbersome.\nHigh cognitive load increases execution risk.\nAs a result, planners spend more time navigating tools than making informed decisions.',
     owners: pptOwners('Veena Swaminathan', 'Sakshi Datta', 'Vivek Mishra', '', ''), resources: res(), workstreams: ['allocation'],
   },
   {
@@ -93,12 +95,15 @@ const CARDS_ALLOCATION = [
   },
   {
     id: 'assort-product-phase2', title: 'Assort Product (AP) Phase 2 Enhancements', icon: '\uD83D\uDCCB',
-    status: 'roadmap', statusLabel: 'Roadmap \u2014 Recommend & Optimize Phase',
-    quarter: 'Q2', targetDate: 'May 1, 2026',
+    status: 'yellow', statusLabel: 'Yellow — At Risk',
+    quarter: 'Q2', targetDate: 'Jul 31, 2026',
+    jiraStatus: 'Work in Progress',
     description: 'Phase 2 of AP Tool enhancements — including modular volume groups (MVG), on-demand store volume groups and size curves, assortment optimization engine, and fixture preference workflow improvements. Enables shared event calendar and unified potential items view (OneSource + MINT integration). Connects AP Tool to the enterprise forecast service. Jira update (Feb 10, 2026): 02-10-2026 : Working with Arun on overall timeline. Dev Complete : TBD  Integration Testing : TBD  E2E Testing : TBD Current status: Work in Progress. Assignee: Arun Santhiagu (TPM). Reporter: Taylor Watson. Target completion: 2026-07-31.',
     businessBenefit: 'AP Tool transitions from allocation execution tool to a connected recommendation engine — surfacing AI-driven suggestions for fixture allocation, CC rules, and store clustering based on tagging and demand signals. Shared event calendar eliminates planning milestone re-entry across AP, Centric, and OneSource.',
     techIntegration: 'Primary OPIF: OPIF-336019 (AP Tool Phase 2 Enhancements — Dev underway, target Jul 31 2026, Ashwin Chidambaram). PRD: Phase 2 Enhancements (Confluence OLR space). Related: OPIF-325188 (Shared Project Tracking & Event Calendar — Initial Requirements, Christopher Chiodo), OPIF-325568 (Move Fashion LP to AP Tool — WIP, Ashwin Chidambaram), OPIF-325602 (Tagging and Affinity Graph — foundation). MVG and on-demand volume groups built into AP Tool. Assortment optimization engine consumes tagging, affinity graph, and BQ forecast service. Shared event calendar connects AP, Centric, and OneSource.',
     successMetrics: 'AP Phase 2 features adopted by target merchant groups. CC rule automation live. Assortment optimization engine surfacing recommendations for >80% of assortment decisions. Shared event calendar live across AP, Centric, OneSource. Jul 31 delivery met.',
+    problemStatement: 'The Assortment Planning (AP) Tool was built to manage fixture allocation decisions, but today it operates without the intelligence layer needed to recommend. Merchants manually define CC rules, fixture preferences, and store clusters without AI-driven signals. Modular volume groups (MVGs) are static, size curves require manual on-demand generation, and the assortment optimization engine that should surface data-driven recommendations doesn\'t yet exist. The result: merchants spend significant time on decisions that should be automated, while the tool remains disconnected from tagging, demand signal, and shared event calendar data that would make those decisions smarter and faster.',
+    _aiGenerated: ['problemStatement'],
     owners: pptOwners('Ken Brockland', 'Ashwin Chidambaram', 'Taylor Watson', 'CJ Weatherford', 'Arun Santhiagu'),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-336019',
@@ -119,10 +124,12 @@ const CARDS_ALLOCATION = [
   {
     id: 'enterprise-wave-planning', title: 'Enterprise Wave Planning & Allocation', icon: '\uD83C\uDFEA',
     status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
+    jiraStatus: 'Initial Requirements',
     description: 'Enterprise-grade wave planning and distribution execution capabilities — from committed buy through to store distribution and exits. Part of the LLTT Setup phase goal: automate new store PO process and enable dynamic redistribution of confirmed POs as in-season demand signals emerge. Includes Category Space Planning & Dynamic In-season Execution (OPIF-325599). OPIF-325599: Status Backlog, Assignee Dhaarna Singh. OPIF-325598: Status PRD In Progress. Scope note: Corresponding with Dhaarna to determine if this OPIF is anticipated to be worked on in Q1. It\'s a maybe, but will move it to Q2 for now and if capacity allows for it, we can plan .',
     businessBenefit: 'Allocation teams get an automated wave planning tool connected to assortment and buy decisions in AEX and BPE — closing the E2E loop from commit to shelf. Category Space Planning and dynamic in-season execution enable allocation teams to react to real-time signals without manual redistribution.',
     techIntegration: 'Primary OPIF: OPIF-325599 (Category Space Planning & Dynamic In-season Execution — Requirements gathering, Dhaarna Singh). Related: OPIF-325598 (Assisted Fixture Allocation and Recommendations — Requirements gathering, Dhaarna Singh), OPIF-325373 (Unified Planner Experience), OPIF-325218 (BQ and Flow as a Service). DBP consumes finalized buy and assortment data from AEX and BPE to generate wave plans. Integration with store systems and supply chain for automated distribution execution. New Store PO automation included. PRD: Category Space Planning (Confluence APREC).',
     successMetrics: 'Wave plans generated automatically from committed buy data. Distribution executed without manual re-entry into store systems. In-stock rate improvement measurable within first season. Category space planning recommendations live and adopted by target allocation teams.',
+    problemStatement: 'Current tools and processes do not support dynamic space adjustments, making it difficult to respond to inventory shifts, trend changes, or fixture adjustments with timing requiring multiple manual updates across the existing system workflows.\nSpreadsheet-driven, rigid planning weeks by season , relying on fixed modular specs and reset timelines that do not reflect real-time store demand.',
     owners: pptOwners('Veena Swaminathan', 'Sakshi Datta', 'Dhaarna Singh', 'Minwoo Kim', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325599',
@@ -149,6 +156,7 @@ const CARDS_ALLOCATION = [
     businessBenefit: 'Fixture assortment driven by data-informed tagging rather than manual merchant judgment — improving product placement relevance and reducing slow-sellers in key fixtures. Affinity graph ensures complementary products are placed together for maximum basket affinity.',
     techIntegration: 'Builds on Q2 Tagging Pilot infrastructure (OPIF-325602 — Tagging and Affinity Graph). Related: OPIF-325598 (Assisted Fixture Allocation and Recommendations — Primary fixture capability), OPIF-325599 (Category Space Planning & Dynamic In-season Execution). Affinity graph and tagging model output integrated into fixture allocation planning workflow in DBP and AP Tool. PRD: Assisted Fixture Allocation (Confluence APREC).',
     successMetrics: 'Tagging-based fixture assortment recommendations live for target categories. Fixture-level sell-through rate improving vs. manually-planned fixtures. Affinity-based product placement co-location tracked and validated.',
+    problemStatement: 'Merchants spend disproportionate time manipulating data instead of curating strategy. Goal is to build system which must actively assist merchants in forming decisions.\n\nCurrent fashion planning systems primarily record merchant decisions after they are made, requiring manual effort, fragmented tools, and significant complex . Merchants spend disproportionate time manipulating data instead of curating strategy. Goal is to build system which must actively assist merchants in forming decisions.',
     owners: pptOwners('Brett Reid', 'Sakshi Datta', 'Dhaarna Singh', 'Minwoo Kim', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325598',

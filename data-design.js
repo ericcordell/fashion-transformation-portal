@@ -15,6 +15,7 @@ const CARDS_DESIGN = [
     businessBenefit: 'Design teams work in one system connected to buying and sourcing — eliminating handoff delays and duplicate data entry between disconnected tools. Deprecates Bamboo Rose and eliminates Miro dependency for assortment visualization. Centric becomes the single source of truth for all product design, specification, and sample management.',
     techIntegration: 'Primary OPIF: OPIF-325208 (Design Hub — Centric Integration). Related: OPIF-347498 (Milestone: Centric capabilities review vs AP Tool vs OneSource — DONE), OPIF-347500 (Milestone: Full verticals and ownership proposal — Backlog), OPIF-325206 (Shared Merch Strategy). Centric PLM is system of record for design. Integration plan covers AEX line plan sync, Supplier One spec distribution, DAM asset linking, and OneSource data feed via shared event layer. PRD: OneSource Design Integration (IESP Confluence space).',
     successMetrics: 'Contract signed and integration plan finalized. All target design teams onboarded to Centric. Bamboo Rose decommissioned. Design-to-buying handoff cycle time reduced. Milestone OPIFs (347498, 347500) both completed and proposals actioned.',
+    problemStatement: 'Merchant, design, and supplier systems operate independently.\nSupplier collaboration is fragmented across multiple platforms.\nNo shared digital thread between product design and sourcing.\n3D assets and digital materials lack a single home or lifecycle context.',
     owners: pptOwners('Tammy Hawkins', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Stephen Wolf', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325208',
@@ -40,6 +41,7 @@ const CARDS_DESIGN = [
     businessBenefit: 'Sample review cycles are tracked, time-stamped, and linked to the product record — reducing duplicate sampling, missed fit issues, and approval delays.',
     techIntegration: 'Built within Centric PLM. Fit evaluation data connected to product spec record. Integration with sourcing calendar to enforce sample milestone gates.',
     successMetrics: 'All sample milestones tracked in Centric. Fit evaluation turnaround time reduced. Zero unreviewedsamples reaching production.',
+    problemStatement: 'Walmart requires a shared event calendar and lightweight project management system that synchronizes workflows, timelines, and milestones across MerchOne (merchants), OneSource (sourcing/technical), and SupplierOne (suppliers) in order to ensure all users—internal and external—operate on the same sequence of events and critical business milestones tied to PLM, sourcing, and product readiness.',
     owners: pptOwners('Tammy Hawkins', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Stephen Wolf', ''), resources: res(), workstreams: ['design'],
   },
   {
@@ -147,6 +149,7 @@ const CARDS_DESIGN = [
     techIntegration: 'Primary OPIF: OPIF-325208 (Design Hub — Centric Integration). Related: OPIF-347498 (Milestone: Centric Capabilities Review — DONE), OPIF-347500 (Milestone: Full Verticals & Ownership Review). Built natively within Centric PLM. Visual boards pull live product imagery, color, and spec data from Centric records. No separate sync required. Replaces Bamboo Rose and Miro for all in-scope design workflows. PRD: OneSource Design Integration (Confluence IESP).',
     pathToGreen: 'Finalize contracts with Centric by target date to secure required 12-week onboarding lead time. Contract finalization is the critical path item — once signed, pilot launch moves to end of May 2026.',
     successMetrics: 'Bamboo Rose decommissioned. Miro usage for assortment visualization retired by end of pilot. Design review cycle time reduced. Associate adoption > 80% within first season.',
+    problemStatement: 'Merchant, design, and supplier systems operate independently.\nSupplier collaboration is fragmented across multiple platforms.\nNo shared digital thread between product design and sourcing.\n3D assets and digital materials lack a single home or lifecycle context.',
     owners: pptOwners('Tammy Hawkins', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Stephen Wolf', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325208',

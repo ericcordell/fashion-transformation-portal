@@ -72,7 +72,7 @@ const CARDS_STRATEGY = [
     owners: pptOwners('Brett Reid', 'Chris Graves', 'Vivek Mishra', 'Robbie Dutta', 'Mike Dunn'),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325221',
-      '#',
+      'https://confluence.walmart.com/display/APREC/Forecast+as+a+service+with+Channel+and+placement+split',
       'https://confluence.walmart.com/display/APREC/Forecast+as+a+service+with+Channel+and+placement+split',
       '#',
       [
@@ -96,7 +96,7 @@ const CARDS_STRATEGY = [
     owners: pptOwners('Bill Chiodetti', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Leon Hovanesian', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325206',
-      '#',
+      'https://confluence.walmart.com/display/IESP/Connected+and+Shared+Merch+Strategy',
       'https://confluence.walmart.com/display/IESP/Connected+and+Shared+Merch+Strategy',
       '#',
       [

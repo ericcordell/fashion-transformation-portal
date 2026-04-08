@@ -76,7 +76,7 @@ const CARDS_ALLOCATION = [
     owners: pptOwners('Brett Reid', 'Chris Graves', 'Ryan Henderson', 'Robbie Dutta', 'Mike Dunn'),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325373',
-      '#',
+      'https://confluence.walmart.com/display/APREC/Unified+Planner+Experience',
       'https://confluence.walmart.com/display/APREC/Unified+Planner+Experience',
       '#',
       [
@@ -102,7 +102,7 @@ const CARDS_ALLOCATION = [
     owners: pptOwners('Ken Brockland', 'Ashwin Chidambaram', 'Taylor Watson', 'CJ Weatherford', 'Arun Santhiagu'),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-336019',
-      '#',
+      'https://confluence.walmart.com/display/OLR/Feature+Requirements%3A+Phase+2+Enhancements',
       'https://confluence.walmart.com/display/OLR/Feature+Requirements%3A+Phase+2+Enhancements',
       '#',
       [
@@ -126,7 +126,7 @@ const CARDS_ALLOCATION = [
     owners: pptOwners('Veena Swaminathan', 'Sakshi Datta', 'Dhaarna Singh', 'Minwoo Kim', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325599',
-      '#',
+      'https://confluence.walmart.com/pages/viewpage.action?pageId=3261567072',
       'https://confluence.walmart.com/pages/viewpage.action?pageId=3261567072',
       '#',
       [
@@ -152,7 +152,7 @@ const CARDS_ALLOCATION = [
     owners: pptOwners('Brett Reid', 'Sakshi Datta', 'Dhaarna Singh', 'Minwoo Kim', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325598',
-      '#',
+      'https://confluence.walmart.com/pages/viewpage.action?pageId=3261566926',
       'https://confluence.walmart.com/pages/viewpage.action?pageId=3261566926',
       '#',
       [

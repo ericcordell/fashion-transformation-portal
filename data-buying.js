@@ -76,7 +76,7 @@ const CARDS_BUYING = [
     owners: pptOwners('Brett Reid', 'Sakshi Datta', 'Dhaarna Singh', 'Minwoo Kim', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325598',
-      '#',
+      'https://confluence.walmart.com/pages/viewpage.action?pageId=3261566926',
       'https://confluence.walmart.com/pages/viewpage.action?pageId=3261566926',
       '#',
       [
@@ -124,7 +124,7 @@ const CARDS_BUYING = [
     owners: pptOwners('Brett Reid', 'Chris Graves', 'Abhishek Jannawar', 'Robbie Dutta', 'Mike Dunn'),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325374',
-      '#',
+      'https://confluence.walmart.com/display/APREC/Simplification+of+Pack',
       'https://confluence.walmart.com/display/APREC/Simplification+of+Pack',
       '#',
       [
@@ -183,7 +183,7 @@ const CARDS_BUYING = [
     owners: pptOwners('Brett Reid', 'Chris Graves', 'Ryan Henderson', 'Robbie Dutta', 'Mike Dunn'),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325569',
-      '#',
+      'https://confluence.walmart.com/display/APREC/Streamline+Merchant+Supplier+Communication+through+Collab',
       'https://confluence.walmart.com/display/APREC/Streamline+Merchant+Supplier+Communication+through+Collab',
       '#',
       [

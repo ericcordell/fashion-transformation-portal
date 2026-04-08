@@ -18,7 +18,7 @@ const CARDS_DESIGN = [
     owners: pptOwners('Tammy Hawkins', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Stephen Wolf', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325208',
-      '#',
+      'https://confluence.walmart.com/display/IESP/PRD+-+OneSource+Design+Integration',
       'https://confluence.walmart.com/display/IESP/PRD+-+OneSource+Design+Integration',
       '#',
       [
@@ -124,7 +124,7 @@ const CARDS_DESIGN = [
     owners: pptOwners('Tammy Hawkins', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Stephen Wolf', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325188',
-      '#',
+      'https://confluence.walmart.com/pages/viewpage.action?pageId=3255372152',
       'https://confluence.walmart.com/pages/viewpage.action?pageId=3255372152',
       '#',
       [
@@ -150,7 +150,7 @@ const CARDS_DESIGN = [
     owners: pptOwners('Tammy Hawkins', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Stephen Wolf', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325208',
-      '#',
+      'https://confluence.walmart.com/display/IESP/PRD+-+OneSource+Design+Integration',
       'https://confluence.walmart.com/display/IESP/PRD+-+OneSource+Design+Integration',
       '#',
       [

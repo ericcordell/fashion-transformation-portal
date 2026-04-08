@@ -406,10 +406,13 @@ function renderReviewContent(reviewType) {
     const designCards = cards.filter(c => !isCriticalCard(c) && c.workstreams?.includes('design'));
     const buyingCards = cards.filter(c => !isCriticalCard(c) && c.workstreams?.includes('buying'));
     const allocationCards = cards.filter(c => !isCriticalCard(c) && c.workstreams?.includes('allocation'));
-    
+
+    // Housekeeping / Program Updates — always first
+    html += renderWPRHousekeeping();
+
     // Critical Programs Section
     if (criticalCards.length > 0) {
-      html += renderWPRSection('⭐ Critical Programs', criticalCards, '⭐');
+      html += renderWPRSection('\u2B50 Critical Programs', criticalCards, '\u2B50');
     }
     
     // Strategy Workstream Section
@@ -482,6 +485,39 @@ function getCardOPIFs(card) {
   }
 
   return { opifs, otherLinks };
+}
+
+// ── WPR Housekeeping Module ────────────────────────────────
+// Renders the talking-points panel at the top of every WPR.
+// Content lives in data-wpr-housekeeping.js — edit that file.
+function renderWPRHousekeeping() {
+  const hk = (typeof WPR_HOUSEKEEPING !== 'undefined') ? WPR_HOUSEKEEPING : null;
+  if (!hk || !hk.items || hk.items.length === 0) return '';
+
+  const rows = hk.items.map((item, i) => `
+    <li style="margin-bottom:10px;padding-bottom:10px;${i < hk.items.length - 1 ? 'border-bottom:1px solid #dde5f7;' : ''}">
+      <span style="font-weight:700;color:#1a1a2e;">${item.title}</span>
+      <span style="color:#444;font-size:0.92rem;"> &mdash; ${item.body}</span>
+      <span style="display:block;margin-top:3px;font-size:0.78rem;"
+            ><span style="color:#0053e2;font-weight:600;">Owner:</span>
+            <span style="color:#333;"> ${item.owner}</span>
+            &nbsp;&nbsp;
+            <span style="color:#0053e2;font-weight:600;">ETA:</span>
+            <span style="color:#333;"> ${item.eta}</span>
+      </span>
+    </li>`).join('');
+
+  return `
+    <div style="background:#f0f4ff;border-left:4px solid #0053e2;border-radius:8px;
+                padding:16px 22px 12px;margin-bottom:22px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <span style="font-weight:700;font-size:0.97rem;color:#0053e2;">&#x1F4CB; Housekeeping &amp; Program Updates</span>
+        <span style="font-size:0.75rem;color:#666;font-weight:400;">Updated ${hk.lastUpdated}</span>
+      </div>
+      <ul style="margin:0;padding-left:18px;list-style:disc;">
+        ${rows}
+      </ul>
+    </div>`;
 }
 
 // Toggle WPR row expansion to show OPIFs

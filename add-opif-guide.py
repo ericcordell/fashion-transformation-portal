@@ -50,7 +50,7 @@ def inject_guide():
     # Inject the guide button into the header (right side)
     header_button = '''<button class="guide-button" onclick="openGuideModal()" style="margin-left: 16px;">
   <span class="guide-button-icon">ℹ️</span>
-  <span>OPIF Field Guide</span>
+  <span>Help &amp; How-To</span>
 </button>'''
     
     # Find the header closing div and inject button before it

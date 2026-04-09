@@ -7,8 +7,8 @@
     <!-- Header -->
     <div class="guide-header">
       <div>
-        <h2>📖 OPIF Field Mapping Guide</h2>
-        <p>How to Update Your OPIF to Appear in the E2E Fashion Portal</p>
+        <h2>📖 Help &amp; How-To</h2>
+        <p>Using the portal &amp; keeping your program cards up to date</p>
       </div>
       <button class="guide-close" onclick="closeGuideModal()">&times;</button>
     </div>
@@ -17,7 +17,11 @@
     <div class="guide-body">
       <!-- Sidebar Navigation -->
       <div class="guide-sidebar">
-        <div class="guide-nav-item active" onclick="showGuideSection('requirements')">
+        <div class="guide-nav-item active" onclick="showGuideSection('overview-guide')">
+          <span class="guide-nav-icon">📄</span>
+          <span>Overview Guide</span>
+        </div>
+        <div class="guide-nav-item" onclick="showGuideSection('requirements')">
           <span class="guide-nav-icon">✅</span>
           <span>Requirements</span>
         </div>
@@ -53,8 +57,67 @@
       
       <!-- Content Area -->
       <div class="guide-content">
+        <!-- Overview Guide Section -->
+        <div id="section-overview-guide" class="guide-section active">
+          <h3>📄 Overview Guide</h3>
+          <p style="margin-bottom:18px;">Each program card has an <strong>Overview tab</strong> that tells the story of why an initiative exists, what it does, and what value it delivers. This guide helps you understand what each section means — and how to make yours as clear and compelling as possible.</p>
+
+          <div style="background:#f0f4ff;border-radius:10px;padding:16px 18px;margin-bottom:20px;border-left:4px solid #0053e2;">
+            <h4 style="margin:0 0 6px;color:#0053e2;font-size:14px;">What is the 💡 <em>i</em> writing tip badge?</h4>
+            <p style="margin:0;font-size:13px;color:#444;">You may notice a small grey <strong><em>i</em></strong> circle next to some section labels. Clicking it opens a panel with suggestions for how to strengthen that section's content. It's a quiet coaching nudge — it only appears when there's something worth saying, and it never scores or grades your work.</p>
+          </div>
+
+          <h4 style="color:#0053e2;margin:20px 0 10px;font-size:14px;">🎯 Problem Statement</h4>
+          <p style="font-size:13px;color:#444;margin-bottom:8px;">This section answers: <em>Why does this initiative exist? Who is hurting, and how?</em></p>
+          <div style="background:#f8f9fa;border-radius:8px;padding:14px 16px;margin-bottom:8px;">
+            <p style="margin:0 0 8px;font-size:12px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:0.06em;">What makes it strong</p>
+            <ul style="margin:0;padding-left:18px;font-size:13px;color:#444;line-height:1.7;">
+              <li><strong>Named persona</strong> — who specifically feels this pain? (e.g. Fashion Merchants, Buying Associates, Planning Teams)</li>
+              <li><strong>Current-state friction</strong> — what do they do today that is slow, error-prone, or frustrating?</li>
+              <li><strong>Stakes</strong> — what breaks downstream, or what opportunity is being missed?</li>
+              <li><strong>Leads with pain</strong>, not with the solution</li>
+            </ul>
+          </div>
+          <div style="background:#fff8e1;border-radius:8px;padding:12px 14px;margin-bottom:18px;border-left:3px solid #ffc220;">
+            <p style="margin:0;font-size:12px;color:#6b4f00;"><strong>Example:</strong> "Today, Fashion Merchants spend 3+ hours per week manually reconciling buy plan data across spreadsheets, OPIF, and BPE — resulting in version control errors and delayed supplier commitments."</p>
+          </div>
+
+          <h4 style="color:#0053e2;margin:0 0 10px;font-size:14px;">📄 Description</h4>
+          <p style="font-size:13px;color:#444;margin-bottom:8px;">This section answers: <em>What are we building, and how does it solve the problem?</em></p>
+          <div style="background:#f8f9fa;border-radius:8px;padding:14px 16px;margin-bottom:8px;">
+            <p style="margin:0 0 8px;font-size:12px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:0.06em;">What makes it strong</p>
+            <ul style="margin:0;padding-left:18px;font-size:13px;color:#444;line-height:1.7;">
+              <li><strong>Names the system or capability</strong> — what specifically is being built? (e.g. an AEX-native workflow, a BigQuery pipeline, a Centric integration)</li>
+              <li><strong>Describes the HOW</strong> — active verbs: "will enable", "automates", "integrates", "surfaces"</li>
+              <li><strong>Connects to the beneficiary</strong> — so [persona] can [outcome] instead of [current pain]</li>
+            </ul>
+          </div>
+          <div style="background:#fff8e1;border-radius:8px;padding:12px 14px;margin-bottom:18px;border-left:3px solid #ffc220;">
+            <p style="margin:0;font-size:12px;color:#6b4f00;"><strong>Example:</strong> "AEX will surface a unified item setup workflow that automatically pulls attributes from OneSource, eliminating manual re-entry — so Merchants can focus on strategy rather than data reconciliation."</p>
+          </div>
+
+          <h4 style="color:#0053e2;margin:0 0 10px;font-size:14px;">📈 Business Impact</h4>
+          <p style="font-size:13px;color:#444;margin-bottom:8px;">This section answers: <em>Why does this matter to the business — and by how much?</em></p>
+          <div style="background:#f8f9fa;border-radius:8px;padding:14px 16px;margin-bottom:8px;">
+            <p style="margin:0 0 8px;font-size:12px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:0.06em;">What makes it strong</p>
+            <ul style="margin:0;padding-left:18px;font-size:13px;color:#444;line-height:1.7;">
+              <li><strong>A number</strong> — even directional ($50MM GMV, 2,000 hours/year, 15% error reduction, 3 FTE equivalent)</li>
+              <li><strong>The narrative</strong> — how does solving this problem create that value? Connect the dots.</li>
+              <li><strong>Both together</strong> is what makes a business case stick in leadership reviews</li>
+            </ul>
+          </div>
+          <div style="background:#fff8e1;border-radius:8px;padding:12px 14px;margin-bottom:18px;border-left:3px solid #ffc220;">
+            <p style="margin:0;font-size:12px;color:#6b4f00;"><strong>Example:</strong> "Estimated $30MM in incremental GMV through faster, more accurate assortment decisions — plus 1,800 hours of Merchant time recovered annually by eliminating manual reconciliation work."</p>
+          </div>
+
+          <div style="background:#e8f5e9;border-radius:8px;padding:14px 16px;border-left:3px solid #2a8703;">
+            <h4 style="margin:0 0 6px;color:#2a8703;font-size:13px;">💡 Not sure where to start?</h4>
+            <p style="margin:0;font-size:13px;color:#444;">Click the <strong><em>i</em></strong> badge next to any section label inside a card's Overview tab. The tips panel will open with context-specific suggestions tailored to what your content currently includes.</p>
+          </div>
+        </div>
+
         <!-- Requirements Section -->
-        <div id="section-requirements" class="guide-section active">
+        <div id="section-requirements" class="guide-section">
           <h3>✅ Requirements for Portal Inclusion</h3>
           
           <div class="requirement-box">

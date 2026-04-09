@@ -139,42 +139,91 @@ function scoreContent(text, type) {
   return { grade: 'good', score: 1, maxScore: 1, tips: [] };
 }
 
-// ── Tooltip DOM — single floating div, positioned by JS ──────────────────────
+// ── Right-side tips panel ─────────────────────────────────────────────────────
+// Click-triggered slide-in drawer; one per page, shared across all badges.
 
-(function _initTooltip() {
-  if (document.getElementById('cq-tip')) return;
-  const el = Object.assign(document.createElement('div'), { id: 'cq-tip', role: 'tooltip' });
-  Object.assign(el.style, {
-    position: 'fixed', zIndex: '99999', maxWidth: '340px',
-    background: '#1e293b', color: '#f1f5f9', borderRadius: '10px',
-    padding: '12px 15px', fontSize: '0.75rem', lineHeight: '1.55',
-    boxShadow: '0 8px 32px rgba(0,0,0,0.38)', pointerEvents: 'none',
-    opacity: '0', transition: 'opacity 0.14s ease', whiteSpace: 'normal',
+(function _initPanel() {
+  if (document.getElementById('cq-panel')) return;
+
+  const panel = document.createElement('div');
+  panel.id = 'cq-panel';
+  panel.setAttribute('role', 'dialog');
+  panel.setAttribute('aria-label', 'Writing tips');
+  Object.assign(panel.style, {
+    position: 'fixed', top: '0', right: '0', height: '100%',
+    width: '310px', maxWidth: '90vw',
+    background: '#1e293b', color: '#f1f5f9',
+    boxShadow: '-6px 0 28px rgba(0,0,0,0.32)',
+    zIndex: '100000',
+    transform: 'translateX(100%)',
+    transition: 'transform 0.22s cubic-bezier(0.4,0,0.2,1)',
+    display: 'flex', flexDirection: 'column',
+    fontFamily: 'inherit',
   });
-  document.body.appendChild(el);
+
+  // Header row — label + close button
+  const hdr = document.createElement('div');
+  Object.assign(hdr.style, {
+    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+    padding: '14px 16px 12px', flexShrink: '0',
+    borderBottom: '1px solid rgba(255,255,255,0.07)',
+  });
+  hdr.innerHTML =
+    '<span style="font-size:0.68rem;font-weight:700;text-transform:uppercase;' +
+    'letter-spacing:0.09em;color:#475569;">Writing Tips</span>' +
+    '<button onclick="_cqClose()" aria-label="Close tips" ' +
+    'style="color:#94a3b8;font-size:1.45rem;line-height:1;background:none;' +
+    'border:none;cursor:pointer;padding:2px 4px;opacity:0.75;">&times;</button>';
+
+  // Scrollable body
+  const body = document.createElement('div');
+  body.id = 'cq-panel-body';
+  Object.assign(body.style, {
+    flex: '1', overflowY: 'auto', padding: '16px',
+    fontSize: '0.75rem', lineHeight: '1.55',
+  });
+
+  panel.appendChild(hdr);
+  panel.appendChild(body);
+  document.body.appendChild(panel);
+
+  // Dismiss on outside click
+  document.addEventListener('click', function(e) {
+    const p = document.getElementById('cq-panel');
+    if (!p || p.style.transform === 'translateX(100%)') return;
+    if (!p.contains(e.target) && !e.target.closest('.cq-badge')) _cqClose();
+  }, true);
+
+  // Dismiss on Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') _cqClose();
+  });
 })();
 
-// Registry: avoids escaping complex HTML inside inline event attributes
-window._cqReg = {};
+// Registry — avoids HTML-escaping complex content in inline event attributes
+window._cqReg      = {};
+window._cqActiveId = null;
 
-function _cqShow(evt, id) {
-  const tip = document.getElementById('cq-tip');
-  if (!tip || !window._cqReg[id]) return;
-  tip.innerHTML = window._cqReg[id];
-  tip.style.opacity = '1';
-  _cqMove(evt);
+function _cqToggle(evt, id) {
+  evt.stopPropagation();
+  const panel = document.getElementById('cq-panel');
+  const body  = document.getElementById('cq-panel-body');
+  if (!panel || !body || !window._cqReg[id]) return;
+
+  // Same badge clicked again → toggle off
+  if (window._cqActiveId === id && panel.style.transform !== 'translateX(100%)') {
+    _cqClose(); return;
+  }
+
+  body.innerHTML     = window._cqReg[id];
+  window._cqActiveId = id;
+  panel.style.transform = 'translateX(0)';
 }
-function _cqMove(evt) {
-  const tip = document.getElementById('cq-tip');
-  if (!tip || tip.style.opacity === '0') return;
-  const w = tip.offsetWidth || 340;
-  const x = evt.clientX + 16;
-  tip.style.left = (x + w > window.innerWidth - 8 ? evt.clientX - w - 12 : x) + 'px';
-  tip.style.top  = Math.max(8, evt.clientY - 12) + 'px';
-}
-function _cqHide() {
-  const tip = document.getElementById('cq-tip');
-  if (tip) tip.style.opacity = '0';
+
+function _cqClose() {
+  const panel = document.getElementById('cq-panel');
+  if (panel) panel.style.transform = 'translateX(100%)';
+  window._cqActiveId = null;
 }
 
 // ── Badge builder ─────────────────────────────────────────────────────────────
@@ -227,15 +276,17 @@ function cqBadge(text, type) {
 
   return `<span
     class="cq-badge" data-cq-id="${id}"
-    role="img" aria-label="Suggestions for ${typeLabel}"
+    role="button" tabindex="0" aria-label="Open writing tips for ${typeLabel}"
+    title="Click for writing tips"
     style="display:inline-flex;align-items:center;justify-content:center;
            width:15px;height:15px;border-radius:50%;flex-shrink:0;
            background:#f1f5f9;color:#64748b;font-size:0.62rem;font-weight:700;
-           cursor:help;border:1px solid #cbd5e1;
+           cursor:pointer;border:1px solid #cbd5e1;
            vertical-align:middle;margin-left:7px;position:relative;top:-1px;
-           font-style:italic;"
-    onmouseenter="_cqShow(event,this.dataset.cqId)"
-    onmousemove="_cqMove(event)"
-    onmouseleave="_cqHide()"
+           font-style:italic;transition:background 0.12s,border-color 0.12s;"
+    onmouseenter="this.style.background='#e2e8f0';this.style.borderColor='#94a3b8';"
+    onmouseleave="this.style.background='#f1f5f9';this.style.borderColor='#cbd5e1';"
+    onclick="_cqToggle(event,this.dataset.cqId)"
+    onkeydown="if(event.key==='Enter'||event.key===' ')_cqToggle(event,this.dataset.cqId)"
   >i</span>`;
 }

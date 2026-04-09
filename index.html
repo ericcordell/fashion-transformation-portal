@@ -221,6 +221,7 @@
 <script src="gantt.js"></script>
 <script src="data-biz-impact.js"></script>
 <script src="gantt-biz.js"></script>
+<script src="content-quality.js"></script>
 <script>
 
 // ============================================================
@@ -383,14 +384,18 @@ function openModal(cardId, workstream, tool) {
   const _aiFields = Array.isArray(card._aiGenerated) ? card._aiGenerated : [];
   const _ai = (field) => _aiFields.includes(field) ? _aiBadge : '';
 
-  // Section renderer — renders text with preserved line breaks
+  // Section renderer — renders text with preserved line breaks + PM quality badge
   const _overviewSection = (icon, label, color, field, fallback) => {
-    const raw = card[field] || '';
+    const raw  = card[field] || '';
     const text = raw || fallback || '\u2014';
     const html = text.replace(/\n{2,}/g, '</p><p class="text-sm text-gray-700 leading-relaxed" style="margin-top:8px;">').replace(/\n/g, '<br>');
+    const badge = (typeof cqBadge === 'function') ? cqBadge(text, field) : '';
     return `<div style="padding:20px 24px;">
-      <p style="font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:0.07em;
-                color:${color};margin:0 0 8px 0;">${icon}&nbsp;&nbsp;${label}</p>
+      <div style="display:flex;align-items:center;margin:0 0 8px 0;">
+        <p style="font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:0.07em;
+                  color:${color};margin:0;">${icon}&nbsp;&nbsp;${label}</p>
+        ${badge}
+      </div>
       <p class="text-sm text-gray-700 leading-relaxed" style="margin:0;white-space:pre-line;">${html}</p>
       ${_ai(field)}
     </div>`;

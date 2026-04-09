@@ -44,8 +44,9 @@ JS_ORDER = [
     'business-reviews.js',  # business review modules
     'gantt.js',             # gantt chart view
     'data-biz-impact.js', # business impact timeline data (Q1+Q2 FY27 scope)
-    'gantt-biz.js',       # business impact view renderer + view toggle
-    'data-changelog.js',  # must come AFTER allCards is defined
+    'gantt-biz.js',         # business impact view renderer + view toggle
+    'content-quality.js',   # PM content quality scorer + hover badges
+    'data-changelog.js',    # must come AFTER allCards is defined
 ]
 
 CSS_FILES = ['portal.css', 'portal-goals.css', 'exec-summary.css', 'reviews.css', 'control-panel.css', 'gantt.css']

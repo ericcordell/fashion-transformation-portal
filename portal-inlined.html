@@ -6341,15 +6341,15 @@ const EXEC_NARRATIVES = {
       '<div class="card p-3" style="' + critStyle + '"',
       ' onclick="openModal(\'' + card.id + '\',\'' + safeWS + '\',\'' + safeTool + '\')"',
       ' role="button" tabindex="0">',
-        '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:6px;margin-bottom:6px;">',
-          '<div style="display:flex;align-items:flex-start;gap:6px;min-width:0;">',
-            '<span style="font-size:1.05rem;flex-shrink:0;">' + card.icon + '</span>',
-            '<span style="font-weight:600;font-size:0.81rem;line-height:1.35;color:#1e293b;">' + card.title + '</span>',
-          '</div>',
-          tagHTML,
+        // Title row — tag removed so it never competes with the title for space
+        '<div style="display:flex;align-items:flex-start;gap:6px;margin-bottom:6px;">',
+          '<span style="font-size:1.05rem;flex-shrink:0;">' + card.icon + '</span>',
+          '<span style="font-weight:600;font-size:0.81rem;line-height:1.35;color:#1e293b;min-width:0;">' + card.title + '</span>',
         '</div>',
+        // Badges row — tag lives here, flex-wrap handles any width naturally
         '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">',
           '<span class="badge ' + badgeCls + '">' + card.statusLabel + '</span>',
+          tagHTML,
           card.targetDate ? '<span style="font-size:0.66rem;color:#94a3b8;">&#128197; ' + card.targetDate + '</span>' : '',
         '</div>',
       '</div>',
@@ -9527,15 +9527,13 @@ function cardHTML(card, workstream, tool) {
                 white-space:nowrap;cursor:pointer;">&#128276; Updated</span>` : '';
   return `
     <div class="card p-3" onclick="openModal('${card.id}','${workstream}','${tool}')">
-      <div class="flex items-start justify-between gap-2 mb-2">
-        <div class="flex items-start gap-2 min-w-0">
-          <span class="text-lg flex-shrink-0">${card.icon}</span>
-          <span class="font-semibold text-sm leading-snug" style="color:#1e293b;">${card.title}</span>
-        </div>
-        ${tagHTML}
+      <div class="flex items-start gap-2 mb-2">
+        <span class="text-lg flex-shrink-0">${card.icon}</span>
+        <span class="font-semibold text-sm leading-snug" style="color:#1e293b;min-width:0;">${card.title}</span>
       </div>
       <div class="flex items-center gap-2 flex-wrap">
         <span class="badge ${badgeCls}">${card.statusLabel}</span>
+        ${tagHTML}
         ${qChip}
         ${updatedPip}
       </div>

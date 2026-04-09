@@ -62,10 +62,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   border:1.5px dashed #d1d5db; color:#6b7280; background:transparent; transition:all 0.15s; }
 .roadmap-btn:hover { border-color:#0053e2; color:#0053e2; background:#f0f5ff; }
 
-/* ---- Inquiry tab ---- */
-.inquiry-owner-row { display:flex; align-items:center; justify-content:space-between;
-                     padding:8px 0; border-bottom:1px solid #f3f4f6; }
-.inquiry-owner-row:last-child { border-bottom: none; }
 
 /* ====================================================
    MODAL SHARED BASE
@@ -138,8 +134,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
            cursor:pointer; transition:all 0.18s; padding:12px; }
 .rm-card:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,83,226,.14); border-color:#0053e2; }
 
-/* ---- Summary modal (z:96) ---- */
-#sm-overlay { z-index:96; }
+/* ---- Summary modal ---- */
 #sm-box { background:white; border-radius:16px; width:min(600px,95vw);
           max-height:88vh; overflow:hidden; display:flex; flex-direction:column;
           box-shadow:0 24px 60px rgba(0,0,0,0.3); }

@@ -132,7 +132,6 @@
         <button class="tab-btn active" onclick="switchTab('overview')">&#128196; Overview</button>
         <button class="tab-btn" onclick="switchTab('status')">&#128200; Status</button>
         <button class="tab-btn" onclick="switchTab('links')" style="color:#0053e2;">&#128279; Links &amp; Workstreams</button>
-        <button class="tab-btn" onclick="switchTab('inquiry')" style="color:#7c3aed;">&#9993;&#65039; Inquiry</button>
         <button id="tab-btn-updates" class="tab-btn" onclick="switchTab('updates')" style="color:#b45309;display:none;">&#128276; Updates</button>
       </div>
     </div>
@@ -141,7 +140,6 @@
       <div id="tab-overview"  class="tab-panel active"></div>
       <div id="tab-status"    class="tab-panel"></div>
       <div id="tab-links"     class="tab-panel"></div>
-      <div id="tab-inquiry"   class="tab-panel"></div>
       <div id="tab-updates"   class="tab-panel"></div>
     </div>
   </div>
@@ -503,163 +501,11 @@ function openModal(cardId, workstream, tool) {
         </a>
       </div>` : ''}
 
-      <!-- Inquiry CTA -->
-      <div class="p-3 rounded-xl flex items-center gap-3 cursor-pointer"
-           style="background:#f5f3ff;border:1.5px dashed #c4b5fd;"
-           onclick="switchTab('inquiry')">
-        <span style="font-size:1.1rem;">&#9993;&#65039;</span>
-        <div>
-          <p class="text-xs font-bold" style="color:#6d28d9;margin:0;">Have a question about this deliverable?</p>
-          <p class="text-xs" style="color:#7c3aed;margin:2px 0 0;">Switch to the Inquiry tab to contact the owners directly.</p>
-        </div>
-        <span style="margin-left:auto;font-size:0.8rem;color:#7c3aed;font-weight:700;">&#8594;</span>
-      </div>
 
     </div>`;
 
   // --- links + workstreams tab (read-only, via card-links.js) ---
   buildLinksTab(card.id, res, card.workstreams || []);
-
-  // --- inquiry tab ---
-  // businessPartner is an array; all other roles are single { name, email, title } objects
-  const bpList    = Array.isArray(owners.businessPartner) ? owners.businessPartner : [];
-  const singleRoles = [
-    { role: 'Technical Program Manager (TPM)', key: 'transformationLead', icon: '\uD83D\uDEE3\uFE0F' },
-    { role: 'Product Manager',                 key: 'productLead',        icon: '\uD83D\uDCCB' },
-    { role: 'UX Lead',                         key: 'uxLead',             icon: '\uD83C\uDFA8' },
-    { role: 'Engineering Lead',                key: 'softwareLead',       icon: '\uD83D\uDCBB' },
-  ];
-
-  // ── Render a single person chip (used for both BP list + single roles) ──
-  function _personRow(name, email, title, icon, roleLabel, isLast) {
-    const emailLink = email
-      ? `<a href="mailto:${email}" style="color:#7c3aed;font-size:0.72rem;font-weight:600;
-              text-decoration:none;display:inline-flex;align-items:center;gap:3px;"
-           onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">\u2709\uFE0F ${email}</a>`
-      : '<span style="font-size:0.68rem;color:#cbd5e1;font-style:italic;">email not on file</span>';
-    const titleTag = title
-      ? `<span style="font-size:0.65rem;color:#94a3b8;display:block;margin-top:1px;">${title}</span>`
-      : '';
-    return `<div style="display:flex;align-items:flex-start;justify-content:space-between;
-                        padding:10px 0;${isLast ? '' : 'border-bottom:1px solid #f1f5f9;'}">
-      <div style="display:flex;align-items:center;gap:7px;flex-shrink:0;padding-top:2px;">
-        <span style="font-size:0.9rem;">${icon}</span>
-        <span style="font-size:0.71rem;font-weight:700;color:#64748b;white-space:nowrap;">${roleLabel}</span>
-      </div>
-      <div style="text-align:right;">
-        <p style="margin:0;font-size:0.85rem;font-weight:700;color:#1e293b;">${name}</p>
-        ${titleTag}
-        <div style="margin-top:3px;">${emailLink}</div>
-      </div>
-    </div>`;
-  }
-
-  // Business & Transformation Lead block (supports 0..N people)
-  const bpIcon = '\uD83C\uDFE2';
-  const bpRows = bpList.length > 0
-    ? bpList.map((p, i) =>
-        _personRow(p.name, p.email, p.title, bpIcon,
-                   i === 0 ? 'Business &amp; Transformation Lead' : '\u00a0',  // label only on first row
-                   i === bpList.length - 1 && singleRoles.filter(r => (owners[r.key]||{}).name && (owners[r.key]||{}).name !== 'TBD').length === 0)
-      ).join('')
-    : '';
-
-  // Single-person role rows
-  const visibleSingleRoles = singleRoles.filter(r => {
-    const o = owners[r.key] || {};
-    return o.name && o.name !== 'TBD';
-  });
-  const singleRows = visibleSingleRoles.map((r, i) => {
-    const o = owners[r.key] || {};
-    return _personRow(o.name, o.email, o.title, r.icon, r.role, i === visibleSingleRoles.length - 1);
-  }).join('');
-
-  const recipientRows = (bpRows + singleRows) || '<p style="font-size:0.8rem;color:#94a3b8;padding:12px 0;">No owners assigned yet.</p>';
-
-  // Collect TO addresses for email draft — UX and Engineering shown on page but excluded from email
-  const bpEmails     = bpList.map(p => p.email).filter(Boolean);
-  const emailRoles   = singleRoles.filter(r => r.key !== 'uxLead' && r.key !== 'softwareLead');
-  const singleEmails = emailRoles.map(r => (owners[r.key] || {}).email).filter(Boolean);
-  const toAddresses  = [...bpEmails, ...singleEmails].join(',') || 'fashion-transformation@walmart.com';
-
-  document.getElementById('tab-inquiry').innerHTML = `
-    <div style="padding:20px 24px;display:flex;flex-direction:column;gap:16px;">
-
-      <!-- Header banner -->
-      <div style="padding:12px 14px;border-radius:12px;background:#f5f3ff;border:1.5px solid #ddd6fe;">
-        <p style="margin:0 0 4px;font-size:0.72rem;font-weight:800;text-transform:uppercase;
-                  letter-spacing:.06em;color:#6d28d9;">&#9993;&#65039; Send Inquiry to Owners</p>
-        <p style="margin:0;font-size:0.75rem;color:#6d28d9;">Clicking <strong>Open Email Draft</strong> opens
-          a pre-filled email addressed directly to all listed owners of this deliverable.</p>
-      </div>
-
-      <!-- Recipients panel -->
-      <div style="border-radius:12px;border:1.5px solid #e2e8f0;overflow:hidden;">
-        <div style="padding:8px 14px;background:#f8fafc;border-bottom:1px solid #e2e8f0;
-                    display:flex;align-items:center;justify-content:space-between;">
-          <p style="margin:0;font-size:0.65rem;font-weight:800;text-transform:uppercase;
-                    letter-spacing:.07em;color:#64748b;">&#128101; Recipients &mdash; Direct Email</p>
-          <span style="font-size:0.62rem;color:#94a3b8;font-style:italic;">Multiple owners may apply per role</span>
-        </div>
-        <div style="padding:0 14px 6px;">
-          ${recipientRows || '<p style="font-size:0.8rem;color:#94a3b8;padding:12px 0;">No owners assigned yet.</p>'}
-        </div>
-      </div>
-
-      <!-- Email preview chip -->
-      <div style="padding:8px 12px;border-radius:10px;background:#f0fdf4;border:1px solid #86efac;
-                  display:flex;align-items:flex-start;gap:8px;">
-        <span style="font-size:0.85rem;flex-shrink:0;margin-top:1px;">&#128231;</span>
-        <div style="min-width:0;">
-          <p style="margin:0;font-size:0.65rem;font-weight:800;text-transform:uppercase;
-                    letter-spacing:.06em;color:#15803d;">Email will be sent TO</p>
-          <p style="margin:2px 0 0;font-size:0.72rem;color:#166534;word-break:break-all;">${toAddresses.replace(/,/g, ', ')}</p>
-        </div>
-      </div>
-
-      <!-- Source attribution notice -->
-      <div style="padding:10px 12px;border-radius:10px;background:#f8fafc;border:1px solid #e2e8f0;
-                  display:flex;align-items:flex-start;gap:8px;">
-        <span style="font-size:0.9rem;flex-shrink:0;margin-top:1px;">&#128196;</span>
-        <div style="min-width:0;font-size:0.68rem;color:#64748b;line-height:1.5;">
-          <strong style="color:#475569;">How owners are determined:</strong>
-          owners are sourced first from the <strong>OPIF</strong>
-          (Assignee &rarr; TPM/Lead &nbsp;&middot;&nbsp; Reporter &rarr; Product Manager), then fall back to the
-          <a href="https://confluence.walmart.com/display/APREC/Who%27s+Who+Among+the+Long+Lead+Time+Transformation"
-             target="_blank" rel="noopener"
-             style="color:#0053e2;font-weight:600;text-decoration:none;"
-             onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
-            LLTT Who&rsquo;s Who Confluence page
-          </a>.
-          If an owner listed here is incorrect, please work with the <strong>Product</strong> and
-          <strong>TPM</strong> owners to update the OPIF directly.
-        </div>
-      </div>
-
-      <!-- Message box -->
-      <div>
-        <label style="display:block;font-size:0.68rem;font-weight:800;text-transform:uppercase;
-                      letter-spacing:.06em;color:#64748b;margin-bottom:6px;">Your Question or Feedback</label>
-        <textarea id="inquiry-text" rows="4"
-          style="width:100%;border:1.5px solid #e2e8f0;border-radius:10px;padding:10px 12px;
-                 font-size:0.83rem;color:#374151;resize:none;box-sizing:border-box;
-                 font-family:inherit;line-height:1.5;"
-          onfocus="this.style.borderColor='#a78bfa';this.style.boxShadow='0 0 0 3px rgba(167,139,250,.15)'"
-          onblur="this.style.borderColor='#e2e8f0';this.style.boxShadow='none'"
-          placeholder="Type your question or feedback here..."></textarea>
-      </div>
-
-      <!-- CTA button -->
-      <button onclick="sendInquiry('${card.id}','${workstream}','${tool}')"
-        style="width:100%;padding:13px;border-radius:12px;font-weight:800;font-size:0.88rem;
-               color:#fff;background:linear-gradient(135deg,#6d28d9,#7c3aed);
-               cursor:pointer;border:none;letter-spacing:.02em;transition:opacity .15s;"
-        onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">
-        &#9993;&#65039;&nbsp; Open Email Draft
-      </button>
-      <p style="margin:0;font-size:0.68rem;text-align:center;color:#94a3b8;">Opens your default mail client with TO, subject, and body pre-filled.</p>
-
-    </div>`;
 
   // --- updates tab (changelog) ---
   const changeLog  = card.changeLog || [];
@@ -707,46 +553,11 @@ function openModal(cardId, workstream, tool) {
   document.getElementById('modal-overlay').classList.add('open');
 }
 
-function sendInquiry(cardId, workstream, tool) {
-  const card    = allCards.find(c => c.id === cardId);
-  if (!card) return;
-  const owners  = card.owners || {};
-  const qMeta   = QUARTER_META[card.quarter] || QUARTER_META['Future'];
-
-  // businessPartner is an array; collect emails from all entries
-  // UX (uxLead) and Engineering (softwareLead) are intentionally excluded from the email draft
-  const bpEmails = (Array.isArray(owners.businessPartner) ? owners.businessPartner : [])
-    .map(p => p.email).filter(Boolean);
-  const singleEmails = ['transformationLead','productLead']
-    .map(k => (owners[k] || {}).email).filter(Boolean);
-  const emailAddresses = [...bpEmails, ...singleEmails].join(',') || 'fashion-transformation@walmart.com';
-
-  const userText = (document.getElementById('inquiry-text')?.value || '').trim()
-    || '[No message entered]';
-
-  const subject = encodeURIComponent(`[Fashion Portal] Question about: ${card.title}`);
-  const body    = encodeURIComponent(
-`Deliverable: ${card.title}
-Workstream:  ${workstream}
-Tool:        ${tool}
-Quarter:     ${qMeta.label}
-Status:      ${card.statusLabel}
-Target Date: ${card.targetDate || 'TBD'}
-
----
-My question / feedback:
-
-${userText}
-`);
-  window.location.href = `mailto:${emailAddresses}?subject=${subject}&body=${body}`;
-}
-
-
 
 function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
 
 function switchTab(name) {
-  const names = ['overview','status','links','inquiry','updates'];
+  const names = ['overview','status','links','updates'];
   document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', names[i] === name));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.getElementById('tab-' + name).classList.add('active');

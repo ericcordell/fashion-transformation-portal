@@ -37,7 +37,7 @@ function _scoreProblemStatement(t) {
   if (_RX_PERSONA.test(t)) {
     score += 2;
   } else {
-    tips.push('Name a specific persona — who experiences this pain? e.g. "Today, Fashion Merchants spend X hours…" or "Buying Associates manually track…"');
+    tips.push('Ground this in a real customer experience by naming the specific person this affects — e.g. "Today, Fashion Merchants spend X hours…" or "Buying Associates manually track…" It makes the problem immediately relatable to reviewers.');
   }
 
   // 2. Current-state pain language (0–2)
@@ -45,21 +45,21 @@ function _scoreProblemStatement(t) {
   if (painHits >= 3)      { score += 2; }
   else if (painHits >= 1) {
     score += 1;
-    tips.push('Deepen the pain — quantify frequency, volume, or downstream impact (e.g. how often this happens, how many people are affected, what breaks downstream).');
+    tips.push('Adding a sense of scale here can sharpen the urgency — how often does this friction happen, how many people feel it, or what breaks downstream when it does? Even a rough estimate makes the problem much more vivid.');
   } else {
-    tips.push('Describe the current-state pain — what does the person do today that is slow, error-prone, or frustrating?');
+    tips.push('Help the reader feel the current-state friction — paint a picture of what this person actually does today, where it slows them down, or where errors creep in. The more concrete, the stronger the case for why this matters.');
   }
 
   // 3. Does NOT open with the solution (0–1)
   if (!/^(we (will|are|have|plan)|the (solution|goal|system|tool|platform|initiative)|build|this\s+(tool|feature|project|initiative)\s+will)/i.test(t.slice(0, 80))) {
     score += 1;
   } else {
-    tips.push('Lead with the pain, not the solution — a Problem Statement should describe who is hurting and why before proposing an answer.');
+    tips.push('Consider opening with the person\'s experience before introducing the solution — the more vivid the current-state picture, the stronger the "why now" for this initiative.');
   }
 
   // 4. Length / specificity (0–1)
   if (t.length >= 250) { score += 1; }
-  else { tips.push('Add more context — 250+ characters typically needed to cover who, what, and why it matters to the business.'); }
+  else { tips.push('A bit more context here can really sharpen the narrative — giving readers enough to understand who is affected and why, without needing to ask follow-up questions, makes a big difference when this goes to leadership.'); }
 
   return { grade: score >= 5 ? 'good' : score >= 3 ? 'fair' : 'needs-work', score, maxScore: 6, tips };
 }
@@ -73,18 +73,18 @@ function _scoreDescription(t) {
   if (howHits >= 3)      { score += 2; }
   else if (howHits >= 1) {
     score += 1;
-    tips.push('Strengthen the "how" — describe the solution mechanism more explicitly (e.g. "AEX will surface a unified workflow that automatically…").');
+    tips.push('Help readers picture what\'s actually being built — a sentence on how this works (e.g. "AEX will surface a unified workflow that automatically…") makes the scope and ambition much clearer.');
   } else {
-    tips.push('Describe HOW this solves the problem — use active verbs: "will enable", "automates", "integrates", "surfaces". Avoid restating the problem.');
+    tips.push('Walk the reader through how this solves the problem — what does the system or experience actually do? Active verbs like "enables", "automates", "integrates", or "surfaces" help paint that picture clearly.');
   }
 
   // 2. Specific product / tech noun (0–2)
   if (_RX_TECH.test(t)) { score += 2; }
-  else { tips.push('Name the specific system, tool, or capability being built — make the scope concrete and reviewable (e.g. "an AEX-native workflow", "a BigQuery service", "a Centric integration").'); }
+  else { tips.push('Naming the specific system or capability being built (e.g. "an AEX-native workflow", "a BigQuery service", "a Centric integration") helps reviewers understand the scope and feasibility at a glance.'); }
 
   // 3. Persona benefit tie-in — who benefits (0–1)
   if (_RX_PERSONA.test(t)) { score += 1; }
-  else { tips.push('Connect the solution to who benefits — e.g. "…so Merchants can focus on strategy instead of data entry" or "…giving Planners a single source of truth".'); }
+  else { tips.push('Tying the solution back to who benefits — e.g. "so Merchants can focus on strategy instead of data entry" or "giving Planners a single source of truth" — makes this much more compelling to business reviewers.'); }
 
   return { grade: score >= 4 ? 'good' : score >= 2 ? 'fair' : 'needs-work', score, maxScore: 5, tips };
 }
@@ -110,13 +110,13 @@ function _scoreBusinessImpact(t) {
 
   // Tips
   if (!hasQuant)
-    tips.push('Add a quantitative value — e.g. "$50MM incremental GMV", "2,000 hours saved annually", "15% reduction in item setup errors", or "X FTE equivalent capacity freed". Leadership needs a number.');
+    tips.push('Adding a number here — even a directional estimate — makes the story much more compelling for leadership. Something like "$50MM incremental GMV", "2,000 hours saved annually", or "15% fewer item setup errors" gives reviewers a concrete anchor to rally around.');
   if (!hasQual)
-    tips.push('Add a qualitative narrative — explain the mechanism: how does this generate that value? A number alone isn\'t enough; explain the cause-and-effect.');
+    tips.push('Pairing a metric with the "why it matters" narrative is what makes a business case stick — help readers understand the mechanism: how does solving this problem actually create that value?');
   if (hasQuant && hasQual && score < 5)
-    tips.push('Consider a second value dimension — e.g. revenue impact ($) AND time savings (hours/year) or quality improvement (% error rate reduction).');
+    tips.push('If there\'s a second angle on the value — e.g. both a revenue impact and a time savings, or a quality improvement alongside capacity freed — adding it can significantly strengthen the case for prioritization.');
   if (t.length < 80)
-    tips.push('Expand this section — Business Impact should explain both the value delivered and how it\'s achieved, not just a one-liner.');
+    tips.push('A bit more context here goes a long way — the most persuasive business impacts explain both what value is created and the story of how this initiative delivers it.');
 
   return { grade: score >= 5 ? 'good' : score >= 3 ? 'fair' : 'needs-work', score, maxScore: 8, tips };
 }
@@ -179,62 +179,63 @@ function _cqHide() {
 
 // ── Badge builder ─────────────────────────────────────────────────────────────
 
-const _CQ_CFG = {
-  'good':       { bg: '#2a8703', ring: '#86efac', icon: '✓', label: 'Meets PM standards'       },
-  'fair':       { bg: '#b86000', ring: '#fcd34d', icon: '~', label: 'Partially meets standards' },
-  'needs-work': { bg: '#ea1100', ring: '#fca5a5', icon: '!', label: 'Needs improvement'         },
-};
-
 const _CQ_TYPE_LABELS = {
   problemStatement: 'Problem Statement',
   description:      'Description',
   businessImpact:   'Business Impact',
 };
 
+const _CQ_SECTION_CONTEXT = {
+  problemStatement: 'A strong problem statement grounds the work in a real customer experience — naming the person, the friction, and the stakes.',
+  description:      "A clear description helps reviewers picture what's being built and how it solves the problem at a product level.",
+  businessImpact:   'The most persuasive business impacts pair a concrete value metric with the story of how this initiative creates it.',
+};
+
 /**
  * cqBadge(text, type) → HTML string
- * Renders a small colored circle with a hover tooltip describing quality gaps.
+ * Returns a subtle ⓘ icon when there are suggestions to offer, empty string when content is strong.
+ * No grades, no scores, no pass/fail — just a quiet pointer to where the story can grow.
  */
 function cqBadge(text, type) {
-  const { grade, score, maxScore, tips } = scoreContent(text, type);
-  const cfg       = _CQ_CFG[grade] || _CQ_CFG['needs-work'];
-  const typeLabel = _CQ_TYPE_LABELS[type] || type;
+  const { tips } = scoreContent(text, type);
 
-  // Build tooltip HTML
-  let ttHtml = `<div style="font-weight:700;font-size:0.79rem;color:${cfg.ring};margin-bottom:5px;">
-    ${cfg.icon} ${typeLabel} — ${cfg.label}</div>
-    <div style="color:#94a3b8;font-size:0.68rem;margin-bottom:${tips.length ? '9px' : '0'};">Score: ${score} / ${maxScore}</div>`;
+  // Nothing to say — stay out of the way
+  if (!tips.length) return '';
 
-  if (tips.length) {
-    ttHtml += `<div style="font-weight:700;font-size:0.68rem;color:#cbd5e1;text-transform:uppercase;
-                           letter-spacing:0.06em;margin-bottom:6px;">Improvement tips:</div>`;
-    ttHtml += tips.map(tip =>
-      `<div style="display:flex;gap:6px;margin-bottom:5px;align-items:flex-start;">
-         <span style="color:#fbbf24;flex-shrink:0;margin-top:1px;">→</span>
-         <span style="color:#e2e8f0;">${tip}</span>
-       </div>`
-    ).join('');
-  } else {
-    ttHtml += `<div style="color:#86efac;font-size:0.72rem;">
-      ✓ Meets PM best-practice standards for persona, specificity, and value clarity.</div>`;
+  const typeLabel   = _CQ_TYPE_LABELS[type]  || type;
+  const sectionNote = _CQ_SECTION_CONTEXT[type] || '';
+
+  // Tooltip: framed as "ways to strengthen the story", never as failure
+  let ttHtml =
+    `<div style="font-weight:700;font-size:0.78rem;color:#93c5fd;margin-bottom:4px;">
+       💡 Ways to strengthen the ${typeLabel}</div>`;
+
+  if (sectionNote) {
+    ttHtml += `<div style="color:#94a3b8;font-size:0.7rem;line-height:1.45;margin-bottom:9px;">${sectionNote}</div>`;
   }
 
-  // Store in registry — avoids any HTML-escaping in attribute values
+  ttHtml += tips.map(tip =>
+    `<div style="display:flex;gap:7px;margin-bottom:6px;align-items:flex-start;">
+       <span style="color:#60a5fa;flex-shrink:0;margin-top:1px;font-size:0.72rem;">›</span>
+       <span style="color:#e2e8f0;font-size:0.72rem;line-height:1.5;">${tip}</span>
+     </div>`
+  ).join('');
+
+  // Store in registry — avoids HTML-escaping in inline event attributes
   const id = 'cq-' + Math.random().toString(36).slice(2, 9);
   window._cqReg[id] = ttHtml;
 
   return `<span
-    class="cq-badge" data-cq-grade="${grade}" data-cq-id="${id}"
-    role="img" aria-label="${typeLabel} quality: ${cfg.label}"
-    title="${cfg.label}"
+    class="cq-badge" data-cq-id="${id}"
+    role="img" aria-label="Suggestions for ${typeLabel}"
     style="display:inline-flex;align-items:center;justify-content:center;
-           width:17px;height:17px;border-radius:50%;flex-shrink:0;
-           background:${cfg.bg};color:white;font-size:0.6rem;font-weight:900;
-           cursor:help;box-shadow:0 1px 5px rgba(0,0,0,0.22);
-           border:1.5px solid ${cfg.ring};vertical-align:middle;
-           margin-left:8px;position:relative;top:-1px;"
+           width:15px;height:15px;border-radius:50%;flex-shrink:0;
+           background:#f1f5f9;color:#64748b;font-size:0.62rem;font-weight:700;
+           cursor:help;border:1px solid #cbd5e1;
+           vertical-align:middle;margin-left:7px;position:relative;top:-1px;
+           font-style:italic;"
     onmouseenter="_cqShow(event,this.dataset.cqId)"
     onmousemove="_cqMove(event)"
     onmouseleave="_cqHide()"
-  >${cfg.icon}</span>`;
+  >i</span>`;
 }

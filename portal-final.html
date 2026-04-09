@@ -8554,6 +8554,36 @@ document.getElementById('modal-overlay').addEventListener('click',e=>{if(e.targe
             <p style="margin:0;font-size:13px;color:#444;">You may notice a small grey <strong><em>i</em></strong> circle next to some section labels. Clicking it opens a panel with suggestions for how to strengthen that section's content. It's a quiet coaching nudge — it only appears when there's something worth saying, and it never scores or grades your work.</p>
           </div>
 
+          <div style="background:#f0f4ff;border-radius:10px;padding:16px 18px;margin-bottom:20px;border-left:4px solid #0053e2;">
+            <h4 style="margin:0 0 8px;color:#0053e2;font-size:14px;">🗺️ How Overview fields map to your OPIF</h4>
+            <p style="margin:0 0 10px;font-size:13px;color:#444;">The three sections in the Overview tab pull directly from fields in</p>
+            <table style="width:100%;border-collapse:collapse;font-size:12px;">
+              <thead>
+                <tr style="background:#e8eeff;">
+                  <th style="padding:7px 10px;text-align:left;color:#0053e2;font-weight:700;border-radius:4px 0 0 0;">Portal Section</th>
+                  <th style="padding:7px 10px;text-align:left;color:#0053e2;font-weight:700;">OPIF / Jira Field</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid #e2e8f0;">
+                  <td style="padding:8px 10px;font-weight:600;color:#1e293b;">🎯 Problem Statement</td>
+                  <td style="padding:8px 10px;color:#444;"><code>Problem Statement</code> field in your OPIF</td>
+                </tr>
+                <tr style="border-bottom:1px solid #e2e8f0;background:#f8fafc;">
+                  <td style="padding:8px 10px;font-weight:600;color:#1e293b;">📄 Description</td>
+                  <td style="padding:8px 10px;color:#444;"><code>Description</code> field in your OPIF</td>
+                </tr>
+                <tr>
+                  <td style="padding:8px 10px;font-weight:600;color:#1e293b;">📈 Business Impact</td>
+                  <td style="padding:8px 10px;color:#444;"><code>Business Impact</code> / <code>Business Benefit</code> field in your OPIF</td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="margin-top:12px;padding:10px 12px;background:#fff3e0;border-radius:6px;border-left:3px solid #ffc220;">
+              <p style="margin:0;font-size:12px;color:#6b4f00;"><strong>✨ AI-assisted content:</strong> If any of these fields are empty in your OPIF, the portal will automatically use AI to generate a draft based on all other available content in the epic — including the title, labels, and context. You can always improve on it by updating the field directly in Jira.</p>
+            </div>
+          </div>
+
           <h4 style="color:#0053e2;margin:20px 0 10px;font-size:14px;">🎯 Problem Statement</h4>
           <p style="font-size:13px;color:#444;margin-bottom:8px;">This section answers: <em>Why does this initiative exist? Who is hurting, and how?</em></p>
           <div style="background:#f8f9fa;border-radius:8px;padding:14px 16px;margin-bottom:8px;">
@@ -8608,17 +8638,17 @@ document.getElementById('modal-overlay').addEventListener('click',e=>{if(e.targe
           <h3>✅ Requirements for Portal Inclusion</h3>
           
           <div class="requirement-box">
-            <h3>Primary Requirement: LLTT Label</h3>
-            <p class="highlight-text">Your OPIF <strong>MUST</strong> include the label <code>LLTT</code> to appear in this portal.</p>
-            <p class="highlight-text">This is the primary filter that determines whether an OPIF is tracked in the E2E Fashion Portal.</p>
+            <h3>Primary Requirement: <code>LLTT</code> or <code>LLTTO</code> Label</h3>
+            <p class="highlight-text">Your OPIF <strong>MUST</strong> include either the label <code>LLTT</code> <em>or</em> <code>LLTTO</code> to appear in this portal.</p>
+            <p class="highlight-text">These are the two accepted labels that determine whether an OPIF is tracked in the E2E Fashion Portal. Use <code>LLTT</code> for standard long-lead-time initiatives or <code>LLTTO</code> for operational long-lead-time items.</p>
             
             <div class="how-to-add">
-              <h4>How to Add the LLTT Label:</h4>
+              <h4>How to Add the Label:</h4>
               <ol>
                 <li>Open your OPIF in Jira (<a href="https://jira.walmart.com" target="_blank">jira.walmart.com</a>)</li>
                 <li>Look for the "Labels" field (usually in the right sidebar)</li>
                 <li>Click "+ Add" or click on the Labels field</li>
-                <li>Type <code>LLTT</code> and press Enter</li>
+                <li>Type <code>LLTT</code> or <code>LLTTO</code> and press Enter</li>
                 <li>Save the OPIF</li>
               </ol>
             </div>
@@ -8655,19 +8685,14 @@ document.getElementById('modal-overlay').addEventListener('click',e=>{if(e.targe
                 <td>Main person responsible for the OPIF<br><em style="font-size: 12px; color: #666;">Fallback: If Assignee is empty, uses Confluence page owner mapping</em></td>
               </tr>
               <tr>
-                <td><strong>Software Lead</strong></td>
-                <td><code>Engineering Lead</code></td>
-                <td>Technical lead for implementation</td>
-              </tr>
-              <tr>
                 <td><strong>Target Date</strong></td>
                 <td><code>Due Date</code></td>
                 <td>Expected completion date for the OPIF</td>
               </tr>
               <tr>
                 <td><strong>Workstream</strong></td>
-                <td><code>Activity Type</code></td>
-                <td>Determines portal section (Strategy, Design, Buying, Allocation)</td>
+                <td><em>Auto-populated</em></td>
+                <td>Assigned automatically based on the content and personas connected to each OPIF — no manual field required</td>
               </tr>
             </tbody>
           </table>
@@ -8705,11 +8730,11 @@ document.getElementById('modal-overlay').addEventListener('click',e=>{if(e.targe
         <!-- Workstream Logic Section -->
         <div id="section-workstream-logic" class="guide-section">
           <h3>🔄 Workstream Assignment Logic</h3>
-          <p><strong>Important:</strong> The workstream (Strategy, Design, Buying, Allocation) displayed in the portal is <strong>NOT</strong> directly determined by the Activity Type field.</p>
+          <p>The workstream displayed in the portal (Strategy, Design, Buying, or Allocation) is <strong>auto-populated</strong> — you do not need to set it manually.</p>
           
           <div class="note-box" style="margin: 20px 0;">
             <strong>🧠 How Workstreams Are Assigned:</strong>
-            <p style="margin-top: 12px;">The portal analyzes the <strong>entire OPIF content</strong> including epic name, description, labels, and context to intelligently assign the appropriate workstream based on predefined business rules.</p>
+            <p style="margin-top: 12px;">The portal analyzes the <strong>entire OPIF content</strong> — including the epic name, description, personas, labels, and overall context — and automatically assigns the most appropriate workstream using predefined business rules. The richer your OPIF content, the more accurately the portal can place it.</p>
           </div>
           
           <h4 style="margin-top: 24px; color: #0053e2;">Workstream Categories:</h4>
@@ -8736,9 +8761,8 @@ document.getElementById('modal-overlay').addEventListener('click',e=>{if(e.targe
           </div>
           
           <div class="note-box" style="margin-top: 24px;">
-            <strong>📌 Note on Activity Type:</strong>
-            <p style="margin-top: 8px;">The <code>Activity Type</code> field in your OPIF is <strong>one of many signals</strong> used for workstream assignment, but it's not the sole determinant. The portal uses intelligent inference based on the overall OPIF context.</p>
-            <p style="margin-top: 8px;">If your OPIF's workstream assignment seems incorrect, please contact the E2E Fashion Portal support team (see "Need Help?" section).</p>
+            <strong>📌 If the workstream looks wrong:</strong>
+            <p style="margin-top: 8px;">Because assignment is automatic, occasional mismatches can happen — especially for cross-functional initiatives. If your OPIF is appearing in the wrong workstream, reach out to the E2E Fashion Portal support team (see the "Need Help?" section) and they can correct it directly.</p>
           </div>
         </div>
         
@@ -8753,7 +8777,7 @@ document.getElementById('modal-overlay').addEventListener('click',e=>{if(e.targe
               <table class="example-table">
                 <tr>
                   <td>Labels</td>
-                  <td><code>LLTT</code></td>
+                  <td><code>LLTT</code> or <code>LLTTO</code></td>
                 </tr>
                 <tr>
                   <td>Epic Name</td>
@@ -8776,16 +8800,8 @@ document.getElementById('modal-overlay').addEventListener('click',e=>{if(e.targe
                   <td>Abhishek Jannawar</td>
                 </tr>
                 <tr>
-                  <td>Engineering Lead</td>
-                  <td>Aravind Chiruvelli</td>
-                </tr>
-                <tr>
                   <td>Due Date</td>
                   <td>Apr 30, 2026</td>
-                </tr>
-                <tr>
-                  <td>Activity Type</td>
-                  <td>Product Discovery</td>
                 </tr>
               </table>
             </div>
@@ -8806,10 +8822,6 @@ document.getElementById('modal-overlay').addEventListener('click',e=>{if(e.targe
                     <span class="meta-value">Abhishek Jannawar</span>
                   </div>
                   <div class="meta-item">
-                    <span class="meta-label">Tech Lead:</span>
-                    <span class="meta-value">Aravind Chiruvelli</span>
-                  </div>
-                  <div class="meta-item">
                     <span class="meta-label">Target:</span>
                     <span class="meta-value">Apr 30, 2026</span>
                   </div>
@@ -8828,7 +8840,7 @@ document.getElementById('modal-overlay').addEventListener('click',e=>{if(e.targe
             <h4>Q: My OPIF isn't showing up in the portal</h4>
             <p><strong>A:</strong> Check the following:</p>
             <ol>
-              <li>Verify the <code>LLTT</code> label is added to your OPIF</li>
+              <li>Verify the <code>LLTT</code> or <code>LLTTO</code> label is added to your OPIF</li>
               <li>Wait 24 hours for the next automated sync</li>
               <li>Ensure your OPIF is in an active status (not Closed/Done)</li>
               <li>Check that your OPIF appears on the <a href="https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard" target="_blank">Confluence dashboard</a></li>
@@ -8856,7 +8868,7 @@ document.getElementById('modal-overlay').addEventListener('click',e=>{if(e.targe
           
           <div class="faq-item">
             <h4>Q: How do I change which workstream my OPIF appears in?</h4>
-            <p><strong>A:</strong> Update the <code>Activity Type</code> field in your OPIF to the appropriate category (Strategy, Design, Buying, or Allocation related activity).</p>
+            <p><strong>A:</strong> Workstream assignment is automatic — the portal infers it from your OPIF content and personas. If your OPIF is appearing in the wrong workstream, contact the E2E Fashion Portal support team (see "Need Help?") and they can correct it directly.</p>
           </div>
         </div>
         

@@ -15,7 +15,7 @@
 // ============================================================
 
 const WPR_HOUSEKEEPING = {
-  lastUpdated: 'Apr 8, 2026',
+  lastUpdated: 'Apr 7, 2026',
   items: [
     {
       title: 'WPR Moving to Thursdays — Starting Apr 16',
@@ -28,36 +28,6 @@ const WPR_HOUSEKEEPING = {
       body:  'Key E2E Leads to align on next leadership review agenda and topics.',
       owner: 'Eric',
       eta:   'Meeting Apr 9',
-    },
-    {
-      title: 'Automated Item Setup (OPIF-344926) — Green ✅',
-      body:  'Development in progress. Additional IIR reporting scope added — 80–90% fully defined. Meetings underway to finalize remaining requirements (ETA Apr 7). Target: Apr 30.',
-      owner: 'Abhishek Jannawar',
-      eta:   'Apr 30, 2026',
-    },
-    {
-      title: 'AP Tool / Line Planning (OPIF-325568) — Green ✅',
-      body:  'Architecture approach decision meeting set for Apr 8 (Ryan Henderson / Satya). LOE being finalized with Ashwin. Target: Jul 31.',
-      owner: 'Taylor Watson',
-      eta:   'Jul 31, 2026',
-    },
-    {
-      title: 'Strategy Hub (OPIF-368304) — Discovery Kick-Off',
-      body:  'Discovery on current process, data, user experience, and initial requirements starting Apr 8. New OPIF filed for this initiative.',
-      owner: 'Charitha Katupitiya',
-      eta:   'Target Oct 31, 2026',
-    },
-    {
-      title: 'BAM / Collab & Intent (OPIF-325569) — Yellow ⚠️',
-      body:  'Status updated to At Risk. Q2 Discovery and Start planned; Q3 targeted for rollout. Requirements gathering in progress.',
-      owner: 'Chris Graves',
-      eta:   'Q2 Discovery · Oct 31, 2026',
-    },
-    {
-      title: 'AP Tool Phase 2 Enhancements (OPIF-336019) — Timelines TBD',
-      body:  'Working with Arun on overall timeline. Dev Complete / Integration Testing / E2E Testing dates all pending. Status moved to At Risk.',
-      owner: 'Taylor Watson',
-      eta:   'Jul 31, 2026',
     },
     {
       title: 'Item Setup Deep Dives / Action Plan',

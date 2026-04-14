@@ -1924,3 +1924,272 @@ DRY RUN complete — no files written.
 [20:02:19]   DRY RUN: skipping
 [20:02:19] 
 DRY RUN complete — no files written.
+[2026-04-08 08:00:03] ============================================================
+[2026-04-08 08:00:03] E2E Fashion Portal Daily Sync — 2026-04-08
+[2026-04-08 08:00:03] ============================================================
+[2026-04-08 08:00:03] Loading Chrome cookies...
+[2026-04-08 08:00:11]   Loaded 50 cookies
+[2026-04-08 08:00:11] Fetching Confluence dashboard: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
+[2026-04-08 08:00:12]   Found 0 OPIF IDs on dashboard: []...
+[2026-04-08 08:00:12] ERROR: No OPIF IDs found — Confluence may require re-authentication
+[2026-04-08 08:00:12]   Open Chrome, visit confluence.walmart.com, then re-run this script
+[2026-04-08 08:00:03] ============================================================
+[2026-04-08 08:00:03] E2E Fashion Portal Daily Sync — 2026-04-08
+[2026-04-08 08:00:03] ============================================================
+[2026-04-08 08:00:03] Loading Chrome cookies...
+[2026-04-08 08:00:11]   Loaded 50 cookies
+[2026-04-08 08:00:11] Fetching Confluence dashboard: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
+[2026-04-08 08:00:12]   Found 0 OPIF IDs on dashboard: []...
+[2026-04-08 08:00:12] ERROR: No OPIF IDs found — Confluence may require re-authentication
+[2026-04-08 08:00:12]   Open Chrome, visit confluence.walmart.com, then re-run this script
+[2026-04-09 06:03:23] ============================================================
+[2026-04-09 06:03:23] E2E Fashion Portal Daily Sync — 2026-04-09
+[2026-04-09 06:03:23] ============================================================
+[2026-04-09 06:03:23] Loading Chrome cookies...
+[2026-04-09 06:03:23] WARNING: Could not get Chrome key: Cannot read Chrome key from Keychain — cookies may be empty
+[2026-04-09 06:03:23]   Loaded 0 cookies
+[2026-04-09 06:03:23] WARNING: No cookies — fetches will be unauthenticated (may get 403)
+[2026-04-09 06:03:23] Fetching Confluence dashboard: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
+[2026-04-09 06:03:23] FETCH ERROR https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+[2026-04-09 06:03:23]   Found 0 OPIF IDs on dashboard: []...
+[2026-04-09 06:03:23] ERROR: No OPIF IDs found — Confluence may require re-authentication
+[2026-04-09 06:03:23]   Open Chrome, visit confluence.walmart.com, then re-run this script
+[2026-04-09 06:03:23] ============================================================
+[2026-04-09 06:03:23] E2E Fashion Portal Daily Sync — 2026-04-09
+[2026-04-09 06:03:23] ============================================================
+[2026-04-09 06:03:23] Loading Chrome cookies...
+[2026-04-09 06:03:23] WARNING: Could not get Chrome key: Cannot read Chrome key from Keychain — cookies may be empty
+[2026-04-09 06:03:23]   Loaded 0 cookies
+[2026-04-09 06:03:23] WARNING: No cookies — fetches will be unauthenticated (may get 403)
+[2026-04-09 06:03:23] Fetching Confluence dashboard: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
+[2026-04-09 06:03:23] FETCH ERROR https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+[2026-04-09 06:03:23]   Found 0 OPIF IDs on dashboard: []...
+[2026-04-09 06:03:23] ERROR: No OPIF IDs found — Confluence may require re-authentication
+[2026-04-09 06:03:23]   Open Chrome, visit confluence.walmart.com, then re-run this script
+[2026-04-10 06:06:56] ============================================================
+[2026-04-10 06:06:56] E2E Fashion Portal Daily Sync — 2026-04-10
+[2026-04-10 06:06:56] ============================================================
+[2026-04-10 06:06:56] Loading Chrome cookies...
+[2026-04-10 06:06:56] WARNING: Could not get Chrome key: Cannot read Chrome key from Keychain — cookies may be empty
+[2026-04-10 06:06:56]   Loaded 0 cookies
+[2026-04-10 06:06:56] WARNING: No cookies — fetches will be unauthenticated (may get 403)
+[2026-04-10 06:06:56] Fetching Confluence dashboard: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
+[2026-04-10 06:06:56] FETCH ERROR https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+[2026-04-10 06:06:56]   Found 0 OPIF IDs on dashboard: []...
+[2026-04-10 06:06:56] ERROR: No OPIF IDs found — Confluence may require re-authentication
+[2026-04-10 06:06:56]   Open Chrome, visit confluence.walmart.com, then re-run this script
+[2026-04-10 06:06:56] ============================================================
+[2026-04-10 06:06:56] E2E Fashion Portal Daily Sync — 2026-04-10
+[2026-04-10 06:06:56] ============================================================
+[2026-04-10 06:06:56] Loading Chrome cookies...
+[2026-04-10 06:06:56] WARNING: Could not get Chrome key: Cannot read Chrome key from Keychain — cookies may be empty
+[2026-04-10 06:06:56]   Loaded 0 cookies
+[2026-04-10 06:06:56] WARNING: No cookies — fetches will be unauthenticated (may get 403)
+[2026-04-10 06:06:56] Fetching Confluence dashboard: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
+[2026-04-10 06:06:56] FETCH ERROR https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+[2026-04-10 06:06:56]   Found 0 OPIF IDs on dashboard: []...
+[2026-04-10 06:06:56] ERROR: No OPIF IDs found — Confluence may require re-authentication
+[2026-04-10 06:06:56]   Open Chrome, visit confluence.walmart.com, then re-run this script
+[2026-04-11 06:04:31] ============================================================
+[2026-04-11 06:04:31] E2E Fashion Portal Daily Sync — 2026-04-11
+[2026-04-11 06:04:31] ============================================================
+[2026-04-11 06:04:31] Loading Chrome cookies...
+[2026-04-11 06:04:31] WARNING: Could not get Chrome key: Cannot read Chrome key from Keychain — cookies may be empty
+[2026-04-11 06:04:31]   Loaded 0 cookies
+[2026-04-11 06:04:31] WARNING: No cookies — fetches will be unauthenticated (may get 403)
+[2026-04-11 06:04:31] Fetching Confluence dashboard: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
+[2026-04-11 06:04:32] FETCH ERROR https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+[2026-04-11 06:04:32]   Found 0 OPIF IDs on dashboard: []...
+[2026-04-11 06:04:32] ERROR: No OPIF IDs found — Confluence may require re-authentication
+[2026-04-11 06:04:32]   Open Chrome, visit confluence.walmart.com, then re-run this script
+[2026-04-11 06:04:31] ============================================================
+[2026-04-11 06:04:31] E2E Fashion Portal Daily Sync — 2026-04-11
+[2026-04-11 06:04:31] ============================================================
+[2026-04-11 06:04:31] Loading Chrome cookies...
+[2026-04-11 06:04:31] WARNING: Could not get Chrome key: Cannot read Chrome key from Keychain — cookies may be empty
+[2026-04-11 06:04:31]   Loaded 0 cookies
+[2026-04-11 06:04:31] WARNING: No cookies — fetches will be unauthenticated (may get 403)
+[2026-04-11 06:04:31] Fetching Confluence dashboard: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
+[2026-04-11 06:04:32] FETCH ERROR https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+[2026-04-11 06:04:32]   Found 0 OPIF IDs on dashboard: []...
+[2026-04-11 06:04:32] ERROR: No OPIF IDs found — Confluence may require re-authentication
+[2026-04-11 06:04:32]   Open Chrome, visit confluence.walmart.com, then re-run this script
+[2026-04-12 06:07:55] ============================================================
+[2026-04-12 06:07:55] E2E Fashion Portal Daily Sync — 2026-04-12
+[2026-04-12 06:07:55] ============================================================
+[2026-04-12 06:07:55] Loading Chrome cookies...
+[2026-04-12 06:07:55] WARNING: Could not get Chrome key: Cannot read Chrome key from Keychain — cookies may be empty
+[2026-04-12 06:07:55]   Loaded 0 cookies
+[2026-04-12 06:07:55] WARNING: No cookies — fetches will be unauthenticated (may get 403)
+[2026-04-12 06:07:55] Fetching Confluence dashboard: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
+[2026-04-12 06:07:55] FETCH ERROR https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+[2026-04-12 06:07:55]   Found 0 OPIF IDs on dashboard: []...
+[2026-04-12 06:07:55] ERROR: No OPIF IDs found — Confluence may require re-authentication
+[2026-04-12 06:07:55]   Open Chrome, visit confluence.walmart.com, then re-run this script
+[2026-04-12 06:07:55] ============================================================
+[2026-04-12 06:07:55] E2E Fashion Portal Daily Sync — 2026-04-12
+[2026-04-12 06:07:55] ============================================================
+[2026-04-12 06:07:55] Loading Chrome cookies...
+[2026-04-12 06:07:55] WARNING: Could not get Chrome key: Cannot read Chrome key from Keychain — cookies may be empty
+[2026-04-12 06:07:55]   Loaded 0 cookies
+[2026-04-12 06:07:55] WARNING: No cookies — fetches will be unauthenticated (may get 403)
+[2026-04-12 06:07:55] Fetching Confluence dashboard: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
+[2026-04-12 06:07:55] FETCH ERROR https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+[2026-04-12 06:07:55]   Found 0 OPIF IDs on dashboard: []...
+[2026-04-12 06:07:55] ERROR: No OPIF IDs found — Confluence may require re-authentication
+[2026-04-12 06:07:55]   Open Chrome, visit confluence.walmart.com, then re-run this script
+[2026-04-13 06:03:32] ============================================================
+[2026-04-13 06:03:32] E2E Fashion Portal Daily Sync — 2026-04-13
+[2026-04-13 06:03:32] ============================================================
+[2026-04-13 06:03:32] Loading Chrome cookies...
+[2026-04-13 06:03:32] WARNING: Could not get Chrome key: Cannot read Chrome key from Keychain — cookies may be empty
+[2026-04-13 06:03:32]   Loaded 0 cookies
+[2026-04-13 06:03:32] WARNING: No cookies — fetches will be unauthenticated (may get 403)
+[2026-04-13 06:03:32] Fetching Confluence dashboard: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
+[2026-04-13 06:03:32] FETCH ERROR https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+[2026-04-13 06:03:32]   Found 0 OPIF IDs on dashboard: []...
+[2026-04-13 06:03:32] ERROR: No OPIF IDs found — Confluence may require re-authentication
+[2026-04-13 06:03:32]   Open Chrome, visit confluence.walmart.com, then re-run this script
+[2026-04-13 06:03:32] ============================================================
+[2026-04-13 06:03:32] E2E Fashion Portal Daily Sync — 2026-04-13
+[2026-04-13 06:03:32] ============================================================
+[2026-04-13 06:03:32] Loading Chrome cookies...
+[2026-04-13 06:03:32] WARNING: Could not get Chrome key: Cannot read Chrome key from Keychain — cookies may be empty
+[2026-04-13 06:03:32]   Loaded 0 cookies
+[2026-04-13 06:03:32] WARNING: No cookies — fetches will be unauthenticated (may get 403)
+[2026-04-13 06:03:32] Fetching Confluence dashboard: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
+[2026-04-13 06:03:32] FETCH ERROR https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+[2026-04-13 06:03:32]   Found 0 OPIF IDs on dashboard: []...
+[2026-04-13 06:03:32] ERROR: No OPIF IDs found — Confluence may require re-authentication
+[2026-04-13 06:03:32]   Open Chrome, visit confluence.walmart.com, then re-run this script
+[2026-04-14 06:03:37] ============================================================
+[2026-04-14 06:03:37] E2E Fashion Portal Daily Sync — 2026-04-14
+[2026-04-14 06:03:37] ============================================================
+[2026-04-14 06:03:37] Loading Chrome cookies...
+[2026-04-14 06:03:37] WARNING: Could not get Chrome key: Cannot read Chrome key from Keychain — cookies may be empty
+[2026-04-14 06:03:37]   Loaded 0 cookies
+[2026-04-14 06:03:37] WARNING: No cookies — fetches will be unauthenticated (may get 403)
+[2026-04-14 06:03:37] Fetching Confluence dashboard: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
+[2026-04-14 06:03:37] FETCH ERROR https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+[2026-04-14 06:03:37]   Found 0 OPIF IDs on dashboard: []...
+[2026-04-14 06:03:37] ERROR: No OPIF IDs found — Confluence may require re-authentication
+[2026-04-14 06:03:37]   Open Chrome, visit confluence.walmart.com, then re-run this script
+[2026-04-14 06:03:37] ============================================================
+[2026-04-14 06:03:37] E2E Fashion Portal Daily Sync — 2026-04-14
+[2026-04-14 06:03:37] ============================================================
+[2026-04-14 06:03:37] Loading Chrome cookies...
+[2026-04-14 06:03:37] WARNING: Could not get Chrome key: Cannot read Chrome key from Keychain — cookies may be empty
+[2026-04-14 06:03:37]   Loaded 0 cookies
+[2026-04-14 06:03:37] WARNING: No cookies — fetches will be unauthenticated (may get 403)
+[2026-04-14 06:03:37] Fetching Confluence dashboard: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
+[2026-04-14 06:03:37] FETCH ERROR https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+[2026-04-14 06:03:37]   Found 0 OPIF IDs on dashboard: []...
+[2026-04-14 06:03:37] ERROR: No OPIF IDs found — Confluence may require re-authentication
+[2026-04-14 06:03:37]   Open Chrome, visit confluence.walmart.com, then re-run this script
+[12:09:41] 
+┌──────────────────────────────────────────────────────────────┐
+[12:09:41] │  E2E Fashion Portal — Full Refresh    2026-04-14 12:09       │
+[12:09:41] └──────────────────────────────────────────────────────────────┘
+[12:09:41] Portal dir : /Users/e0c0lzr/Downloads/fashion-portal
+[12:09:41] Mode       : DRY RUN
+[12:09:41] 
+[12:09:41] [1/7] Pull Confluence data
+[12:09:41] Checking for existing 'Long Lead Time' tab in Chrome…
+[12:09:42] No matching tab found — will open a new one
+[12:09:42] Opening Confluence in a new Chrome tab…
+[12:09:42] Waiting 20s for JavaScript render…
+[12:10:02] ✅ Chrome extracted 769 rows from 58 tables ✨
+[12:10:02] ✅ Saved fresh export (769 rows, 58 tables)
+[12:10:02] ✅ Parsed 51 OPIF records, 30 timeline rows  [live Confluence (Chrome)]
+[12:10:02] [2/7] Detect + apply Program Card changes
+[12:10:02]   DRY RUN: skipping card patches
+[12:10:02] [3/7] Stamp changelog → April 14, 2026
+[12:10:02]   DRY RUN: skipping
+[12:10:02] 
+DRY RUN complete — no files written.
+[12:12:22] 
+┌──────────────────────────────────────────────────────────────┐
+[12:12:22] │  E2E Fashion Portal — Full Refresh    2026-04-14 12:12       │
+[12:12:22] └──────────────────────────────────────────────────────────────┘
+[12:12:22] Portal dir : /Users/e0c0lzr/Downloads/fashion-portal
+[12:12:22] Mode       : LIVE
+[12:12:22] 
+[12:12:22] [1/7] Pull Confluence data
+[12:12:22] Checking for existing 'Long Lead Time' tab in Chrome…
+[12:12:23] ✅ Live tab extracted 769 rows from 58 tables ✨
+[12:12:23] ✅ Saved fresh export (769 rows, 58 tables)
+[12:12:23] ✅ Parsed 51 OPIF records, 30 timeline rows  [live Confluence (Chrome)]
+[12:12:23] [2/7] Detect + apply Program Card changes
+[12:12:23]   Portal has 22 OPIF-linked cards
+[12:12:23] ✅ 21 status/date field(s) updated
+[12:12:23]   OPIF-344926  status: 'completed' → 'Yellow — At Risk'
+[12:12:23]   OPIF-344926  targetDate: 'Mar 2, 2026' → 'Apr 30, 2026'
+[12:12:23]   OPIF-325569  status: 'green' → 'Yellow — At Risk'
+[12:12:23]   OPIF-325569  targetDate: 'Jul 31, 2026' → 'Oct 31, 2026'
+[12:12:23]   OPIF-325373  status: 'green' → 'Yellow — At Risk'
+[12:12:23]   OPIF-325373  targetDate: 'Q1 FY27' → 'Oct 31, 2026'
+[12:12:23]   OPIF-325221  status: 'green' → 'Yellow — At Risk'
+[12:12:23]   OPIF-325221  targetDate: 'Q1 FY27' → 'Oct 31, 2026'
+[12:12:23]   OPIF-325218  status: 'green' → 'Yellow — At Risk'
+[12:12:23]   OPIF-325218  targetDate: 'Q1 FY27' → 'Oct 31, 2026'
+[12:12:23]   OPIF-325599  targetDate: 'Oct 31, 2026' → 'Aug 1, 2026'
+[12:12:23]   OPIF-325216  targetDate: 'Jul 31, 2026' → 'Aug 1, 2026'
+[12:12:23]   OPIF-325217  targetDate: 'Jul 31, 2026' → 'Aug 1, 2026'
+[12:12:23]   OPIF-325565  targetDate: 'Jul 31, 2026' → 'Aug 1, 2026'
+[12:12:23]   OPIF-336019  targetDate: 'Jul 31, 2026' → 'May 1, 2026'
+[12:12:23]   OPIF-347498  status: 'yellow' → 'Green — In Progress'
+[12:12:23]   OPIF-347498  targetDate: 'Jul 31, 2026' → 'Mar 5, 2026'
+[12:12:23]   OPIF-325188  targetDate: 'May\\u2013Jul 2026' → 'May 1, 2026'
+[12:12:23]   OPIF-325208  targetDate: 'May 1, 2026' → 'Jul 31, 2026'
+[12:12:23]   OPIF-347500  status: 'yellow' → 'Green — In Progress'
+[12:12:23]   OPIF-347500  targetDate: 'Jul 31, 2026' → 'Mar 20, 2026'
+[12:12:23]   ↳ Updating WPR Status Remarks for Critical Program cards…
+[12:12:23]   ✔ design-hub-centric: recentUpdate written (from 4 OPIF(s))
+[12:12:23]   ⚠ sample-mgmt-fit-eval: no OPIFs mapped — skipping remarks
+[12:12:23]   ✔ visual-boards: recentUpdate unchanged
+[12:12:23]   ✔ aex-stability: recentUpdate written (from 3 OPIF(s))
+[12:12:23]   ✔ auto-item-setup: recentUpdate written (from 1 OPIF(s))
+[12:12:23]   ✔ ap-tool-lineplan: recentUpdate written (from 5 OPIF(s))
+[12:12:23] ✅ 4 Critical card(s) recentUpdate written
+[12:12:23]   design-hub-centric (data-design.js)
+[12:12:23]     OPIFs : ['OPIF-325208', 'OPIF-347498', 'OPIF-347500', 'OPIF-325206']
+[12:12:23]     before: 'Apr 7, 2026 \\u2014 Requirements being gathered. The team is reviewing integratio…'
+[12:12:23]     after : 'Design Hub (Centric Integration) (OPIF-325208): Requirements being gathered. The…'
+[12:12:23]   aex-stability (data-buying.js)
+[12:12:23]     OPIFs : ['OPIF-344926', 'OPIF-325602', 'OPIF-325568']
+[12:12:23]     before: 'AEX - Automated Item Set Up (OPIF-344926): 7-Apr-2026 - Development in progress.…'
+[12:12:23]     after : 'AEX - Automated Item Set Up (OPIF-344926): 14-Apr-2026 - Development in progress…'
+[12:12:23]   auto-item-setup (data-buying.js)
+[12:12:23]     OPIFs : ['OPIF-344926']
+[12:12:23]     before: '7-Apr-2026 - Development in progress. Based on discussion additional reporting s…'
+[12:12:23]     after : '14-Apr-2026 - Development in progress. Based on discussion additional reporting …'
+[12:12:23]   ap-tool-lineplan (data-buying.js)
+[12:12:23]     OPIFs : ['OPIF-325568', 'OPIF-325216', 'OPIF-325217', 'OPIF-325565', 'OPIF-325569']
+[12:12:23]     before: 'Move Fashion Line Planning to AP Tool Assortment List (OPIF-325568): 7-Apr-2026 …'
+[12:12:23]     after : 'Move Fashion Line Planning to AP Tool Assortment List (OPIF-325568): 14-Apr-2026…'
+[12:12:23] [3/7] Stamp changelog → April 14, 2026
+[12:12:23] ✅ data-changelog.js updated
+[12:12:23] [4/7] Build portal-inlined.html + portal-final.html
+[12:12:24]   Written portal-inlined.html (468.3 KB)
+[12:12:24]   Written portal-final.html (365.2 KB) — ready for puppy publish
+[12:12:24] ✅ build-inlined.py
+[12:12:24] [5/7] Inject OPIF Field Guide
+[12:12:24]   ✅ Successfully injected OPIF Field Mapping Guide
+[12:12:24]      CSS: 13365 characters
+[12:12:24]      HTML: 28174 characters
+[12:12:24]      Updated: portal-final.html
+[12:12:24] ✅ add-opif-guide.py
+[12:12:24] [6/7] Publish
+[12:12:24]   → PROD…
+[12:12:28]   📦 Publishing to PROD → e2e-fashion-portal-prod
+[12:12:28]      File  : portal-final.html (471 KB)
+[12:12:28]      URL   : https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod
+[12:12:28]   
+[12:12:28]     Uploading 473 KB...  [access: public]
+[12:12:28]     ✅ Published! v42
+[12:12:28]   
+[12:12:28]   🔗 https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod
+[12:12:28]   💡 To see changes: hard-refresh in browser (⌘+Shift+R on Mac / Ctrl+Shift+R on Win)
+[12:12:28]      Or open in Incognito to bypass any cached session state.
+[12:12:28] ✅ Published PROD
+[12:12:28] [7/7] Git commit

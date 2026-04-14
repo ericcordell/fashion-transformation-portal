@@ -96,7 +96,7 @@ const CARDS_ALLOCATION = [
   {
     id: 'assort-product-phase2', title: 'Assort Product (AP) Phase 2 Enhancements', icon: '\uD83D\uDCCB',
     status: 'yellow', statusLabel: 'Yellow — At Risk',
-    quarter: 'Q2', targetDate: 'Jul 31, 2026',
+    quarter: 'Q2', targetDate: 'May 1, 2026',
     jiraStatus: 'Work in Progress',
     description: 'Phase 2 of AP Tool enhancements — including modular volume groups (MVG), on-demand store volume groups and size curves, assortment optimization engine, and fixture preference workflow improvements. Enables shared event calendar and unified potential items view (OneSource + MINT integration). Connects AP Tool to the enterprise forecast service. Jira update (Feb 10, 2026): 02-10-2026 : Working with Arun on overall timeline. Dev Complete : TBD  Integration Testing : TBD  E2E Testing : TBD Current status: Work in Progress. Assignee: Arun Santhiagu (TPM). Reporter: Taylor Watson. Target completion: 2026-07-31.',
     businessBenefit: 'AP Tool transitions from allocation execution tool to a connected recommendation engine — surfacing AI-driven suggestions for fixture allocation, CC rules, and store clustering based on tagging and demand signals. Shared event calendar eliminates planning milestone re-entry across AP, Centric, and OneSource.',

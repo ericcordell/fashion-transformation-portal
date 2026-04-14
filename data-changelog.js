@@ -4,9 +4,9 @@
  * Format per entry: { date, field, from, to }
  * DO NOT EDIT MANUALLY — this file is overwritten on every sync run.
  *
- * Last sync: April 8, 2026
+ * Last sync: April 14, 2026
  */
-const LAST_SYNC_DATE = 'April 8, 2026';
+const LAST_SYNC_DATE = 'April 14, 2026';
 
 const CARD_CHANGELOG = {
   'auto-item-setup': [

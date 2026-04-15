@@ -70,7 +70,7 @@ const CARDS_BUYING = [
   {
     id: 'fashion-fixture-allocation-buying', title: 'Fashion Fixture Allocation (Visual)', icon: '\uD83C\uDFEA',
     status: 'yellow', statusLabel: 'Yellow — At Risk',
-    quarter: 'Q3', targetDate: 'Aug 1, 2026',
+    quarter: 'Q4', targetDate: 'Nov 30, 2026',
     jiraStatus: 'Initial Requirements',
     description: 'Assisted Fixture Allocation capability enabling merchants to plan product placement across store fixtures with an AI-assisted visual interface — requirements gathering underway. Builds on tagging and affinity graph data as a foundation. PRD in progress. Scope planning note: Corresponding with Dhaarna to determine if this OPIF is anticipated to be worked on in Q1. It\'s a maybe, but will move it to Q2 for now and if capacity allows for it, we can plan it back into Q1. OPIF-325598 Status: PRD In Progress. Related: OPIF-325599 (Category Space Planning) — Status: Backlog, Assignee: Dhaarna Singh.',
     businessBenefit: 'Merchants can visualize and optimize fixture allocation without complex spreadsheets, leading to better product placement decisions and fewer fixture conflicts. AI assistance surfaces recommended assortments per fixture based on tagging and affinity data — reducing manual merchant judgment burden.',
@@ -151,7 +151,7 @@ const CARDS_BUYING = [
     id: 'ap-tool-lineplan', title: 'AP Tool Line Plan Integration w/ AEX', icon: '\uD83D\uDCC8',
     critical: true,
     status: 'yellow', statusLabel: 'Yellow — At Risk',
-    quarter: 'Q3', targetDate: 'Aug 1, 2026',
+    quarter: 'Q2', targetDate: 'May 1, 2026',
     jiraStatus: 'Work in Progress',
     priority: 'P1',
     techRank: 2,

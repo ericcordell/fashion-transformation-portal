@@ -2726,3 +2726,131 @@ DRY RUN complete — no files written.
 [15:45:29]      Or open in Incognito to bypass any cached session state.
 [15:45:29] ✅ Published PROD
 [15:45:29] [7/7] Git commit
+[15:45:29] ✅ Git committed ( 7 files changed, 143 insertions(+), 11 deletions(-))
+[15:45:29] 
+[15:45:29] 
+┌──────────────────────────────────────────────────────────────┐
+[15:45:29] │  Summary                                                     │
+[15:45:29] └──────────────────────────────────────────────────────────────┘
+[15:45:29] ✅ Completed in 26.6s  |  Source: archive (Apr 14, 2026)
+[15:45:29] 
+[15:45:29] 📋 Program Card Changes:
+[15:45:29]    OPIF-325373  status: 'green' → 'Yellow — At Risk'
+[15:45:29]    OPIF-325373  targetDate: 'Q1 FY27' → 'Oct 31, 2026'
+[15:45:29]    OPIF-325221  status: 'green' → 'Yellow — At Risk'
+[15:45:29]    OPIF-325221  targetDate: 'Q1 FY27' → 'Oct 31, 2026'
+[15:45:29]    OPIF-325218  status: 'green' → 'Yellow — At Risk'
+[15:45:29]    OPIF-325218  targetDate: 'Q1 FY27' → 'Oct 31, 2026'
+[15:45:29]    OPIF-325599  targetDate: 'Oct 31, 2026' → 'Aug 1, 2026'
+[15:45:29]    OPIF-325216  targetDate: 'Oct 31, 2026' → 'Aug 1, 2026'
+[15:45:30]    OPIF-325217  targetDate: 'Oct 31, 2026' → 'Aug 1, 2026'
+[15:45:30]    OPIF-325565  targetDate: 'Oct 31, 2026' → 'Aug 1, 2026'
+[15:45:30]    OPIF-325188  targetDate: 'May\\u2013Jul 2026' → 'May 1, 2026'
+[15:45:30]    OPIF-325208  targetDate: 'May 1, 2026' → 'Jul 31, 2026'
+[15:45:30]    OPIF-347500  targetDate: 'Mar 5, 2026' → 'Mar 20, 2026'
+[15:45:30] 
+[15:45:30] 🗓  Upcoming Milestones (from Confluence):
+[15:45:30]    1.0                                      DONE - U.S. Omni Tech: FY27: Merch: Trust: FY27-PS02 Item Setup Experience: Item Set up and Experience 
+[15:45:30]    Execution Dev Complete                   15-Apr       In Progress
+[15:45:30]    IIR                                      15-Apr       In Progress
+[15:45:30]    Planned QE / E2E/UAT Testing             20-Apr       Not Started
+[15:45:30]    Planned Prod Deployment                  28-Apr       Not Started
+[15:45:30]    Architectural discussion                 10-Aor       In Progress
+[15:45:30]    Planned Start Date                       09-Mar       Started
+[15:45:30]    Development Complete - Phase 1           10-Apr       In Progress
+[15:45:30] 
+[15:45:30] 🔗 Live portals:
+[15:45:30]    https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
+[15:45:30]    https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod
+[15:45:30] 
+[15:45:30] 💡 Hard-refresh browser (⌘+Shift+R) to see latest content.
+[15:47:48] 
+┌──────────────────────────────────────────────────────────────┐
+[15:47:48] │  E2E Fashion Portal — Full Refresh    2026-04-15 15:47       │
+[15:47:48] └──────────────────────────────────────────────────────────────┘
+[15:47:48] Portal dir : /Users/e0c0lzr/Downloads/fashion-portal
+[15:47:48] Mode       : LIVE
+[15:47:48] 
+[15:47:48] [1/7] Pull Confluence data
+[15:47:48] Checking for existing 'Long Lead Time' tab in Chrome…
+[15:47:48] ⚠️  Chrome JS via AppleScript is disabled — attempting auto-enable...
+[15:47:49]   Auto-enabled ‘Allow JavaScript from Apple Events’ — retrying...
+[15:47:50] ⚠️  osascript stderr: /tmp/e2e-portal-extract.applescript:954:987: execution error: Google Chrome got an error: Executing JavaScript through AppleScript is turned off. To turn it on, from the menu bar, go to View > Develop
+[15:47:50] ⚠️  AppleScript returned empty output
+[15:47:50] Opening Confluence in a new Chrome tab…
+[15:47:50] Waiting 25s for JavaScript render…
+[15:48:15] ⚠️  Chrome JS via AppleScript is disabled — attempting auto-enable...
+[15:48:16]   Auto-enabled ‘Allow JavaScript from Apple Events’ — retrying...
+[15:48:16] ⚠️  osascript stderr: /tmp/e2e-portal-extract.applescript:954:987: execution error: Google Chrome got an error: Executing JavaScript through AppleScript is turned off. To turn it on, from the menu bar, go to View > Develop
+[15:48:16] ⚠️  AppleScript returned empty output
+[15:48:16] ⚠️  Chrome extraction failed — trying Safari fallback…
+[15:48:47] ⚠️  osascript stderr: /tmp/e2e-portal-extract.applescript:740:771: execution error: Safari got an error: You must enable 'Allow JavaScript from Apple Events' in the Developer section of Safari Settings to use 'do JavaScrip
+[15:48:47] ⚠️  AppleScript returned empty output
+[15:48:47] ⚠️  Safari fallback returned: None
+[15:48:47] ⚠️  Chrome extraction failed — falling back to last good archive
+[15:48:47] ✅ Using archive from Apr 14, 2026 (769 rows)
+[15:48:47] ✅ Parsed 51 OPIF records, 30 timeline rows  [archive (Apr 14, 2026)]
+[15:48:47] [2/7] Detect + apply Program Card changes
+[15:48:47]   Portal has 22 OPIF-linked cards
+[15:48:47] ✅ 12 status/date field(s) updated
+[15:48:47]   OPIF-325598  targetDate: 'Aug 1, 2026' → 'Oct 31, 2026'
+[15:48:47]   OPIF-325569  targetDate: 'Aug 1, 2026' → 'Oct 31, 2026'
+[15:48:47]   OPIF-325373  status: 'green' → 'Yellow — At Risk'
+[15:48:47]   OPIF-325373  targetDate: 'Q1 FY27' → 'Oct 31, 2026'
+[15:48:47]   OPIF-325221  status: 'green' → 'Yellow — At Risk'
+[15:48:47]   OPIF-325221  targetDate: 'Q1 FY27' → 'Oct 31, 2026'
+[15:48:47]   OPIF-325218  status: 'green' → 'Yellow — At Risk'
+[15:48:47]   OPIF-325218  targetDate: 'Q1 FY27' → 'Oct 31, 2026'
+[15:48:47]   OPIF-347498  targetDate: 'Mar 20, 2026' → 'Mar 5, 2026'
+[15:48:47]   OPIF-325203  targetDate: 'Jul 31, 2026' → 'May 1, 2026'
+[15:48:47]   OPIF-325206  targetDate: 'Jul 31, 2026' → 'May 1, 2026'
+[15:48:47]   OPIF-325188  targetDate: 'May\\u2013Jul 2026' → 'May 1, 2026'
+[15:48:47]   ↳ Updating WPR Status Remarks for Critical Program cards…
+[15:48:47]   ✔ design-hub-centric: recentUpdate unchanged
+[15:48:47]   ⚠ sample-mgmt-fit-eval: no OPIFs mapped — skipping remarks
+[15:48:47]   ✔ visual-boards: recentUpdate unchanged
+[15:48:47]   ✔ aex-stability: recentUpdate unchanged
+[15:48:47]   ✔ auto-item-setup: recentUpdate unchanged
+[15:48:47]   ✔ ap-tool-lineplan: recentUpdate unchanged
+[15:48:47] ✅ WPR Status Remarks already current — no changes
+[15:48:47] [3/7] Stamp changelog → April 15, 2026
+[15:48:47] ✅ data-changelog.js updated
+[15:48:47] [4/7] Build portal-inlined.html + portal-final.html
+[15:48:47]   Written portal-inlined.html (468.3 KB)
+[15:48:47]   Written portal-final.html (365.2 KB) — ready for puppy publish
+[15:48:47] ✅ build-inlined.py
+[15:48:47] [5/7] Inject OPIF Field Guide
+[15:48:48]   ✅ Successfully injected OPIF Field Mapping Guide
+[15:48:48]      CSS: 13365 characters
+[15:48:48]      HTML: 28174 characters
+[15:48:48]      Updated: portal-final.html
+[15:48:48] ✅ add-opif-guide.py
+[15:48:48] [6/7] Publish
+[15:48:48]   → TEST (canary preflight)…
+[15:48:51]   📦 Publishing to TEST → e2e-fashion-portal-test
+[15:48:51]      File  : portal-final.html (471 KB)
+[15:48:51]      URL   : https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
+[15:48:51]   
+[15:48:51]     [canary] uploading preflight probe...
+[15:48:51]     [canary] ✅ v132 — pipeline is alive
+[15:48:51]     Uploading 473 KB...  [access: business]
+[15:48:51]     ✅ Published! v133
+[15:48:51]     ✅ Version check passed: canary=v132 → real=v133 (consecutive ✓)
+[15:48:51]   
+[15:48:51]   🔗 https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
+[15:48:51]   💡 To see changes: hard-refresh in browser (⌘+Shift+R on Mac / Ctrl+Shift+R on Win)
+[15:48:51]      Or open in Incognito to bypass any cached session state.
+[15:48:51] ✅ Published TEST
+[15:48:51]   → PROD…
+[15:48:53]   📦 Publishing to PROD → e2e-fashion-portal-prod
+[15:48:53]      File  : portal-final.html (471 KB)
+[15:48:53]      URL   : https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod
+[15:48:53]   
+[15:48:53]     Uploading 473 KB...  [access: public]
+[15:48:53]     ✅ Published! v49
+[15:48:53]   
+[15:48:53]   🔗 https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod
+[15:48:53]   💡 To see changes: hard-refresh in browser (⌘+Shift+R on Mac / Ctrl+Shift+R on Win)
+[15:48:53]      Or open in Incognito to bypass any cached session state.
+[15:48:53] ✅ Published PROD
+[15:48:53] [7/7] Git commit

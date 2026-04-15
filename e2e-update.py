@@ -167,11 +167,83 @@ tell application "Google Chrome"
 end tell
 '''
 
+# Safari fallback — does NOT require "Allow JavaScript from Apple Events" setting.
+_SAFARI_TMPL = '''\
+tell application "Safari"
+    set jsCode to do shell script "cat {JS_PATH}"
+    set bestTab to missing value
+    repeat with aWindow in every window
+        repeat with aTab in every tab of aWindow
+            set tabName to name of aTab
+            set tabURL to URL of aTab
+            if tabName contains "Long Lead Time" then
+                set bestTab to aTab
+                exit repeat
+            else if tabURL contains "confluence.walmart.com" and bestTab is missing value then
+                set bestTab to aTab
+            end if
+        end repeat
+        if bestTab is not missing value then exit repeat
+    end repeat
+    if bestTab is missing value then return "{\\"error\\": \\"no_tab\\"}"
+    set result to do JavaScript jsCode in bestTab
+    return result
+end tell
+'''
 
-def _run_applescript() -> dict | None:
-    """Write JS to temp file, run AppleScript, parse and return JSON."""
+_CHROME_JS_DISABLED = "Executing JavaScript through AppleScript is turned off"
+
+
+def _try_enable_chrome_js() -> bool:
+    """Attempt to enable 'Allow JavaScript from Apple Events' in Chrome via System Events.
+    Returns True if the click succeeded (not guaranteed to have worked)."""
+    script = '''
+tell application "System Events"
+    tell process "Google Chrome"
+        set frontmost to true
+        delay 0.3
+        tell menu bar 1
+            tell menu bar item "View"
+                tell menu "View"
+                    tell menu item "Developer"
+                        tell menu "Developer"
+                            click menu item "Allow JavaScript from Apple Events"
+                        end tell
+                    end tell
+                end tell
+            end tell
+        end tell
+    end tell
+end tell
+'''
+    try:
+        res = subprocess.run(["osascript", "-e", script],
+                             capture_output=True, text=True, timeout=10)
+        return res.returncode == 0
+    except Exception:
+        return False
+
+
+def _open_confluence_in_safari():
+    """Open the LLTT dashboard in Safari and wait for render."""
+    script = f'''
+tell application "Safari"
+    activate
+    open location "{CONFLUENCE_URL}"
+end tell
+'''
+    subprocess.run(["osascript", "-e", script], capture_output=True, timeout=5)
+    time.sleep(25)
+
+
+def _run_applescript(tmpl: str = _APPLES_TMPL) -> dict | None:
+    """Write JS to temp file, run AppleScript, parse and return JSON.
+
+    If Chrome reports 'Executing JavaScript through AppleScript is turned off',
+    we auto-enable the setting via System Events and retry once.
+    """
     _JS_TMP.write_text(_EXTRACT_JS)
-    script = _APPLES_TMPL.replace("{JS_PATH}", str(_JS_TMP))
+    script = tmpl.replace("{JS_PATH}", str(_JS_TMP))
     _AS_TMP.write_text(script)
     try:
         res = subprocess.run(
@@ -185,8 +257,35 @@ def _run_applescript() -> dict | None:
         _AS_TMP.unlink(missing_ok=True)
         _JS_TMP.unlink(missing_ok=True)
 
-    if res.stderr.strip():
-        Log.warn(f"osascript stderr: {res.stderr.strip()[:200]}")
+    stderr = res.stderr.strip()
+
+    # Auto-heal: Chrome JS execution is disabled — try to enable and retry once
+    if _CHROME_JS_DISABLED in stderr:
+        Log.warn("Chrome JS via AppleScript is disabled — attempting auto-enable...")
+        if _try_enable_chrome_js():
+            Log.info("  Auto-enabled ‘Allow JavaScript from Apple Events’ — retrying...")
+            time.sleep(0.5)
+            _JS_TMP.write_text(_EXTRACT_JS)
+            script = tmpl.replace("{JS_PATH}", str(_JS_TMP))
+            _AS_TMP.write_text(script)
+            try:
+                res = subprocess.run(
+                    ["osascript", str(_AS_TMP)],
+                    capture_output=True, text=True, timeout=30
+                )
+            except subprocess.TimeoutExpired:
+                Log.warn("AppleScript retry timed out")
+                return None
+            finally:
+                _AS_TMP.unlink(missing_ok=True)
+                _JS_TMP.unlink(missing_ok=True)
+            stderr = res.stderr.strip()
+        else:
+            Log.warn("  Auto-enable failed — will try Safari fallback")
+            return None
+
+    if stderr:
+        Log.warn(f"osascript stderr: {stderr[:200]}")
 
     raw = res.stdout.strip()
     if not raw:
@@ -199,16 +298,30 @@ def _run_applescript() -> dict | None:
         return None
 
 
+def _open_confluence_in_chrome():
+    """Open the LLTT dashboard in Chrome using AppleScript (more reliable than
+    `open -a Chrome URL` which can silently fail or open a new window)."""
+    script = f'''
+tell application "Google Chrome"
+    activate
+    set newTab to make new tab at end of tabs of window 1
+    set URL of newTab to "{CONFLUENCE_URL}"
+end tell
+'''
+    subprocess.run(["osascript", "-e", script], capture_output=True, timeout=10)
+
+
 def _chrome_extract_fresh() -> dict | None:
     """
-    Extract Confluence table data from Chrome — two-pass strategy:
-      Pass 1: use the already-loaded 'Long Lead Time' tab (no navigation).
-      Pass 2: open a fresh tab, wait 20s for render, retry.
+    Extract Confluence table data — three-pass strategy:
+      Pass 1 (Chrome): use already-loaded 'Long Lead Time' tab.
+      Pass 2 (Chrome): open a fresh tab via AppleScript, wait 25s, retry.
+      Pass 3 (Safari): open in Safari (no JS-from-AppleScript permission needed).
     Returns None on all failures so caller falls back to archive.
     """
-    # ── Pass 1: existing loaded tab ───────────────────────────────────────────
+    # ── Pass 1: existing Chrome tab ─────────────────────────────────────────────
     Log.info("Checking for existing 'Long Lead Time' tab in Chrome…")
-    data = _run_applescript()
+    data = _run_applescript(_APPLES_TMPL)
 
     if data and not data.get("error"):
         rows = data.get("rowsExtracted", 0)
@@ -217,43 +330,56 @@ def _chrome_extract_fresh() -> dict | None:
             Log.warn(f"Tab is an error page ({url})")
             data = None
         elif rows > 0:
-            Log.ok(f"Live tab extracted {rows} rows from {data.get('tablesFound',0)} tables ✨")
+            Log.ok(f"Chrome live tab — {rows} rows from {data.get('tablesFound', 0)} tables ✨")
             return data
         else:
             Log.warn("Tab found but returned 0 rows — page may still be rendering")
             data = None
     elif data and data.get("error") == "no_tab":
-        Log.info("No matching tab found — will open a new one")
+        Log.info("No matching Chrome tab found — will open a new one")
+        data = None
+    else:
+        # None = JS disabled or other error; auto-enable was attempted in _run_applescript
         data = None
 
-    # ── Pass 2: open fresh tab + wait ─────────────────────────────────────────
+    # ── Pass 2: fresh Chrome tab (via AppleScript, not `open -a`) ────────────
     Log.info("Opening Confluence in a new Chrome tab…")
-    subprocess.run(["open", "-a", "Google Chrome", CONFLUENCE_URL], check=False)
-    Log.info("Waiting 20s for JavaScript render…")
-    time.sleep(20)
+    _open_confluence_in_chrome()
+    Log.info("Waiting 25s for JavaScript render…")
+    time.sleep(25)
 
-    data = _run_applescript()
-    if not data or data.get("error"):
-        Log.warn(f"Pass-2 returned: {data}")
-        return None
-
-    url  = data.get("url", "")
-    rows = data.get("rowsExtracted", 0)
-    if "chrome-error" in url:
-        Log.warn(f"Chrome DNS error on new tab ({url})")
-        return None
-
-    if rows == 0:
-        Log.info("Still 0 rows — final retry in 15s…")
-        time.sleep(15)
-        data = _run_applescript() or {}
+    data = _run_applescript(_APPLES_TMPL)
+    if data and not data.get("error"):
         rows = data.get("rowsExtracted", 0)
-        if rows == 0:
-            Log.warn("All passes returned 0 rows")
-            return None
+        if "chrome-error" in data.get("url", ""):
+            Log.warn("Chrome DNS error on new tab")
+        elif rows > 0:
+            Log.ok(f"Chrome fresh tab — {rows} rows ✨")
+            return data
+        elif rows == 0:
+            Log.info("Still 0 rows — final Chrome retry in 15s…")
+            time.sleep(15)
+            data = _run_applescript(_APPLES_TMPL) or {}
+            if data.get("rowsExtracted", 0) > 0:
+                Log.ok(f"Chrome retry — {data['rowsExtracted']} rows ✨")
+                return data
+            Log.warn("All Chrome passes returned 0 rows")
 
-    Log.ok(f"Chrome extracted {rows} rows from {data.get('tablesFound',0)} tables ✨")
-    return data
+    # ── Pass 3: Safari fallback (no JS-from-AppleScript permission needed) ──
+    Log.warn("Chrome extraction failed — trying Safari fallback…")
+    _open_confluence_in_safari()
+
+    data = _run_applescript(_SAFARI_TMPL)
+    if data and not data.get("error"):
+        rows = data.get("rowsExtracted", 0)
+        if rows > 0:
+            Log.ok(f"Safari fallback — {rows} rows ✨")
+            return data
+        Log.warn(f"Safari returned 0 rows")
+    else:
+        Log.warn(f"Safari fallback returned: {data}")
+
+    return None
 
 
 def _latest_archive() -> Path | None:

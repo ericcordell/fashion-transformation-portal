@@ -3233,3 +3233,141 @@ DRY RUN complete — no files written.
 [16:19:19]      Or open in Incognito to bypass any cached session state.
 [16:19:19] ✅ Published PROD
 [16:19:19] [7/7] Git commit
+[16:19:19] ✅ Git committed ( 10 files changed, 245 insertions(+), 81 deletions(-))
+[16:19:19] 
+[16:19:19] 
+┌──────────────────────────────────────────────────────────────┐
+[16:19:19] │  Summary                                                     │
+[16:19:19] └──────────────────────────────────────────────────────────────┘
+[16:19:19] ✅ Completed in 49.5s  |  Source: live Confluence (REST API)
+[16:19:19] 
+[16:19:19] 📋 Program Card Changes:
+[16:19:19]    OPIF-325373  status: 'green' → 'Yellow — At Risk'
+[16:19:19]    OPIF-325373  targetDate: 'Q1 FY27' → 'May 1, 2026'
+[16:19:19]    OPIF-325221  status: 'green' → 'Yellow — At Risk'
+[16:19:19]    OPIF-325221  targetDate: 'Q1 FY27' → 'May 1, 2026'
+[16:19:19]    OPIF-325218  status: 'green' → 'Yellow — At Risk'
+[16:19:19]    OPIF-325218  targetDate: 'Q1 FY27' → 'May 1, 2026'
+[16:19:19]    OPIF-325599  status: 'yellow' → 'Roadmap'
+[16:19:19]    OPIF-325599  targetDate: 'Nov 30, 2026' → 'Requirements gathering underway.'
+[16:19:19]    OPIF-325216  status: 'yellow' → 'Roadmap — Initial Requirements'
+[16:19:19]    OPIF-325216  targetDate: 'May 1, 2026' → 'Gathering requirements.'
+[16:19:19]    OPIF-325217  status: 'yellow' → 'Roadmap — Initial Requirements'
+[16:19:19]    OPIF-325217  targetDate: 'May 1, 2026' → 'Gathering requirements.'
+[16:19:19]    OPIF-337970  status: 'green' → 'Roadmap'
+[16:19:19]    OPIF-337970  targetDate: 'Aug 1, 2026' → '.'
+[16:19:19]    OPIF-325565  status: 'yellow' → 'Roadmap — Initial Requirements'
+[16:19:19]    OPIF-325565  targetDate: 'May 1, 2026' → 'Gathering requirements.'
+[16:19:19]    OPIF-325203  status: 'yellow' → 'Roadmap — Initial Requirements'
+[16:19:19]    OPIF-325203  targetDate: 'May 1, 2026' → 'Requirements being gathered.'
+[16:19:19]    OPIF-325188  targetDate: 'May\\u2013Jul 2026' → 'Requirements being gathered.'
+[16:19:19]    OPIF-336019  targetDate: 'May 1, 2026' → '02-10-2026  : Working with Arun on overall timeline.  Dev Complete : TBD Integration Testing : TBD E2E Testing : TBD'
+[16:19:19]    OPIF-325206  status: 'yellow' → 'Roadmap — Initial Requirements'
+[16:19:19]    OPIF-325206  targetDate: 'May 1, 2026' → 'Requirements being gathered.'
+[16:19:19]    OPIF-347500  targetDate: 'Mar 5, 2026' → 'Mar 20, 2026'
+[16:19:19]    OPIF-325568  targetDate: 'Feb 23, 2026' → 'Jul 31, 2026'
+[16:19:19]    OPIF-368304  targetDate: 'Aug 1, 2026' → 'Yes'
+[16:19:19]    design-hub-centric (data-design.js)  recentUpdate refreshed
+[16:19:19]    ap-tool-lineplan (data-buying.js)  recentUpdate refreshed
+[16:19:19] 
+[16:19:19] 🗓  Upcoming Milestones (from Confluence):
+[16:19:19]    1.0                                      DONE - U.S. Omni Tech: FY27: Merch: Trust: FY27-PS02 Item Setup Experience: Item Set up and Experience 
+[16:19:19]    Execution Dev Complete                   15-Apr       In Progress
+[16:19:19]    IIR                                      15-Apr       In Progress
+[16:19:19]    Planned QE / E2E/UAT Testing             20-Apr       Not Started
+[16:19:19]    Planned Prod Deployment                  28-Apr       Not Started
+[16:19:19]    Architectural discussion                 10-Aor       In Progress
+[16:19:19]    Planned Start Date                       09-Mar       Started
+[16:19:19]    Development Complete - Phase 1           10-Apr       In Progress
+[16:19:19] 
+[16:19:19] 🔗 Live portals:
+[16:19:19]    https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
+[16:19:19]    https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod
+[16:19:19] 
+[16:19:19] 💡 Hard-refresh browser (⌘+Shift+R) to see latest content.
+[16:24:31] 
+┌──────────────────────────────────────────────────────────────┐
+[16:24:31] │  E2E Fashion Portal — Full Refresh    2026-04-15 16:24       │
+[16:24:31] └──────────────────────────────────────────────────────────────┘
+[16:24:31] Portal dir : /Users/e0c0lzr/Downloads/fashion-portal
+[16:24:31] Mode       : LIVE
+[16:24:31] 
+[16:24:31] [1/7] Pull Confluence data
+[16:24:31] Fetching via Confluence REST API…
+[16:24:47] ⚠️  browser_cookie3 failed: Unable to get key for cookie decryption
+[16:24:47] ⚠️  REST API extraction failed — falling back to last good archive
+[16:24:47] ✅ Using archive from Apr 15, 2026 (475 rows)
+[16:24:47] ✅ Parsed 51 OPIF records, 31 timeline rows  [archive (Apr 15, 2026)]
+[16:24:47] [2/7] Detect + apply Program Card changes
+[16:24:47]   Portal has 22 OPIF-linked cards
+[16:24:47] ✅ 22 status/date field(s) updated
+[16:24:47]   OPIF-325598  status: 'roadmap' → 'Yellow — At Risk'
+[16:24:47]   OPIF-325598  targetDate: 'Requirements gathering underway.' → 'Nov 30, 2026'
+[16:24:47]   OPIF-325569  status: 'roadmap' → 'Yellow — At Risk'
+[16:24:47]   OPIF-325569  targetDate: 'Gathering requirements.' → 'May 1, 2026'
+[16:24:47]   OPIF-325373  status: 'green' → 'Yellow — At Risk'
+[16:24:47]   OPIF-325373  targetDate: 'Q1 FY27' → 'May 1, 2026'
+[16:24:47]   OPIF-325221  status: 'green' → 'Yellow — At Risk'
+[16:24:47]   OPIF-325221  targetDate: 'Q1 FY27' → 'May 1, 2026'
+[16:24:47]   OPIF-325218  status: 'green' → 'Yellow — At Risk'
+[16:24:47]   OPIF-325218  targetDate: 'Q1 FY27' → 'May 1, 2026'
+[16:24:47]   OPIF-325599  targetDate: 'Requirements gathering underway.' → 'Aug 1, 2026'
+[16:24:47]   OPIF-325216  targetDate: 'Gathering requirements.' → 'Aug 1, 2026'
+[16:24:47]   OPIF-325217  targetDate: 'Gathering requirements.' → 'Aug 1, 2026'
+[16:24:47]   OPIF-337970  targetDate: '.' → 'Aug 1, 2026'
+[16:24:47]   OPIF-325565  targetDate: 'Gathering requirements.' → 'Aug 1, 2026'
+[16:24:47]   OPIF-325203  targetDate: 'Requirements being gathered.' → 'May 1, 2026'
+[16:24:47]   OPIF-325188  targetDate: 'May\\u2013Jul 2026' → 'May 1, 2026'
+[16:24:47]   OPIF-336019  targetDate: '02-10-2026  : Working with Arun on overall timeline.  Dev Complete : TBD Integration Testing : TBD E2E Testing : TBD' → 'May 1, 2026'
+[16:24:47]   OPIF-325206  targetDate: 'Requirements being gathered.' → 'May 1, 2026'
+[16:24:47]   OPIF-325208  status: 'roadmap' → 'Yellow — At Risk'
+[16:24:47]   OPIF-325208  targetDate: 'Requirements being gathered.' → 'May 1, 2026'
+[16:24:47]   OPIF-368304  targetDate: 'Yes' → 'Oct 31, 2026'
+[16:24:47]   ↳ Updating WPR Status Remarks for Critical Program cards…
+[16:24:47]   ◌ design-hub-centric: all OPIFs have empty remarks — skipping
+[16:24:47]   ⚠ sample-mgmt-fit-eval: no OPIFs mapped — skipping remarks
+[16:24:47]   ◌ visual-boards: all OPIFs have empty remarks — skipping
+[16:24:47]   ✔ aex-stability: recentUpdate written (from 3 OPIF(s))
+[16:24:47]   ✔ auto-item-setup: recentUpdate written (from 1 OPIF(s))
+[16:24:47]   ✔ ap-tool-lineplan: recentUpdate written (from 5 OPIF(s))
+[16:24:47] ✅ 3 Critical card(s) recentUpdate written
+[16:24:47]   aex-stability (data-buying.js)
+[16:24:47]     OPIFs : ['OPIF-344926', 'OPIF-325602', 'OPIF-325568']
+[16:24:47]     before: 'AEX - Automated Item Set Up (OPIF-344926): 14-Apr-2026 - Development in progress…'
+[16:24:47]     after : 'AEX - Automated Item Set Up (OPIF-344926): Design underway.  |  Move Fashion Lin…'
+[16:24:47]   auto-item-setup (data-buying.js)
+[16:24:47]     OPIFs : ['OPIF-344926']
+[16:24:47]     before: '14-Apr-2026 - Development in progress. Based on discussion additional reporting …'
+[16:24:47]     after : 'Design underway.'
+[16:24:47]   ap-tool-lineplan (data-buying.js)
+[16:24:47]     OPIFs : ['OPIF-325216', 'OPIF-325217', 'OPIF-325565', 'OPIF-325568', 'OPIF-325569']
+[16:24:47]     before: "AEX Fashion:  Use Assortment Planning\\'s  Plan Creation & Plan List (OPIF-325216…"
+[16:24:47]     after : 'Move Fashion Line Planning to AP Tool Assortment List (OPIF-325568): Design unde…'
+[16:24:47] [3/7] Stamp changelog → April 15, 2026
+[16:24:47] ✅ data-changelog.js updated
+[16:24:47] [4/7] Build portal-inlined.html + portal-final.html
+[16:24:48]   Written portal-inlined.html (466.9 KB)
+[16:24:48]   Written portal-final.html (363.8 KB) — ready for puppy publish
+[16:24:48] ✅ build-inlined.py
+[16:24:48] [5/7] Inject OPIF Field Guide
+[16:24:48]   ✅ Successfully injected OPIF Field Mapping Guide
+[16:24:48]      CSS: 13365 characters
+[16:24:48]      HTML: 28174 characters
+[16:24:48]      Updated: portal-final.html
+[16:24:48] ✅ add-opif-guide.py
+[16:24:48] [6/7] Publish
+[16:24:48]   → TEST (canary preflight)…
+[16:24:48] ❌ Published TEST failed:
+Traceback (most recent call last):
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/urllib/request.py", line 1346, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/client.py", line 1257, in request
+   
+[16:24:48]   → PROD…
+[16:24:48] ❌ Published PROD failed:
+Traceback (most recent call last):
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/urllib/request.py", line 1346, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/client.py", line 1257, in request
+   
+[16:24:48] [7/7] Git commit

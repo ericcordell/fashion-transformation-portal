@@ -78,7 +78,9 @@ STATUS_MAP = {
     "closed":               ("complete", "Complete"),
     "roadmap":              ("roadmap",  "Roadmap"),
     "planned":              ("roadmap",  "Roadmap"),
+    "initial requirements": ("roadmap",  "Roadmap — Initial Requirements"),
     "backlog":              ("roadmap",  "Roadmap"),
+    "not started":          ("roadmap",  "Roadmap"),
     "initial requirements": ("roadmap",  "Roadmap — Initial Requirements"),
     "pending sizing":       ("roadmap",  "Roadmap — Pending Sizing"),
     "ready to start":       ("yellow",   "Yellow — Ready to Start"),
@@ -367,27 +369,34 @@ def parse_opif_records(data: dict) -> dict[str, dict]:
     """
     opif_re = re.compile(r"OPIF-\d+")
 
-    # Group all rows by the first OPIF ID found in cells[:7]
-    candidates: dict[str, list[list[str]]] = {}
+    # Group all rows by the first OPIF ID found in cells[:7].
+    # Track which column index the ID came from so date-extraction skips it.
+    candidates: dict[str, list[tuple[list[str], int]]] = {}
     for row_obj in data.get("data", []):
         cells = row_obj.get("cells", [])
         opif_id = None
-        for cell in cells[:7]:
+        opif_col = -1
+        for idx, cell in enumerate(cells[:7]):
             m = opif_re.match(cell.strip())
             if m:
-                opif_id = m.group(0)
+                opif_id  = m.group(0)
+                opif_col = idx
                 break
         if opif_id:
-            candidates.setdefault(opif_id, []).append(cells)
+            candidates.setdefault(opif_id, []).append((cells, opif_col))
 
     records: dict[str, dict] = {}
-    for opif_id, rows in candidates.items():
+    for opif_id, row_tuples in candidates.items():
+        rows     = [t[0] for t in row_tuples]
+        # opif_col is consistent within a candidate group — take first
+        opif_col = row_tuples[0][1]
+
         # Prefer rows that contain a RAG color anywhere in _STATUS_COL_CANDIDATES
         rag_rows = [r for r in rows if _find_rag_col(r) is not None]
         best     = rag_rows[0] if rag_rows else max(rows, key=len)
 
         rag_col    = _find_rag_col(best)
-        is_type_a  = len(best) > 0 and opif_re.match(best[0].strip())  # ID in cells[0]
+        is_type_a  = opif_col == 0   # OPIF ID was in cells[0] (main table layout)
         program    = best[1].strip() if len(best) > 1 else ""
 
         if rag_col is not None:
@@ -401,28 +410,53 @@ def parse_opif_records(data: dict) -> dict[str, dict]:
                     raw_status = cl
                     break
 
-        tpm    = best[12].strip() if is_type_a and len(best) > 12 else ""
-        pm     = best[13].strip() if is_type_a and len(best) > 13 else ""
-        x_rank = best[5].strip()  if is_type_a and len(best) > 5  else ""
+        tpm    = best[12].strip() if is_type_a and len(best) > 12 and rag_col == 7 else ""
+        pm     = best[13].strip() if is_type_a and len(best) > 13 and rag_col == 7 else ""
+        x_rank = best[5].strip()  if is_type_a and len(best) > 5  and rag_col == 7 else ""
 
-        # Target date: Type A uses cols 16/17; Type B scans for date pattern
-        target   = ""
-        date_pat = re.compile(r"^[A-Z][a-z]{2,8}[ -]\d{1,2},?[ -]?\d{4}$")
-        if is_type_a:
-            target = best[16].strip() if len(best) > 16 and best[16].strip() else ""
-            if not target and len(best) > 17:
-                target = best[17].strip()
+        # ── Target date extraction ────────────────────────────────────────────
+        # date_pat: strict match so we don't confuse remarks text for dates.
+        date_pat = re.compile(
+            r"^(?:\d{1,2}-)?[A-Z][a-z]{2,8}[\s\-]\d{1,2},?[\s\-]?\d{4}$"
+            r"|^\d{4}-\d{2}-\d{2}$"
+            r"|^Q[1-4]\s*FY\d{2,4}$",
+            re.I,
+        )
+
+        def _is_date(s: str) -> bool:
+            return bool(date_pat.match(s.strip()))
+
+        target = ""
+        if rag_col == 7:
+            # Standard main table: date at cells[16], fallback cells[17]
+            c16 = best[16].strip() if len(best) > 16 else ""
+            c17 = best[17].strip() if len(best) > 17 else ""
+            target = c16 if _is_date(c16) else (c17 if _is_date(c17) else "")
+        elif rag_col == 12:
+            # AEX sub-table: date at cells[5] or cells[13]
+            c5  = best[5].strip()  if len(best) > 5  else ""
+            c13 = best[13].strip() if len(best) > 13 else ""
+            target = c5 if _is_date(c5) else (c13 if _is_date(c13) else "")
+        # Scan fallback for all cases (Type C / no RAG / date not in expected col).
+        # Explicitly skip opif_col so we don't mistake the ID for a date.
         if not target:
-            target = next(
-                (c.strip() for c in best[3:] if date_pat.match(c.strip())), ""
-            )
+            for idx in [5, 13, 16, 17, 3, 4, 15, 29]:
+                if idx == opif_col:
+                    continue
+                val = best[idx].strip() if len(best) > idx else ""
+                if _is_date(val):
+                    target = val
+                    break
 
-        # Status remarks: Type A has them at cols 19-20
+        # Status remarks: col 20 for standard rows; col 11 for Type C
         raw_remarks = ""
         if is_type_a:
-            raw_remarks = best[20].strip() if len(best) > 20 else ""
-            if not raw_remarks:
-                raw_remarks = best[19].strip() if len(best) > 19 else ""
+            # Prefer cells[20] (full dated notes); fall back to cells[19] then cells[11]
+            for col in [20, 19, 11]:
+                val = best[col].strip() if len(best) > col else ""
+                if val and not val.lstrip('0123456789.-').lstrip() == "":
+                    raw_remarks = val
+                    break
 
         status_key, status_label = STATUS_MAP.get(
             raw_status,

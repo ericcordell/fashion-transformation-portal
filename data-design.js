@@ -118,7 +118,7 @@ const CARDS_DESIGN = [
   },
   {
     id: 'shared-event-layer', title: 'Shared Event Layer (AP, Centric, OneSource)', icon: '\uD83C\uDF10',
-    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q2', targetDate: 'Requirements being gathered.',
+    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q2', targetDate: 'May 1, 2026',
     description: 'Integration of a shared event layer connecting AP Tool, Centric, and OneSource — enabling real-time data flow across Design, Buying, and Strategy systems without point-to-point coupling. OPIF-325188 (Shared Project Tracking and Event Calendar) establishes the tracking and calendar scaffolding. OPIF-325188 Status: Initial Requirements. Assignee: Christopher Chiodo. Reporter: Christopher Chiodo. Component: US Omni Tech - AEX-FashionApparel.',
     businessBenefit: 'System changes in one workstream tool propagate automatically to all connected systems. Eliminates the sync delays and manual reconciliation that occur with batch integrations. Shared event calendar ensures all tools reflect the same planning milestones simultaneously.',
     techIntegration: 'Primary OPIF: OPIF-325188 (Shared Project Tracking and Event Calendar — Initial Requirements). Related: OPIF-325208 (Design Hub / Centric Integration), OPIF-325203 (Shared Item Repository). Event-driven integration layer. AP Tool, Centric, and OneSource publish and consume events. Enables near-real-time cross-system state consistency. PRD: Confluence APREC space (pageId 3255372152).',

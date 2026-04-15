@@ -90,7 +90,7 @@ const CARDS_STRATEGY = [
   },
   {
     id: 'shared-merch-strategy', title: 'Shared Merch Strategy & Scenario Planning', icon: '\uD83C\uDFAF',
-    status: 'yellow', statusLabel: 'Yellow — At Risk',
+    status: 'roadmap', statusLabel: 'Roadmap — Initial Requirements',
     quarter: 'Q2', targetDate: 'May 1, 2026',
     description: 'Shared merchandise strategy repository capturing goals and priorities that power automated conceptual line plan creation and scenario generation. Strategy inputs from TTP cascade into AEX and Centric without manual re-entry — enabling full scenario evaluation before seasonal commitment. Part of the Automate phase of the LLTT roadmap. OPIF-325206 Status: Initial Requirements. Assignee: Christopher Chiodo. Reporter: Christopher Chiodo. Component: US Omni Tech - AEX-FashionApparel.',
     businessBenefit: 'Merchants shift from encoding decisions manually to encoding strategy and goals — the system generates and evaluates scenarios. Dramatically reduces planning cycle time and enables what-if evaluation before financial commitment. Connected and shared merch strategy eliminates duplicative strategy sessions across Design, Buying, and Allocation.',

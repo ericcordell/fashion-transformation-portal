@@ -114,6 +114,18 @@ PROD must **never** be published with `business`, `restricted`, or any constrain
 
 ---
 
+## 📝 Changelog
+
+### April 14, 2026
+- Updated Confluence data sync — 21 OPIF status/date fields refreshed (PROD v42)
+- Fixed `--test-only` bug in `e2e-update.py` — was publishing PROD instead of TEST
+- Added Publishing Tenets section to this README
+- Added `sync.log` to `.gitignore`
+- Updated portal header date: `March 2026` → `April 2026`
+- Changed portal header label: `Confidential` → `Internal Use` (PROD is public access)
+
+---
+
 ## ✨ Features
 
 - **Four workstream pillars** (Strategy, Design, Buying, Allocation) with live status badges

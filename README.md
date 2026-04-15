@@ -28,9 +28,21 @@ A lightweight, self-contained web portal. No build step. No server. No dependenc
 > ```bash
 > python3 build-inlined.py           # step 1: build portal-final.html
 > python3 publish-portal.py --test   # step 2: canary preflight → real publish
-> # verify at URL, then:
-> python3 publish-portal.py --prod   # step 3: ONLY when explicitly requested
+> # verify at TEST URL, then:
+> python3 validate-portal.py         # step 3: full card validation report
+> python3 publish-portal.py --prod   # step 4: validation gate runs automatically;
+>                                    #          aborts if any critical card has errors
 > ```
+>
+> **Validation gate (built into --prod publish):**
+> `publish-portal.py --prod` automatically runs `validate-portal.py --critical`
+> before uploading. If any critical card has a missing/invalid status, empty
+> statusLabel, or garbage targetDate — the publish is **hard-aborted**. Fix the
+> errors, rebuild, and try again.
+>
+> Run `python3 validate-portal.py` manually for the full report across all cards.
+> Use `--critical` to see only `critical: true` cards. Use `--quiet` to suppress
+> warnings and show errors only.
 >
 > **⚠️ CRITICAL — The "shadow record" trap (the real reason updates didn't show up)**
 >
@@ -95,7 +107,8 @@ Every developer, agent, and script MUST follow these — no exceptions.
 
 ### 5. Consistent Publishing Process
 - **One-command update:** `python3 e2e-update.py` (Confluence pull → build → publish TEST+PROD → git commit)
-- **Manual publish:** `python3 publish-portal.py --test` first, verify, then `python3 publish-portal.py --prod`
+- **Manual publish:** `python3 build-inlined.py` → `python3 publish-portal.py --test` → verify → `python3 validate-portal.py` → `python3 publish-portal.py --prod`
+- **`--prod` is gated:** `publish-portal.py --prod` runs `validate-portal.py --critical` automatically and aborts if any critical card has an error. You cannot skip this.
 - **Test-only deploy:** `python3 e2e-update.py --test-only` (publishes to TEST only, skips PROD)
 - **Never publish to PROD without verifying TEST first.**
 

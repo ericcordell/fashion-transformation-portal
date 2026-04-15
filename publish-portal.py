@@ -29,6 +29,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -130,6 +131,34 @@ def _run_canary(slug: str) -> int:
     return version
 
 
+# ── Validation gate ──────────────────────────────────────────────────────────
+
+def _run_validation_gate() -> None:
+    """Run validate-portal.py before PROD publish. Aborts on any card errors.
+
+    Calls the validator as a subprocess so it gets its own clean stdout
+    (with colour codes) printed directly to the terminal, then checks the
+    exit code.  Exit 1 from the validator = hard abort.
+    """
+    validator = BASE / 'validate-portal.py'
+    if not validator.exists():
+        print('  \u26a0\ufe0f  validate-portal.py not found — skipping validation gate')
+        print('     (run: python3 validate-portal.py to check card data manually)')
+        return
+
+    print('  \U0001f50d Running card validation gate...')
+    result = subprocess.run(
+        [sys.executable, str(validator), '--critical'],
+        cwd=str(BASE),
+    )
+    if result.returncode != 0:
+        print()
+        print('\u274c PROD publish ABORTED — fix the validation errors above first.')
+        print('   Run  python3 validate-portal.py  for the full report.')
+        sys.exit(1)
+    print('  \u2705 Validation gate passed.\n')
+
+
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main() -> None:
@@ -165,6 +194,10 @@ def main() -> None:
             expected_next = canary_ver + 1
         else:
             expected_next = None
+
+        # Step 1b (PROD only): run card validation gate — abort on any errors.
+        if args.env == 'prod':
+            _run_validation_gate()
 
         # Step 2: upload the real portal.
         access = ACCESS_LEVELS[args.env]

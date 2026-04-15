@@ -960,18 +960,20 @@ def main() -> None:
     Log.step(6, TOTAL, "Publish" if not args.no_publish else "Publish — SKIPPED")
 
     if not args.no_publish:
-        if not args.test_only:
-            Log.info("  → TEST (canary preflight)…")
-            if run([sys.executable, str(BASE / "publish-portal.py"), "--test"], "Published TEST"):
-                urls.append("https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test")
-            else:
-                errors.append("TEST publish failed")
-
-        Log.info("  → PROD…")
-        if run([sys.executable, str(BASE / "publish-portal.py"), "--prod"], "Published PROD"):
-            urls.append("https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod")
+        # Always publish to TEST first (canary preflight)
+        Log.info("  → TEST (canary preflight)…")
+        if run([sys.executable, str(BASE / "publish-portal.py"), "--test"], "Published TEST"):
+            urls.append("https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test")
         else:
-            errors.append("PROD publish failed")
+            errors.append("TEST publish failed")
+
+        # Only publish to PROD when --test-only is NOT set
+        if not args.test_only:
+            Log.info("  → PROD…")
+            if run([sys.executable, str(BASE / "publish-portal.py"), "--prod"], "Published PROD"):
+                urls.append("https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod")
+            else:
+                errors.append("PROD publish failed")
 
     # ── 7 · Git commit ────────────────────────────────────────────────────────
     Log.step(7, TOTAL, "Git commit")

@@ -11,3 +11,7 @@ index-inlined.html
 
 # Teams auth token cache
 .teams_token_cache.json
+
+# Logs
+sync.log
+auto-update.log

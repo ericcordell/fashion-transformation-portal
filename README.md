@@ -70,6 +70,50 @@ A lightweight, self-contained web portal. No build step. No server. No dependenc
 
 ---
 
+## 📜 Publishing Tenets (Non-Negotiable)
+
+These tenets govern how ALL changes to the E2E Fashion Portal are made, tested, and deployed.
+Every developer, agent, and script MUST follow these — no exceptions.
+
+### 1. Always Two Portals: TEST → PROD
+- There are **exactly two portals**: TEST and PROD. No third portal. No ad-hoc copies in `~/`.
+- **All changes go to TEST first.** Verify at the TEST URL before touching PROD.
+- PROD is only updated after TEST has been verified and confirmed working.
+
+### 2. TEST and PROD Must Be In Sync After Deployment
+- After every successful deployment to PROD, TEST and PROD must contain **identical content**.
+- If they diverge, it means either (a) TEST has unpublished WIP, or (b) someone skipped the workflow. Fix immediately.
+
+### 3. All Changes Go Through Git
+- Every change — code, data, content, config — is committed to the GitHub repo: `github.com/ericcordell/fashion-transformation-portal`.
+- **Never make edits only to the live portal** without updating the source files in git.
+- Commit often, with descriptive messages. We use git to roll forward and back in time.
+
+### 4. Update the README for Every Significant Change
+- If a change affects the portal's structure, workflow, data model, publishing process, or adds/removes a feature — **update this README**.
+- Future you (and future agents) will thank present you.
+
+### 5. Consistent Publishing Process
+- **One-command update:** `python3 e2e-update.py` (Confluence pull → build → publish TEST+PROD → git commit)
+- **Manual publish:** `python3 publish-portal.py --test` first, verify, then `python3 publish-portal.py --prod`
+- **Test-only deploy:** `python3 e2e-update.py --test-only` (publishes to TEST only, skips PROD)
+- **Never publish to PROD without verifying TEST first.**
+
+### 6. No Orphaned Files
+- The portal lives in `~/Downloads/fashion-portal/`. Period.
+- Do NOT leave standalone `.html` copies in `~/`, `~/Desktop/`, or anywhere else.
+- If you find orphaned portal files outside the project directory, delete them.
+
+### 7. Access Levels Are Sacred
+| Environment | Access Level | Rationale |
+|---|---|---|
+| **PROD** | `public` | Anyone with the link can view |
+| **TEST** | `business` | Org-only, staging content |
+
+PROD must **never** be published with `business`, `restricted`, or any constrained level.
+
+---
+
 ## ✨ Features
 
 - **Four workstream pillars** (Strategy, Design, Buying, Allocation) with live status badges

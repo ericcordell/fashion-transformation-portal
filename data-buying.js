@@ -37,9 +37,9 @@ const CARDS_BUYING = [
     workstreams: ['buying'],
   },
   {
-    id: 'auto-item-setup', title: 'Automated Item Setup', icon: '\u2699\uFE0F',
+    id: 'auto-item-setup', title: 'Automated Item Setup', icon: '⚙️',
     critical: true,
-    status: 'green', statusLabel: 'Green — On Track',
+    status: 'yellow', statusLabel: 'Yellow — At Risk',
     quarter: 'Q1', targetDate: 'Apr 30, 2026', tag: 'Critical Program',
     jiraStatus: 'Work in Progress',
     priority: 'P1',

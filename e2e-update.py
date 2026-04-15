@@ -501,53 +501,64 @@ def parse_timeline_rows(data: dict) -> list[dict]:
 
 
 # ── Patch data-*.js files ──────────────────────────────────────────────────────
-def load_current_opifs() -> dict[str, dict]:
-    found: dict[str, dict] = {}
-    opif_re = re.compile(r"OPIF-\d+")
-    for fname in DATA_FILES:
-        fpath = BASE / fname
-        if not fpath.exists():
-            continue
-        txt = fpath.read_text()
-        for m in opif_re.finditer(txt):
-            oid = m.group(0)
-            if oid in found:
-                continue
-            start   = max(0, m.start() - 2000)
-            snippet = txt[start: m.start() + 3000]
-            found[oid] = {
-                "file":        fname,
-                "status":      (re.search(r"status:\s*'([^']*)'", snippet) or type("", (), {"group": lambda s, n: ""})()).group(1),
-                "statusLabel": (re.search(r"statusLabel:\s*'([^']*)'", snippet) or type("", (), {"group": lambda s, n: ""})()).group(1),
-                "targetDate":  (re.search(r"targetDate:\s*'([^']*)'", snippet) or type("", (), {"group": lambda s, n: ""})()).group(1),
-            }
-    return found
-
-
-def _safe_get(m, group=1, default=""):
-    return m.group(group) if m else default
-
-
 def load_current_opifs() -> dict[str, dict]:  # noqa: F811  (clean redefinition)
-    found: dict[str, dict] = {}
-    opif_re = re.compile(r"OPIF-\d+")
+    """
+    Map every OPIF-ID found in the data files to the card that *owns* it.
+
+    Ownership priority (to avoid first-occurrence-wins on raw text):
+      1. OPIF appears in a jira.walmart.com/browse/OPIF-XXXXX URL inside a card
+         block — this is the "linked" card and is the definitive owner.
+      2. Fallback: first card block where the OPIF appears anywhere.
+
+    This prevents aex-stability (which mentions OPIF-344926 in recentUpdate
+    prose) from stealing ownership from auto-item-setup (which links it via
+    a proper jira resource URL).
+    """
+    linked:   dict[str, dict] = {}   # owning via jira URL
+    fallback: dict[str, dict] = {}   # first text mention
+
+    opif_re  = re.compile(r"OPIF-\d+")
+    jira_re  = re.compile(r"jira\.walmart\.com/browse/(OPIF-\d+)")
+
     for fname in DATA_FILES:
         fpath = BASE / fname
         if not fpath.exists():
             continue
         txt = fpath.read_text()
-        for m in opif_re.finditer(txt):
-            oid = m.group(0)
-            if oid in found:
-                continue
-            start   = max(0, m.start() - 2000)
-            snippet = txt[start: m.start() + 3000]
-            found[oid] = {
+
+        # Walk every card block
+        for m_id in re.finditer(r"\{\s*id\s*:\s*'([^']+)'", txt):
+            start = m_id.start()
+            depth, end = 0, start
+            for i, ch in enumerate(txt[start:], start):
+                if ch == "{": depth += 1
+                elif ch == "}":
+                    depth -= 1
+                    if depth == 0: end = i + 1; break
+            block = txt[start:end]
+
+            status_m = re.search(r"status:\s*'([^']*)'",      block)
+            label_m  = re.search(r"statusLabel:\s*'([^']*)'", block)
+            date_m   = re.search(r"targetDate:\s*'([^']*)'",  block)
+            entry = {
                 "file":        fname,
-                "status":      _safe_get(re.search(r"status:\s*'([^']*)'", snippet)),
-                "statusLabel": _safe_get(re.search(r"statusLabel:\s*'([^']*)'", snippet)),
-                "targetDate":  _safe_get(re.search(r"targetDate:\s*'([^']*)'", snippet)),
+                "status":      status_m.group(1) if status_m else "",
+                "statusLabel": label_m.group(1)  if label_m  else "",
+                "targetDate":  date_m.group(1)   if date_m   else "",
             }
+
+            # Register Jira-linked OPIFs as primary owners
+            for oid in dict.fromkeys(jira_re.findall(block)):
+                if oid not in linked:
+                    linked[oid] = entry
+
+            # Register all mentioned OPIFs as fallback
+            for oid in dict.fromkeys(opif_re.findall(block)):
+                if oid not in fallback:
+                    fallback[oid] = entry
+
+    # Merge: linked wins; fill gaps with fallback
+    found = {**fallback, **linked}
     return found
 
 

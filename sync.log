@@ -2193,3 +2193,160 @@ DRY RUN complete — no files written.
 [12:12:28]      Or open in Incognito to bypass any cached session state.
 [12:12:28] ✅ Published PROD
 [12:12:28] [7/7] Git commit
+[12:12:28] ✅ Git committed ( 12 files changed, 307 insertions(+), 96 deletions(-))
+[12:12:28] 
+[12:12:28] 
+┌──────────────────────────────────────────────────────────────┐
+[12:12:28] │  Summary                                                     │
+[12:12:28] └──────────────────────────────────────────────────────────────┘
+[12:12:28] ✅ Completed in 5.8s  |  Source: live Confluence (Chrome)
+[12:12:28] 
+[12:12:28] 📋 Program Card Changes:
+[12:12:28]    OPIF-344926  status: 'completed' → 'Yellow — At Risk'
+[12:12:28]    OPIF-344926  targetDate: 'Mar 2, 2026' → 'Apr 30, 2026'
+[12:12:28]    OPIF-325569  status: 'green' → 'Yellow — At Risk'
+[12:12:28]    OPIF-325569  targetDate: 'Jul 31, 2026' → 'Oct 31, 2026'
+[12:12:28]    OPIF-325373  status: 'green' → 'Yellow — At Risk'
+[12:12:28]    OPIF-325373  targetDate: 'Q1 FY27' → 'Oct 31, 2026'
+[12:12:28]    OPIF-325221  status: 'green' → 'Yellow — At Risk'
+[12:12:28]    OPIF-325221  targetDate: 'Q1 FY27' → 'Oct 31, 2026'
+[12:12:28]    OPIF-325218  status: 'green' → 'Yellow — At Risk'
+[12:12:28]    OPIF-325218  targetDate: 'Q1 FY27' → 'Oct 31, 2026'
+[12:12:28]    OPIF-325599  targetDate: 'Oct 31, 2026' → 'Aug 1, 2026'
+[12:12:28]    OPIF-325216  targetDate: 'Jul 31, 2026' → 'Aug 1, 2026'
+[12:12:28]    OPIF-325217  targetDate: 'Jul 31, 2026' → 'Aug 1, 2026'
+[12:12:28]    OPIF-325565  targetDate: 'Jul 31, 2026' → 'Aug 1, 2026'
+[12:12:28]    OPIF-336019  targetDate: 'Jul 31, 2026' → 'May 1, 2026'
+[12:12:28]    OPIF-347498  status: 'yellow' → 'Green — In Progress'
+[12:12:28]    OPIF-347498  targetDate: 'Jul 31, 2026' → 'Mar 5, 2026'
+[12:12:28]    OPIF-325188  targetDate: 'May\\u2013Jul 2026' → 'May 1, 2026'
+[12:12:28]    OPIF-325208  targetDate: 'May 1, 2026' → 'Jul 31, 2026'
+[12:12:28]    OPIF-347500  status: 'yellow' → 'Green — In Progress'
+[12:12:28]    OPIF-347500  targetDate: 'Jul 31, 2026' → 'Mar 20, 2026'
+[12:12:28]    design-hub-centric (data-design.js)  recentUpdate refreshed
+[12:12:28]    aex-stability (data-buying.js)  recentUpdate refreshed
+[12:12:28]    auto-item-setup (data-buying.js)  recentUpdate refreshed
+[12:12:28]    ap-tool-lineplan (data-buying.js)  recentUpdate refreshed
+[12:12:28] 
+[12:12:28] 🗓  Upcoming Milestones (from Confluence):
+[12:12:28]    1.0                                      DONE - U.S. Omni Tech: FY27: Merch: Trust: FY27-PS02 Item Setup Experience: Item Set up and Experience 
+[12:12:28]    Execution Dev Complete                   15-Apr       In Progress
+[12:12:28]    IIR                                      15-Apr       In Progress
+[12:12:28]    Planned QE / E2E/UAT Testing             20-Apr       Not Started
+[12:12:28]    Planned Prod Deployment                  28-Apr       Not Started
+[12:12:28]    Architectural discussion                 10-Aor       In Progress
+[12:12:28]    Planned Start Date                       09-Mar       Started
+[12:12:28]    Development Complete - Phase 1           10-Apr       In Progress
+[12:12:28] 
+[12:12:28] 🔗 Live portals:
+[12:12:28]    https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod
+[12:12:28] 
+[12:12:28] 💡 Hard-refresh browser (⌘+Shift+R) to see latest content.
+[2026-04-15 06:14:14] ============================================================
+[2026-04-15 06:14:14] E2E Fashion Portal Daily Sync — 2026-04-15
+[2026-04-15 06:14:14] ============================================================
+[2026-04-15 06:14:14] Loading Chrome cookies...
+[2026-04-15 06:14:14] WARNING: Could not get Chrome key: Cannot read Chrome key from Keychain — cookies may be empty
+[2026-04-15 06:14:14]   Loaded 0 cookies
+[2026-04-15 06:14:14] WARNING: No cookies — fetches will be unauthenticated (may get 403)
+[2026-04-15 06:14:14] Fetching Confluence dashboard: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
+[2026-04-15 06:14:14] FETCH ERROR https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+[2026-04-15 06:14:14]   Found 0 OPIF IDs on dashboard: []...
+[2026-04-15 06:14:14] ERROR: No OPIF IDs found — Confluence may require re-authentication
+[2026-04-15 06:14:14]   Open Chrome, visit confluence.walmart.com, then re-run this script
+[2026-04-15 06:14:14] ============================================================
+[2026-04-15 06:14:14] E2E Fashion Portal Daily Sync — 2026-04-15
+[2026-04-15 06:14:14] ============================================================
+[2026-04-15 06:14:14] Loading Chrome cookies...
+[2026-04-15 06:14:14] WARNING: Could not get Chrome key: Cannot read Chrome key from Keychain — cookies may be empty
+[2026-04-15 06:14:14]   Loaded 0 cookies
+[2026-04-15 06:14:14] WARNING: No cookies — fetches will be unauthenticated (may get 403)
+[2026-04-15 06:14:14] Fetching Confluence dashboard: https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard
+[2026-04-15 06:14:14] FETCH ERROR https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+[2026-04-15 06:14:14]   Found 0 OPIF IDs on dashboard: []...
+[2026-04-15 06:14:14] ERROR: No OPIF IDs found — Confluence may require re-authentication
+[2026-04-15 06:14:14]   Open Chrome, visit confluence.walmart.com, then re-run this script
+[15:35:25] 
+┌──────────────────────────────────────────────────────────────┐
+[15:35:25] │  E2E Fashion Portal — Full Refresh    2026-04-15 15:35       │
+[15:35:25] └──────────────────────────────────────────────────────────────┘
+[15:35:25] Portal dir : /Users/e0c0lzr/Downloads/fashion-portal
+[15:35:25] Mode       : LIVE
+[15:35:25] 
+[15:35:25] [1/7] Pull Confluence data
+[15:35:25] Checking for existing 'Long Lead Time' tab in Chrome…
+[15:35:25] No matching tab found — will open a new one
+[15:35:25] Opening Confluence in a new Chrome tab…
+[15:35:25] Waiting 20s for JavaScript render…
+[15:35:45] ⚠️  Pass-2 returned: {'error': 'no_tab'}
+[15:35:45] ⚠️  Chrome extraction failed — falling back to last good archive
+[15:35:45] ✅ Using archive from Apr 14, 2026 (769 rows)
+[15:35:46] ✅ Parsed 51 OPIF records, 30 timeline rows  [archive (Apr 14, 2026)]
+[15:35:46] [2/7] Detect + apply Program Card changes
+[15:35:46]   Portal has 22 OPIF-linked cards
+[15:35:46] ✅ 16 status/date field(s) updated
+[15:35:46]   OPIF-344926  status: 'completed' → 'Yellow — At Risk'
+[15:35:46]   OPIF-344926  targetDate: 'Mar 2, 2026' → 'Apr 30, 2026'
+[15:35:46]   OPIF-325568  status: 'yellow' → 'Green — In Progress'
+[15:35:46]   OPIF-325568  targetDate: 'Apr 30, 2026' → 'Jul 31, 2026'
+[15:35:46]   OPIF-325598  targetDate: 'Aug 1, 2026' → 'Oct 31, 2026'
+[15:35:46]   OPIF-325569  targetDate: 'Aug 1, 2026' → 'Oct 31, 2026'
+[15:35:46]   OPIF-325373  status: 'green' → 'Yellow — At Risk'
+[15:35:46]   OPIF-325373  targetDate: 'Q1 FY27' → 'Oct 31, 2026'
+[15:35:46]   OPIF-325221  status: 'green' → 'Yellow — At Risk'
+[15:35:46]   OPIF-325221  targetDate: 'Q1 FY27' → 'Oct 31, 2026'
+[15:35:46]   OPIF-325218  status: 'green' → 'Yellow — At Risk'
+[15:35:46]   OPIF-325218  targetDate: 'Q1 FY27' → 'Oct 31, 2026'
+[15:35:46]   OPIF-347498  targetDate: 'Mar 20, 2026' → 'Mar 5, 2026'
+[15:35:46]   OPIF-325203  targetDate: 'Jul 31, 2026' → 'May 1, 2026'
+[15:35:46]   OPIF-325206  targetDate: 'Jul 31, 2026' → 'May 1, 2026'
+[15:35:46]   OPIF-325188  targetDate: 'May\\u2013Jul 2026' → 'May 1, 2026'
+[15:35:46]   ↳ Updating WPR Status Remarks for Critical Program cards…
+[15:35:46]   ✔ design-hub-centric: recentUpdate unchanged
+[15:35:46]   ⚠ sample-mgmt-fit-eval: no OPIFs mapped — skipping remarks
+[15:35:46]   ✔ visual-boards: recentUpdate unchanged
+[15:35:46]   ✔ aex-stability: recentUpdate unchanged
+[15:35:46]   ✔ auto-item-setup: recentUpdate unchanged
+[15:35:46]   ✔ ap-tool-lineplan: recentUpdate unchanged
+[15:35:46] ✅ WPR Status Remarks already current — no changes
+[15:35:46] [3/7] Stamp changelog → April 15, 2026
+[15:35:46] ✅ data-changelog.js updated
+[15:35:46] [4/7] Build portal-inlined.html + portal-final.html
+[15:35:46]   Written portal-inlined.html (468.3 KB)
+[15:35:46]   Written portal-final.html (365.2 KB) — ready for puppy publish
+[15:35:46] ✅ build-inlined.py
+[15:35:46] [5/7] Inject OPIF Field Guide
+[15:35:46]   ✅ Successfully injected OPIF Field Mapping Guide
+[15:35:46]      CSS: 13365 characters
+[15:35:46]      HTML: 28174 characters
+[15:35:46]      Updated: portal-final.html
+[15:35:46] ✅ add-opif-guide.py
+[15:35:46] [6/7] Publish
+[15:35:46]   → TEST (canary preflight)…
+[15:35:49]   📦 Publishing to TEST → e2e-fashion-portal-test
+[15:35:49]      File  : portal-final.html (471 KB)
+[15:35:49]      URL   : https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
+[15:35:49]   
+[15:35:49]     [canary] uploading preflight probe...
+[15:35:49]     [canary] ✅ v124 — pipeline is alive
+[15:35:49]     Uploading 473 KB...  [access: business]
+[15:35:49]     ✅ Published! v125
+[15:35:49]     ✅ Version check passed: canary=v124 → real=v125 (consecutive ✓)
+[15:35:49]   
+[15:35:49]   🔗 https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
+[15:35:49]   💡 To see changes: hard-refresh in browser (⌘+Shift+R on Mac / Ctrl+Shift+R on Win)
+[15:35:49]      Or open in Incognito to bypass any cached session state.
+[15:35:49] ✅ Published TEST
+[15:35:49]   → PROD…
+[15:35:51]   📦 Publishing to PROD → e2e-fashion-portal-prod
+[15:35:51]      File  : portal-final.html (471 KB)
+[15:35:51]      URL   : https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod
+[15:35:51]   
+[15:35:51]     Uploading 473 KB...  [access: public]
+[15:35:51]     ✅ Published! v45
+[15:35:51]   
+[15:35:51]   🔗 https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod
+[15:35:51]   💡 To see changes: hard-refresh in browser (⌘+Shift+R on Mac / Ctrl+Shift+R on Win)
+[15:35:51]      Or open in Incognito to bypass any cached session state.
+[15:35:51] ✅ Published PROD
+[15:35:51] [7/7] Git commit

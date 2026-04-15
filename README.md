@@ -116,6 +116,16 @@ PROD must **never** be published with `business`, `restricted`, or any constrain
 
 ## 📝 Changelog
 
+### April 15, 2026
+- **Switched Confluence extraction to REST API** — no more browser/AppleScript dependency!
+  - Uses Chrome cookies via `browser_cookie3` for auth — no permissions required
+  - Fetches live data every run without needing Chrome open
+  - Faster: ~16s vs 45-65s for browser-based extraction
+- Fixed `--test-only` bug (from April 14): was skipping TEST and publishing to PROD
+- Fixed OPIF oscillation bug: `completed` cards now excluded from OPIF sync updates
+- Removed all Chrome AppleScript extraction code — replaced with `_confluence_api_extract()`
+- PROD v50, TEST v135
+
 ### April 14, 2026
 - Updated Confluence data sync — 21 OPIF status/date fields refreshed (PROD v42)
 - Fixed `--test-only` bug in `e2e-update.py` — was publishing PROD instead of TEST

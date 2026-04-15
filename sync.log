@@ -3089,3 +3089,147 @@ DRY RUN complete — no files written.
 [16:14:33]      Or open in Incognito to bypass any cached session state.
 [16:14:33] ✅ Published PROD
 [16:14:33] [7/7] Git commit
+[16:14:33] ✅ Git committed ( 6 files changed, 117 insertions(+), 6 deletions(-))
+[16:14:33] 
+[16:14:33] 
+┌──────────────────────────────────────────────────────────────┐
+[16:14:33] │  Summary                                                     │
+[16:14:33] └──────────────────────────────────────────────────────────────┘
+[16:14:33] ✅ Completed in 100.5s  |  Source: live Confluence (REST API)
+[16:14:33] 
+[16:14:33] 📋 Program Card Changes:
+[16:14:33]    OPIF-325598  targetDate: 'Aug 1, 2026' → 'Nov 30, 2026'
+[16:14:33]    OPIF-325569  targetDate: 'Aug 1, 2026' → 'May 1, 2026'
+[16:14:33]    OPIF-325373  targetDate: 'Q1 FY27' → 'May 1, 2026'
+[16:14:33]    OPIF-325221  targetDate: 'Q1 FY27' → 'May 1, 2026'
+[16:14:33]    OPIF-325218  targetDate: 'Q1 FY27' → 'May 1, 2026'
+[16:14:33]    OPIF-325188  targetDate: 'May\\u2013Jul 2026' → 'May 1, 2026'
+[16:14:33] 
+[16:14:33] 🗓  Upcoming Milestones (from Confluence):
+[16:14:33]    1.0                                      DONE - U.S. Omni Tech: FY27: Merch: Trust: FY27-PS02 Item Setup Experience: Item Set up and Experience 
+[16:14:33]    Execution Dev Complete                   15-Apr       In Progress
+[16:14:33]    IIR                                      15-Apr       In Progress
+[16:14:33]    Planned QE / E2E/UAT Testing             20-Apr       Not Started
+[16:14:33]    Planned Prod Deployment                  28-Apr       Not Started
+[16:14:33]    Architectural discussion                 10-Aor       In Progress
+[16:14:33]    Planned Start Date                       09-Mar       Started
+[16:14:33]    Development Complete - Phase 1           10-Apr       In Progress
+[16:14:33] 
+[16:14:33] 🔗 Live portals:
+[16:14:33]    https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
+[16:14:33]    https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod
+[16:14:33] 
+[16:14:33] 💡 Hard-refresh browser (⌘+Shift+R) to see latest content.
+[16:17:57] 
+┌──────────────────────────────────────────────────────────────┐
+[16:17:57] │  E2E Fashion Portal — Full Refresh    2026-04-15 16:17       │
+[16:17:57] └──────────────────────────────────────────────────────────────┘
+[16:17:57] Portal dir : /Users/e0c0lzr/Downloads/fashion-portal
+[16:17:57] Mode       : DRY RUN
+[16:17:57] 
+[16:17:57] [1/7] Pull Confluence data
+[16:17:57] Fetching via Confluence REST API…
+[16:18:08] ✅ REST API — 475 rows from 43 tables ✨
+[16:18:08] ✅ Parsed 51 OPIF records, 31 timeline rows  [live Confluence (REST API)]
+[16:18:08] [2/7] Detect + apply Program Card changes
+[16:18:08]   DRY RUN: skipping card patches
+[16:18:09] [3/7] Stamp changelog → April 15, 2026
+[16:18:09]   DRY RUN: skipping
+[16:18:09] 
+DRY RUN complete — no files written.
+[16:18:30] 
+┌──────────────────────────────────────────────────────────────┐
+[16:18:30] │  E2E Fashion Portal — Full Refresh    2026-04-15 16:18       │
+[16:18:30] └──────────────────────────────────────────────────────────────┘
+[16:18:30] Portal dir : /Users/e0c0lzr/Downloads/fashion-portal
+[16:18:30] Mode       : LIVE
+[16:18:30] 
+[16:18:30] [1/7] Pull Confluence data
+[16:18:30] Fetching via Confluence REST API…
+[16:19:13] ✅ REST API — 475 rows from 43 tables ✨
+[16:19:13] ✅ Parsed 51 OPIF records, 31 timeline rows  [live Confluence (REST API)]
+[16:19:13] [2/7] Detect + apply Program Card changes
+[16:19:13]   Portal has 22 OPIF-linked cards
+[16:19:13] ✅ 25 status/date field(s) updated
+[16:19:13]   OPIF-325373  status: 'green' → 'Yellow — At Risk'
+[16:19:13]   OPIF-325373  targetDate: 'Q1 FY27' → 'May 1, 2026'
+[16:19:13]   OPIF-325221  status: 'green' → 'Yellow — At Risk'
+[16:19:13]   OPIF-325221  targetDate: 'Q1 FY27' → 'May 1, 2026'
+[16:19:13]   OPIF-325218  status: 'green' → 'Yellow — At Risk'
+[16:19:13]   OPIF-325218  targetDate: 'Q1 FY27' → 'May 1, 2026'
+[16:19:13]   OPIF-325599  status: 'yellow' → 'Roadmap'
+[16:19:13]   OPIF-325599  targetDate: 'Nov 30, 2026' → 'Requirements gathering underway.'
+[16:19:13]   OPIF-325216  status: 'yellow' → 'Roadmap — Initial Requirements'
+[16:19:13]   OPIF-325216  targetDate: 'May 1, 2026' → 'Gathering requirements.'
+[16:19:13]   OPIF-325217  status: 'yellow' → 'Roadmap — Initial Requirements'
+[16:19:13]   OPIF-325217  targetDate: 'May 1, 2026' → 'Gathering requirements.'
+[16:19:13]   OPIF-337970  status: 'green' → 'Roadmap'
+[16:19:13]   OPIF-337970  targetDate: 'Aug 1, 2026' → '.'
+[16:19:13]   OPIF-325565  status: 'yellow' → 'Roadmap — Initial Requirements'
+[16:19:13]   OPIF-325565  targetDate: 'May 1, 2026' → 'Gathering requirements.'
+[16:19:13]   OPIF-325203  status: 'yellow' → 'Roadmap — Initial Requirements'
+[16:19:13]   OPIF-325203  targetDate: 'May 1, 2026' → 'Requirements being gathered.'
+[16:19:13]   OPIF-325188  targetDate: 'May\\u2013Jul 2026' → 'Requirements being gathered.'
+[16:19:13]   OPIF-336019  targetDate: 'May 1, 2026' → '02-10-2026  : Working with Arun on overall timeline.  Dev Complete : TBD Integration Testing : TBD E2E Testing : TBD'
+[16:19:13]   OPIF-325206  status: 'yellow' → 'Roadmap — Initial Requirements'
+[16:19:13]   OPIF-325206  targetDate: 'May 1, 2026' → 'Requirements being gathered.'
+[16:19:13]   OPIF-347500  targetDate: 'Mar 5, 2026' → 'Mar 20, 2026'
+[16:19:13]   OPIF-325568  targetDate: 'Feb 23, 2026' → 'Jul 31, 2026'
+[16:19:13]   OPIF-368304  targetDate: 'Aug 1, 2026' → 'Yes'
+[16:19:13]   ↳ Updating WPR Status Remarks for Critical Program cards…
+[16:19:13]   ✔ design-hub-centric: recentUpdate written (from 4 OPIF(s))
+[16:19:13]   ⚠ sample-mgmt-fit-eval: no OPIFs mapped — skipping remarks
+[16:19:13]   ◌ visual-boards: all OPIFs have empty remarks — skipping
+[16:19:13]   ◌ aex-stability: all OPIFs have empty remarks — skipping
+[16:19:13]   ◌ auto-item-setup: all OPIFs have empty remarks — skipping
+[16:19:13]   ✔ ap-tool-lineplan: recentUpdate written (from 5 OPIF(s))
+[16:19:13] ✅ 2 Critical card(s) recentUpdate written
+[16:19:13]   design-hub-centric (data-design.js)
+[16:19:13]     OPIFs : ['OPIF-325208', 'OPIF-325206', 'OPIF-347498', 'OPIF-347500']
+[16:19:13]     before: 'Design Hub (Centric Integration) (OPIF-325208): 4.0  |  Shared Merch Strategy (O…'
+[16:19:13]     after : 'Shared Merch Strategy (OPIF-325206): 3.0'
+[16:19:13]   ap-tool-lineplan (data-buying.js)
+[16:19:13]     OPIFs : ['OPIF-325216', 'OPIF-325217', 'OPIF-325565', 'OPIF-325569', 'OPIF-325568']
+[16:19:13]     before: "AEX Fashion:  Use Assortment Planning\\'s  Plan Creation & Plan List (OPIF-325216…"
+[16:19:13]     after : "AEX Fashion:  Use Assortment Planning's  Plan Creation & Plan List (OPIF-325216)…"
+[16:19:13] [3/7] Stamp changelog → April 15, 2026
+[16:19:13] ✅ data-changelog.js updated
+[16:19:13] [4/7] Build portal-inlined.html + portal-final.html
+[16:19:14]   Written portal-inlined.html (467.8 KB)
+[16:19:14]   Written portal-final.html (364.6 KB) — ready for puppy publish
+[16:19:14] ✅ build-inlined.py
+[16:19:14] [5/7] Inject OPIF Field Guide
+[16:19:14]   ✅ Successfully injected OPIF Field Mapping Guide
+[16:19:14]      CSS: 13365 characters
+[16:19:14]      HTML: 28174 characters
+[16:19:14]      Updated: portal-final.html
+[16:19:14] ✅ add-opif-guide.py
+[16:19:14] [6/7] Publish
+[16:19:14]   → TEST (canary preflight)…
+[16:19:17]   📦 Publishing to TEST → e2e-fashion-portal-test
+[16:19:17]      File  : portal-final.html (470 KB)
+[16:19:17]      URL   : https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
+[16:19:17]   
+[16:19:17]     [canary] uploading preflight probe...
+[16:19:17]     [canary] ✅ v138 — pipeline is alive
+[16:19:17]     Uploading 472 KB...  [access: business]
+[16:19:17]     ✅ Published! v139
+[16:19:17]     ✅ Version check passed: canary=v138 → real=v139 (consecutive ✓)
+[16:19:17]   
+[16:19:17]   🔗 https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
+[16:19:17]   💡 To see changes: hard-refresh in browser (⌘+Shift+R on Mac / Ctrl+Shift+R on Win)
+[16:19:17]      Or open in Incognito to bypass any cached session state.
+[16:19:17] ✅ Published TEST
+[16:19:17]   → PROD…
+[16:19:19]   📦 Publishing to PROD → e2e-fashion-portal-prod
+[16:19:19]      File  : portal-final.html (470 KB)
+[16:19:19]      URL   : https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod
+[16:19:19]   
+[16:19:19]     Uploading 472 KB...  [access: public]
+[16:19:19]     ✅ Published! v52
+[16:19:19]   
+[16:19:19]   🔗 https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod
+[16:19:19]   💡 To see changes: hard-refresh in browser (⌘+Shift+R on Mac / Ctrl+Shift+R on Win)
+[16:19:19]      Or open in Incognito to bypass any cached session state.
+[16:19:19] ✅ Published PROD
+[16:19:19] [7/7] Git commit

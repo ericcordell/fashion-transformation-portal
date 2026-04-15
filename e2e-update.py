@@ -332,33 +332,47 @@ def _clean_remarks(raw: str) -> str:
 # RAG color values that uniquely identify the main LLTT dashboard table rows.
 # Other tables put names / dates / free text in cells[7].
 _RAG_COLORS = {"green", "yellow", "red"}
+# Status columns we check in priority order when cells[7] is not a RAG color.
+# The LLTT page has multiple sub-tables with different column offsets.
+_STATUS_COL_CANDIDATES = [7, 8, 9, 12, 13]
+
+
+def _find_rag_col(cells: list[str]) -> int | None:
+    """Return the index of the first cell that is exactly a RAG color, or None."""
+    for idx in _STATUS_COL_CANDIDATES:
+        if idx < len(cells) and cells[idx].strip().lower() in _RAG_COLORS:
+            return idx
+    return None
 
 
 def parse_opif_records(data: dict) -> dict[str, dict]:
     """
     Extract OPIF records from Confluence table data.
 
-    The live Confluence page flattens nested sub-tables, so each OPIF ID
-    may appear in 3-5 rows from different summary/cross-ref tables.
+    The LLTT Confluence page has two sub-table formats:
 
-    Row selection strategy:
-      1. Prefer rows where cells[7] is exactly 'Green'/'Yellow'/'Red'
-         (the RAG status column in the main LLTT dashboard table).
-      2. Fall back to the longest row if no RAG row exists.
+    Type A — Main LLTT dashboard (OPIF ID in cells[0]):
+      cells[7]  = RAG status (Green/Yellow/Red) — standard layout
+      cells[12] = RAG status — alternate AEX sub-table layout
+      cells[16] = target date
 
-    Target date strategy (main table layout):
-      - cells[14] = program start date (skip)
-      - cells[16] = target date ← this is what we want
-      - cells[17] = target date duplicate
+    Type B — Cross-reference summary table (OPIF ID in cells[5]):
+      cells[8]  = status text (e.g. 'Initial Requirements', 'Yellow')
+      No fixed target date column — scan for date pattern
+
+    We handle both by:
+      1. Searching cells[:7] for OPIF ID (not just cells[:3]).
+      2. Calling _find_rag_col() to find the actual status column.
+      3. Using column-based date extraction for Type A, scan-based for Type B.
     """
     opif_re = re.compile(r"OPIF-\d+")
 
-    # Group all rows by OPIF ID (only rows where ID is in cells[0..2])
+    # Group all rows by the first OPIF ID found in cells[:7]
     candidates: dict[str, list[list[str]]] = {}
     for row_obj in data.get("data", []):
         cells = row_obj.get("cells", [])
         opif_id = None
-        for cell in cells[:3]:
+        for cell in cells[:7]:
             m = opif_re.match(cell.strip())
             if m:
                 opif_id = m.group(0)
@@ -368,34 +382,47 @@ def parse_opif_records(data: dict) -> dict[str, dict]:
 
     records: dict[str, dict] = {}
     for opif_id, rows in candidates.items():
-        # Priority: rows whose cells[7] is a RAG color (main dashboard table)
-        rag_rows = [
-            r for r in rows
-            if len(r) > 7 and r[7].strip().lower() in _RAG_COLORS
-        ]
-        best = rag_rows[0] if rag_rows else max(rows, key=len)
+        # Prefer rows that contain a RAG color anywhere in _STATUS_COL_CANDIDATES
+        rag_rows = [r for r in rows if _find_rag_col(r) is not None]
+        best     = rag_rows[0] if rag_rows else max(rows, key=len)
 
-        is_rag_row  = len(best) > 7 and best[7].strip().lower() in _RAG_COLORS
-        program     = best[1].strip()  if len(best) > 1  else ""
+        rag_col    = _find_rag_col(best)
+        is_type_a  = len(best) > 0 and opif_re.match(best[0].strip())  # ID in cells[0]
+        program    = best[1].strip() if len(best) > 1 else ""
 
-        if is_rag_row:
-            # Main table: fixed column layout
-            raw_status = best[7].strip().lower()          # e.g. "green"
-            tpm        = best[12].strip() if len(best) > 12 else ""
-            pm         = best[13].strip() if len(best) > 13 else ""
-            x_rank     = best[5].strip()  if len(best) > 5  else ""
-            # cells[14]=start date, cells[16]=target date
-            target     = best[16].strip() if len(best) > 16 and best[16].strip() else ""
+        if rag_col is not None:
+            raw_status = best[rag_col].strip().lower()
+        else:
+            # No RAG color found — try a known-status keyword scan
+            raw_status = ""
+            for c in best:
+                cl = c.strip().lower()
+                if cl in STATUS_MAP:
+                    raw_status = cl
+                    break
+
+        tpm    = best[12].strip() if is_type_a and len(best) > 12 else ""
+        pm     = best[13].strip() if is_type_a and len(best) > 13 else ""
+        x_rank = best[5].strip()  if is_type_a and len(best) > 5  else ""
+
+        # Target date: Type A uses cols 16/17; Type B scans for date pattern
+        target   = ""
+        date_pat = re.compile(r"^[A-Z][a-z]{2,8}[ -]\d{1,2},?[ -]?\d{4}$")
+        if is_type_a:
+            target = best[16].strip() if len(best) > 16 and best[16].strip() else ""
             if not target and len(best) > 17:
                 target = best[17].strip()
-        else:
-            # Fallback: scan for status keyword + any date
-            raw_status = best[7].strip().lower() if len(best) > 7 else ""
-            tpm        = best[12].strip() if len(best) > 12 else ""
-            pm         = best[13].strip() if len(best) > 13 else ""
-            x_rank     = best[5].strip()  if len(best) > 5  else ""
-            date_pat   = re.compile(r"^[A-Z][a-z]{2,8} \d{1,2}, \d{4}$")
-            target     = next((c.strip() for c in best[10:] if date_pat.match(c.strip())), "")
+        if not target:
+            target = next(
+                (c.strip() for c in best[3:] if date_pat.match(c.strip())), ""
+            )
+
+        # Status remarks: Type A has them at cols 19-20
+        raw_remarks = ""
+        if is_type_a:
+            raw_remarks = best[20].strip() if len(best) > 20 else ""
+            if not raw_remarks:
+                raw_remarks = best[19].strip() if len(best) > 19 else ""
 
         status_key, status_label = STATUS_MAP.get(
             raw_status,
@@ -404,15 +431,6 @@ def parse_opif_records(data: dict) -> dict[str, dict]:
                 ("", raw_status.title()),
             ),
         )
-        # cells[19] = brief status, cells[20] = full timestamped Status Remarks.
-        # We prefer cells[20] — it has dated updates like "6-Apr-2026 – Dev in progress..."
-        raw_remarks = ""
-        if is_rag_row:
-            raw_remarks = best[20].strip() if len(best) > 20 else ""
-            if not raw_remarks:
-                raw_remarks = best[19].strip() if len(best) > 19 else ""
-        else:
-            raw_remarks = best[20].strip() if len(best) > 20 else ""
 
         records[opif_id] = {
             "opifId":        opif_id,

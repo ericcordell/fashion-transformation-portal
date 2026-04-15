@@ -3472,3 +3472,39 @@ Traceback (most recent call last):
 [16:28:34] ✅ add-opif-guide.py
 [16:28:34] [6/7] Publish — SKIPPED
 [16:28:34] [7/7] Git commit
+[16:28:34] ✅ Git committed ( 7 files changed, 115 insertions(+), 13 deletions(-))
+[16:28:34] 
+[16:28:34] 
+┌──────────────────────────────────────────────────────────────┐
+[16:28:34] │  Summary                                                     │
+[16:28:34] └──────────────────────────────────────────────────────────────┘
+[16:28:34] ✅ Completed in 18.7s  |  Source: live Confluence (REST API)
+[16:28:34] 
+[16:28:34] 📋 Program Card Changes:
+[16:28:34]    OPIF-325598  targetDate: 'Aug 1, 2026' → 'Nov 30, 2026'
+[16:28:34]    OPIF-325569  targetDate: 'Aug 1, 2026' → 'May 1, 2026'
+[16:28:34]    OPIF-325373  status: 'green' → 'Yellow — At Risk'
+[16:28:34]    OPIF-325373  targetDate: 'Q1 FY27' → 'May 1, 2026'
+[16:28:34]    OPIF-325221  status: 'green' → 'Yellow — At Risk'
+[16:28:34]    OPIF-325221  targetDate: 'Q1 FY27' → 'May 1, 2026'
+[16:28:34]    OPIF-325218  status: 'green' → 'Yellow — At Risk'
+[16:28:34]    OPIF-325218  targetDate: 'Q1 FY27' → 'May 1, 2026'
+[16:28:34]    OPIF-325599  status: 'yellow' → 'Roadmap'
+[16:28:34]    OPIF-325216  status: 'yellow' → 'Roadmap — Initial Requirements'
+[16:28:34]    OPIF-325217  status: 'yellow' → 'Roadmap — Initial Requirements'
+[16:28:34]    OPIF-325565  status: 'yellow' → 'Roadmap — Initial Requirements'
+[16:28:34]    OPIF-325203  status: 'yellow' → 'Roadmap — Initial Requirements'
+[16:28:34]    OPIF-325188  targetDate: 'May\\u2013Jul 2026' → 'May 1, 2026'
+[16:28:34]    OPIF-325206  status: 'yellow' → 'Roadmap — Initial Requirements'
+[16:28:34] 
+[16:28:34] 🗓  Upcoming Milestones (from Confluence):
+[16:28:34]    1.0                                      DONE - U.S. Omni Tech: FY27: Merch: Trust: FY27-PS02 Item Setup Experience: Item Set up and Experience 
+[16:28:34]    Execution Dev Complete                   15-Apr       In Progress
+[16:28:34]    IIR                                      15-Apr       In Progress
+[16:28:34]    Planned QE / E2E/UAT Testing             20-Apr       Not Started
+[16:28:34]    Planned Prod Deployment                  28-Apr       Not Started
+[16:28:34]    Architectural discussion                 10-Aor       In Progress
+[16:28:34]    Planned Start Date                       09-Mar       Started
+[16:28:34]    Development Complete - Phase 1           10-Apr       In Progress
+[16:28:34] 
+[16:28:34] 💡 Hard-refresh browser (⌘+Shift+R) to see latest content.

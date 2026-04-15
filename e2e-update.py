@@ -10,9 +10,8 @@ Usage:
     python3 e2e-update.py --build-only   # skip Confluence pull, rebuild + publish
 
 What this does (in order):
-    1. Pull fresh Confluence data via Chrome + AppleScript
-       - Pass 1: extract from the existing loaded "Long Lead Time" tab (no nav)
-       - Pass 2: open a new tab, wait for render, retry
+    1. Pull fresh Confluence data via REST API (uses Chrome cookies for auth)
+       - Fallback: last good archived export if API call fails
        - Fallback: last good archived export if Chrome fails entirely
     2. Detect OPIF status / date / owner changes vs portal cards
     3. Patch changed fields into data-*.js card definitions
@@ -33,7 +32,11 @@ import re
 import subprocess
 import sys
 import time
+import urllib.error
+import urllib.parse
+import urllib.request
 from datetime import date, datetime
+from html.parser import HTMLParser
 from pathlib import Path
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
@@ -47,14 +50,12 @@ TODAY         = date.today().isoformat()
 NOW_PRETTY    = datetime.now().strftime("%B %-d, %Y")
 TIMESTAMP     = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
-# Temp files used during Chrome extraction — cleaned up after each run
-_JS_TMP    = Path("/tmp/e2e-portal-extract.js")
-_AS_TMP    = Path("/tmp/e2e-portal-extract.applescript")
-
 CONFLUENCE_URL = (
     "https://confluence.walmart.com/display/APREC/"
     "Long+Lead+Time+Transformation+Work+Management+Dashboard"
 )
+CONFLUENCE_BASE    = "https://confluence.walmart.com"
+CONFLUENCE_PAGE_ID = "3276735219"  # Long Lead Time Transformation Work Management Dashboard
 
 DATA_FILES = [
     "data-strategy.js",
@@ -109,277 +110,110 @@ class Log:
     def step(cls, n: int, tot: int, msg: str)  -> None: cls._write(f"[{n}/{tot}] {msg}")
 
 
-# ── Chrome extraction ──────────────────────────────────────────────────────────
-# The JavaScript lives in a separate file loaded by AppleScript via `cat`.
-# This avoids ALL multiline-string / escaping issues in osascript.
+# ── Confluence REST API extraction ─────────────────────────────────────────────
+# Uses Chrome cookies for auth — no browser permissions or AppleScript required.
+# browser_cookie3 reads Chrome’s local cookie store directly.
 
-_EXTRACT_JS = """\
-(function() {
-  var results = [];
-  var tables = document.querySelectorAll('table');
-  tables.forEach(function(table, tIdx) {
-    table.querySelectorAll('tr').forEach(function(row, rIdx) {
-      var cells = Array.from(row.querySelectorAll('td,th')).map(function(c) {
-        return c.innerText.trim();
-      });
-      if (cells.length > 0 && cells.join('').length > 0) {
-        results.push({ table: tIdx, row: rIdx, cells: cells });
+
+class _TableParser(HTMLParser):
+    """Pull text from every <td>/<th> in an HTML string into row dicts."""
+    def __init__(self):
+        super().__init__()
+        self.results: list[dict] = []
+        self._row: list[str]    = []
+        self._cell: list[str]   = []
+        self._in_cell: bool     = False
+        self.table_idx: int     = 0
+        self.row_idx: int       = 0
+
+    def handle_starttag(self, tag, attrs):
+        if tag == "table":
+            self.table_idx += 1
+            self.row_idx    = 0
+        elif tag == "tr":
+            self._row     = []
+            self.row_idx += 1
+        elif tag in ("td", "th"):
+            self._cell    = []
+            self._in_cell = True
+
+    def handle_endtag(self, tag):
+        if tag in ("td", "th"):
+            self._row.append(" ".join(self._cell).strip())
+            self._in_cell = False
+        elif tag == "tr":
+            if self._row and any(self._row):
+                self.results.append({
+                    "table": self.table_idx,
+                    "row":   self.row_idx,
+                    "cells": self._row,
+                })
+
+    def handle_data(self, data):
+        if self._in_cell:
+            self._cell.append(data.strip())
+
+
+def _confluence_api_extract() -> dict | None:
+    """Fetch the LLTT dashboard via Confluence REST API using Chrome cookies.
+
+    Returns the same structure as the old Chrome extraction so the rest of
+    the pipeline is unchanged:
+      {
+        success:       True,
+        url:           <page url>,
+        title:         <page title>,
+        tablesFound:   <int>,
+        rowsExtracted: <int>,
+        data:          [{table, row, cells}, ...]
       }
-    });
-  });
-  return JSON.stringify({
-    success: true,
-    url: window.location.href,
-    title: document.title,
-    tablesFound: tables.length,
-    rowsExtracted: results.length,
-    data: results
-  });
-})()
-"""
-
-# AppleScript template — {JS_PATH} is substituted at runtime.
-# Priority 1: tab whose title contains "Long Lead Time" (fully rendered dashboard).
-# Priority 2: any confluence.walmart.com tab that is not a chrome-error page.
-_APPLES_TMPL = '''\
-tell application "Google Chrome"
-    set jsCode to do shell script "cat {JS_PATH}"
-    set bestTab to missing value
-    set fallbackTab to missing value
-    repeat with aWindow in every window
-        repeat with atab in every tab of aWindow
-            set tabURL to URL of atab
-            set tabTitle to title of atab
-            if tabURL does not contain "chrome-error" then
-                if tabTitle contains "Long Lead Time" then
-                    set bestTab to atab
-                    exit repeat
-                else if tabURL contains "confluence.walmart.com" and fallbackTab is missing value then
-                    set fallbackTab to atab
-                end if
-            end if
-        end repeat
-        if bestTab is not missing value then exit repeat
-    end repeat
-    if bestTab is missing value then set bestTab to fallbackTab
-    if bestTab is missing value then return "{\\"error\\": \\"no_tab\\"}"
-    return execute bestTab javascript jsCode
-end tell
-'''
-
-# Safari fallback — does NOT require "Allow JavaScript from Apple Events" setting.
-_SAFARI_TMPL = '''\
-tell application "Safari"
-    set jsCode to do shell script "cat {JS_PATH}"
-    set bestTab to missing value
-    repeat with aWindow in every window
-        repeat with aTab in every tab of aWindow
-            set tabName to name of aTab
-            set tabURL to URL of aTab
-            if tabName contains "Long Lead Time" then
-                set bestTab to aTab
-                exit repeat
-            else if tabURL contains "confluence.walmart.com" and bestTab is missing value then
-                set bestTab to aTab
-            end if
-        end repeat
-        if bestTab is not missing value then exit repeat
-    end repeat
-    if bestTab is missing value then return "{\\"error\\": \\"no_tab\\"}"
-    set result to do JavaScript jsCode in bestTab
-    return result
-end tell
-'''
-
-_CHROME_JS_DISABLED = "Executing JavaScript through AppleScript is turned off"
-
-
-def _try_enable_chrome_js() -> bool:
-    """Attempt to enable 'Allow JavaScript from Apple Events' in Chrome via System Events.
-    Returns True if the click succeeded (not guaranteed to have worked)."""
-    script = '''
-tell application "System Events"
-    tell process "Google Chrome"
-        set frontmost to true
-        delay 0.3
-        tell menu bar 1
-            tell menu bar item "View"
-                tell menu "View"
-                    tell menu item "Developer"
-                        tell menu "Developer"
-                            click menu item "Allow JavaScript from Apple Events"
-                        end tell
-                    end tell
-                end tell
-            end tell
-        end tell
-    end tell
-end tell
-'''
-    try:
-        res = subprocess.run(["osascript", "-e", script],
-                             capture_output=True, text=True, timeout=10)
-        return res.returncode == 0
-    except Exception:
-        return False
-
-
-def _open_confluence_in_safari():
-    """Open the LLTT dashboard in Safari and wait for render."""
-    script = f'''
-tell application "Safari"
-    activate
-    open location "{CONFLUENCE_URL}"
-end tell
-'''
-    subprocess.run(["osascript", "-e", script], capture_output=True, timeout=5)
-    time.sleep(25)
-
-
-def _run_applescript(tmpl: str = _APPLES_TMPL) -> dict | None:
-    """Write JS to temp file, run AppleScript, parse and return JSON.
-
-    If Chrome reports 'Executing JavaScript through AppleScript is turned off',
-    we auto-enable the setting via System Events and retry once.
+    Returns None on any failure.
     """
-    _JS_TMP.write_text(_EXTRACT_JS)
-    script = tmpl.replace("{JS_PATH}", str(_JS_TMP))
-    _AS_TMP.write_text(script)
     try:
-        res = subprocess.run(
-            ["osascript", str(_AS_TMP)],
-            capture_output=True, text=True, timeout=30
-        )
-    except subprocess.TimeoutExpired:
-        Log.warn("AppleScript timed out")
-        return None
-    finally:
-        _AS_TMP.unlink(missing_ok=True)
-        _JS_TMP.unlink(missing_ok=True)
-
-    stderr = res.stderr.strip()
-
-    # Auto-heal: Chrome JS execution is disabled — try to enable and retry once
-    if _CHROME_JS_DISABLED in stderr:
-        Log.warn("Chrome JS via AppleScript is disabled — attempting auto-enable...")
-        if _try_enable_chrome_js():
-            Log.info("  Auto-enabled ‘Allow JavaScript from Apple Events’ — retrying...")
-            time.sleep(0.5)
-            _JS_TMP.write_text(_EXTRACT_JS)
-            script = tmpl.replace("{JS_PATH}", str(_JS_TMP))
-            _AS_TMP.write_text(script)
-            try:
-                res = subprocess.run(
-                    ["osascript", str(_AS_TMP)],
-                    capture_output=True, text=True, timeout=30
-                )
-            except subprocess.TimeoutExpired:
-                Log.warn("AppleScript retry timed out")
-                return None
-            finally:
-                _AS_TMP.unlink(missing_ok=True)
-                _JS_TMP.unlink(missing_ok=True)
-            stderr = res.stderr.strip()
-        else:
-            Log.warn("  Auto-enable failed — will try Safari fallback")
-            return None
-
-    if stderr:
-        Log.warn(f"osascript stderr: {stderr[:200]}")
-
-    raw = res.stdout.strip()
-    if not raw:
-        Log.warn("AppleScript returned empty output")
-        return None
-    try:
-        return json.loads(raw)
-    except json.JSONDecodeError:
-        Log.warn(f"AppleScript JSON parse error: {raw[:200]}")
+        import browser_cookie3
+        jar        = browser_cookie3.chrome(domain_name=".walmart.com")
+        cookie_hdr = "; ".join(f"{c.name}={c.value}" for c in jar)
+    except Exception as exc:
+        Log.warn(f"browser_cookie3 failed: {exc}")
         return None
 
+    url = (
+        f"{CONFLUENCE_BASE}/rest/api/content/{CONFLUENCE_PAGE_ID}"
+        "?expand=body.export_view"
+    )
+    req = urllib.request.Request(url, headers={
+        "Cookie":     cookie_hdr,
+        "Accept":     "application/json",
+        "User-Agent": "Mozilla/5.0",
+    })
+    try:
+        with urllib.request.urlopen(req, timeout=20) as resp:
+            payload = json.loads(resp.read())
+    except urllib.error.HTTPError as exc:
+        Log.warn(f"Confluence API HTTP {exc.code}: {exc.read().decode()[:200]}")
+        return None
+    except Exception as exc:
+        Log.warn(f"Confluence API request failed: {exc}")
+        return None
 
-def _open_confluence_in_chrome():
-    """Open the LLTT dashboard in Chrome using AppleScript (more reliable than
-    `open -a Chrome URL` which can silently fail or open a new window)."""
-    script = f'''
-tell application "Google Chrome"
-    activate
-    set newTab to make new tab at end of tabs of window 1
-    set URL of newTab to "{CONFLUENCE_URL}"
-end tell
-'''
-    subprocess.run(["osascript", "-e", script], capture_output=True, timeout=10)
+    html  = payload.get("body", {}).get("export_view", {}).get("value", "")
+    title = payload.get("title", "")
+    if not html:
+        Log.warn("Confluence API returned empty body")
+        return None
 
+    parser = _TableParser()
+    parser.feed(html)
+    rows = parser.results
 
-def _chrome_extract_fresh() -> dict | None:
-    """
-    Extract Confluence table data — three-pass strategy:
-      Pass 1 (Chrome): use already-loaded 'Long Lead Time' tab.
-      Pass 2 (Chrome): open a fresh tab via AppleScript, wait 25s, retry.
-      Pass 3 (Safari): open in Safari (no JS-from-AppleScript permission needed).
-    Returns None on all failures so caller falls back to archive.
-    """
-    # ── Pass 1: existing Chrome tab ─────────────────────────────────────────────
-    Log.info("Checking for existing 'Long Lead Time' tab in Chrome…")
-    data = _run_applescript(_APPLES_TMPL)
-
-    if data and not data.get("error"):
-        rows = data.get("rowsExtracted", 0)
-        url  = data.get("url", "")
-        if "chrome-error" in url:
-            Log.warn(f"Tab is an error page ({url})")
-            data = None
-        elif rows > 0:
-            Log.ok(f"Chrome live tab — {rows} rows from {data.get('tablesFound', 0)} tables ✨")
-            return data
-        else:
-            Log.warn("Tab found but returned 0 rows — page may still be rendering")
-            data = None
-    elif data and data.get("error") == "no_tab":
-        Log.info("No matching Chrome tab found — will open a new one")
-        data = None
-    else:
-        # None = JS disabled or other error; auto-enable was attempted in _run_applescript
-        data = None
-
-    # ── Pass 2: fresh Chrome tab (via AppleScript, not `open -a`) ────────────
-    Log.info("Opening Confluence in a new Chrome tab…")
-    _open_confluence_in_chrome()
-    Log.info("Waiting 25s for JavaScript render…")
-    time.sleep(25)
-
-    data = _run_applescript(_APPLES_TMPL)
-    if data and not data.get("error"):
-        rows = data.get("rowsExtracted", 0)
-        if "chrome-error" in data.get("url", ""):
-            Log.warn("Chrome DNS error on new tab")
-        elif rows > 0:
-            Log.ok(f"Chrome fresh tab — {rows} rows ✨")
-            return data
-        elif rows == 0:
-            Log.info("Still 0 rows — final Chrome retry in 15s…")
-            time.sleep(15)
-            data = _run_applescript(_APPLES_TMPL) or {}
-            if data.get("rowsExtracted", 0) > 0:
-                Log.ok(f"Chrome retry — {data['rowsExtracted']} rows ✨")
-                return data
-            Log.warn("All Chrome passes returned 0 rows")
-
-    # ── Pass 3: Safari fallback (no JS-from-AppleScript permission needed) ──
-    Log.warn("Chrome extraction failed — trying Safari fallback…")
-    _open_confluence_in_safari()
-
-    data = _run_applescript(_SAFARI_TMPL)
-    if data and not data.get("error"):
-        rows = data.get("rowsExtracted", 0)
-        if rows > 0:
-            Log.ok(f"Safari fallback — {rows} rows ✨")
-            return data
-        Log.warn(f"Safari returned 0 rows")
-    else:
-        Log.warn(f"Safari fallback returned: {data}")
-
-    return None
+    return {
+        "success":       True,
+        "url":           CONFLUENCE_URL,
+        "title":         title,
+        "tablesFound":   parser.table_idx,
+        "rowsExtracted": len(rows),
+        "data":          rows,
+    }
 
 
 def _latest_archive() -> Path | None:
@@ -398,15 +232,18 @@ def pull_confluence_data() -> tuple[dict, str]:
     """Pull Confluence data. Returns (parsed_json, source_label)."""
     EXPORTS_DIR.mkdir(exist_ok=True)
 
-    fresh = _chrome_extract_fresh()
+    Log.info("Fetching via Confluence REST API…")
+    fresh = _confluence_api_extract()
     if fresh and fresh.get("rowsExtracted", 0) > 0:
         archive = EXPORTS_DIR / f"archive_{TIMESTAMP}.json"
         LATEST_JSON.write_text(json.dumps(fresh))
         archive.write_text(json.dumps(fresh))
-        Log.ok(f"Saved fresh export ({fresh['rowsExtracted']} rows, {fresh['tablesFound']} tables)")
-        return fresh, "live Confluence (Chrome)"
+        rows   = fresh['rowsExtracted']
+        tables = fresh['tablesFound']
+        Log.ok(f"REST API — {rows} rows from {tables} tables ✨")
+        return fresh, "live Confluence (REST API)"
 
-    Log.warn("Chrome extraction failed — falling back to last good archive")
+    Log.warn("REST API extraction failed — falling back to last good archive")
     fallback = _latest_archive()
     if fallback:
         payload = json.loads(fallback.read_text())
@@ -417,7 +254,8 @@ def pull_confluence_data() -> tuple[dict, str]:
 
     raise RuntimeError(
         "No Confluence data available.\n"
-        "  → Open Chrome, navigate to the LLTT Dashboard, confirm it loads, then retry."
+        "  → Ensure you are on Walmart VPN/WiFi and logged into Chrome at:\n"
+        f"    {CONFLUENCE_URL}"
     )
 
 

@@ -8,7 +8,7 @@ const CARDS_STRATEGY = [
     id: 'strategy-hub', title: 'Strategy Hub: Create and Centralize Business Strategy', icon: '\uD83C\uDFDB\uFE0F',
     status: 'green', statusLabel: 'Green \u2014 Initial Requirements',
     jiraStatus: 'Discovery in Progress',
-    quarter: 'Q3', targetDate: 'Oct 31, 2026',
+    quarter: 'Q3', targetDate: 'Aug 1, 2026',
     description: 'Walmart struggles to operationalize strategy at scale because strategic intent is fragmented across PPTs, spreadsheets, and heuristic-driven processes. Strategy Hub (TTP) solves this by creating a connected, data-driven central repository where business strategy is captured once and operationalized downstream.',
     businessBenefit: 'Operationalizes business strategy in downstream systems and increases strategy creation, management, and distribution efficiency. Eliminates redundant strategy sessions and conflicting priorities across workstreams. Single source of truth for seasonal financial targets and category priorities cascaded to all fashion tools.',
     techIntegration: 'Primary OPIF: OPIF-368304 (Strategy Hub: Create and centralize business strategy). Currently in Discovery \u2014 Apr 8 onward: DMM interviews, collecting strategy documents, connecting with data partners, formulating MLP scope, estimating engineering resources. Strategy Hub serves as the upstream data source for AEX, Centric, and BPE/DBP; decisions recorded here propagate downstream without manual re-entry.',
@@ -67,7 +67,7 @@ const CARDS_STRATEGY = [
   {
     id: 'forecast-enterprise-service', title: 'Forecast as Enterprise Service', icon: '\uD83E\uDDE0',
     status: 'yellow', statusLabel: 'Yellow — At Risk',
-    quarter: 'Q4', targetDate: 'Oct 31, 2026',
+    quarter: 'Q2', targetDate: 'May 1, 2026',
     description: 'National forecasting capability delivered as a shared enterprise service — providing channel-level (eComm vs. store) and placement-split forecast outputs consumed by Buying, Allocation, and Planning teams. Enables AEX to consume forecasts aligned with AP service-based forecasting architecture. Includes model explainability and automated training pipelines. OPIF-325221 Status: Discovery in Progress. Assignee: Abhishek Jannawar. Reporter: Abhishek Jannawar. Component: US Omni Tech – MerchTools – AEX Buy Quantification. Related: OPIF-325218 (BQ as a Service), OPIF-325373 (Unified Planner Experience).',
     businessBenefit: 'Single, trusted forecast signal across all Fashion workstreams eliminates conflicting demand signals between Buying and Allocation. Forecast as a service reduces duplicative DS investment and accelerates new-department onboarding. Channel and placement splits give eComm and store teams differentiated, actionable signals without separate model builds.',
     techIntegration: 'Primary OPIF: OPIF-325221 (Forecast as a Service with Channel and Placement Split). Related: OPIF-325218 (Buy Quantification and Flow as a Service), OPIF-325373 (Unified Planner Experience). DS microservice architecture with batch inference pipeline. Forecast consumed by AEX (BQ), BPE (allocation planning), and DBP (distribution). Channel and placement split enables eComm vs. store differentiation in every forecast output. PRD: Confluence APREC space.',

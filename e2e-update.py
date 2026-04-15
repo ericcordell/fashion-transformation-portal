@@ -572,6 +572,13 @@ def apply_changes(
         cur = current.get(oid)
         if not cur:
             continue
+
+        # Never overwrite a card the PM has intentionally marked 'completed'.
+        # Completed = done. The OPIF may still be open in Jira for trailing
+        # work, but the portal card represents a shipped deliverable.
+        if cur.get("status") == "completed":
+            continue
+
         diffs: dict[str, str] = {}
 
         if sc["status"] and sc["status"] != cur["status"]:

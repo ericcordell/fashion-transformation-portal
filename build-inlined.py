@@ -117,6 +117,47 @@ def _compress(html: str) -> str:
     return html
 
 
+def syntax_check(html: str) -> bool:
+    """Run JavaScriptCore (osascript) over every inlined <script> block.
+
+    Filters expected ReferenceErrors (cross-block globals like window,
+    document, pptOwners) and surfaces only real SyntaxErrors.
+    Returns True if clean, False (and prints errors) if any SyntaxError found.
+    """
+    import subprocess, tempfile, os
+    scripts = re.findall(r'<script>([\s\S]*?)</script>', html)
+    errors = []
+    for i, s in enumerate(scripts):
+        if not s.strip():
+            continue
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.js',
+                                         delete=False, encoding='utf-8') as f:
+            f.write(s)
+            fname = f.name
+        try:
+            result = subprocess.run(
+                ['osascript', '-l', 'JavaScript', fname],
+                capture_output=True, text=True, timeout=5,
+            )
+            err = result.stderr.strip()
+            if 'SyntaxError' in err or 'syntax error' in err.lower():
+                errors.append((i, len(s), err[:250]))
+        except FileNotFoundError:
+            pass  # osascript not available (non-Mac)
+        except subprocess.TimeoutExpired:
+            pass
+        finally:
+            os.unlink(fname)
+
+    if errors:
+        print('\n❌ BUILD ABORTED — SyntaxErrors detected:')
+        for i, sz, err in errors:
+            print(f'  Block {i} ({sz:,} chars): {err}')
+        return False
+    print(f'  ✓ Syntax check: all {len(scripts)} script blocks clean')
+    return True
+
+
 def main():
     html = SRC.read_text('utf-8')
     html = inline_css(html)
@@ -124,6 +165,11 @@ def main():
     OUT.write_text(html, 'utf-8')
     size_kb = OUT.stat().st_size / 1024
     print('Written {} ({:.1f} KB)'.format(OUT.name, size_kb))
+
+    # Syntax gate — abort before producing portal-final.html if broken
+    import sys
+    if not syntax_check(html):
+        sys.exit(1)
 
     # Build the compressed version for puppy.walmart.com publishing
     final = BASE / 'portal-final.html'

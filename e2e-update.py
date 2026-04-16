@@ -426,27 +426,31 @@ def parse_opif_records(data: dict) -> dict[str, dict]:
         def _is_date(s: str) -> bool:
             return bool(date_pat.match(s.strip()))
 
-        target = ""
-        if rag_col == 7:
-            # Standard main table: date at cells[16], fallback cells[17]
-            c16 = best[16].strip() if len(best) > 16 else ""
-            c17 = best[17].strip() if len(best) > 17 else ""
-            target = c16 if _is_date(c16) else (c17 if _is_date(c17) else "")
-        elif rag_col == 12:
-            # AEX sub-table: date at cells[5] or cells[13]
-            c5  = best[5].strip()  if len(best) > 5  else ""
-            c13 = best[13].strip() if len(best) > 13 else ""
-            target = c5 if _is_date(c5) else (c13 if _is_date(c13) else "")
-        # Scan fallback for all cases (Type C / no RAG / date not in expected col).
-        # Explicitly skip opif_col so we don't mistake the ID for a date.
-        if not target:
-            for idx in [5, 13, 16, 17, 3, 4, 15, 29]:
+        def _pick(*cols: int) -> str:
+            """Return first cell value that looks like a date, skipping opif_col."""
+            for idx in cols:
                 if idx == opif_col:
                     continue
                 val = best[idx].strip() if len(best) > idx else ""
                 if _is_date(val):
-                    target = val
-                    break
+                    return val
+            return ""
+
+        target = ""
+        if rag_col == 7:
+            # Standard main table — date at cells[16], fallback cells[17]
+            target = _pick(16, 17)
+        elif rag_col == 12:
+            # AEX sub-table (OPIF at col 0) — date at cells[5], fallback cells[13]
+            target = _pick(5, 13)
+        elif rag_col in (8, 9):
+            # Cross-ref table (OPIF at col 5, RAG at col 8/9)
+            # cells[16] = actual target date; cells[13] = sprint/batch date (skip first)
+            target = _pick(16, 21, 15, 13)
+        # Scan fallback for any unhandled format — prefer cols known to hold
+        # completion dates over sprint-batch cols (16 > 15 > 13).
+        if not target:
+            target = _pick(5, 16, 21, 15, 17, 13, 3, 4, 29)
 
         # Status remarks: col 20 for standard rows; col 11 for Type C
         raw_remarks = ""

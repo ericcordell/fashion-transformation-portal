@@ -294,6 +294,22 @@ function renderPhases() {
 // ---- SINGLE CARD — includes a small quarter chip for context ----
 function cardHTML(card, workstream, tool) {
   const badgeCls  = BADGE_CLASS[card.status] || 'badge-roadmap';
+  // RAG distribution — opt-in via card.ragDist; only AEX Stability cards use this
+  let statusHTML;
+  if (card.ragDist) {
+    const r = card.ragDist;
+    const _chip = function(bg, col, brd, txt) {
+      return '<span style="font-size:0.6rem;font-weight:800;padding:2px 7px;border-radius:99px;'
+           + 'background:' + bg + ';color:' + col + ';border:1px solid ' + brd
+           + ';white-space:nowrap;">' + txt + '</span>';
+    };
+    statusHTML = _chip('#dcfce7','#166534','#86efac','\uD83D\uDFE2\u202f' + r.green)
+               + _chip('#fef3c7','#92400e','#fcd34d','\uD83D\uDFE1\u202f' + r.yellow)
+               + _chip('#fee2e2','#991b1b','#fca5a5','\uD83D\uDD34\u202f' + r.red)
+               + (r.planning ? _chip('#f1f5f9','#64748b','#cbd5e1','\u25a1\u202f' + r.planning + '\u00a0planning') : '');
+  } else {
+    statusHTML = '<span class="badge ' + badgeCls + '">' + card.statusLabel + '</span>';
+  }
   const qMeta     = QUARTER_META[card.quarter];
   const tagHTML   = card.tag
     ? `<span class="tag ${card.tag.includes('Win') ? 'tag-win' : ''}">${card.tag}</span>` : '';
@@ -318,7 +334,7 @@ function cardHTML(card, workstream, tool) {
         <span class="font-semibold text-sm leading-snug" style="color:#1e293b;min-width:0;">${card.title}</span>
       </div>
       <div class="flex items-center gap-2 flex-wrap">
-        <span class="badge ${badgeCls}">${card.statusLabel}</span>
+        ${statusHTML}
         ${tagHTML}
         ${qChip}
         ${updatedPip}

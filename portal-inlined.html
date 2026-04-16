@@ -4190,6 +4190,7 @@ const CARDS_BUYING = [
     id: 'aex-stability-q1', title: 'AEX Stability & Quality of Life — Q1', icon: '🛡️',
     critical: true,
     status: 'green', statusLabel: 'Green — On Track',
+    ragDist: { green: 25, yellow: 1, red: 0 },
     quarter: 'Q1', targetDate: 'Apr 30, 2026', tag: 'Critical Program',
     jiraStatus: 'Work in Progress',
     description: '26 OPIFs tracked — 🟢 25 On Track · 🟡 1 At Risk · 🔴 0 Red. Platform stability improvements delivering measurable reliability gains across AEX. Key bodies of work: SSP vulnerability remediation (470 pts), Fashion Line Planning migration to AP Tool (120 pts), bridge/rebridge execution safeguards, Financial Review data accuracy across all 6 streams, size cluster reset improvements, and Tagging & Affinity Graph scrappy pilot. 8 OPIFs already delivered.',
@@ -4246,6 +4247,7 @@ const CARDS_BUYING = [
     id: 'aex-stability-q2', title: 'AEX Stability & Quality of Life — Q2', icon: '🛡️',
     critical: true,
     status: 'yellow', statusLabel: 'Yellow — Planning',
+    ragDist: { green: 1, yellow: 9, red: 0, planning: 74 },
     quarter: 'Q2', targetDate: 'Jul 31, 2026', tag: 'Critical Program',
     jiraStatus: 'Planning',
     description: '84 OPIFs planned — 🟢 10 Active · 🟡 74 In Planning · 🔴 0 Red. Q2 builds on Q1 stability foundation to deliver merchant productivity gains and quarterly DS model refresh. Active work includes AP Tool Phase 2 Enhancements (60 pts, in progress), multi-select modular categories for allocation outputs (150 pts), persisting size overrides, online buy quantity override, and DS model improvements. 74 OPIFs remain in planning and sizing.',
@@ -9691,6 +9693,22 @@ function renderPhases() {
 // ---- SINGLE CARD — includes a small quarter chip for context ----
 function cardHTML(card, workstream, tool) {
   const badgeCls  = BADGE_CLASS[card.status] || 'badge-roadmap';
+  // RAG distribution — opt-in via card.ragDist; only AEX Stability cards use this
+  let statusHTML;
+  if (card.ragDist) {
+    const r = card.ragDist;
+    const _chip = function(bg, col, brd, txt) {
+      return '<span style="font-size:0.6rem;font-weight:800;padding:2px 7px;border-radius:99px;'
+           + 'background:' + bg + ';color:' + col + ';border:1px solid ' + brd
+           + ';white-space:nowrap;">' + txt + '</span>';
+    };
+    statusHTML = _chip('#dcfce7','#166534','#86efac','\uD83D\uDFE2\u202f' + r.green)
+               + _chip('#fef3c7','#92400e','#fcd34d','\uD83D\uDFE1\u202f' + r.yellow)
+               + _chip('#fee2e2','#991b1b','#fca5a5','\uD83D\uDD34\u202f' + r.red)
+               + (r.planning ? _chip('#f1f5f9','#64748b','#cbd5e1','\u25a1\u202f' + r.planning + '\u00a0planning') : '');
+  } else {
+    statusHTML = '<span class="badge ' + badgeCls + '">' + card.statusLabel + '</span>';
+  }
   const qMeta     = QUARTER_META[card.quarter];
   const tagHTML   = card.tag
     ? `<span class="tag ${card.tag.includes('Win') ? 'tag-win' : ''}">${card.tag}</span>` : '';
@@ -9715,7 +9733,7 @@ function cardHTML(card, workstream, tool) {
         <span class="font-semibold text-sm leading-snug" style="color:#1e293b;min-width:0;">${card.title}</span>
       </div>
       <div class="flex items-center gap-2 flex-wrap">
-        <span class="badge ${badgeCls}">${card.statusLabel}</span>
+        ${statusHTML}
         ${tagHTML}
         ${qChip}
         ${updatedPip}

@@ -17,15 +17,15 @@ const CARDS_BUYING = [
   {
     id: 'aex-stability-q1', title: 'AEX Stability & Quality of Life — Q1', icon: '🛡️',
     critical: true,
-    status: 'green', statusLabel: 'Green — On Track',
-    ragDist: { green: 25, yellow: 1, red: 0 },
+    status: 'red', statusLabel: 'Red — 1 Delayed',
+    ragDist: { green: 10, yellow: 1, red: 1 },
     quarter: 'Q1', targetDate: 'Apr 30, 2026', tag: 'Critical Program',
     jiraStatus: 'Work in Progress',
-    description: '26 OPIFs tracked — 🟢 25 On Track · 🟡 1 At Risk · 🔴 0 Red. Platform stability improvements delivering measurable reliability gains across AEX. Key bodies of work: SSP vulnerability remediation (470 pts), Fashion Line Planning migration to AP Tool (120 pts), bridge/rebridge execution safeguards, Financial Review data accuracy across all 6 streams, size cluster reset improvements, and Tagging & Affinity Graph scrappy pilot. 8 OPIFs already delivered.',
-    recentUpdate: 'SSP Vulnerabilities (OPIF-343680): In progress, largest effort at 470 pts.  |  Move Fashion Line Planning to AP Tool (OPIF-325568): Design underway.  |  Financial Review Streams 4–6: Data accuracy work actively progressing.  |  Tagging & Affinity Pilot (OPIF-361170): In progress, 62 pts.',
-    businessBenefit: 'Merchants gain confidence that AEX decisions execute correctly. Bridge/rebridge safeguards eliminate silent execution failures. Accurate Financial Review data removes manual reconciliation. AP Tool migration unifies line planning into a single workflow. SSP security compliance protects platform integrity.',
-    techIntegration: 'Tracked via Jira filter FY27-Q1-Assortment (26 OPIFs). Key workstreams: Stability (platform fixes), Fast-Follow Re-Write, SSP Security. Largest efforts: OPIF-343680 SSP Vulnerabilities (470 pts, Mike Dunn), OPIF-89047 Lock Modules After Bridge (125 pts, Abhishek Jannawar), OPIF-325568 AP Tool Migration (120 pts, Ashwin Chidambaram), OPIF-275091 BQ/CR Week Allocation (110 pts, Prashant Kulkarni).',
-    successMetrics: 'All 26 OPIFs resolved by Apr 30, 2026. Zero silent execution failures during bridge operations. Financial Review data validated across all 6 streams. SSP vulnerability audit complete. AP Tool migration live.',
+    description: '12 Stability-workstream OPIFs — 🟢 10 On Track · 🟡 1 At Risk · 🔴 1 Delayed. Platform reliability improvements across AEX: bridge/rebridge execution safeguards, Financial Review data accuracy (Streams 4, 6), size cluster reset improvements, systematic discard from Supplier One, and BQ/CR week allocation consistency. 2 OPIFs already delivered (OPIF-204381, OPIF-304863).',
+    recentUpdate: 'Min/Max Presentation Units (OPIF-339277): Delayed 🔴 — requires attention.  |  Pre-Bridge Validations (OPIF-343549): At Risk 🟡.  |  Financial Review Streams 4 & 6 (OPIF-343404, OPIF-343397): Actively progressing.  |  Lock Modules After Bridge (OPIF-89047): On Track.',
+    businessBenefit: 'Merchants gain confidence that AEX decisions execute correctly. Bridge/rebridge safeguards eliminate silent execution failures. Accurate Financial Review data removes manual reconciliation burden. Replenishment-only flow strategy gives buyers more precise control. Size cluster resets ensure correct store clustering after fineline changes.',
+    techIntegration: 'Tracked via Confluence Q1 Execution Dashboard (Workstream = Stability filter). 12 committed OPIFs, all owned by AEX teams. Key efforts: OPIF-89047 Lock Modules After Bridge (125 pts, Abhishek Jannawar), OPIF-275091 BQ/CR Week Allocation (110 pts, Prashant Kulkarni), OPIF-311914 Contextual Email Messages (55 pts, Abhishek Jannawar), OPIF-338113 Size Cluster Reset (60 pts, Prashant Kulkarni).',
+    successMetrics: 'All 12 Stability OPIFs resolved by Apr 30, 2026. Zero silent execution failures during bridge operations. Financial Review Streams 4 & 6 data validated. OPIF-339277 delay remediated. Size cluster resets verified in production.',
     owners: pptOwners('Brett Reid', 'Chris Graves', 'Ryan Henderson', 'Robbie Dutta', 'Mike Dunn'),
     resources: res(
       '#',
@@ -38,36 +38,24 @@ const CARDS_BUYING = [
       ]
     ),
     relatedOpifs: [
-      // Active — Work in Progress
-      { key: 'OPIF-343680', label: 'Assortment: SSP Vulnerabilities',                                          type: 'committed', quarter: 'FY27Q1', pts: 470, status: 'Work in Progress' },
-      { key: 'OPIF-89047',  label: 'Lock All Modules After a FL if Bridged',                                   type: 'committed', quarter: 'FY27Q1', pts: 125, status: 'Work in Progress' },
-      { key: 'OPIF-325568', label: 'Move Fashion Line Planning to AP Tool Assortment List',                    type: 'committed', quarter: 'FY27Q1', pts: 120, status: 'Work in Progress' },
-      { key: 'OPIF-275091', label: 'Handling Inconsistent Week Allocation in BQ and Commitment Report',        type: 'committed', quarter: 'FY27Q1', pts: 110, status: 'Work in Progress' },
-      { key: 'OPIF-204306', label: 'Systematic Discard from Supplier One to AEX',                             type: 'committed', quarter: 'FY27Q1', pts: 60,  status: 'Work in Progress' },
-      { key: 'OPIF-361170', label: 'Tagging and Affinity Graph Long — Scrappy Pilot Model',              type: 'committed', quarter: 'FY27Q1', pts: 62,  status: 'Work in Progress' },
-      { key: 'OPIF-338113', label: 'Clear Size Clusters and Default Stores to National Cluster on Reset',      type: 'committed', quarter: 'FY27Q1', pts: 60,  status: 'Work in Progress' },
-      { key: 'OPIF-343404', label: 'Financial Review Stream 4: Data Accuracy — Pack Opt Table',          type: 'committed', quarter: 'FY27Q1', pts: 40,  status: 'Work in Progress' },
-      { key: 'OPIF-344926', label: 'AEX — Automated Item Set Up',                                        type: 'committed', quarter: 'FY27Q1', pts: 40,  status: 'Work in Progress' },
-      { key: 'OPIF-339277', label: 'AEX — Min/Max Presentation Units & Fabric Weight Updates for New Fixtures', type: 'committed', quarter: 'FY27Q1', pts: 38, status: 'Work in Progress' },
-      { key: 'OPIF-343407', label: 'Financial Review Stream 5: Additional Attributes & Missing Hierarchy Rows', type: 'committed', quarter: 'FY27Q1', pts: 30, status: 'Work in Progress' },
-      { key: 'OPIF-343549', label: 'Prevent Silent Execution Failures During Bridge/Rebridge via Pre-Bridge Validations', type: 'committed', quarter: 'FY27Q1', pts: 25, status: 'Work in Progress' },
-      { key: 'OPIF-343441', label: 'Financial Review Stream 4: Store Object Break Out',                       type: 'committed', quarter: 'FY27Q1', pts: 20,  status: 'Work in Progress' },
-      { key: 'OPIF-343416', label: 'Financial Review DQ Rules Implementation & Data Contract (all streams)',  type: 'committed', quarter: 'FY27Q1', pts: 10,  status: 'Work in Progress' },
-      { key: 'OPIF-368017', label: 'Financial Review Incremental Load',                                       type: 'committed', quarter: 'FY27Q1', pts: 5,   status: 'Work in Progress' },
-      // Ready for Review
-      { key: 'OPIF-309823', label: 'Mod Draw Data',                                                           type: 'committed', quarter: 'FY27Q1', pts: 60,  status: 'Ready for Review' },
-      { key: 'OPIF-343397', label: 'Financial Review Stream 6: Edge Cases — Multiple POs/Suppliers',     type: 'committed', quarter: 'FY27Q1', pts: 30,  status: 'Ready for Review' },
-      // At Risk — Ready to Start (Apr 30 deadline approaching)
+      // 🔴 Delayed
+      { key: 'OPIF-339277', label: 'AEX — Min/Max Presentation Units & Fabric Weight Updates for New Fixtures', type: 'committed', quarter: 'FY27Q1', pts: 38,  status: 'Work in Progress', rag: 'red' },
+      // 🟡 At Risk
+      { key: 'OPIF-343549', label: 'Prevent Silent Execution Failures During Bridge/Rebridge via Pre-Bridge Validations', type: 'committed', quarter: 'FY27Q1', pts: 25,  status: 'Work in Progress', rag: 'yellow' },
+      // 🟢 On Track — Work in Progress
+      { key: 'OPIF-89047',  label: 'Lock All Modules After a FL if Bridged',                                    type: 'committed', quarter: 'FY27Q1', pts: 125, status: 'Work in Progress' },
+      { key: 'OPIF-275091', label: 'Handling Inconsistent Week Allocation in BQ and Commitment Report',         type: 'committed', quarter: 'FY27Q1', pts: 110, status: 'Work in Progress' },
+      { key: 'OPIF-338113', label: 'Clear Size Clusters and Default Stores to National Cluster on Reset',       type: 'committed', quarter: 'FY27Q1', pts: 60,  status: 'Work in Progress' },
+      { key: 'OPIF-204306', label: 'Systematic Discard from Supplier One to AEX',                              type: 'committed', quarter: 'FY27Q1', pts: 60,  status: 'Work in Progress' },
+      { key: 'OPIF-343404', label: 'Financial Review Stream 4: Data Accuracy — Pack Opt Table',           type: 'committed', quarter: 'FY27Q1', pts: 40,  status: 'Work in Progress' },
+      { key: 'OPIF-368017', label: 'Financial Review Incremental Load',                                        type: 'committed', quarter: 'FY27Q1', pts: 5,   status: 'Work in Progress' },
+      // 🟢 On Track — Ready for Review
+      { key: 'OPIF-343397', label: 'Financial Review Stream 6: Edge Cases — Multiple POs/Suppliers',      type: 'committed', quarter: 'FY27Q1', pts: 30,  status: 'Ready for Review' },
+      // 🟢 On Track — Ready to Start
       { key: 'OPIF-311914', label: 'Add Contextual Email Messages for All Commit Report Failure Scenarios',    type: 'committed', quarter: 'FY27Q1', pts: 55,  status: 'Ready to Start' },
-      // Completed this cycle
-      { key: 'OPIF-304863', label: 'Provide Ability to Set Replenishment Only Flow Strategy',                  type: 'done', quarter: 'FY27Q1', pts: 45,  status: 'Done' },
-      { key: 'OPIF-344711', label: 'LP/BQ — Cost and Retail CC Level Roll-Up Issues',                     type: 'done', quarter: 'FY27Q1', pts: 37,  status: 'Done' },
-      { key: 'OPIF-344925', label: 'QA | SP — Calculate Buy Quantity Fails with 2 Finelines',             type: 'done', quarter: 'FY27Q1', pts: 25,  status: 'Done' },
-      { key: 'OPIF-344704', label: 'QA | AEX Re-Platform — IIR UI General Slowness',                     type: 'done', quarter: 'FY27Q1', pts: 25,  status: 'Done' },
-      { key: 'OPIF-204381', label: 'Add New Fixtures for S1 FYE28 in CSA',                                     type: 'done', quarter: 'FY27Q1', pts: 10,  status: 'Done' },
-      { key: 'OPIF-344705', label: 'AP — User Allowed to Select Markdown Week < Instore Week',            type: 'done', quarter: 'FY27Q1', pts: 5,   status: 'Done' },
-      { key: 'OPIF-344706', label: 'Markdown Week < Instore Week — Week Year Mismatch Bug',               type: 'done', quarter: 'FY27Q1', pts: 5,   status: 'Done' },
-      { key: 'OPIF-344707', label: 'Not Getting Complete Side Menu After Navigating to LP Screen',             type: 'done', quarter: 'FY27Q1', pts: 5,   status: 'Done' },
+      // ✅ Completed
+      { key: 'OPIF-304863', label: 'Provide Ability to Set Replenishment Only Flow Strategy',                  type: 'done',      quarter: 'FY27Q1', pts: 45,  status: 'Done' },
+      { key: 'OPIF-204381', label: 'Add New Fixtures for S1 FYE28 in CSA',                                     type: 'done',      quarter: 'FY27Q1', pts: 10,  status: 'Done' },
     ],
     workstreams: ['buying'],
   },

@@ -175,11 +175,25 @@
     '</div>';
   }
 
+  function _ragChips(d) {
+    function _ch(bg, col, brd, txt) {
+      return '<span style="font-size:0.6rem;font-weight:800;padding:2px 7px;border-radius:99px;' +
+        'background:' + bg + ';color:' + col + ';border:1px solid ' + brd + ';white-space:nowrap;">' + txt + '</span>';
+    }
+    return _ch('#dcfce7','#166534','#86efac','\uD83D\uDFE2\u202f' + d.green) +
+           _ch('#fef3c7','#92400e','#fcd34d','\uD83D\uDFE1\u202f' + d.yellow) +
+           _ch('#fee2e2','#991b1b','#fca5a5','\uD83D\uDD34\u202f' + d.red) +
+           (d.planning ? _ch('#f1f5f9','#64748b','#cbd5e1','\u25a1\u202f' + d.planning + '\u00a0planning') : '');
+  }
+
   function _cardHTML(c) {
     var badgeCls = BADGE_CLASS[c.status] || 'badge-roadmap';
     var tagHTML  = c.tag
       ? '<span class="tag' + (c.tag.indexOf('Win') > -1 ? ' tag-win' : '') + '">' + c.tag + '</span>'
       : '';
+    var statusHTML = c.ragDist
+      ? _ragChips(c.ragDist)
+      : '<span class="badge ' + badgeCls + '">' + c.statusLabel + '</span>';
     return '<div class="rm-card" data-card-id="' + c.id + '">' +
       '<div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;">' +
         '<span style="font-size:1.25rem;flex-shrink:0;">' + c.icon + '</span>' +
@@ -187,7 +201,7 @@
         tagHTML +
       '</div>' +
       '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">' +
-        '<span class="badge ' + badgeCls + '">' + c.statusLabel + '</span>' +
+        statusHTML +
         (c.targetDate ? '<span style="font-size:0.72rem;color:#94a3b8;">&#128197; ' + c.targetDate + '</span>' : '') +
       '</div>' +
     '</div>';

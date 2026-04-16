@@ -5914,11 +5914,25 @@ const EXEC_NARRATIVES = {
     '</div>';
   }
 
+  function _ragChips(d) {
+    function _ch(bg, col, brd, txt) {
+      return '<span style="font-size:0.6rem;font-weight:800;padding:2px 7px;border-radius:99px;' +
+        'background:' + bg + ';color:' + col + ';border:1px solid ' + brd + ';white-space:nowrap;">' + txt + '</span>';
+    }
+    return _ch('#dcfce7','#166534','#86efac','\uD83D\uDFE2\u202f' + d.green) +
+           _ch('#fef3c7','#92400e','#fcd34d','\uD83D\uDFE1\u202f' + d.yellow) +
+           _ch('#fee2e2','#991b1b','#fca5a5','\uD83D\uDD34\u202f' + d.red) +
+           (d.planning ? _ch('#f1f5f9','#64748b','#cbd5e1','\u25a1\u202f' + d.planning + '\u00a0planning') : '');
+  }
+
   function _cardHTML(c) {
     var badgeCls = BADGE_CLASS[c.status] || 'badge-roadmap';
     var tagHTML  = c.tag
       ? '<span class="tag' + (c.tag.indexOf('Win') > -1 ? ' tag-win' : '') + '">' + c.tag + '</span>'
       : '';
+    var statusHTML = c.ragDist
+      ? _ragChips(c.ragDist)
+      : '<span class="badge ' + badgeCls + '">' + c.statusLabel + '</span>';
     return '<div class="rm-card" data-card-id="' + c.id + '">' +
       '<div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;">' +
         '<span style="font-size:1.25rem;flex-shrink:0;">' + c.icon + '</span>' +
@@ -5926,7 +5940,7 @@ const EXEC_NARRATIVES = {
         tagHTML +
       '</div>' +
       '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">' +
-        '<span class="badge ' + badgeCls + '">' + c.statusLabel + '</span>' +
+        statusHTML +
         (c.targetDate ? '<span style="font-size:0.72rem;color:#94a3b8;">&#128197; ' + c.targetDate + '</span>' : '') +
       '</div>' +
     '</div>';
@@ -6520,25 +6534,39 @@ const EXEC_NARRATIVES = {
   }
 
   // ── FULL CARD (Phase 1) ────────────────────────────────
+  function _ragChips(d) {
+    function _ch(bg, col, brd, txt) {
+      return '<span style="font-size:0.6rem;font-weight:800;padding:2px 7px;border-radius:99px;' +
+        'background:' + bg + ';color:' + col + ';border:1px solid ' + brd + ';white-space:nowrap;">' + txt + '</span>';
+    }
+    return _ch('#dcfce7','#166534','#86efac','\uD83D\uDFE2\u202f' + d.green) +
+           _ch('#fef3c7','#92400e','#fcd34d','\uD83D\uDFE1\u202f' + d.yellow) +
+           _ch('#fee2e2','#991b1b','#fca5a5','\uD83D\uDD34\u202f' + d.red) +
+           (d.planning ? _ch('#f1f5f9','#64748b','#cbd5e1','\u25a1\u202f' + d.planning + '\u00a0planning') : '');
+  }
+
   function _cardHTML(card, pillar) {
     var badgeCls  = BADGE_CLASS[card.status] || 'badge-roadmap';
     var critStyle = _isCrit(card) ? 'border-left:3px solid #ffc220;' : '';
     var tagHTML   = card.tag
       ? '<span class="tag' + (_isWin(card) ? ' tag-win' : '') + '">' + card.tag + '</span>'
       : '';
+    var statusHTML = card.ragDist
+      ? _ragChips(card.ragDist)
+      : '<span class="badge ' + badgeCls + '">' + card.statusLabel + '</span>';
     var safeWS = _safe(pillar.title), safeTool = _safe(pillar.tool);
     return [
       '<div class="card p-3" style="' + critStyle + '"',
       ' onclick="openModal(\'' + card.id + '\',\'' + safeWS + '\',\'' + safeTool + '\')"',
       ' role="button" tabindex="0">',
-        // Title row — tag removed so it never competes with the title for space
+        // Title row
         '<div style="display:flex;align-items:flex-start;gap:6px;margin-bottom:6px;">',
           '<span style="font-size:1.05rem;flex-shrink:0;">' + card.icon + '</span>',
           '<span style="font-weight:600;font-size:0.81rem;line-height:1.35;color:#1e293b;min-width:0;">' + card.title + '</span>',
         '</div>',
-        // Badges row — tag lives here, flex-wrap handles any width naturally
+        // Badges row
         '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">',
-          '<span class="badge ' + badgeCls + '">' + card.statusLabel + '</span>',
+          statusHTML,
           tagHTML,
           card.targetDate ? '<span style="font-size:0.66rem;color:#94a3b8;">&#128197; ' + card.targetDate + '</span>' : '',
         '</div>',

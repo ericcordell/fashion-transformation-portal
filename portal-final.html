@@ -8493,7 +8493,7 @@ function openModal(cardId,workstream,tool){const card=allCards.find(c=>c.id===ca
 +'background:'+c+'18;color:'+c+';border:1px solid '+c+'30;white-space:nowrap;">'+q+ptsStr+'</span>';};const _sBadge=function(s){const cfg={'Done':'background:#eef2ff;color:#0053e2;border:1px solid #c7d2fe','Work in Progress':'background:#dcfce7;color:#166534;border:1px solid #86efac','Backlog':'background:#f1f5f9;color:#64748b;border:1px solid #cbd5e1',};return'<span style="font-size:0.62rem;font-weight:700;padding:1px 8px;border-radius:99px;'
 +(cfg[s]||cfg['Backlog'])+';white-space:nowrap;">'+s+'</span>';};const _row=function(o){return'<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #f8fafc;">'
 +'<a href="'+BASE+o.key+'" target="_blank" rel="noopener"'
-+' style="font-size:0.72rem;font-weight:800;color:#0053e2;text-decoration:underline;white-space:nowrap;min-width:100px;"'>'
++' style="font-size:0.72rem;font-weight:800;color:#0053e2;text-decoration:underline;white-space:nowrap;min-width:100px;">'
 +o.key+'</a>'
 +'<span style="font-size:0.75rem;color:#374151;flex:1;line-height:1.3;">'+o.label+'</span>'
 +_qBadge(o.quarter,o.pts)

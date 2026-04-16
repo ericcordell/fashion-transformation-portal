@@ -25,8 +25,8 @@ const BIZ_FY = { quarters: BIZ_QUARTERS };
 
 const BIZ_LABEL_W = 240; // px — sticky goal panel
 
-// Chip: 2-line impact text + small meta footer
-const CHIP_H   = 60;  // px — 2 lines text + meta + padding
+// Chip: 3-line impact text + small meta footer
+const CHIP_H   = 80;  // px — 3 lines text + meta + padding
 const CHIP_GAP = 6;   // px between stacked chips
 const CHIP_PAD = 10;  // px top/bottom padding in track
 
@@ -194,14 +194,17 @@ window.bizOpenCap = function(goalId, capIdx) {
         <div class="biz-modal-goal-desc">${goal.description}</div>
       </div>
     </div>
-    <div class="biz-modal-qbar" style="background:${qObj.color}15;border:1px solid ${qObj.color}40">
-      <span style="color:${qObj.color};font-weight:800;font-size:13px">
-        ${qObj.label}
-        <span style="font-weight:400;font-size:11px;opacity:0.75"> &mdash; ${qObj.sub}</span>
-      </span>
-      <span class="biz-badge ${badgeCls}" style="margin-left:auto">${badgeTxt}</span>
-      <span class="biz-prog-pill" style="background:${prog.color};color:${prog.textColor}">${prog.label}</span>
-      <span class="biz-modal-target">📅 ${cap.target}</span>
+    <div class="biz-modal-qbar" style="background:${qObj.color}10;border:1px solid ${qObj.color}35">
+      <div class="biz-modal-qbar-row">
+        <span class="biz-modal-q-label" style="color:${qObj.color}">
+          ${qObj.label}<span class="biz-modal-q-sub">&mdash; ${qObj.sub}</span>
+        </span>
+        <span class="biz-modal-target" style="margin-left:auto">&#x1F4C5; ${cap.target}</span>
+      </div>
+      <div class="biz-modal-qbar-row">
+        <span class="biz-badge ${badgeCls}">${badgeTxt}</span>
+        <span class="biz-prog-pill" style="background:${prog.color};color:${prog.textColor}">${prog.label}</span>
+      </div>
     </div>
     <div class="biz-modal-impact-statement">
       <div class="biz-modal-impact-headline">${cap.label}</div>
@@ -304,7 +307,7 @@ window.renderBizImpactChart = function() {
             <div class="biz-expand-chip"
                  style="border-left:3px solid ${goal.color};background:${goal.color}0a"
                  onclick="event.stopPropagation();bizOpenCap('${goal.id}',${idx})">
-              <div class="biz-chip-text" style="-webkit-line-clamp:unset;display:block">${cap.label}</div>
+              <div class="biz-chip-text" style="overflow:visible;-webkit-line-clamp:unset;display:block">${cap.label}</div>
               <div class="biz-chip-meta">
                 <span class="biz-chip-type ${typeClass}">${typeTxt}</span>
                 <span class="biz-chip-sep">&middot;</span>

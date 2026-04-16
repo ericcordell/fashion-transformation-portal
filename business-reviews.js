@@ -494,16 +494,27 @@ function renderWPRHousekeeping() {
   const hk = (typeof WPR_HOUSEKEEPING !== 'undefined') ? WPR_HOUSEKEEPING : null;
   if (!hk || !hk.items || hk.items.length === 0) return '';
 
-  const cards = hk.items.map((item, i) => `
-    <div class="wpr-tu-card">
-      <div class="wpr-tu-card-num">${i + 1}</div>
+  const cards = hk.items.map((item, i) => {
+    const isComplete  = item.status === 'complete';
+    const cardClass   = isComplete ? 'wpr-tu-card wpr-tu-card--complete' : 'wpr-tu-card';
+    const numContent  = isComplete
+      ? '<span class="wpr-tu-card-done-icon">&#x2713;</span>'
+      : i + 1;
+    const completeBadge = isComplete
+      ? '<span class="wpr-tu-complete-badge">&#x2713; Complete</span>'
+      : '';
+    return `
+    <div class="${cardClass}">
+      <div class="wpr-tu-card-num">${numContent}</div>
+      ${completeBadge}
       <div class="wpr-tu-card-title">${item.title}</div>
       <div class="wpr-tu-card-body">${item.body}</div>
       <div class="wpr-tu-meta">
         <span class="wpr-tu-chip owner">&#x1F464; ${item.owner}</span>
         <span class="wpr-tu-chip eta">&#x1F4C5; ${item.eta}</span>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 
   return `
     <div class="wpr-team-updates">

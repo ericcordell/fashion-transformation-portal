@@ -15,31 +15,42 @@
 // ============================================================
 
 const WPR_HOUSEKEEPING = {
-  lastUpdated: 'Apr 7, 2026',
+  lastUpdated: 'Apr 15, 2026',
   items: [
     {
-      title: 'WPR Moving to Thursdays — Starting Apr 16',
-      body:  'Weekly Program Review shifts to Thursdays at 9:00am CST beginning April 16th.',
-      owner: 'Chris Graves',
-      eta:   'Effective Apr 16',
+      title:  'WPR Moving to Thursdays — Starting Apr 16',
+      body:   'Weekly Program Review shifts to Thursdays at 9:00am CST beginning April 16th.',
+      owner:  'Chris Graves',
+      eta:    'Effective Apr 16',
+      status: 'complete',
     },
     {
       title: 'Fashion Team Meeting / MBR Preparation',
-      body:  'Key E2E Leads to align on next leadership review agenda and topics.',
+      body:  'FTM and MBR agenda is set. Eric to finalize planners and work with UX, Product, and Analytics to finalize presentations.',
       owner: 'Eric',
-      eta:   'Meeting Apr 9',
+      eta:   'In Progress',
     },
     {
-      title: 'Item Setup Deep Dives / Action Plan',
-      body:  'Identify go-forward plan for removing friction from Fashion Item Setup processes.',
+      title: 'Item Setup Deep Dive — Path to 100% Automation',
+      body:  'Completing Item Deep Dive this week. Team has built an end-to-end heatmap of solutions that bridges the gap to 100% automation. '
+           + '<a href="https://puppy.walmart.com/sharing/hwells/fashion-automation-roadmap" target="_blank" '
+           + 'style="color:#0053e2;font-weight:600;text-decoration:none;">'
+           + 'Automated Item Setup Path to 100% ↗</a>',
       owner: 'Annie (+ Kyle, Brett)',
-      eta:   'Review go-forward plan by Apr 17',
+      eta:   'Deep Dive completing this week',
     },
     {
       title: 'Next Season Prep / Shoes Action Plan',
-      body:  'Working to align a go-forward improvement action plan for the shoes business.',
+      body:  'Work is in progress. Owners assigned on the 5 actions. Dates are set for April 22nd on path to resolution.',
       owner: 'Brett',
-      eta:   'Plan aligned Apr 6 — tracking going forward',
+      eta:   'April 22',
+    },
+    {
+      title: 'AEX End to End Pain Point Mapping',
+      body:  'Micah Roberts and Ryan Bray are breaking down the critical pain points of AEX interaction and item setup, '
+           + 'and building a proposal for shorter-term relief that we can build with scrappy solutions.',
+      owner: 'Micah Roberts, Ryan Bray',
+      eta:   'In Progress',
     },
   ],
 };

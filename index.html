@@ -457,6 +457,87 @@ function openModal(cardId, workstream, tool) {
        </div>`
     : '';
 
+  // --- related OPIFs section (rendered if card.relatedOpifs exists) ---
+  const _relatedOpifsHtml = (function() {
+    if (!card.relatedOpifs || !card.relatedOpifs.length) return '';
+    const BASE = 'https://jira.walmart.com/browse/';
+
+    const _qBadge = function(q, pts) {
+      if (!q) return '';
+      const qColors = { FY27Q1: '#0053e2', FY27Q2: '#2a8703', FY27Q3: '#d97706', FY27Q4: '#7c3aed' };
+      const c = qColors[q] || '#64748b';
+      const ptsStr = (pts !== null && pts !== undefined && pts > 0) ? ' · ' + pts + 'pts' : '';
+      return '<span style="font-size:0.62rem;font-weight:700;padding:1px 8px;border-radius:99px;'
+        + 'background:' + c + '18;color:' + c + ';border:1px solid ' + c + '30;white-space:nowrap;">' + q + ptsStr + '</span>';
+    };
+
+    const _sBadge = function(s) {
+      const cfg = {
+        'Done':             'background:#eef2ff;color:#0053e2;border:1px solid #c7d2fe',
+        'Work in Progress': 'background:#dcfce7;color:#166534;border:1px solid #86efac',
+        'Backlog':          'background:#f1f5f9;color:#64748b;border:1px solid #cbd5e1',
+      };
+      return '<span style="font-size:0.62rem;font-weight:700;padding:1px 8px;border-radius:99px;'
+        + (cfg[s] || cfg['Backlog']) + ';white-space:nowrap;">' + s + '</span>';
+    };
+
+    const _row = function(o) {
+      return '<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #f8fafc;">'
+        + '<a href="' + BASE + o.key + '" target="_blank" rel="noopener"'
+        + ' style="font-size:0.72rem;font-weight:800;color:#0053e2;text-decoration:none;white-space:nowrap;min-width:100px;"'
+        + ' onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'">'
+        + o.key + '</a>'
+        + '<span style="font-size:0.75rem;color:#374151;flex:1;line-height:1.3;">' + o.label + '</span>'
+        + _qBadge(o.quarter, o.pts)
+        + _sBadge(o.status)
+        + '</div>';
+    };
+
+    const committed   = card.relatedOpifs.filter(function(o) { return o.type === 'committed';   });
+    const notImpacted = card.relatedOpifs.filter(function(o) { return o.type === 'not-impacted'; });
+    const relatesTo   = card.relatedOpifs.filter(function(o) { return o.type === 'relates-to';  });
+
+    let html = '<div style="border-radius:12px;border:1px solid #e2e8f0;overflow:hidden;">'
+      + '<div style="padding:9px 14px;background:#f8fafc;border-bottom:1px solid #e2e8f0;'
+      + 'display:flex;align-items:center;gap:8px;">'
+      + '<span style="font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#475569;">🔗 Related OPIFs</span>'
+      + '<span style="font-size:0.65rem;color:#94a3b8;">from primary OPIF</span>'
+      + (primaryOpif ? '<a href="' + BASE + primaryOpif + '" target="_blank" rel="noopener"'
+      + ' style="font-size:0.65rem;color:#0053e2;font-weight:700;text-decoration:none;"'
+      + ' onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'">' + primaryOpif + ' ↗</a>' : '')
+      + '<span style="margin-left:auto;font-size:0.65rem;background:#eef2ff;color:#0053e2;'
+      + 'padding:1px 8px;border-radius:99px;font-weight:700;">' + card.relatedOpifs.length + ' linked</span>'
+      + '</div>';
+
+    if (committed.length) {
+      html += '<div style="padding:10px 14px 6px;background:white;">'
+        + '<div style="font-size:0.64rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;'
+        + 'color:#2a8703;margin-bottom:6px;">✅ Committed (' + committed.length + ')</div>'
+        + committed.map(_row).join('') + '</div>';
+    }
+
+    if (relatesTo.length) {
+      html += '<div style="padding:10px 14px 6px;background:white;border-top:1px solid #f1f5f9;">'
+        + '<div style="font-size:0.64rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;'
+        + 'color:#64748b;margin-bottom:6px;">↔️ Relates To (' + relatesTo.length + ')</div>'
+        + relatesTo.map(_row).join('') + '</div>';
+    }
+
+    if (notImpacted.length) {
+      html += '<details style="border-top:1px solid #f1f5f9;">'
+        + '<summary style="cursor:pointer;padding:9px 14px;font-size:0.68rem;font-weight:600;'
+        + 'color:#94a3b8;background:#fafafa;user-select:none;">'
+        + '▶ Not Impacted — ' + notImpacted.length + ' teams assessed, no delivery work required'
+        + '</summary>'
+        + '<div style="padding:6px 14px 8px;background:white;">'
+        + notImpacted.map(_row).join('')
+        + '</div></details>';
+    }
+
+    html += '</div>';
+    return html;
+  })();
+
   document.getElementById('tab-status').innerHTML = `
     <div class="space-y-4 py-5 px-6">
 
@@ -500,6 +581,9 @@ function openModal(cardId, workstream, tool) {
           View live data in ${primaryOpif} &#8599;
         </a>
       </div>` : ''}
+
+      <!-- Related OPIFs (rendered only when card.relatedOpifs is defined) -->
+      ${_relatedOpifsHtml}
 
       <!-- Inquiry CTA -->
       <div class="p-3 rounded-xl flex items-center gap-3 cursor-pointer"

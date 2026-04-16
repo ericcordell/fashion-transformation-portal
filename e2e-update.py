@@ -505,20 +505,27 @@ def load_current_opifs() -> dict[str, dict]:  # noqa: F811  (clean redefinition)
     """
     Map every OPIF-ID found in the data files to the card that *owns* it.
 
-    Ownership priority (to avoid first-occurrence-wins on raw text):
-      1. OPIF appears in a jira.walmart.com/browse/OPIF-XXXXX URL inside a card
-         block — this is the "linked" card and is the definitive owner.
-      2. Fallback: first card block where the OPIF appears anywhere.
+    Three-tier ownership priority (highest wins):
+      1. OPIF appears as the first argument to res(...) in a card block
+         i.e. resources: res('https://jira.walmart.com/browse/OPIF-XXXXX', ...)
+         This is the canonical Primary OPIF for that card.
+      2. OPIF appears in any jira.walmart.com/browse/OPIF-XXXXX URL anywhere
+         in the card block (linked but not primary).
+      3. First card block where the OPIF appears anywhere in text (fallback).
 
-    This prevents aex-stability (which mentions OPIF-344926 in recentUpdate
-    prose) from stealing ownership from auto-item-setup (which links it via
-    a proper jira resource URL).
+    This prevents related/cross-referenced OPIFs from stealing ownership
+    from the card that actually drives the OPIF.
     """
-    linked:   dict[str, dict] = {}   # owning via jira URL
+    primary:  dict[str, dict] = {}   # res() first arg  — definitive owner
+    linked:   dict[str, dict] = {}   # any jira URL in the block
     fallback: dict[str, dict] = {}   # first text mention
 
-    opif_re  = re.compile(r"OPIF-\d+")
-    jira_re  = re.compile(r"jira\.walmart\.com/browse/(OPIF-\d+)")
+    opif_re       = re.compile(r"OPIF-\d+")
+    jira_re       = re.compile(r"jira\.walmart\.com/browse/(OPIF-\d+)")
+    # res() first-arg pattern: res( 'https://jira.walmart.com/browse/OPIF-XXXXX'
+    res_primary_re = re.compile(
+        r"res\s*\(\s*'https://jira\.walmart\.com/browse/(OPIF-\d+)'"
+    )
 
     for fname in DATA_FILES:
         fpath = BASE / fname
@@ -526,13 +533,12 @@ def load_current_opifs() -> dict[str, dict]:  # noqa: F811  (clean redefinition)
             continue
         txt = fpath.read_text()
 
-        # Walk every card block
         for m_id in re.finditer(r"\{\s*id\s*:\s*'([^']+)'", txt):
             start = m_id.start()
             depth, end = 0, start
             for i, ch in enumerate(txt[start:], start):
-                if ch == "{": depth += 1
-                elif ch == "}":
+                if ch == '{': depth += 1
+                elif ch == '}':
                     depth -= 1
                     if depth == 0: end = i + 1; break
             block = txt[start:end]
@@ -547,18 +553,23 @@ def load_current_opifs() -> dict[str, dict]:  # noqa: F811  (clean redefinition)
                 "targetDate":  date_m.group(1)   if date_m   else "",
             }
 
-            # Register Jira-linked OPIFs as primary owners
+            # Tier 1 — primary: res() first arg
+            for oid in dict.fromkeys(res_primary_re.findall(block)):
+                if oid not in primary:
+                    primary[oid] = entry
+
+            # Tier 2 — linked: any jira URL
             for oid in dict.fromkeys(jira_re.findall(block)):
                 if oid not in linked:
                     linked[oid] = entry
 
-            # Register all mentioned OPIFs as fallback
+            # Tier 3 — fallback: any mention
             for oid in dict.fromkeys(opif_re.findall(block)):
                 if oid not in fallback:
                     fallback[oid] = entry
 
-    # Merge: linked wins; fill gaps with fallback
-    found = {**fallback, **linked}
+    # Merge: primary wins; fill gaps with linked, then fallback
+    found = {**fallback, **linked, **primary}
     return found
 
 

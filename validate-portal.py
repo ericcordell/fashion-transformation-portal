@@ -19,6 +19,7 @@ import argparse
 import re
 import sys
 from dataclasses import dataclass, field
+from datetime import date
 from pathlib import Path
 from typing import Optional
 
@@ -140,6 +141,45 @@ def _looks_like_date(val: str) -> bool:
     return bool(DATE_RE.search(val))
 
 
+# Month-name → number map for date parsing
+_MONTHS = {
+    'jan':1,'feb':2,'mar':3,'apr':4,'may':5,'jun':6,
+    'jul':7,'aug':8,'sep':9,'oct':10,'nov':11,'dec':12,
+}
+
+def _parse_date(val: str) -> Optional[date]:
+    """Try to parse a targetDate string into a date object.
+    Returns None if the value is a range, quarter ref, or unparseable.
+    Only attempts parsing on unambiguous specific dates.
+    """
+    if not val:
+        return None
+    # Skip ranges (en-dash, hyphen-range) and quarter refs — not specific enough
+    if '\u2013' in val or re.search(r'Q[1-4]', val, re.I) or '\u2014' in val:
+        return None
+    # Patterns: "Apr 30, 2026" / "Apr 30 2026" / "April 30, 2026" / "30 Apr 2026"
+    m = re.search(
+        r'([A-Za-z]{3,9})[\s.]+([0-9]{1,2}),?\s+([0-9]{4})',
+        val
+    )
+    if m:
+        month_str = m.group(1)[:3].lower()
+        month = _MONTHS.get(month_str)
+        if month:
+            try:
+                return date(int(m.group(3)), month, int(m.group(2)))
+            except ValueError:
+                return None
+    # ISO: 2026-04-30
+    m = re.match(r'(\d{4})-(\d{2})-(\d{2})$', val.strip())
+    if m:
+        try:
+            return date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
+        except ValueError:
+            return None
+    return None
+
+
 def validate(card: Card) -> None:
     """Populate card.errors and card.warnings in-place."""
 
@@ -182,7 +222,7 @@ def validate(card: Card) -> None:
     elif not card.critical and card.status in ACTIVE_STATUSES and not card.targetDate:
         card.warnings.append("targetDate is missing for an active card")
 
-    # ── Rule 5: if targetDate is set, it must look like a real date ───────────
+    # ── Rule 5: if targetDate is set, it must look like a real date ─────────────
     if card.targetDate and not _looks_like_date(card.targetDate):
         # Garbage text in targetDate — error for critical, warning for others
         msg = f"targetDate '{card.targetDate}' does not look like a valid date"
@@ -190,6 +230,17 @@ def validate(card: Card) -> None:
             card.errors.append(msg)
         else:
             card.warnings.append(msg)
+
+    # ── Rule 6: non-completed cards must not have a specific past targetDate ───
+    if card.status != 'completed' and card.targetDate:
+        parsed = _parse_date(card.targetDate)
+        if parsed and parsed < date.today():
+            msg = (f"targetDate '{card.targetDate}' is in the past — "
+                   f"verify status against source of truth before publishing")
+            if card.critical:
+                card.errors.append(msg)
+            else:
+                card.warnings.append(msg)
 
 
 # ── Reporting ──────────────────────────────────────────────────────────────────

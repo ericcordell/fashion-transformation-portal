@@ -69,8 +69,8 @@ const CARDS_ALLOCATION = [
   },
   {
     id: 'tag-based-recommendations', title: 'Tag-Based Line & In-Season Recommendations', icon: '\uD83E\uDD16',
-    status: 'roadmap', statusLabel: 'Roadmap \u2014 Recommend & Optimize Phase',
-    quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
+    status: 'yellow',  statusLabel: 'Yellow — At Risk',
+    quarter: 'Q3', targetDate: 'Oct 31, 2026',
     description: 'Leverage the tagging taxonomy and affinity graph from the Q2 pilot to power automated in-season assortment recommendations and dynamic store-level swaps. Replaces manual in-season allocation decisions with system-generated tag-based recommendations. Includes dynamic PO re-distribution and unified planner experience as part of the LLTT Recommend & Optimize phase. Requirements gathering underway.',
     businessBenefit: 'Allocation teams receive proactive, data-driven swap recommendations instead of reacting to sell-out events. Dynamic PO re-distribution reduces trapped inventory and improves in-stock rates across the season. Unified planner experience surfaces tag-based recommendations without toggling between systems.',
     techIntegration: 'Primary OPIF: OPIF-325373 (Unified Planner Experience — Requirements gathering). Related: OPIF-325374 (Simplification of Pack / Dynamic PO Re-Distribution — Requirements gathering), OPIF-325602 (Tagging and Affinity Graph — Ready for sizing, foundation), OPIF-325218 (BQ and Flow as a Service). Builds on Tagging Pilot (OPIF-325602). Recommendation engine consumes affinity graph, in-season velocity, and inventory position from DBP and AEX. PRD: Unified Planner Experience and Simplification of Pack (Confluence APREC).',
@@ -96,7 +96,7 @@ const CARDS_ALLOCATION = [
   {
     id: 'assort-product-phase2', title: 'Assort Product (AP) Phase 2 Enhancements', icon: '\uD83D\uDCCB',
     status: 'yellow', statusLabel: 'Yellow — At Risk',
-    quarter: 'Q2', targetDate: 'May 1, 2026',
+    quarter: 'Q2', targetDate: 'Jul 31, 2026',
     jiraStatus: 'Work in Progress',
     description: 'Phase 2 of AP Tool enhancements — including modular volume groups (MVG), on-demand store volume groups and size curves, assortment optimization engine, and fixture preference workflow improvements. Enables shared event calendar and unified potential items view (OneSource + MINT integration). Connects AP Tool to the enterprise forecast service. Jira update (Feb 10, 2026): 02-10-2026 : Working with Arun on overall timeline. Dev Complete : TBD  Integration Testing : TBD  E2E Testing : TBD Current status: Work in Progress. Assignee: Arun Santhiagu (TPM). Reporter: Taylor Watson. Target completion: 2026-07-31.',
     businessBenefit: 'AP Tool transitions from allocation execution tool to a connected recommendation engine — surfacing AI-driven suggestions for fixture allocation, CC rules, and store clustering based on tagging and demand signals. Shared event calendar eliminates planning milestone re-entry across AP, Centric, and OneSource.',
@@ -123,7 +123,7 @@ const CARDS_ALLOCATION = [
   },
   {
     id: 'enterprise-wave-planning', title: 'Enterprise Wave Planning & Allocation', icon: '\uD83C\uDFEA',
-    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
+    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q3', targetDate: 'Aug 1, 2026',
     jiraStatus: 'Initial Requirements',
     description: 'Enterprise-grade wave planning and distribution execution capabilities — from committed buy through to store distribution and exits. Part of the LLTT Setup phase goal: automate new store PO process and enable dynamic redistribution of confirmed POs as in-season demand signals emerge. Includes Category Space Planning & Dynamic In-season Execution (OPIF-325599). OPIF-325599: Status Backlog, Assignee Dhaarna Singh. OPIF-325598: Status PRD In Progress. Scope note: Corresponding with Dhaarna to determine if this OPIF is anticipated to be worked on in Q1. It\'s a maybe, but will move it to Q2 for now and if capacity allows for it, we can plan .',
     businessBenefit: 'Allocation teams get an automated wave planning tool connected to assortment and buy decisions in AEX and BPE — closing the E2E loop from commit to shelf. Category Space Planning and dynamic in-season execution enable allocation teams to react to real-time signals without manual redistribution.',
@@ -150,8 +150,8 @@ const CARDS_ALLOCATION = [
   },
   {
     id: 'fashion-fixture-tagging', title: 'Fashion Fixture Allocation: Tagging-Based Assortment', icon: '\uD83C\uDFF7\uFE0F',
-    status: 'green', statusLabel: 'Green \u2014 In Discovery',
-    quarter: 'Q4', targetDate: 'Jan 30, 2027',
+    status: 'yellow', statusLabel: 'Yellow — At Risk',
+    quarter: 'Q3', targetDate: 'Oct 31, 2026',
     description: 'Advanced fixture allocation using tagging and affinity data to drive assortment recommendations — dependent on the Q2 Tagging Pilot (OPIF-325602) results. Product Discovery in progress. Builds on Assisted Fixture Allocation (OPIF-325598) and Category Space Planning (OPIF-325599) for a full tagging-driven fixture assortment capability. Target: Jan 30, 2027.',
     businessBenefit: 'Fixture assortment driven by data-informed tagging rather than manual merchant judgment — improving product placement relevance and reducing slow-sellers in key fixtures. Affinity graph ensures complementary products are placed together for maximum basket affinity.',
     techIntegration: 'Builds on Q2 Tagging Pilot infrastructure (OPIF-325602 — Tagging and Affinity Graph). Related: OPIF-325598 (Assisted Fixture Allocation and Recommendations — Primary fixture capability), OPIF-325599 (Category Space Planning & Dynamic In-season Execution). Affinity graph and tagging model output integrated into fixture allocation planning workflow in DBP and AP Tool. PRD: Assisted Fixture Allocation (Confluence APREC).',

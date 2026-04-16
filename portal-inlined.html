@@ -3816,7 +3816,7 @@ const CARDS_STRATEGY = [
   {
     id: 'forecast-enterprise-service', title: 'Forecast as Enterprise Service', icon: '\uD83E\uDDE0',
     status: 'yellow', statusLabel: 'Yellow — At Risk',
-    quarter: 'Q2', targetDate: 'May 1, 2026',
+    quarter: 'Q3', targetDate: 'Oct 31, 2026',
     description: 'National forecasting capability delivered as a shared enterprise service — providing channel-level (eComm vs. store) and placement-split forecast outputs consumed by Buying, Allocation, and Planning teams. Enables AEX to consume forecasts aligned with AP service-based forecasting architecture. Includes model explainability and automated training pipelines. OPIF-325221 Status: Discovery in Progress. Assignee: Abhishek Jannawar. Reporter: Abhishek Jannawar. Component: US Omni Tech – MerchTools – AEX Buy Quantification. Related: OPIF-325218 (BQ as a Service), OPIF-325373 (Unified Planner Experience).',
     businessBenefit: 'Single, trusted forecast signal across all Fashion workstreams eliminates conflicting demand signals between Buying and Allocation. Forecast as a service reduces duplicative DS investment and accelerates new-department onboarding. Channel and placement splits give eComm and store teams differentiated, actionable signals without separate model builds.',
     techIntegration: 'Primary OPIF: OPIF-325221 (Forecast as a Service with Channel and Placement Split). Related: OPIF-325218 (Buy Quantification and Flow as a Service), OPIF-325373 (Unified Planner Experience). DS microservice architecture with batch inference pipeline. Forecast consumed by AEX (BQ), BPE (allocation planning), and DBP (distribution). Channel and placement split enables eComm vs. store differentiation in every forecast output. PRD: Confluence APREC space.',
@@ -4063,7 +4063,7 @@ const CARDS_DESIGN = [
   {
     id: 'visual-boards', title: 'Centric Visual Board MVP', icon: '\uD83C\uDFA8',
     status: 'yellow', statusLabel: 'Yellow \u2014 Trending Green',
-    quarter: 'Q3', targetDate: 'July 30, 2026', tag: 'Critical Program',
+    quarter: 'Q3', targetDate: 'Jul 31, 2026', tag: 'Critical Program',
     description: 'Visual Boards in Centric — a collaborative visual workspace that deprecates Bamboo Rose and moves design teams off Miro, centralizing fit management and visual assortment planning directly in the Centric platform with live product data. Critical path: Centric contract finalization required (12-week onboarding lead time). Milestone OPIF-347498: COMPLETE — Milestone Only. Christopher has stated that this is now complete. Milestone OPIF-347500: Backlog — Full verticals and ownership review with proposal pending. Assignee: Christopher Chiodo.',
     recentUpdate: 'Design Hub (Centric Integration) (OPIF-325208): 4.0',
     businessBenefit: 'Deprecates Bamboo Rose and eliminates Miro dependency. Design teams gain a visual assortment planning workspace natively connected to Centric data — decisions are traceable and always linked to the actual plan, not a disconnected whiteboard export. End-of-May 2026 pilot target once contracts signed.',
@@ -4179,8 +4179,8 @@ const CARDS_BUYING = [
   },
   {
     id: 'fashion-fixture-allocation-buying', title: 'Fashion Fixture Allocation (Visual)', icon: '\uD83C\uDFEA',
-    status: 'roadmap', statusLabel: 'Roadmap',
-    quarter: 'Q4', targetDate: 'Nov 30, 2026',
+    status: 'yellow',  statusLabel: 'Yellow — At Risk',
+    quarter: 'Q3', targetDate: 'Oct 31, 2026',
     jiraStatus: 'Initial Requirements',
     description: 'Assisted Fixture Allocation capability enabling merchants to plan product placement across store fixtures with an AI-assisted visual interface — requirements gathering underway. Builds on tagging and affinity graph data as a foundation. PRD in progress. Scope planning note: Corresponding with Dhaarna to determine if this OPIF is anticipated to be worked on in Q1. It\'s a maybe, but will move it to Q2 for now and if capacity allows for it, we can plan it back into Q1. OPIF-325598 Status: PRD In Progress. Related: OPIF-325599 (Category Space Planning) — Status: Backlog, Assignee: Dhaarna Singh.',
     businessBenefit: 'Merchants can visualize and optimize fixture allocation without complex spreadsheets, leading to better product placement decisions and fewer fixture conflicts. AI assistance surfaces recommended assortments per fixture based on tagging and affinity data — reducing manual merchant judgment burden.',
@@ -4231,7 +4231,7 @@ const CARDS_BUYING = [
   {
     id: 'size-pack-bq', title: 'Automated Size/Pack Buy Quantification', icon: '\uD83D\uDCE6',
     status: 'yellow', statusLabel: 'Yellow — At Risk',
-    quarter: 'Q2', targetDate: 'May 1, 2026',
+    quarter: 'Q3', targetDate: 'Oct 31, 2026',
     jiraStatus: 'Initial Requirements',
     description: 'Automation of size and pack buy quantification (BQ) calculations — eliminating the manual sizing step currently owned by merchants. Moves size logic into BQ module (calc changes in Flow Plan, removal of manual Size Profile screen in Size & Pack). Configurable minimum initial set qty for core sizes. Pre-generated DS results for all 3 Like Finelines recommended by AEX. Encompasses pack simplification for simpler execution. Requirements gathering underway. Jira: OPIF-325374.',
     businessBenefit: 'Removes the most time-consuming manual calculation in the buying process. Size curves derived from data rather than merchant memory, reducing size-related markdowns. Pack simplification reduces setup complexity in AEX BQ execution. Unified planner experience surfaces BQ and forecast outputs in one view without merchant reconciliation.',
@@ -4260,8 +4260,8 @@ const CARDS_BUYING = [
   {
     id: 'ap-tool-lineplan', title: 'AP Tool Line Plan Integration w/ AEX', icon: '\uD83D\uDCC8',
     critical: true,
-    status: 'roadmap', statusLabel: 'Roadmap — Initial Requirements',
-    quarter: 'Q2', targetDate: 'May 1, 2026',
+    status: 'green',   statusLabel: 'Green — In Progress',
+    quarter: 'Q2', targetDate: 'Jul 31, 2026',
     jiraStatus: 'Work in Progress',
     priority: 'P1',
     techRank: 2,
@@ -4328,7 +4328,7 @@ const CARDS_BUYING = [
   {
     id: 'bq-enterprise-service', title: 'Buy Quantification as Enterprise Service', icon: '\uD83D\uDCCA',
     status: 'yellow', statusLabel: 'Yellow \u2014 Ready for Walkthrough',
-    quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
+    quarter: 'Q3', targetDate: 'Oct 31, 2026',
     description: 'Buy Quantification and Flow delivered as a shared enterprise service — providing demand-driven buy quantity recommendations across all Fashion workstreams without each team running independent BQ calculations. Part of the Recommend & Optimize phase of the LLTT roadmap (Q3 FY27 – Q1 FY28). Includes rollup reporting, dynamic PO re-distribution, pack simplification, unified planner experience, and channel/placement-split forecasting. OPIF-325218 Status: Discovery in Progress. Assignee: Abhishek Jannawar. Reporter: Abhishek Jannawar. Component: US Omni Tech – MerchTools – AEX Buy Quantification.',
     businessBenefit: 'Single authoritative buy quantity signal across all Fashion buying teams. Replaces manual BQ spreadsheets and per-department workarounds. Enables dynamic redistribution of POs as in-season signals emerge. Channel and placement splits give eComm and store teams differentiated signals.',
     techIntegration: 'Primary OPIF: OPIF-325218 (Buy Quantification and Flow as a Service — Requirements gathering). Related: OPIF-325221 (Forecast as a Service with Channel & Placement Split), OPIF-325373 (Unified Planner Experience), OPIF-325374 (Simplification of Pack for Simpler Execution). BQ enterprise service builds on DS National Forecasting microservice and automated size/pack work. Outputs consumed by AEX (commit), DBP (wave planning), and supply chain for automated PO creation. Includes rules-based Flow Plan automation. PRD: BQ and Flow as a Service (Confluence APREC).',
@@ -4366,7 +4366,7 @@ const CARDS_BUYING = [
   {
     id: 'shared-item-repository', title: 'Shared Item Repository (OneItem)', icon: '\uD83D\uDDC4\uFE0F',
     status: 'roadmap', statusLabel: 'Roadmap \u2014 Recommend & Optimize Phase',
-    quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
+    quarter: 'Q2', targetDate: 'May 1, 2026',
     jiraStatus: 'Initial Requirements',
     description: 'Unified item repository serving as the single source of truth for Fashion product items across the E2E workflow — connecting AEX, Line Planning, Supplier Catalog, and item creation systems. Requirements gathering underway. Jira: OPIF-325203 (Christopher Chiodo, Initial Requirements). Enables auto-population of line plan with potential items from Supplier Catalog through OneItem. Expanded sources include ROM, 3P data, and Circana retail signals.',
     businessBenefit: 'Eliminates duplicate item creation and conflicting item data across systems. Merchants select from a shared, AI-curated item repository rather than building items from scratch each season. Single item record shared across AEX, Centric, and Supplier One eliminates re-entry.',
@@ -4474,8 +4474,8 @@ const CARDS_ALLOCATION = [
   },
   {
     id: 'tag-based-recommendations', title: 'Tag-Based Line & In-Season Recommendations', icon: '\uD83E\uDD16',
-    status: 'roadmap', statusLabel: 'Roadmap \u2014 Recommend & Optimize Phase',
-    quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
+    status: 'yellow',  statusLabel: 'Yellow — At Risk',
+    quarter: 'Q3', targetDate: 'Oct 31, 2026',
     description: 'Leverage the tagging taxonomy and affinity graph from the Q2 pilot to power automated in-season assortment recommendations and dynamic store-level swaps. Replaces manual in-season allocation decisions with system-generated tag-based recommendations. Includes dynamic PO re-distribution and unified planner experience as part of the LLTT Recommend & Optimize phase. Requirements gathering underway.',
     businessBenefit: 'Allocation teams receive proactive, data-driven swap recommendations instead of reacting to sell-out events. Dynamic PO re-distribution reduces trapped inventory and improves in-stock rates across the season. Unified planner experience surfaces tag-based recommendations without toggling between systems.',
     techIntegration: 'Primary OPIF: OPIF-325373 (Unified Planner Experience — Requirements gathering). Related: OPIF-325374 (Simplification of Pack / Dynamic PO Re-Distribution — Requirements gathering), OPIF-325602 (Tagging and Affinity Graph — Ready for sizing, foundation), OPIF-325218 (BQ and Flow as a Service). Builds on Tagging Pilot (OPIF-325602). Recommendation engine consumes affinity graph, in-season velocity, and inventory position from DBP and AEX. PRD: Unified Planner Experience and Simplification of Pack (Confluence APREC).',
@@ -4501,7 +4501,7 @@ const CARDS_ALLOCATION = [
   {
     id: 'assort-product-phase2', title: 'Assort Product (AP) Phase 2 Enhancements', icon: '\uD83D\uDCCB',
     status: 'yellow', statusLabel: 'Yellow — At Risk',
-    quarter: 'Q2', targetDate: 'May 1, 2026',
+    quarter: 'Q2', targetDate: 'Jul 31, 2026',
     jiraStatus: 'Work in Progress',
     description: 'Phase 2 of AP Tool enhancements — including modular volume groups (MVG), on-demand store volume groups and size curves, assortment optimization engine, and fixture preference workflow improvements. Enables shared event calendar and unified potential items view (OneSource + MINT integration). Connects AP Tool to the enterprise forecast service. Jira update (Feb 10, 2026): 02-10-2026 : Working with Arun on overall timeline. Dev Complete : TBD  Integration Testing : TBD  E2E Testing : TBD Current status: Work in Progress. Assignee: Arun Santhiagu (TPM). Reporter: Taylor Watson. Target completion: 2026-07-31.',
     businessBenefit: 'AP Tool transitions from allocation execution tool to a connected recommendation engine — surfacing AI-driven suggestions for fixture allocation, CC rules, and store clustering based on tagging and demand signals. Shared event calendar eliminates planning milestone re-entry across AP, Centric, and OneSource.',
@@ -4528,7 +4528,7 @@ const CARDS_ALLOCATION = [
   },
   {
     id: 'enterprise-wave-planning', title: 'Enterprise Wave Planning & Allocation', icon: '\uD83C\uDFEA',
-    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
+    status: 'roadmap', statusLabel: 'Roadmap', quarter: 'Q3', targetDate: 'Aug 1, 2026',
     jiraStatus: 'Initial Requirements',
     description: 'Enterprise-grade wave planning and distribution execution capabilities — from committed buy through to store distribution and exits. Part of the LLTT Setup phase goal: automate new store PO process and enable dynamic redistribution of confirmed POs as in-season demand signals emerge. Includes Category Space Planning & Dynamic In-season Execution (OPIF-325599). OPIF-325599: Status Backlog, Assignee Dhaarna Singh. OPIF-325598: Status PRD In Progress. Scope note: Corresponding with Dhaarna to determine if this OPIF is anticipated to be worked on in Q1. It\'s a maybe, but will move it to Q2 for now and if capacity allows for it, we can plan .',
     businessBenefit: 'Allocation teams get an automated wave planning tool connected to assortment and buy decisions in AEX and BPE — closing the E2E loop from commit to shelf. Category Space Planning and dynamic in-season execution enable allocation teams to react to real-time signals without manual redistribution.',
@@ -4555,8 +4555,8 @@ const CARDS_ALLOCATION = [
   },
   {
     id: 'fashion-fixture-tagging', title: 'Fashion Fixture Allocation: Tagging-Based Assortment', icon: '\uD83C\uDFF7\uFE0F',
-    status: 'green', statusLabel: 'Green \u2014 In Discovery',
-    quarter: 'Q4', targetDate: 'Jan 30, 2027',
+    status: 'yellow', statusLabel: 'Yellow — At Risk',
+    quarter: 'Q3', targetDate: 'Oct 31, 2026',
     description: 'Advanced fixture allocation using tagging and affinity data to drive assortment recommendations — dependent on the Q2 Tagging Pilot (OPIF-325602) results. Product Discovery in progress. Builds on Assisted Fixture Allocation (OPIF-325598) and Category Space Planning (OPIF-325599) for a full tagging-driven fixture assortment capability. Target: Jan 30, 2027.',
     businessBenefit: 'Fixture assortment driven by data-informed tagging rather than manual merchant judgment — improving product placement relevance and reducing slow-sellers in key fixtures. Affinity graph ensures complementary products are placed together for maximum basket affinity.',
     techIntegration: 'Builds on Q2 Tagging Pilot infrastructure (OPIF-325602 — Tagging and Affinity Graph). Related: OPIF-325598 (Assisted Fixture Allocation and Recommendations — Primary fixture capability), OPIF-325599 (Category Space Planning & Dynamic In-season Execution). Affinity graph and tagging model output integrated into fixture allocation planning workflow in DBP and AP Tool. PRD: Assisted Fixture Allocation (Confluence APREC).',

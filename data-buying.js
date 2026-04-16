@@ -69,8 +69,8 @@ const CARDS_BUYING = [
   },
   {
     id: 'fashion-fixture-allocation-buying', title: 'Fashion Fixture Allocation (Visual)', icon: '\uD83C\uDFEA',
-    status: 'roadmap', statusLabel: 'Roadmap',
-    quarter: 'Q4', targetDate: 'Nov 30, 2026',
+    status: 'yellow',  statusLabel: 'Yellow — At Risk',
+    quarter: 'Q3', targetDate: 'Oct 31, 2026',
     jiraStatus: 'Initial Requirements',
     description: 'Assisted Fixture Allocation capability enabling merchants to plan product placement across store fixtures with an AI-assisted visual interface — requirements gathering underway. Builds on tagging and affinity graph data as a foundation. PRD in progress. Scope planning note: Corresponding with Dhaarna to determine if this OPIF is anticipated to be worked on in Q1. It\'s a maybe, but will move it to Q2 for now and if capacity allows for it, we can plan it back into Q1. OPIF-325598 Status: PRD In Progress. Related: OPIF-325599 (Category Space Planning) — Status: Backlog, Assignee: Dhaarna Singh.',
     businessBenefit: 'Merchants can visualize and optimize fixture allocation without complex spreadsheets, leading to better product placement decisions and fewer fixture conflicts. AI assistance surfaces recommended assortments per fixture based on tagging and affinity data — reducing manual merchant judgment burden.',
@@ -121,7 +121,7 @@ const CARDS_BUYING = [
   {
     id: 'size-pack-bq', title: 'Automated Size/Pack Buy Quantification', icon: '\uD83D\uDCE6',
     status: 'yellow', statusLabel: 'Yellow — At Risk',
-    quarter: 'Q2', targetDate: 'May 1, 2026',
+    quarter: 'Q3', targetDate: 'Oct 31, 2026',
     jiraStatus: 'Initial Requirements',
     description: 'Automation of size and pack buy quantification (BQ) calculations — eliminating the manual sizing step currently owned by merchants. Moves size logic into BQ module (calc changes in Flow Plan, removal of manual Size Profile screen in Size & Pack). Configurable minimum initial set qty for core sizes. Pre-generated DS results for all 3 Like Finelines recommended by AEX. Encompasses pack simplification for simpler execution. Requirements gathering underway. Jira: OPIF-325374.',
     businessBenefit: 'Removes the most time-consuming manual calculation in the buying process. Size curves derived from data rather than merchant memory, reducing size-related markdowns. Pack simplification reduces setup complexity in AEX BQ execution. Unified planner experience surfaces BQ and forecast outputs in one view without merchant reconciliation.',
@@ -150,8 +150,8 @@ const CARDS_BUYING = [
   {
     id: 'ap-tool-lineplan', title: 'AP Tool Line Plan Integration w/ AEX', icon: '\uD83D\uDCC8',
     critical: true,
-    status: 'roadmap', statusLabel: 'Roadmap — Initial Requirements',
-    quarter: 'Q2', targetDate: 'May 1, 2026',
+    status: 'green',   statusLabel: 'Green — In Progress',
+    quarter: 'Q2', targetDate: 'Jul 31, 2026',
     jiraStatus: 'Work in Progress',
     priority: 'P1',
     techRank: 2,
@@ -218,7 +218,7 @@ const CARDS_BUYING = [
   {
     id: 'bq-enterprise-service', title: 'Buy Quantification as Enterprise Service', icon: '\uD83D\uDCCA',
     status: 'yellow', statusLabel: 'Yellow \u2014 Ready for Walkthrough',
-    quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
+    quarter: 'Q3', targetDate: 'Oct 31, 2026',
     description: 'Buy Quantification and Flow delivered as a shared enterprise service — providing demand-driven buy quantity recommendations across all Fashion workstreams without each team running independent BQ calculations. Part of the Recommend & Optimize phase of the LLTT roadmap (Q3 FY27 – Q1 FY28). Includes rollup reporting, dynamic PO re-distribution, pack simplification, unified planner experience, and channel/placement-split forecasting. OPIF-325218 Status: Discovery in Progress. Assignee: Abhishek Jannawar. Reporter: Abhishek Jannawar. Component: US Omni Tech – MerchTools – AEX Buy Quantification.',
     businessBenefit: 'Single authoritative buy quantity signal across all Fashion buying teams. Replaces manual BQ spreadsheets and per-department workarounds. Enables dynamic redistribution of POs as in-season signals emerge. Channel and placement splits give eComm and store teams differentiated signals.',
     techIntegration: 'Primary OPIF: OPIF-325218 (Buy Quantification and Flow as a Service — Requirements gathering). Related: OPIF-325221 (Forecast as a Service with Channel & Placement Split), OPIF-325373 (Unified Planner Experience), OPIF-325374 (Simplification of Pack for Simpler Execution). BQ enterprise service builds on DS National Forecasting microservice and automated size/pack work. Outputs consumed by AEX (commit), DBP (wave planning), and supply chain for automated PO creation. Includes rules-based Flow Plan automation. PRD: BQ and Flow as a Service (Confluence APREC).',
@@ -256,7 +256,7 @@ const CARDS_BUYING = [
   {
     id: 'shared-item-repository', title: 'Shared Item Repository (OneItem)', icon: '\uD83D\uDDC4\uFE0F',
     status: 'roadmap', statusLabel: 'Roadmap \u2014 Recommend & Optimize Phase',
-    quarter: 'Q3', targetDate: 'Aug\u2013Oct 2026',
+    quarter: 'Q2', targetDate: 'May 1, 2026',
     jiraStatus: 'Initial Requirements',
     description: 'Unified item repository serving as the single source of truth for Fashion product items across the E2E workflow — connecting AEX, Line Planning, Supplier Catalog, and item creation systems. Requirements gathering underway. Jira: OPIF-325203 (Christopher Chiodo, Initial Requirements). Enables auto-population of line plan with potential items from Supplier Catalog through OneItem. Expanded sources include ROM, 3P data, and Circana retail signals.',
     businessBenefit: 'Eliminates duplicate item creation and conflicting item data across systems. Merchants select from a shared, AI-curated item repository rather than building items from scratch each season. Single item record shared across AEX, Centric, and Supplier One eliminates re-entry.',

@@ -142,7 +142,7 @@ const CARDS_DESIGN = [
   {
     id: 'visual-boards', title: 'Centric Visual Board MVP', icon: '\uD83C\uDFA8',
     status: 'yellow', statusLabel: 'Yellow \u2014 Trending Green',
-    quarter: 'Q3', targetDate: 'July 30, 2026', tag: 'Critical Program',
+    quarter: 'Q3', targetDate: 'Jul 31, 2026', tag: 'Critical Program',
     description: 'Visual Boards in Centric — a collaborative visual workspace that deprecates Bamboo Rose and moves design teams off Miro, centralizing fit management and visual assortment planning directly in the Centric platform with live product data. Critical path: Centric contract finalization required (12-week onboarding lead time). Milestone OPIF-347498: COMPLETE — Milestone Only. Christopher has stated that this is now complete. Milestone OPIF-347500: Backlog — Full verticals and ownership review with proposal pending. Assignee: Christopher Chiodo.',
     recentUpdate: 'Design Hub (Centric Integration) (OPIF-325208): 4.0',
     businessBenefit: 'Deprecates Bamboo Rose and eliminates Miro dependency. Design teams gain a visual assortment planning workspace natively connected to Centric data — decisions are traceable and always linked to the actual plan, not a disconnected whiteboard export. End-of-May 2026 pilot target once contracts signed.',

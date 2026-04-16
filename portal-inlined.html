@@ -4257,10 +4257,7 @@ const CARDS_BUYING = [
       // Relates To
       { key: 'OPIF-208928', label: 'Planning Reason Code — Late Intake', type: 'relates-to',   quarter: null,     pts: null, status: 'Done' },
     ],
-    workstreams: ['buying'],
-  },
-  {
-    id: 'fashion-fixture-allocation-buying', title: 'Fashion Fixture Allocation (Visual)', icon: '\uD83C\uDFEA',
+, title: 'Fashion Fixture Allocation (Visual)', icon: '\uD83C\uDFEA',
     status: 'yellow',  statusLabel: 'Yellow — At Risk',
     quarter: 'Q3', targetDate: 'Oct 31, 2026',
     jiraStatus: 'Initial Requirements',
@@ -4370,6 +4367,12 @@ const CARDS_BUYING = [
         { label: 'LLTT Dashboard', url: 'https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard' },
       ]
     ),
+    relatedOpifs: [
+      // Committed — teams sized & committed to delivery work
+      { key: 'OPIF-345664', label: 'AP Tool — Assortment Planning',  type: 'committed',    quarter: 'FY26Q2', pts: 120,  status: 'Done' },
+      // Not Impacted — assessed, no delivery work required
+      { key: 'OPIF-344633', label: 'AEX — Fashion Apparel',          type: 'not-impacted', quarter: 'FY26Q2', pts: null, status: 'Done' },
+    ],
     workstreams: ['buying'],
   },
   {

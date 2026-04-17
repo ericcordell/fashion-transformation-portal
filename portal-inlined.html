@@ -3822,9 +3822,9 @@ const CARDS_STRATEGY = [
     quarter: 'Q4', targetDate: 'Oct 31, 2026',
     description: 'Walmart struggles to operationalize strategy at scale because strategic intent is fragmented across PPTs, spreadsheets, and heuristic-driven processes. Strategy Hub (TTP) solves this by creating a connected, data-driven central repository where business strategy is captured once and operationalized downstream.',
     businessBenefit: 'Operationalizes business strategy in downstream systems and increases strategy creation, management, and distribution efficiency. Eliminates redundant strategy sessions and conflicting priorities across workstreams. Single source of truth for seasonal financial targets and category priorities cascaded to all fashion tools.',
-    techIntegration: 'Primary OPIFs: OPIF-368304 (Strategy Hub: Create and centralize business strategy, Initial Requirements) and OPIF-374141 (Strategy Hub Internal and External Data Inputs, Backlog). Both owned by Charitha Katupitiya (TTP). Discovery underway — Apr 8 onward: DMM interviews, collecting strategy documents, connecting with data partners, formulating MLP scope, estimating engineering resources. OPIF-374141 newly filed Apr 16 to track data input requirements separately. Strategy Hub serves as the upstream data source for AEX, Centric, and BPE/DBP; decisions recorded here propagate downstream without manual re-entry.',
+    techIntegration: 'Primary OPIF: OPIF-368304 (Strategy Hub: Create and centralize business strategy, Initial Requirements). Owned by Charitha Katupitiya (TTP). Discovery underway — Apr 8 onward: DMM interviews, collecting strategy documents, connecting with data partners, formulating MLP scope, estimating engineering resources. Strategy Hub serves as the upstream data source for AEX, Centric, and BPE/DBP; decisions recorded here propagate downstream without manual re-entry. Data input requirements tracked separately in companion card: OPIF-374141.',
     successMetrics: 'Business strategy captured in a connected system rather than fragmented across PPTs and spreadsheets. All workstreams (Design, Buying, Allocation) reference Strategy Hub as primary source. Zero conflicting financial targets across workstreams in any given season. MLP scope and engineering estimates completed by end of discovery phase.',
-    recentUpdate: 'Apr 16, 2026 – OPIF-374141 (Strategy Hub Internal and External Data Inputs) newly filed and now tracked.  |  Apr 8, 2026 – Discovery underway: DMM interviews, collecting strategy documents, connecting with data partners to share needs, formulating MLP scope and experience, estimating engineering resources.',
+    recentUpdate: 'Apr 16, 2026 – Companion OPIF-374141 (Strategy Hub Data Inputs) filed and now tracked on its own card.  |  Apr 8, 2026 – Discovery underway: DMM interviews, collecting strategy documents, connecting with data partners, formulating MLP scope and experience, estimating engineering resources.',
     problemStatement: 'Walmart struggles to operationalize strategy at scale because strategic intent is fragmented across PPTs, spreadsheets, and heuristic-driven processes rather than captured in a connected, data-driven system. Strategy inputs are hard to find and synthesize, and decisions are not robustly or measurably documented. As a result, strategic intent does not reliably drive downstream execution across assortment, space, and allocation, preventing automation and requiring ongoing manual intervention.',
     businessImpact: 'Business Value: Operationalize business strategy in downstream systems/increase strategy creation, management and distribution efficiency\n\n',
     owners: pptOwners('Eric Cordell', 'Ramesh Simhambhatla', 'Charitha Katupitiya', 'Leon Hovanesian', ''),
@@ -3833,16 +3833,41 @@ const CARDS_STRATEGY = [
       '#', '#', '#',
       [
         { label: 'OPIF-368304 — Strategy Hub: Create and centralize business strategy (Primary)', url: 'https://jira.walmart.com/browse/OPIF-368304' },
-        { label: 'OPIF-374141 — Strategy Hub Internal and External Data Inputs', url: 'https://jira.walmart.com/browse/OPIF-374141' },
         { label: 'Strategy Hub PRD (Confluence — WIP)', url: 'https://confluence.walmart.com/display/TTPAI/Strategy+Hub+DMM+Minimum+Loveable+Product+PRD' },
         { label: 'LLTT Dashboard (Confluence)', url: 'https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard' },
       ]
     ),
     relatedOpifs: [
-      // Active — Initial Requirements
-      { key: 'OPIF-368304', label: 'Strategy Hub: Create and Centralize Business Strategy', type: 'committed', quarter: 'FY27Q4', pts: null, status: 'Initial Requirements' },
-      // Backlog — newly filed
-      { key: 'OPIF-374141', label: 'Strategy Hub Internal and External Data Inputs',         type: 'committed', quarter: 'FY27Q4', pts: null, status: 'Backlog' },
+      { key: 'OPIF-368304', label: 'Strategy Hub: Create and Centralize Business Strategy', type: 'committed',  quarter: 'FY27Q4', pts: null, status: 'Initial Requirements' },
+      { key: 'OPIF-374141', label: 'Strategy Hub Internal and External Data Inputs',         type: 'relates-to', quarter: 'FY27Q4', pts: null, status: 'Backlog' },
+    ],
+    workstreams: ['strategy'],
+  },
+  {
+    id: 'strategy-hub-data-inputs', title: 'Strategy Hub: Internal & External Data Inputs', icon: '🔌',
+    status: 'roadmap', statusLabel: 'Roadmap — Backlog',
+    jiraStatus: 'Backlog',
+    quarter: 'Q4', targetDate: 'Oct 31, 2026', tag: 'New',
+    description: 'Defines and delivers the data pipelines that feed the Strategy Hub — both internal sources (AEX actuals, Centric line plans, BPE/DBP inventory signals, financial targets) and external sources (market trend data, supplier inputs, competitive signals). Without reliable data inputs, strategic decisions in the Hub cannot be grounded in real performance or market context.',
+    businessBenefit: 'Merchants and leaders make strategy decisions anchored to live internal performance and external market signals — not stale spreadsheets. Automated data inputs eliminate manual data gathering before each strategy session. Consistent, governed data contracts between upstream systems and Strategy Hub prevent conflicting numbers across teams.',
+    techIntegration: 'Primary OPIF: OPIF-374141 (Strategy Hub Internal and External Data Inputs, Backlog). Reporter: Charitha Katupitiya. Companion to OPIF-368304 (Strategy Hub core). Data input scope includes: AEX assortment actuals, Centric design/line plan outputs, BPE inventory signals, financial targets from TTP, and external market/trend data feeds. Sizing and assignee TBD — newly filed Apr 16, 2026.',
+    successMetrics: 'All identified internal data sources flowing into Strategy Hub without manual intervention. At least one external data feed (market trend or competitive signal) integrated at MLP launch. Data contracts defined and versioned for each input source. Zero manual data-gathering steps required before a strategy session.',
+    recentUpdate: 'Apr 16, 2026 – OPIF-374141 filed by Charitha Katupitiya. Backlog status. Sizing and engineering assignment pending. Companion to Strategy Hub core OPIF-368304 which is in active discovery.',
+    problemStatement: 'The Strategy Hub cannot fulfil its role as a single source of strategic truth without reliable, automated data inputs. Today, strategy sessions depend on manually assembled data from AEX, Centric, BPE, and external sources — a time-consuming process prone to inconsistency. This OPIF defines and delivers the governed data pipelines that make the Strategy Hub self-sustaining.',
+    owners: pptOwners('Eric Cordell', 'Ramesh Simhambhatla', 'Charitha Katupitiya', 'Leon Hovanesian', ''),
+    resources: res(
+      'https://jira.walmart.com/browse/OPIF-374141',
+      '#', '#', '#',
+      [
+        { label: 'OPIF-374141 — Strategy Hub Internal and External Data Inputs (Primary)', url: 'https://jira.walmart.com/browse/OPIF-374141' },
+        { label: 'OPIF-368304 — Strategy Hub Core (Related)', url: 'https://jira.walmart.com/browse/OPIF-368304' },
+        { label: 'Strategy Hub PRD (Confluence — WIP)', url: 'https://confluence.walmart.com/display/TTPAI/Strategy+Hub+DMM+Minimum+Loveable+Product+PRD' },
+        { label: 'LLTT Dashboard (Confluence)', url: 'https://confluence.walmart.com/display/APREC/Long+Lead+Time+Transformation+Work+Management+Dashboard' },
+      ]
+    ),
+    relatedOpifs: [
+      { key: 'OPIF-374141', label: 'Strategy Hub Internal and External Data Inputs', type: 'committed',  quarter: 'FY27Q4', pts: null, status: 'Backlog' },
+      { key: 'OPIF-368304', label: 'Strategy Hub: Create and Centralize Business Strategy (Related)', type: 'relates-to', quarter: 'FY27Q4', pts: null, status: 'Initial Requirements' },
     ],
     workstreams: ['strategy'],
   },

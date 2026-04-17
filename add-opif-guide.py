@@ -48,17 +48,30 @@ def inject_guide():
     portal_html = portal_html.replace('</body>', html_injection + '</body>')
     
     # Inject the guide button into the header (right side)
-    header_button = '''<button class="guide-button" onclick="openGuideModal()" style="margin-left: 16px;">
-  <span class="guide-button-icon">ℹ️</span>
-  <span>Help &amp; How-To</span>
-</button>'''
-    
-    # Find the header closing div and inject button before it
-    # The header has: ... March 2026 &bull; Confidential</div>\n</header>
-    portal_html = portal_html.replace(
-        '<div style="color:#a8c4ff" class="text-xs">March 2026 &bull; Confidential</div>',
-        '<div class="flex items-center gap-3"><div style="color:#a8c4ff" class="text-xs">March 2026 &bull; Confidential</div>' + header_button + '</div>'
+    # Use regex so this survives date/text changes in the header.
+    import re
+    header_button = ('<button class="guide-button" onclick="openGuideModal()" style="margin-left:16px;">'
+                    '<span class="guide-button-icon">ℹ️</span>'
+                    '<span>Help &amp; How-To</span>'
+                    '</button>')
+
+    # Match the subtitle div inside <header> — works regardless of date/text content
+    header_pattern = re.compile(
+        r'(<div style="color:#a8c4ff"[^>]*class="text-xs"[^>]*>'
+        r'|<div class="text-xs"[^>]*style="color:#a8c4ff"[^>]*>)'
+        r'([^<]*</div>)',
     )
+    new_html, n_subs = header_pattern.subn(
+        lambda m: '<div class="flex items-center gap-3">' + m.group(0) + header_button + '</div>',
+        portal_html,
+        count=1,
+    )
+    if n_subs == 0:
+        print('  ⚠️  WARNING: header button injection failed — subtitle div not found.')
+        print('             Guide modal is present but no button in header.')
+    else:
+        portal_html = new_html
+        print('  ✓ Header button injected')
     
     # Write back
     portal_file.write_text(portal_html)

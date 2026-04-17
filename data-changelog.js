@@ -113,7 +113,16 @@ const CARD_CHANGELOG = {
       from: 'in-progress',
       to: 'milestone-done',
       fromLabel: 'Milestone In Progress',
-      toLabel: 'OPIF-347498: Centric Capabilities Review \u2014 Confirmed Done \u2705',
+      toLabel: 'OPIF-347498: Centric Capabilities Review — Confirmed Done ✅',
+    },
+  ],
+  'strategy-hub': [
+    {
+      date: '2026-04-15',
+      field: 'relatedOpifs',
+      from: 'none',
+      to: 'linked',
+      note: 'OPIF-368304 formally added to relatedOpifs. OPIF-374141 (Strategy Hub Internal and External Data Inputs) newly filed Apr 16 and added as second tracked OPIF on this card.',
     },
   ],
 };

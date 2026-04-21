@@ -3758,3 +3758,146 @@ Traceback (most recent call last):
 [15:18:02] ❌ Published PROD failed:
 
 [15:18:02] [7/7] Git commit
+[15:18:02] ✅ Git committed ( 6 files changed, 228 insertions(+), 26 deletions(-))
+[15:18:02] 
+[15:18:02] 
+┌──────────────────────────────────────────────────────────────┐
+[15:18:02] │  Summary                                                     │
+[15:18:02] └──────────────────────────────────────────────────────────────┘
+[15:18:02] ⚠️  Completed in 18.6s  |  Source: archive (Apr 15, 2026)
+[15:18:02] 
+[15:18:02] 📋 Program Card Changes:
+[15:18:02]    OPIF-325216  status: 'green' → 'Roadmap — Initial Requirements'
+[15:18:02]    OPIF-325216  targetDate: 'Jul 31, 2026' → 'Aug 1, 2026'
+[15:18:02]    OPIF-325217  status: 'green' → 'Roadmap — Initial Requirements'
+[15:18:02]    OPIF-325217  targetDate: 'Jul 31, 2026' → 'Aug 1, 2026'
+[15:18:02]    OPIF-325565  status: 'green' → 'Roadmap — Initial Requirements'
+[15:18:02]    OPIF-325565  targetDate: 'Jul 31, 2026' → 'Aug 1, 2026'
+[15:18:02]    OPIF-347498  status: 'yellow' → 'Green — In Progress'
+[15:18:02]    OPIF-347498  targetDate: 'Jul 31, 2026' → 'Mar 5, 2026'
+[15:18:02]    OPIF-347500  status: 'yellow' → 'Green — In Progress'
+[15:18:02]    OPIF-347500  targetDate: 'Jul 31, 2026' → 'Mar 20, 2026'
+[15:18:02]    OPIF-349684  status: 'yellow' → 'Green — In Progress'
+[15:18:02]    OPIF-204306  status: 'red' → 'Green — In Progress'
+[15:18:02]    OPIF-204306  targetDate: 'Apr 30, 2026' → 'Apr 28, 2026'
+[15:18:02]    OPIF-311623  status: 'yellow' → 'Green — In Progress'
+[15:18:02]    OPIF-311623  targetDate: 'Jul 31, 2026' → 'Aug 31, 2026'
+[15:18:02]    OPIF-89047  status: 'red' → 'Green — In Progress'
+[15:18:02]    OPIF-89047  targetDate: 'Apr 30, 2026' → 'Aug 31, 2026'
+[15:18:02]    aex-stability-q1 (data-buying.js)  recentUpdate refreshed
+[15:18:02]    aex-stability-q2 (data-buying.js)  recentUpdate refreshed
+[15:18:02]    auto-item-setup (data-buying.js)  recentUpdate refreshed
+[15:18:02] 
+[15:18:02] 🗓  Upcoming Milestones (from Confluence):
+[15:18:02]    1.0                                      DONE - U.S. Omni Tech: FY27: Merch: Trust: FY27-PS02 Item Setup Experience: Item Set up and Experience 
+[15:18:02]    Execution Dev Complete                   15-Apr       In Progress
+[15:18:02]    IIR                                      15-Apr       In Progress
+[15:18:02]    Planned QE / E2E/UAT Testing             20-Apr       Not Started
+[15:18:02]    Planned Prod Deployment                  28-Apr       Not Started
+[15:18:02]    Architectural discussion                 10-Aor       In Progress
+[15:18:02]    Planned Start Date                       09-Mar       Started
+[15:18:02]    Development Complete - Phase 1           10-Apr       In Progress
+[15:18:02] 
+[15:18:02] 🔗 Live portals:
+[15:18:02]    https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
+[15:18:02] 
+[15:18:02] ⚠️  Warnings:
+[15:18:02]    • PROD publish failed
+[15:18:02] 
+[15:18:02] 💡 Hard-refresh browser (⌘+Shift+R) to see latest content.
+[15:21:21] 
+┌──────────────────────────────────────────────────────────────┐
+[15:21:21] │  E2E Fashion Portal — Full Refresh    2026-04-21 15:21       │
+[15:21:21] └──────────────────────────────────────────────────────────────┘
+[15:21:21] Portal dir : /Users/e0c0lzr/Downloads/fashion-portal
+[15:21:21] Mode       : LIVE
+[15:21:21] 
+[15:21:21] [1/7] Pull Confluence data
+[15:21:21]   --build-only: skipping Confluence pull
+[15:21:21] [2/7] Detect + apply Program Card changes
+[15:21:21] [3/7] Stamp changelog → April 21, 2026
+[15:21:21] ✅ data-changelog.js updated
+[15:21:21] [4/7] Build portal-inlined.html + portal-final.html
+[15:21:22]   Written portal-inlined.html (506.3 KB)
+[15:21:22]     ✓ Syntax check: all 23 script blocks clean
+[15:21:22]   Written portal-final.html (398.8 KB) — ready for puppy publish
+[15:21:22] ✅ build-inlined.py
+[15:21:22] [5/7] Inject OPIF Field Guide
+[15:21:23]   ✓ Header button injected
+[15:21:23]   ✅ Successfully injected OPIF Field Mapping Guide
+[15:21:23]      CSS: 13365 characters
+[15:21:23]      HTML: 28174 characters
+[15:21:23]      Updated: portal-final.html
+[15:21:23] ✅ add-opif-guide.py
+[15:21:23] [6/7] Publish
+[15:21:23]   → TEST (canary preflight)…
+[15:21:25]   📦 Publishing to TEST → e2e-fashion-portal-test
+[15:21:25]      File  : portal-final.html (504 KB)
+[15:21:25]      URL   : https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
+[15:21:25]   
+[15:21:25]     [canary] uploading preflight probe...
+[15:21:25]     [canary] ✅ v180 — pipeline is alive
+[15:21:25]     Uploading 506 KB...  [access: business]
+[15:21:25]     ✅ Published! v181
+[15:21:25]     ✅ Version check passed: canary=v180 → real=v181 (consecutive ✓)
+[15:21:25]   
+[15:21:25]   🔗 https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
+[15:21:25]   💡 To see changes: hard-refresh in browser (⌘+Shift+R on Mac / Ctrl+Shift+R on Win)
+[15:21:25]      Or open in Incognito to bypass any cached session state.
+[15:21:25] ✅ Published TEST
+[15:21:25]   → PROD…
+[15:21:26]   [1m──────────────────────────────────────────────────────────────────────[0m
+[15:21:26]   [1m  Portal Card Validation[0m  (critical only)
+[15:21:26]   ──────────────────────────────────────────────────────────────────────[0m
+[15:21:26]   
+[15:21:26]   [1m★[0m 🟢  [1mLaunch Design Hub (Centric PLM)[0m  [2m(design-hub-centric)[0m
+[15:21:26]        [2mdata-design.js[0m
+[15:21:26]        status:      [36mgreen[0m   label: Green â In Progress
+[15:21:26]        targetDate:  [0mMay 31, 2026[0m   quarter: [2mQ2[0m
+[15:21:26]        [32m✔ OK[0m
+[15:21:26]   
+[15:21:26]   [1m★[0m 🔴  [1mAEX Stability & Quality of Life â Q1[0m  [2m(aex-stability-q1)[0m
+[15:21:26]        [2mdata-buying.js[0m
+[15:21:26]        status:      [36mred[0m   label: Red â 1 Delayed
+[15:21:26]        targetDate:  [0mAug 31, 2026[0m   quarter: [2mQ3[0m
+[15:21:26]        [32m✔ OK[0m
+[15:21:26]   
+[15:21:26]   [1m★[0m 🟡  [1mAEX Stability & Quality of Life â Q2[0m  [2m(aex-stability-q2)[0m
+[15:21:26]        [2mdata-buying.js[0m
+[15:21:26]        status:      [36myellow[0m   label: Yellow â Planning
+[15:21:26]        targetDate:  [0mAug 31, 2026[0m   quarter: [2mQ3[0m
+[15:21:26]        [32m✔ OK[0m
+[15:21:26]   
+[15:21:26]   [1m★[0m 🟢  [1mAutomated Item Setup[0m  [2m(auto-item-setup)[0m
+[15:21:26]        [2mdata-buying.js[0m
+[15:21:26]        status:      [36mgreen[0m   label: Green â In Progress
+[15:21:26]        targetDate:  [0mApr 30, 2026[0m   quarter: [2mQ1[0m
+[15:21:26]        [32m✔ OK[0m
+[15:21:26]   
+[15:21:26]   [1m★[0m 🗺️   [1mAP Tool Line Plan Integration w/ AEX[0m  [2m(ap-tool-lineplan)[0m
+[15:21:26]        [2mdata-buying.js[0m
+[15:21:26]        status:      [36mroadmap[0m   label: Roadmap â Initial Requirements
+[15:21:26]        targetDate:  [0mAug 1, 2026[0m   quarter: [2mQ3[0m
+[15:21:26]        [32m✔ OK[0m
+[15:21:26]   
+[15:21:26]   ──────────────────────────────────────────────────────────────────────
+[15:21:26]     5 cards checked  ·  [32m5 OK[0m  ·  [33m0 warnings[0m  ·  [31m0 errors[0m
+[15:21:26]   ──────────────────────────────────────────────────────────────────────
+[15:21:26]   
+[15:21:26]   [32m[1m✅ Validation passed — safe to publish.[0m
+[15:21:26]   
+[15:21:26]   📦 Publishing to PROD → e2e-fashion-portal-prod
+[15:21:26]      File  : portal-final.html (504 KB)
+[15:21:26]      URL   : https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod
+[15:21:26]   
+[15:21:26]     🔍 Running card validation gate...
+[15:21:26]     ✅ Validation gate passed.
+[15:21:26]   
+[15:21:26]     Uploading 506 KB...  [access: public]
+[15:21:26]     ✅ Published! v66
+[15:21:26]   
+[15:21:26]   🔗 https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-prod
+[15:21:26]   💡 To see changes: hard-refresh in browser (⌘+Shift+R on Mac / Ctrl+Shift+R on Win)
+[15:21:26]      Or open in Incognito to bypass any cached session state.
+[15:21:26] ✅ Published PROD
+[15:21:26] [7/7] Git commit

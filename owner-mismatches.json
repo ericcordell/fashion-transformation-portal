@@ -1,0 +1,154 @@
+[
+  {
+    "file": "data-strategy.js",
+    "card_id": "strategy-hub",
+    "title": "Strategy Hub: Create and Centralize Business Strategy",
+    "opif": "OPIF-368304",
+    "current_owner": "Eric Cordell",
+    "jira_owner": "Charitha Katupitiya"
+  },
+  {
+    "file": "data-strategy.js",
+    "card_id": "forecast-enterprise-service",
+    "title": "Forecast as Enterprise Service",
+    "opif": "OPIF-325221",
+    "current_owner": "Brett Reid",
+    "jira_owner": "Abhishek Jannawar"
+  },
+  {
+    "file": "data-strategy.js",
+    "card_id": "shared-merch-strategy",
+    "title": "Shared Merch Strategy & Scenario Planning",
+    "opif": "OPIF-325206",
+    "current_owner": "Bill Chiodetti",
+    "jira_owner": "Christopher Chiodo"
+  },
+  {
+    "file": "data-design.js",
+    "card_id": "design-hub-centric",
+    "title": "Launch Design Hub (Centric PLM)",
+    "opif": "OPIF-325208",
+    "current_owner": "Tammy Hawkins",
+    "jira_owner": "Christopher Chiodo"
+  },
+  {
+    "file": "data-design.js",
+    "card_id": "shared-event-layer",
+    "title": "Shared Event Layer (AP, Centric, OneSource)",
+    "opif": "OPIF-325188",
+    "current_owner": "Tammy Hawkins",
+    "jira_owner": "Christopher Chiodo"
+  },
+  {
+    "file": "data-design.js",
+    "card_id": "visual-boards",
+    "title": "Centric Visual Board MVP",
+    "opif": "OPIF-325208",
+    "current_owner": "Tammy Hawkins",
+    "jira_owner": "Christopher Chiodo"
+  },
+  {
+    "file": "data-buying.js",
+    "card_id": "auto-item-setup",
+    "title": "Automated Item Setup",
+    "opif": "OPIF-349684",
+    "current_owner": "Brett Reid",
+    "jira_owner": "Yahnea Owens"
+  },
+  {
+    "file": "data-buying.js",
+    "card_id": "fashion-fixture-allocation-buying",
+    "title": "Fashion Fixture Allocation (Visual)",
+    "opif": "OPIF-325598",
+    "current_owner": "Brett Reid",
+    "jira_owner": "Dhaarna Singh"
+  },
+  {
+    "file": "data-buying.js",
+    "card_id": "ai-item-repository",
+    "title": "AI Item Repository Launch",
+    "opif": "OPIF-337970",
+    "current_owner": "Brett Reid",
+    "jira_owner": "Ryan Henderson"
+  },
+  {
+    "file": "data-buying.js",
+    "card_id": "size-pack-bq",
+    "title": "Automated Size/Pack Buy Quantification",
+    "opif": "OPIF-325374",
+    "current_owner": "Brett Reid",
+    "jira_owner": "Abhishek Jannawar"
+  },
+  {
+    "file": "data-buying.js",
+    "card_id": "ap-tool-lineplan",
+    "title": "AP Tool Line Plan Integration w/ AEX",
+    "opif": "OPIF-325568",
+    "current_owner": "Brett Reid",
+    "jira_owner": "Ashwin Chidambaram"
+  },
+  {
+    "file": "data-buying.js",
+    "card_id": "bam-collab-intent",
+    "title": "BAM / Collab Intent Integration",
+    "opif": "OPIF-325569",
+    "current_owner": "Brett Reid",
+    "jira_owner": "Abhishek Jannawar"
+  },
+  {
+    "file": "data-buying.js",
+    "card_id": "bq-enterprise-service",
+    "title": "Buy Quantification as Enterprise Service",
+    "opif": "OPIF-325218",
+    "current_owner": "Brett Reid",
+    "jira_owner": "Abhishek Jannawar"
+  },
+  {
+    "file": "data-buying.js",
+    "card_id": "shared-item-repository",
+    "title": "Shared Item Repository (OneItem)",
+    "opif": "OPIF-325203",
+    "current_owner": "Brett Reid",
+    "jira_owner": "Christopher Chiodo"
+  },
+  {
+    "file": "data-allocation.js",
+    "card_id": "tagging-pilot",
+    "title": "Tagging & Affinity Graph \u2014 Assortment Gaps Pilot",
+    "opif": "OPIF-325602",
+    "current_owner": "Brett Reid",
+    "jira_owner": "Aravind Chiruvelli"
+  },
+  {
+    "file": "data-allocation.js",
+    "card_id": "tag-based-recommendations",
+    "title": "Tag-Based Line & In-Season Recommendations",
+    "opif": "OPIF-325373",
+    "current_owner": "Brett Reid",
+    "jira_owner": "Abhishek Jannawar"
+  },
+  {
+    "file": "data-allocation.js",
+    "card_id": "assort-product-phase2",
+    "title": "Assort Product (AP) Phase 2 Enhancements",
+    "opif": "OPIF-336019",
+    "current_owner": "Ken Brockland",
+    "jira_owner": "Arun Santhiagu"
+  },
+  {
+    "file": "data-allocation.js",
+    "card_id": "enterprise-wave-planning",
+    "title": "Enterprise Wave Planning & Allocation",
+    "opif": "OPIF-325599",
+    "current_owner": "Veena Swaminathan",
+    "jira_owner": "Dhaarna Singh"
+  },
+  {
+    "file": "data-allocation.js",
+    "card_id": "fashion-fixture-tagging",
+    "title": "Fashion Fixture Allocation: Tagging-Based Assortment",
+    "opif": "OPIF-325598",
+    "current_owner": "Brett Reid",
+    "jira_owner": "Dhaarna Singh"
+  }
+]

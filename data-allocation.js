@@ -31,7 +31,7 @@ const CARDS_ALLOCATION = [
     businessBenefit: 'Allocation teams proactively identify assortment coverage gaps before in-season sell-out signals surface. Tagging foundation enables automated recommendations and dynamic allocation across all future phases. Affinity graph surfaces product relationships that merchant intuition alone misses.',
     techIntegration: 'Primary OPIF: OPIF-325602 (Tagging and Affinity Graph — Ready for sizing, Ryan Henderson). Path to Green: Ryan confirmed Q1 scope, working with Oscar to identify Technical Lead. PRD: Tagging PRD (Confluence APREC space — DRAFT). DS model built on BigQuery. Tagging taxonomy integrates with AEX assortment data and Centric product records. CSA and DS sizing in progress. Affinity graph powers downstream recommendation engine.',
     successMetrics: 'Tagging pilot DS model live by Mar 13. Assortment gap identification validated with merchant team. Tagging taxonomy covers all target Fashion categories. Affinity graph accuracy confirmed. Technical Lead identified.',
-    owners: pptOwners('Brett Reid', 'Chris Graves', 'Ryan Henderson', 'Robbie Dutta', 'Oscar Cantu'),
+    owners: pptOwners('Aravind Chiruvelli', 'Chris Graves', 'Ryan Henderson', 'Robbie Dutta', 'Oscar Cantu'),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325602',
       '#',
@@ -75,7 +75,7 @@ const CARDS_ALLOCATION = [
     businessBenefit: 'Allocation teams receive proactive, data-driven swap recommendations instead of reacting to sell-out events. Dynamic PO re-distribution reduces trapped inventory and improves in-stock rates across the season. Unified planner experience surfaces tag-based recommendations without toggling between systems.',
     techIntegration: 'Primary OPIF: OPIF-325373 (Unified Planner Experience — Requirements gathering). Related: OPIF-325374 (Simplification of Pack / Dynamic PO Re-Distribution — Requirements gathering), OPIF-325602 (Tagging and Affinity Graph — Ready for sizing, foundation), OPIF-325218 (BQ and Flow as a Service). Builds on Tagging Pilot (OPIF-325602). Recommendation engine consumes affinity graph, in-season velocity, and inventory position from DBP and AEX. PRD: Unified Planner Experience and Simplification of Pack (Confluence APREC).',
     successMetrics: 'Tag-based swap recommendations adopted by target allocation teams. Dynamic PO re-distribution covering >90% of eligible POs by end of Q3. Trapped inventory rate measurably reduced vs. prior season. Unified planner experience live and adopted.',
-    owners: pptOwners('Brett Reid', 'Chris Graves', 'Ryan Henderson', 'Robbie Dutta', 'Mike Dunn'),
+    owners: pptOwners('Abhishek Jannawar', 'Chris Graves', 'Ryan Henderson', 'Robbie Dutta', 'Mike Dunn'),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325373',
       'https://confluence.walmart.com/display/APREC/Unified+Planner+Experience',
@@ -104,7 +104,7 @@ const CARDS_ALLOCATION = [
     successMetrics: 'AP Phase 2 features adopted by target merchant groups. CC rule automation live. Assortment optimization engine surfacing recommendations for >80% of assortment decisions. Shared event calendar live across AP, Centric, OneSource. Jul 31 delivery met.',
     problemStatement: 'The Assortment Planning (AP) Tool was built to manage fixture allocation decisions, but today it operates without the intelligence layer needed to recommend. Merchants manually define CC rules, fixture preferences, and store clusters without AI-driven signals. Modular volume groups (MVGs) are static, size curves require manual on-demand generation, and the assortment optimization engine that should surface data-driven recommendations doesn\'t yet exist. The result: merchants spend significant time on decisions that should be automated, while the tool remains disconnected from tagging, demand signal, and shared event calendar data that would make those decisions smarter and faster.',
     _aiGenerated: ['problemStatement'],
-    owners: pptOwners('Ken Brockland', 'Ashwin Chidambaram', 'Taylor Watson', 'CJ Weatherford', 'Arun Santhiagu'),
+    owners: pptOwners('Arun Santhiagu', 'Ashwin Chidambaram', 'Taylor Watson', 'CJ Weatherford', 'Arun Santhiagu'),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-336019',
       'https://confluence.walmart.com/display/OLR/Feature+Requirements%3A+Phase+2+Enhancements',
@@ -130,7 +130,7 @@ const CARDS_ALLOCATION = [
     techIntegration: 'Primary OPIF: OPIF-325599 (Category Space Planning & Dynamic In-season Execution — Requirements gathering, Dhaarna Singh). Related: OPIF-325598 (Assisted Fixture Allocation and Recommendations — Requirements gathering, Dhaarna Singh), OPIF-325373 (Unified Planner Experience), OPIF-325218 (BQ and Flow as a Service). DBP consumes finalized buy and assortment data from AEX and BPE to generate wave plans. Integration with store systems and supply chain for automated distribution execution. New Store PO automation included. PRD: Category Space Planning (Confluence APREC).',
     successMetrics: 'Wave plans generated automatically from committed buy data. Distribution executed without manual re-entry into store systems. In-stock rate improvement measurable within first season. Category space planning recommendations live and adopted by target allocation teams.',
     problemStatement: 'Current tools and processes do not support dynamic space adjustments, making it difficult to respond to inventory shifts, trend changes, or fixture adjustments with timing requiring multiple manual updates across the existing system workflows.\nSpreadsheet-driven, rigid planning weeks by season , relying on fixed modular specs and reset timelines that do not reflect real-time store demand.',
-    owners: pptOwners('Veena Swaminathan', 'Sakshi Datta', 'Dhaarna Singh', 'Minwoo Kim', ''),
+    owners: pptOwners('Dhaarna Singh', 'Sakshi Datta', 'Dhaarna Singh', 'Minwoo Kim', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325599',
       'https://confluence.walmart.com/pages/viewpage.action?pageId=3261567072',
@@ -157,7 +157,7 @@ const CARDS_ALLOCATION = [
     techIntegration: 'Builds on Q2 Tagging Pilot infrastructure (OPIF-325602 — Tagging and Affinity Graph). Related: OPIF-325598 (Assisted Fixture Allocation and Recommendations — Primary fixture capability), OPIF-325599 (Category Space Planning & Dynamic In-season Execution). Affinity graph and tagging model output integrated into fixture allocation planning workflow in DBP and AP Tool. PRD: Assisted Fixture Allocation (Confluence APREC).',
     successMetrics: 'Tagging-based fixture assortment recommendations live for target categories. Fixture-level sell-through rate improving vs. manually-planned fixtures. Affinity-based product placement co-location tracked and validated.',
     problemStatement: 'Merchants spend disproportionate time manipulating data instead of curating strategy. Goal is to build system which must actively assist merchants in forming decisions.\n\nCurrent fashion planning systems primarily record merchant decisions after they are made, requiring manual effort, fragmented tools, and significant complex . Merchants spend disproportionate time manipulating data instead of curating strategy. Goal is to build system which must actively assist merchants in forming decisions.',
-    owners: pptOwners('Brett Reid', 'Sakshi Datta', 'Dhaarna Singh', 'Minwoo Kim', ''),
+    owners: pptOwners('Dhaarna Singh', 'Sakshi Datta', 'Dhaarna Singh', 'Minwoo Kim', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325598',
       'https://confluence.walmart.com/pages/viewpage.action?pageId=3261566926',

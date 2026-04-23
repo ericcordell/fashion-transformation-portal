@@ -16,7 +16,7 @@ const CARDS_STRATEGY = [
     recentUpdate: 'Apr 16, 2026 – Companion OPIF-374141 (Strategy Hub Data Inputs) filed and now tracked on its own card.  |  Apr 8, 2026 – Discovery underway: DMM interviews, collecting strategy documents, connecting with data partners, formulating MLP scope and experience, estimating engineering resources.',
     problemStatement: 'Walmart struggles to operationalize strategy at scale because strategic intent is fragmented across PPTs, spreadsheets, and heuristic-driven processes rather than captured in a connected, data-driven system. Strategy inputs are hard to find and synthesize, and decisions are not robustly or measurably documented. As a result, strategic intent does not reliably drive downstream execution across assortment, space, and allocation, preventing automation and requiring ongoing manual intervention.',
     businessImpact: 'Business Value: Operationalize business strategy in downstream systems/increase strategy creation, management and distribution efficiency\n\n',
-    owners: pptOwners('Eric Cordell', 'Ramesh Simhambhatla', 'Charitha Katupitiya', 'Leon Hovanesian', ''),
+    owners: pptOwners('Charitha Katupitiya', 'Ramesh Simhambhatla', 'Charitha Katupitiya', 'Leon Hovanesian', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-368304',
       '#', '#', '#',
@@ -105,7 +105,7 @@ const CARDS_STRATEGY = [
     businessBenefit: 'Single, trusted forecast signal across all Fashion workstreams eliminates conflicting demand signals between Buying and Allocation. Forecast as a service reduces duplicative DS investment and accelerates new-department onboarding. Channel and placement splits give eComm and store teams differentiated, actionable signals without separate model builds.',
     techIntegration: 'Primary OPIF: OPIF-325221 (Forecast as a Service with Channel and Placement Split). Related: OPIF-325218 (Buy Quantification and Flow as a Service), OPIF-325373 (Unified Planner Experience). DS microservice architecture with batch inference pipeline. Forecast consumed by AEX (BQ), BPE (allocation planning), and DBP (distribution). Channel and placement split enables eComm vs. store differentiation in every forecast output. PRD: Confluence APREC space.',
     successMetrics: 'Forecast service adopted by all target Buying and Allocation workstreams. Conflicting forecast signals between workstreams eliminated. DS model training fully automated with no manual intervention required. Channel-level and placement-level splits live and consumed by AEX and BPE.',
-    owners: pptOwners('Brett Reid', 'Chris Graves', 'Vivek Mishra', 'Robbie Dutta', 'Mike Dunn'),
+    owners: pptOwners('Abhishek Jannawar', 'Chris Graves', 'Vivek Mishra', 'Robbie Dutta', 'Mike Dunn'),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325221',
       'https://confluence.walmart.com/display/APREC/Forecast+as+a+service+with+Channel+and+placement+split',
@@ -131,7 +131,7 @@ const CARDS_STRATEGY = [
     techIntegration: 'Primary OPIF: OPIF-325206 (Shared Merch Strategy). Related: OPIF-325203 (Shared Item Repository), OPIF-325208 (Design Hub / Centric Integration). Strategy repository connects TTP inputs to AEX line plan generation and Centric conceptual plan. Scenario engine evaluates financial and space implications of strategy choices automatically. PRD: Connected and Shared Merch Strategy (IESP Confluence space).',
     successMetrics: 'Strategy-based conceptual line plans generated automatically for target departments. Scenario generation and selection adopted by merchant planning teams. Manual strategy-to-plan translation steps eliminated. Single shared merch strategy consumed by all workstreams without re-entry.',
     problemStatement: 'Merchant strategy is currently defined outside of core systems (presentations, spreadsheets, meetings) and manually interpreted by downstream teams. As a result:\nStrategy is not consistently enforced.\nDesign and assortment decisions drift from merchant intent.\nSystems reflect outputs but not intent.\nChanges in strategy cause rework and confusion.\nThere is no system-level mechanism to input, version, and execute merchant strategy across OneSource and Centric.',
-    owners: pptOwners('Bill Chiodetti', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Leon Hovanesian', ''),
+    owners: pptOwners('Christopher Chiodo', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Leon Hovanesian', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325206',
       'https://confluence.walmart.com/display/IESP/Connected+and+Shared+Merch+Strategy',

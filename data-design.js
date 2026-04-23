@@ -16,7 +16,7 @@ const CARDS_DESIGN = [
     techIntegration: 'Primary OPIF: OPIF-325208 (Design Hub — Centric Integration). Related: OPIF-347498 (Milestone: Centric capabilities review vs AP Tool vs OneSource — DONE), OPIF-347500 (Milestone: Full verticals and ownership proposal — Backlog), OPIF-325206 (Shared Merch Strategy). Centric PLM is system of record for design. Integration plan covers AEX line plan sync, Supplier One spec distribution, DAM asset linking, and OneSource data feed via shared event layer. PRD: OneSource Design Integration (IESP Confluence space).',
     successMetrics: 'Contract signed and integration plan finalized. All target design teams onboarded to Centric. Bamboo Rose decommissioned. Design-to-buying handoff cycle time reduced. Milestone OPIFs (347498, 347500) both completed and proposals actioned.',
     problemStatement: 'Merchant, design, and supplier systems operate independently.\nSupplier collaboration is fragmented across multiple platforms.\nNo shared digital thread between product design and sourcing.\n3D assets and digital materials lack a single home or lifecycle context.',
-    owners: pptOwners('Tammy Hawkins', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Stephen Wolf', ''),
+    owners: pptOwners('Christopher Chiodo', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Stephen Wolf', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325208',
       'https://confluence.walmart.com/display/IESP/PRD+-+OneSource+Design+Integration',
@@ -123,7 +123,7 @@ const CARDS_DESIGN = [
     businessBenefit: 'System changes in one workstream tool propagate automatically to all connected systems. Eliminates the sync delays and manual reconciliation that occur with batch integrations. Shared event calendar ensures all tools reflect the same planning milestones simultaneously.',
     techIntegration: 'Primary OPIF: OPIF-325188 (Shared Project Tracking and Event Calendar — Initial Requirements). Related: OPIF-325208 (Design Hub / Centric Integration), OPIF-325203 (Shared Item Repository). Event-driven integration layer. AP Tool, Centric, and OneSource publish and consume events. Enables near-real-time cross-system state consistency. PRD: Confluence APREC space (pageId 3255372152).',
     successMetrics: 'Shared event layer live with all three systems publishing events. Cross-system data latency reduced to near real-time. Integration incident rate reduced. Shared event calendar live and consumed by AP, Centric, and OneSource.',
-    owners: pptOwners('Tammy Hawkins', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Stephen Wolf', ''),
+    owners: pptOwners('Christopher Chiodo', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Stephen Wolf', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325188',
       'https://confluence.walmart.com/pages/viewpage.action?pageId=3255372152',
@@ -150,7 +150,7 @@ const CARDS_DESIGN = [
     pathToGreen: 'Finalize contracts with Centric by target date to secure required 12-week onboarding lead time. Contract finalization is the critical path item — once signed, pilot launch moves to end of May 2026.',
     successMetrics: 'Bamboo Rose decommissioned. Miro usage for assortment visualization retired by end of pilot. Design review cycle time reduced. Associate adoption > 80% within first season.',
     problemStatement: 'Merchant, design, and supplier systems operate independently.\nSupplier collaboration is fragmented across multiple platforms.\nNo shared digital thread between product design and sourcing.\n3D assets and digital materials lack a single home or lifecycle context.',
-    owners: pptOwners('Tammy Hawkins', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Stephen Wolf', ''),
+    owners: pptOwners('Christopher Chiodo', 'Ramesh Simhambhatla', 'Christopher Chiodo', 'Stephen Wolf', ''),
     resources: res(
       'https://jira.walmart.com/browse/OPIF-325208',
       'https://confluence.walmart.com/display/IESP/PRD+-+OneSource+Design+Integration',

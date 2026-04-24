@@ -1825,31 +1825,51 @@ letter-spacing: 0.5px;
 }
 .bigrock-metrics-grid {
 display: grid;
-grid-template-columns: repeat(2, 1fr);
+grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 gap: 16px;
-}
-.bigrock-phase-section {
-margin-bottom: 24px;
-}
-.bigrock-phase-section:last-child {
-margin-bottom: 0;
-}
-.bigrock-phase-header {
-font-size: 14px;
-font-weight: 700;
-color: #1f2937;
-margin-bottom: 12px;
-padding-bottom: 6px;
-border-bottom: 2px solid #ffc220;
-text-transform: uppercase;
-letter-spacing: 0.3px;
 }
 .bigrock-metric-card {
 background: white;
-border: 1px solid #e5e7eb;
+border: 2px solid #e5e7eb;
 border-radius: 8px;
-padding: 16px;
-box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+padding: 20px;
+transition: all 0.2s;
+position: relative;
+}
+.bigrock-metric-card:hover {
+border-color: #0053e2;
+box-shadow: 0 4px 12px rgba(0,83,226,0.15);
+transform: translateY(-2px);
+}
+.bigrock-metric-header {
+display: flex;
+align-items: center;
+gap: 10px;
+margin-bottom: 12px;
+padding-bottom: 12px;
+border-bottom: 2px solid #ffc220;
+}
+.bigrock-metric-icon {
+font-size: 24px;
+flex-shrink: 0;
+}
+.bigrock-metric-label {
+font-size: 15px;
+font-weight: 700;
+color: #1f2937;
+line-height: 1.3;
+}
+.bigrock-metric-summary {
+font-size: 13px;
+color: #4b5563;
+line-height: 1.5;
+margin-bottom: 12px;
+}
+.bigrock-metric-footer {
+font-size: 12px;
+color: #0053e2;
+font-weight: 600;
+text-align: right;
 }
 .bigrock-metric-label {
 font-size: 13px;
@@ -3655,14 +3675,16 @@ function renderBigRockQuarter(rockId,quarter,quarterLabel){const initiatives=get
         ${initiativesList}
       </div></div>
   `;}
-function renderBigRockMetrics(rockId){const metrics={rock1:{title:'Trend Anticipation Goals — Phase Progression',goals:[{id:'5',phase:2,label:'Reduce Trapped Inventory',icon:'📦'},{id:'8',phase:2,label:'Increase Sell-Through Rate',icon:'📈'},{id:'5',phase:3,label:'Reduce Trapped Inventory',icon:'📦'},{id:'8',phase:3,label:'Increase Sell-Through Rate',icon:'📈'},]},rock2:{title:'Proactive Allocation Goals — Phase Progression',goals:[{id:'5',phase:2,label:'Reduce Trapped Inventory',icon:'📦'},{id:'6',phase:2,label:'85% Shop In-Stock Rate',icon:'🛒'},{id:'7',phase:2,label:'90% PO Redistribution Coverage',icon:'🔄'},{id:'5',phase:3,label:'Reduce Trapped Inventory',icon:'📦'},{id:'6',phase:3,label:'85% Shop In-Stock Rate',icon:'🛒'},]},rock3:{title:'Connected Systems Goals — Phase Progression',goals:[{id:'1',phase:1,label:'90% of Buys on Happy Path',icon:'🛳️'},{id:'2',phase:1,label:'Zero Rekeys Across E2E Workflow',icon:'⌧'},{id:'4',phase:1,label:'Reduce Merchant Hours',icon:'⏱️'},{id:'4',phase:3,label:'Reduce Merchant Hours',icon:'⏱️'},]},};const metricData=metrics[rockId];if(!metricData){console.warn('Big Rocks: No metric data found for',rockId);return'';}
-const goalsData=(typeof GOALS!=='undefined')?GOALS:{};console.log('Big Rocks Metrics Debug:',{rockId,goalsDataExists:typeof GOALS!=='undefined',goalCount:Object.keys(goalsData).length,metricGoalIds:metricData.goals.map(g=>g.id)});const goalsByPhase={};metricData.goals.forEach(goalRef=>{const phase=goalRef.phase||1;if(!goalsByPhase[phase])goalsByPhase[phase]=[];goalsByPhase[phase].push(goalRef);});return`
-    <div class="bigrock-metrics-box"><h3 class="bigrock-metrics-title">🎯 ${metricData.title}</h3>
-      ${Object.keys(goalsByPhase).sort().map(phase => `<div class="bigrock-phase-section"><div class="bigrock-phase-header">Phase ${phase}:${phase==1?'Setup & Integration':phase==2?'Recommend & Optimize':'Automate'}</div><div class="bigrock-metrics-grid">${goalsByPhase[phase].map(goalRef=>{const goal=goalsData[goalRef.id];if(!goal)return'';return`
-                <div class="bigrock-metric-card" onclick="openGoalModal('${goal.id}')" style="cursor: pointer;"><div class="bigrock-metric-header"><span class="bigrock-metric-icon">${goalRef.icon}</span><span class="bigrock-metric-label">${goal.label}</span></div><div class="bigrock-metric-target"><div class="bigrock-metric-tag">Target</div><div class="bigrock-metric-value-text">${goal.target}</div></div><div class="bigrock-metric-baseline"><div class="bigrock-metric-tag">Current State</div><div class="bigrock-metric-value-text">${goal.baseline}</div></div></div>
-              `;}).join('')}</div></div>`).join('')}
-      <div class="bigrock-metrics-footer">
-        Click any goal to see detailed programs and metrics
+function renderBigRockMetrics(rockId){const metrics={rock1:{title:'Trend Anticipation Goals',goals:[{id:'5',label:'Reduce Trapped Inventory',icon:'📦'},{id:'8',label:'Increase Sell-Through Rate',icon:'📈'},]},rock2:{title:'Proactive Allocation Goals',goals:[{id:'5',label:'Reduce Trapped Inventory',icon:'📦'},{id:'6',label:'85% Shop In-Stock Rate',icon:'🛒'},{id:'7',label:'90% PO Redistribution Coverage',icon:'🔄'},]},rock3:{title:'Connected Systems Goals',goals:[{id:'1',label:'90% of Buys on Happy Path',icon:'🛳️'},{id:'2',label:'Zero Rekeys Across E2E Workflow',icon:'⌧'},{id:'4',label:'Reduce Merchant Hours',icon:'⏱️'},]},};const metricData=metrics[rockId];if(!metricData){console.warn('Big Rocks: No metric data found for',rockId);return'';}
+const goalsData=(typeof GOALS!=='undefined')?GOALS:{};return`
+    <div class="bigrock-metrics-box"><h3 class="bigrock-metrics-title">🎯 ${metricData.title}</h3><div class="bigrock-metrics-grid">
+        ${metricData.goals.map(goalRef => {
+          const goal = goalsData[goalRef.id];
+          if (!goal) return '';
+          return `<div class="bigrock-metric-card"onclick="openGoalModal('${goal.id}')"style="cursor: pointer;"><div class="bigrock-metric-header"><span class="bigrock-metric-icon">${goalRef.icon}</span><span class="bigrock-metric-label">${goal.label}</span></div><div class="bigrock-metric-summary">${goal.target}</div><div class="bigrock-metric-footer">Click for details →</div></div>`;
+        }).join('')}
+      </div><div class="bigrock-metrics-footer">
+        Click any goal to see full details, phases, and key programs
       </div></div>
   `;}
 function renderBigRockTimeline(rockId){const timelines={rock1:{title:'Trend Anticipation Delivery Timeline',quarters:[{q:'Q1',label:'Foundation',items:['Strategy Hub Launch','Forecast Service Kickoff']},{q:'Q2',label:'Design Acceleration',items:['Design Hub Phase 1','Event Layer Integration']},{q:'Q3',label:'Trend Intelligence',items:['Shared Merch Strategy','Visual Board MVP']},{q:'Q4',label:'Full Integration',items:['Design Hub Complete','AP Tool Quarterly Refresh']},]},rock2:{title:'Proactive Allocation Delivery Timeline',quarters:[{q:'Q1',label:'Foundation',items:['AEX Stability Phase 1','Item Setup Automation Starts']},{q:'Q2',label:'Automation',items:['Automated Setup Live','Visual Fixture Allocation']},{q:'Q3',label:'Intelligence',items:['Enterprise Wave Planning','Tag-Based Pilot']},{q:'Q4',label:'Advanced Capabilities',items:['Affinity Models','Dynamic Allocation']},]},rock3:{title:'Connected Systems Delivery Timeline',quarters:[{q:'Q1',label:'Stability',items:['AEX Foundations','Shared Repository']},{q:'Q2',label:'Automation',items:['AI Item Repository','BQ Enterprise Service']},{q:'Q3',label:'Integration',items:['BAM/Collab Connect','Automated Size/Pack']},{q:'Q4',label:'Convergence',items:['Full API Integration','Single Data Flow']},]},};const timelineData=timelines[rockId];if(!timelineData)return'';return`

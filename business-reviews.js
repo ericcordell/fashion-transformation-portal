@@ -894,40 +894,30 @@ function renderBigRockQuarter(rockId, quarter, quarterLabel) {
 
 // Render metrics box for a Big Rock
 function renderBigRockMetrics(rockId) {
-  // Phase-aligned goals from data-phases.js PHASE_DEFS
+  // Simplified goals display - not hyper-specific to phases
+  // Phase details are shown in the goal modal when clicked
   const metrics = {
     rock1: {
-      title: 'Trend Anticipation Goals — Phase Progression',
+      title: 'Trend Anticipation Goals',
       goals: [
-        // Phase 2: Predict trends, reduce wrong buys
-        { id: '5', phase: 2, label: 'Reduce Trapped Inventory', icon: '📦' },
-        { id: '8', phase: 2, label: 'Increase Sell-Through Rate', icon: '📈' },
-        // Phase 3: Automate trend-to-buy
-        { id: '5', phase: 3, label: 'Reduce Trapped Inventory', icon: '📦' },
-        { id: '8', phase: 3, label: 'Increase Sell-Through Rate', icon: '📈' },
+        { id: '5', label: 'Reduce Trapped Inventory', icon: '📦' },
+        { id: '8', label: 'Increase Sell-Through Rate', icon: '📈' },
       ]
     },
     rock2: {
-      title: 'Proactive Allocation Goals — Phase Progression',
+      title: 'Proactive Allocation Goals',
       goals: [
-        // Phase 2: Enable redistribution
-        { id: '5', phase: 2, label: 'Reduce Trapped Inventory', icon: '📦' },
-        { id: '6', phase: 2, label: '85% Shop In-Stock Rate', icon: '🛒' },
-        { id: '7', phase: 2, label: '90% PO Redistribution Coverage', icon: '🔄' },
-        // Phase 3: Full automation
-        { id: '5', phase: 3, label: 'Reduce Trapped Inventory', icon: '📦' },
-        { id: '6', phase: 3, label: '85% Shop In-Stock Rate', icon: '🛒' },
+        { id: '5', label: 'Reduce Trapped Inventory', icon: '📦' },
+        { id: '6', label: '85% Shop In-Stock Rate', icon: '🛒' },
+        { id: '7', label: '90% PO Redistribution Coverage', icon: '🔄' },
       ]
     },
     rock3: {
-      title: 'Connected Systems Goals — Phase Progression',
+      title: 'Connected Systems Goals',
       goals: [
-        // Phase 1: Core integration
-        { id: '1', phase: 1, label: '90% of Buys on Happy Path', icon: '🛳️' },
-        { id: '2', phase: 1, label: 'Zero Rekeys Across E2E Workflow', icon: '⌧' },
-        { id: '4', phase: 1, label: 'Reduce Merchant Hours', icon: '⏱️' },
-        // Phase 3: Strategy automation
-        { id: '4', phase: 3, label: 'Reduce Merchant Hours', icon: '⏱️' },
+        { id: '1', label: '90% of Buys on Happy Path', icon: '🛳️' },
+        { id: '2', label: 'Zero Rekeys Across E2E Workflow', icon: '⌧' },
+        { id: '4', label: 'Reduce Merchant Hours', icon: '⏱️' },
       ]
     },
   };
@@ -940,54 +930,33 @@ function renderBigRockMetrics(rockId) {
   
   // Access actual goals from GOALS (loaded from data-goals.js)
   const goalsData = (typeof GOALS !== 'undefined') ? GOALS : {};
-  console.log('Big Rocks Metrics Debug:', {
-    rockId,
-    goalsDataExists: typeof GOALS !== 'undefined',
-    goalCount: Object.keys(goalsData).length,
-    metricGoalIds: metricData.goals.map(g => g.id)
-  });
-  
-  // Group goals by phase
-  const goalsByPhase = {};
-  metricData.goals.forEach(goalRef => {
-    const phase = goalRef.phase || 1;
-    if (!goalsByPhase[phase]) goalsByPhase[phase] = [];
-    goalsByPhase[phase].push(goalRef);
-  });
   
   return `
     <div class="bigrock-metrics-box">
       <h3 class="bigrock-metrics-title">🎯 ${metricData.title}</h3>
-      ${Object.keys(goalsByPhase).sort().map(phase => `
-        <div class="bigrock-phase-section">
-          <div class="bigrock-phase-header">Phase ${phase}: ${phase == 1 ? 'Setup & Integration' : phase == 2 ? 'Recommend & Optimize' : 'Automate'}</div>
-          <div class="bigrock-metrics-grid">
-            ${goalsByPhase[phase].map(goalRef => {
-              const goal = goalsData[goalRef.id];
-              if (!goal) return '';
-              
-              return `
-                <div class="bigrock-metric-card" onclick="openGoalModal('${goal.id}')" style="cursor: pointer;">
-                  <div class="bigrock-metric-header">
-                    <span class="bigrock-metric-icon">${goalRef.icon}</span>
-                    <span class="bigrock-metric-label">${goal.label}</span>
-                  </div>
-                  <div class="bigrock-metric-target">
-                    <div class="bigrock-metric-tag">Target</div>
-                    <div class="bigrock-metric-value-text">${goal.target}</div>
-                  </div>
-                  <div class="bigrock-metric-baseline">
-                    <div class="bigrock-metric-tag">Current State</div>
-                    <div class="bigrock-metric-value-text">${goal.baseline}</div>
-                  </div>
-                </div>
-              `;
-            }).join('')}
-          </div>
-        </div>
-      `).join('')}
+      <div class="bigrock-metrics-grid">
+        ${metricData.goals.map(goalRef => {
+          const goal = goalsData[goalRef.id];
+          if (!goal) return '';
+          
+          return `
+            <div class="bigrock-metric-card" onclick="openGoalModal('${goal.id}')" style="cursor: pointer;">
+              <div class="bigrock-metric-header">
+                <span class="bigrock-metric-icon">${goalRef.icon}</span>
+                <span class="bigrock-metric-label">${goal.label}</span>
+              </div>
+              <div class="bigrock-metric-summary">
+                ${goal.target}
+              </div>
+              <div class="bigrock-metric-footer">
+                Click for details →
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
       <div class="bigrock-metrics-footer">
-        Click any goal to see detailed programs and metrics
+        Click any goal to see full details, phases, and key programs
       </div>
     </div>
   `;

@@ -1954,6 +1954,223 @@ span.wpr-doc-badge.brd-missing {
   cursor: default;
 }
 
+/* ══════════════════════════════════════════════════════════════════════════ */
+/* BIG ROCKS STRATEGIC NARRATIVE                                              */
+/* ══════════════════════════════════════════════════════════════════════════ */
+
+.bigrock-narrative {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.bigrock-section {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 32px;
+  margin-bottom: 32px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.bigrock-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 3px solid #0053e2;
+}
+
+.bigrock-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #0053e2, #0066ff);
+  color: white;
+  font-size: 24px;
+  font-weight: 900;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.bigrock-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1f2937;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.3;
+}
+
+.bigrock-subsection {
+  margin-bottom: 24px;
+}
+
+.bigrock-subsection:last-child {
+  margin-bottom: 0;
+}
+
+.bigrock-subsection-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0053e2;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 12px;
+  padding-left: 12px;
+  border-left: 4px solid #ffc220;
+}
+
+.bigrock-text {
+  font-size: 15px;
+  line-height: 1.75;
+  color: #374151;
+  margin: 0;
+  text-align: justify;
+}
+
+/* Quarterly Roadmap Section */
+.bigrock-quarterly-wrap {
+  margin-top: 20px;
+  padding: 20px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.bigrock-quarterly-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.bigrock-quarters {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.bigrock-quarter-btn {
+  background: white;
+  border: 2px solid #d1d5db;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.bigrock-quarter-btn:hover {
+  background: #0053e2;
+  color: white;
+  border-color: #0053e2;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,83,226,0.2);
+}
+
+.bigrock-quarter-content {
+  grid-column: 1 / -1;
+  margin-top: 8px;
+  padding: 16px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+}
+
+.bigrock-quarter-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.bigrock-initiative {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.bigrock-initiative:hover {
+  background: #eff6ff;
+  border-color: #0053e2;
+  transform: translateX(4px);
+}
+
+.bigrock-init-dot {
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.bigrock-init-title {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.bigrock-init-opif {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b7280;
+  background: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid #d1d5db;
+  flex-shrink: 0;
+}
+
+.bigrock-initiative:hover .bigrock-init-opif {
+  background: #0053e2;
+  color: white;
+  border-color: #0053e2;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .bigrock-quarters {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .bigrock-quarters {
+    grid-template-columns: 1fr;
+  }
+  
+  .bigrock-section {
+    padding: 24px 20px;
+  }
+  
+  .bigrock-title {
+    font-size: 18px;
+  }
+  
+  .bigrock-text {
+    font-size: 14px;
+    text-align: left;
+  }
+}
+
 </style>
 <style>
 /* Unified Control Panel - Business Reviews + Status + Filters */
@@ -3498,6 +3715,7 @@ span.wpr-doc-badge.brd-missing {
 
   <!-- BUSINESS REVIEWS CONTENT -->
   <div id="business-reviews-wrap" style="display:none;">
+    <div id="review-content-bigrocks" class="review-content"></div>
     <div id="review-content-wpr" class="review-content"></div>
     <div id="review-content-mbr" class="review-content"></div>
     <div id="review-content-strategy" class="review-content"></div>
@@ -6838,6 +7056,13 @@ const CONTROL_PANEL = {
 // Business review definitions
 const REVIEW_OPTIONS = [
   {
+    id: 'bigrocks',
+    icon: '🏔️',
+    name: 'Big Rocks Strategic Narrative',
+    desc: 'Executive leadership view of critical transformation priorities',
+    enabled: true,
+  },
+  {
     id: 'wpr',
     icon: '🎯',
     name: 'Weekly Program Review (WPR)',
@@ -7226,6 +7451,13 @@ const WPR_HOUSEKEEPING = {
 // ========================================
 
 const BUSINESS_REVIEWS = {
+  bigrocks: {
+    id: 'bigrocks',
+    title: 'Big Rocks: Strategic Narrative',
+    subtitle: 'Executive leadership view of the three critical transformation priorities driving E2E Fashion',
+    icon: '🏔️',
+    description: 'Strategic narrative for executive leadership',
+  },
   wpr: {
     id: 'wpr',
     title: 'Weekly Program Review',
@@ -7520,6 +7752,12 @@ function renderReviewContent(reviewType) {
 
     // Default to Business Impact view
     ganttSetView('biz-impact');
+    return;
+  }
+
+  // ── Big Rocks has custom narrative layout, bypass standard card rendering ──
+  if (reviewType === 'bigrocks') {
+    contentDiv.innerHTML = renderBigRocksNarrative();
     return;
   }
 
@@ -7994,6 +8232,321 @@ function renderReviewCard(card) {
       <div class="review-card-owner">
         <strong>Owner:</strong> ${owner}
       </div>
+    </div>
+  `;
+}
+
+// ┌────────────────────────────────────────────────────────────────────────┐
+// │ BIG ROCKS STRATEGIC NARRATIVE                                          │
+// │ Executive leadership view - Three critical transformation priorities   │
+// └────────────────────────────────────────────────────────────────────────┘
+
+// Program mapping to Big Rocks by quarter
+const BIG_ROCK_PROGRAM_MAP = {
+  rock1: { // Trend Anticipation
+    q1: ['OPIF-329924', 'OPIF-329920'],  // Strategy Hub, Forecast Service
+    q2: ['OPIF-327330', 'OPIF-329925', 'OPIF-325568'],  // Design Hub, Shared Event Layer, AP Tool Line Plan
+    q3: ['OPIF-329923', 'OPIF-327331'],  // Shared Merch Strategy, Centric Visual Board
+    q4: ['OPIF-327330', 'OPIF-325568'],  // Design Hub Phase 2, AP Tool integration
+  },
+  rock2: { // Proactive Allocation
+    q1: ['OPIF-324932', 'OPIF-324925'],  // AEX Stability Q1, Automated Item Setup
+    q2: ['OPIF-324932', 'OPIF-327329'],  // AEX Stability Q2, Fashion Fixture Allocation
+    q3: ['OPIF-327726', 'OPIF-327333', 'OPIF-325568'],  // Enterprise Wave Planning, Tagging Pilot, AP Tool
+    q4: ['OPIF-327334', 'OPIF-327726'],  // Tag-Based Recommendations, Advanced Allocation
+  },
+  rock3: { // Connected Systems
+    q1: ['OPIF-324932', 'OPIF-324926'],  // AEX Stability, Shared Item Repository
+    q2: ['OPIF-324925', 'OPIF-324928', 'OPIF-329922'],  // Automated Item Setup, AI Repository, BQ Enterprise
+    q3: ['OPIF-327327', 'OPIF-327328'],  // BAM/Collab Integration, Automated Size/Pack
+    q4: ['OPIF-324925', 'OPIF-327327'],  // Full convergence, API integrations
+  },
+};
+
+// Toggle quarterly view for a Big Rock
+function toggleBigRockQuarter(rockId, quarter) {
+  const contentId = `bigrock-q-${rockId}-${quarter}`;
+  const btnId = `bigrock-q-btn-${rockId}-${quarter}`;
+  const content = document.getElementById(contentId);
+  const btn = document.getElementById(btnId);
+  
+  if (content && btn) {
+    const isHidden = content.style.display === 'none';
+    content.style.display = isHidden ? 'block' : 'none';
+    btn.textContent = isHidden ? `Q${quarter} ▲` : `Q${quarter} ▼`;
+  }
+}
+
+// Get initiatives for a specific rock + quarter
+function getBigRockInitiatives(rockId, quarter) {
+  const opifs = BIG_ROCK_PROGRAM_MAP[rockId]?.[`q${quarter}`] || [];
+  const allCards = window.PILLARS ? window.PILLARS.flatMap(p => p.cards || []) : [];
+  
+  return opifs.map(opif => {
+    const card = allCards.find(c => c.opif === opif);
+    if (!card) return null;
+    
+    const statusDot = {
+      'green': '✅',
+      'yellow': '🟡',
+      'red': '🔴',
+      'completed': '✔️',
+      'roadmap': '📅',
+    }[card.status || 'roadmap'] || '📅';
+    
+    return {
+      title: card.title,
+      status: card.status || 'roadmap',
+      statusDot,
+      id: card.id,
+      opif: card.opif,
+    };
+  }).filter(Boolean);
+}
+
+// Render quarterly initiatives for a Big Rock
+function renderBigRockQuarter(rockId, quarter, quarterLabel) {
+  const initiatives = getBigRockInitiatives(rockId, quarter);
+  
+  if (initiatives.length === 0) return '';
+  
+  const initiativesList = initiatives.map(init => `
+    <div class="bigrock-initiative" onclick="openCardModal('${init.id}')">
+      <span class="bigrock-init-dot">${init.statusDot}</span>
+      <span class="bigrock-init-title">${init.title}</span>
+      <span class="bigrock-init-opif">${init.opif}</span>
+    </div>
+  `).join('');
+  
+  return `
+    <button class="bigrock-quarter-btn" id="bigrock-q-btn-${rockId}-${quarter}" 
+            onclick="toggleBigRockQuarter('${rockId}', ${quarter})">
+      Q${quarter} ▼
+    </button>
+    <div class="bigrock-quarter-content" id="bigrock-q-${rockId}-${quarter}" style="display:none;">
+      <div class="bigrock-quarter-label">${quarterLabel}</div>
+      ${initiativesList}
+    </div>
+  `;
+}
+
+// Render full Big Rocks narrative
+function renderBigRocksNarrative() {
+  return `
+    <div class="review-back-bar">
+      <button class="review-back-button" onclick="clearBusinessReview()">
+        ← Back
+      </button>
+    </div>
+    
+    <div class="review-header">
+      <div class="review-header-title">
+        <span class="review-header-icon">🏔️</span>
+        Big Rocks: E2E Fashion Strategic Narrative
+      </div>
+      <div class="review-header-subtitle">
+        Executive leadership view of the three critical transformation priorities
+      </div>
+    </div>
+    
+    <div class="bigrock-narrative">
+      
+      <!-- BIG ROCK 1: TREND ANTICIPATION -->
+      <div class="bigrock-section">
+        <div class="bigrock-header">
+          <span class="bigrock-number">1</span>
+          <span class="bigrock-title">WE CANNOT ANTICIPATE OR REACT TO TRENDS</span>
+        </div>
+        
+        <div class="bigrock-subsection">
+          <h3 class="bigrock-subsection-title">THE PROBLEM</h3>
+          <p class="bigrock-text">
+            Fashion trends emerge and evolve at the speed of social media—a viral TikTok moment can shift customer demand overnight. 
+            Yet our planning processes remain anchored to annual cycles built around last year's sales data. Merchants rely on historical 
+            performance and gut instinct to make buying decisions 12+ months in advance, with no real-time visibility into emerging trends 
+            or shifting customer preferences. By the time we identify a trend, design product, negotiate with suppliers, and get inventory 
+            to stores, the moment has often passed. We're constantly chasing yesterday's hot item instead of anticipating tomorrow's.
+          </p>
+        </div>
+        
+        <div class="bigrock-subsection">
+          <h3 class="bigrock-subsection-title">THE IMPACT</h3>
+          <p class="bigrock-text">
+            This trend blindness creates a cascade of business pain. We miss revenue opportunities when competitors react faster to viral 
+            moments and seasonal shifts. When we do chase trends late, we carry markdown risk because we're buying into the tail end of 
+            a trend cycle. Merchants spend countless hours in reactive mode—firefighting to secure hot items that are already selling out 
+            industry-wide—instead of proactively shaping assortments based on forward-looking signals. The result: we're positioning ourselves 
+            as a follower in fast fashion rather than a leader, and our customers notice.
+          </p>
+        </div>
+        
+        <div class="bigrock-subsection">
+          <h3 class="bigrock-subsection-title">WHAT WE'RE BUILDING</h3>
+          <p class="bigrock-text">
+            We're investing in a suite of capabilities that shift Fashion from reactive to predictive. The Strategy Hub will aggregate 
+            real-time trend signals from social media, search data, and competitive intelligence, giving merchants forward-looking insights 
+            6-9 months earlier than today's historical analytics. The Design Hub (Centric PLM) compresses our design-to-sample cycle from 
+            8 weeks to 2 weeks, enabling rapid prototyping when we spot emerging trends. AP Tool integration moves line planning from rigid 
+            annual commitments to quarterly refresh cycles, giving merchants the flexibility to pivot assortments mid-season. Together, these 
+            tools create a continuous feedback loop: identify trends early, design quickly, and adjust buys before commitments lock us in.
+          </p>
+          
+          <div class="bigrock-quarterly-wrap">
+            <div class="bigrock-quarterly-label">Quarterly Roadmap (Click to Expand)</div>
+            <div class="bigrock-quarters">
+              ${renderBigRockQuarter('rock1', 1, 'Q1 Feb–Apr')}
+              ${renderBigRockQuarter('rock1', 2, 'Q2 May–Jul')}
+              ${renderBigRockQuarter('rock1', 3, 'Q3 Aug–Oct')}
+              ${renderBigRockQuarter('rock1', 4, 'Q4 Nov–Jan')}
+            </div>
+          </div>
+        </div>
+        
+        <div class="bigrock-subsection">
+          <h3 class="bigrock-subsection-title">EXPECTED OUTCOME</h3>
+          <p class="bigrock-text">
+            By the end of FY27, merchants will make buying decisions based on what customers want tomorrow, not what they bought last year. 
+            We'll compress the trend-to-shelf cycle from 12 months to 6 months for agile categories, giving us the speed to compete with 
+            fast-fashion disruptors. Merchants shift from reactive firefighting to proactive trend curation—spending time shaping assortments 
+            instead of chasing stockouts. The business outcome: higher full-price sell-through, lower markdowns, and a reputation as a 
+            destination for on-trend product instead of last season's leftovers.
+          </p>
+        </div>
+      </div>
+      
+      <!-- BIG ROCK 2: PROACTIVE ALLOCATION -->
+      <div class="bigrock-section">
+        <div class="bigrock-header">
+          <span class="bigrock-number">2</span>
+          <span class="bigrock-title">WE CANNOT PROACTIVELY ALLOCATE INVENTORY</span>
+        </div>
+        
+        <div class="bigrock-subsection">
+          <h3 class="bigrock-subsection-title">THE PROBLEM</h3>
+          <p class="bigrock-text">
+            We place purchase orders 12+ months in advance based on static line plans and historical sales patterns. Once committed, we're 
+            locked in—unable to pivot when customer preferences shift, regional demand changes, or unexpected trends emerge. Our mod structures 
+            are rigid and inflexible, constraining how we allocate inventory to stores. Legacy allocation processes force planners into manual 
+            workarounds, spreadsheet gymnastics, and endless negotiations with DC operations just to get the right product to the right place. 
+            By the time we recognize a demand signal (a style selling out in Texas but sitting stagnant in Pennsylvania), it's too late to 
+            react. We're constrained by capacity decisions made a year ago, with no agility to adjust to today's customer needs.
+          </p>
+        </div>
+        
+        <div class="bigrock-subsection">
+          <h3 class="bigrock-subsection-title">THE IMPACT</h3>
+          <p class="bigrock-text">
+            This rigidity creates massive inefficiency. We miss sales when hot items sell out in high-demand stores while excess inventory 
+            sits untouched elsewhere. Planners spend hours manually reallocating inventory in spreadsheets, only to face downstream execution 
+            failures when systems can't support their intent. Markdown risk increases because we can't adjust buys mid-season—we're stuck 
+            with yesterday's plan even when today's data screams for a pivot. The result: lost revenue, excess inventory, and planner 
+            frustration as they fight legacy tools instead of optimizing for customer demand.
+          </p>
+        </div>
+        
+        <div class="bigrock-subsection">
+          <h3 class="bigrock-subsection-title">WHAT WE'RE BUILDING</h3>
+          <p class="bigrock-text">
+            We're building capabilities that shift allocation from static to dynamic. AEX Stability eliminates the manual workarounds and 
+            system fragility that force planners into reactive firefighting mode. Automated Item Setup removes the 5+ hour variant group 
+            setup nightmare, freeing planners to focus on strategy instead of data entry. Fashion Fixture Allocation (Visual) gives planners 
+            real-world mod capacity constraints upfront, eliminating downstream allocation failures. Enterprise Wave Planning enables 
+            intelligent, demand-driven allocation across stores based on real-time signals instead of last year's one-size-fits-all approach. 
+            Tag-based allocation and affinity models let us group products intelligently and allocate based on customer behavior, not just 
+            historical averages. Together, these capabilities enable planners to react to demand shifts in weeks, not months.
+          </p>
+          
+          <div class="bigrock-quarterly-wrap">
+            <div class="bigrock-quarterly-label">Quarterly Roadmap (Click to Expand)</div>
+            <div class="bigrock-quarters">
+              ${renderBigRockQuarter('rock2', 1, 'Q1 Feb–Apr')}
+              ${renderBigRockQuarter('rock2', 2, 'Q2 May–Jul')}
+              ${renderBigRockQuarter('rock2', 3, 'Q3 Aug–Oct')}
+              ${renderBigRockQuarter('rock2', 4, 'Q4 Nov–Jan')}
+            </div>
+          </div>
+        </div>
+        
+        <div class="bigrock-subsection">
+          <h3 class="bigrock-subsection-title">EXPECTED OUTCOME</h3>
+          <p class="bigrock-text">
+            By FY27, planners will allocate inventory based on real-time demand signals, not last year's averages. Mod flexibility and 
+            intelligent wave planning enable us to pivot allocations mid-season when demand shifts. Automated setup processes free planners 
+            from manual data entry, giving them time to analyze customer behavior and optimize assortments proactively. The business outcome: 
+            higher in-stock rates for high-demand items, lower markdowns from regional misallocations, and planner capacity redirected from 
+            firefighting to strategic optimization. We shift from "allocation by habit" to "allocation by intelligence."
+          </p>
+        </div>
+      </div>
+      
+      <!-- BIG ROCK 3: CONNECTED SYSTEMS -->
+      <div class="bigrock-section">
+        <div class="bigrock-header">
+          <span class="bigrock-number">3</span>
+          <span class="bigrock-title">OUR SYSTEMS ARE NOT CONNECTED</span>
+        </div>
+        
+        <div class="bigrock-subsection">
+          <h3 class="bigrock-subsection-title">THE PROBLEM</h3>
+          <p class="bigrock-text">
+            Our teams operate across a fragmented landscape of disconnected systems. Merchants plan in one tool, designers work in another, 
+            buyers enter data into a third, and allocators use a fourth. None of these systems talk to each other. Data entered in the 
+            Strategy Hub doesn't flow to Design Hub. Design specs don't auto-populate into Buying tools. Buy quantities don't automatically 
+            feed Allocation systems. The result: endless re-keying of the same data across multiple platforms, with errors compounding at 
+            every handoff. Teams spend more time on data entry and validation than on strategic decision-making. A simple change (update a 
+            color option) requires manual updates in 4+ systems, creating a nightmare of version control and downstream misalignment.
+          </p>
+        </div>
+        
+        <div class="bigrock-subsection">
+          <h3 class="bigrock-subsection-title">THE IMPACT</h3>
+          <p class="bigrock-text">
+            System fragmentation creates massive waste. Teams spend 40-60% of their time on manual data entry instead of strategic work. 
+            Errors multiply at every handoff—a typo in the design tool cascades into allocation failures weeks later. Cross-functional 
+            collaboration is nearly impossible because teams can't see each other's work in real time. By the time a merchant realizes a 
+            design won't fit the mod capacity, it's too late to course-correct. We're stuck in reactive mode, fixing errors instead of 
+            preventing them. The result: longer time-to-market, higher error rates, frustrated teams, and massive opportunity cost as our 
+            best people spend their days re-entering data instead of solving business problems.
+          </p>
+        </div>
+        
+        <div class="bigrock-subsection">
+          <h3 class="bigrock-subsection-title">WHAT WE'RE BUILDING</h3>
+          <p class="bigrock-text">
+            We're building an integrated system architecture where data flows automatically across the E2E Fashion process. AEX Stability 
+            creates a reliable foundation for buy quantification and allocation, eliminating the workarounds that force manual re-entry. 
+            Automated Item Setup removes the 43,000+ hours of manual data entry currently required for size and width runs. The Shared Item 
+            Repository and AI Item Repository enable suppliers to submit data once, auto-populating attributes across all downstream systems. 
+            Buy Quantification as an Enterprise Service creates a single source of truth for quantities, eliminating the need to recalculate 
+            in 3+ separate tools. BAM/Collab integration connects design intent to buying execution seamlessly. Intent-to-Setup pipelines 
+            ensure merchant plans automatically trigger supplier workflows. Together, these integrations create a connected ecosystem where 
+            data is entered once and flows intelligently across the entire E2E process.
+          </p>
+          
+          <div class="bigrock-quarterly-wrap">
+            <div class="bigrock-quarterly-label">Quarterly Roadmap (Click to Expand)</div>
+            <div class="bigrock-quarters">
+              ${renderBigRockQuarter('rock3', 1, 'Q1 Feb–Apr')}
+              ${renderBigRockQuarter('rock3', 2, 'Q2 May–Jul')}
+              ${renderBigRockQuarter('rock3', 3, 'Q3 Aug–Oct')}
+              ${renderBigRockQuarter('rock3', 4, 'Q4 Nov–Jan')}
+            </div>
+          </div>
+        </div>
+        
+        <div class="bigrock-subsection">
+          <h3 class="bigrock-subsection-title">EXPECTED OUTCOME</h3>
+          <p class="bigrock-text">
+            By FY27, teams will operate in a connected ecosystem where data flows automatically across tools. Merchants, designers, buyers, 
+            and allocators will see real-time updates from each other's work, enabling proactive collaboration instead of reactive firefighting. 
+            Manual data entry time drops by 50-70%, freeing teams to focus on strategic decision-making instead of system maintenance. Errors 
+            decrease dramatically because data is entered once and validated at the source. The business outcome: faster time-to-market, 
+            higher data accuracy, improved cross-functional collaboration, and teams empowered to solve business problems instead of fighting 
+            disconnected systems. We shift from "data entry as a job" to "intelligence as a job."
+          </p>
+        </div>
+      </div>
+      
     </div>
   `;
 }

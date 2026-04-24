@@ -1021,3 +1021,220 @@ span.wpr-doc-badge.brd-missing {
   border: 1px solid #e5e7eb;
   cursor: default;
 }
+
+/* ══════════════════════════════════════════════════════════════════════════ */
+/* BIG ROCKS STRATEGIC NARRATIVE                                              */
+/* ══════════════════════════════════════════════════════════════════════════ */
+
+.bigrock-narrative {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.bigrock-section {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 32px;
+  margin-bottom: 32px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.bigrock-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 3px solid #0053e2;
+}
+
+.bigrock-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #0053e2, #0066ff);
+  color: white;
+  font-size: 24px;
+  font-weight: 900;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.bigrock-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1f2937;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.3;
+}
+
+.bigrock-subsection {
+  margin-bottom: 24px;
+}
+
+.bigrock-subsection:last-child {
+  margin-bottom: 0;
+}
+
+.bigrock-subsection-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0053e2;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 12px;
+  padding-left: 12px;
+  border-left: 4px solid #ffc220;
+}
+
+.bigrock-text {
+  font-size: 15px;
+  line-height: 1.75;
+  color: #374151;
+  margin: 0;
+  text-align: justify;
+}
+
+/* Quarterly Roadmap Section */
+.bigrock-quarterly-wrap {
+  margin-top: 20px;
+  padding: 20px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.bigrock-quarterly-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.bigrock-quarters {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.bigrock-quarter-btn {
+  background: white;
+  border: 2px solid #d1d5db;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.bigrock-quarter-btn:hover {
+  background: #0053e2;
+  color: white;
+  border-color: #0053e2;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,83,226,0.2);
+}
+
+.bigrock-quarter-content {
+  grid-column: 1 / -1;
+  margin-top: 8px;
+  padding: 16px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+}
+
+.bigrock-quarter-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.bigrock-initiative {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.bigrock-initiative:hover {
+  background: #eff6ff;
+  border-color: #0053e2;
+  transform: translateX(4px);
+}
+
+.bigrock-init-dot {
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.bigrock-init-title {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.bigrock-init-opif {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b7280;
+  background: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid #d1d5db;
+  flex-shrink: 0;
+}
+
+.bigrock-initiative:hover .bigrock-init-opif {
+  background: #0053e2;
+  color: white;
+  border-color: #0053e2;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .bigrock-quarters {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .bigrock-quarters {
+    grid-template-columns: 1fr;
+  }
+  
+  .bigrock-section {
+    padding: 24px 20px;
+  }
+  
+  .bigrock-title {
+    font-size: 18px;
+  }
+  
+  .bigrock-text {
+    font-size: 14px;
+    text-align: left;
+  }
+}

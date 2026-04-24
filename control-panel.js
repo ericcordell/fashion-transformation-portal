@@ -10,6 +10,13 @@ const CONTROL_PANEL = {
 // Business review definitions
 const REVIEW_OPTIONS = [
   {
+    id: 'bigrocks',
+    icon: '🏔️',
+    name: 'Big Rocks Strategic Narrative',
+    desc: 'Executive leadership view of critical transformation priorities',
+    enabled: true,
+  },
+  {
     id: 'wpr',
     icon: '🎯',
     name: 'Weekly Program Review (WPR)',

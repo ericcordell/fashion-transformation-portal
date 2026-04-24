@@ -8608,19 +8608,19 @@ function renderReviewCard(card) {
 // Using actual card IDs from portal data
 const BIG_ROCK_PROGRAM_MAP = {
   rock1: { // Trend Anticipation
-    q1: ['auto-item-setup'],  // Automated Item Setup (Apr 30)
+    q1: ['neo-replatform', 'auto-item-setup'],  // Neo Replatform (Mar 2), Automated Item Setup (Apr 30)
     q2: ['design-hub-centric', 'shared-merch-strategy', 'visual-boards'],  // Design Hub (May 31), Shared Merch Strategy (Jul 31), Visual Boards (Jul 31)
-    q3: ['strategy-hub', 'forecast-enterprise-service', 'ap-tool-lineplan'],  // Strategy Hub (Oct 31), Forecast Service (Oct 31), AP Tool (Aug 1)
-    q4: ['strategy-hub-data-inputs'],  // Strategy Hub Data Inputs (Oct 31 but late rollout)
+    q3: ['strategy-hub', 'strategy-hub-data-inputs', 'forecast-enterprise-service', 'ap-tool-lineplan'],  // Strategy Hub (Oct 31), Data Inputs (Oct 31), Forecast Service (Oct 31), AP Tool (Aug 1)
+    q4: ['oneitem-expanded-sources'],  // OneItem Expanded Sources (Jan 30, 2027)
   },
   rock2: { // Proactive Allocation  
-    q1: ['auto-item-setup'],  // Automated Item Setup (Apr 30)
+    q1: ['neo-replatform', 'auto-item-setup'],  // Neo Replatform (Mar 2), Automated Item Setup (Apr 30)
     q2: ['tagging-pilot', 'assort-product-phase2'],  // Tagging Pilot (Jul 31), Assort Product Phase 2 (Jul 31)
-    q3: ['enterprise-wave-planning', 'fashion-fixture-allocation-buying', 'tag-based-recommendations', 'bq-enterprise-service'],  // Wave Planning (Aug 1), Fashion Fixture (Oct 31), Tag Recommendations (Oct 31), BQ Enterprise (Oct 31)
+    q3: ['enterprise-wave-planning', 'fashion-fixture-allocation-buying', 'fashion-fixture-tagging', 'tag-based-recommendations', 'bq-enterprise-service'],  // Wave Planning (Aug 1), Fashion Fixture (Oct 31), Fixture Tagging (Oct 31), Tag Recommendations (Oct 31), BQ Enterprise (Oct 31)
     q4: ['oneitem-expanded-sources'],  // OneItem Expanded Sources (Jan 30, 2027)
   },
   rock3: { // Connected Systems
-    q1: ['auto-item-setup'],  // Automated Item Setup (Apr 30)
+    q1: ['neo-replatform', 'auto-item-setup'],  // Neo Replatform (Mar 2), Automated Item Setup (Apr 30)
     q2: ['shared-item-repository', 'shared-event-layer', 'commitment-report-redesign'],  // Shared Item Repo (May 1), Shared Event Layer (May 1), CR Redesign (Jul 31)
     q3: ['ai-item-repository', 'size-pack-bq', 'bam-collab-intent', 'bq-enterprise-service'],  // AI Item Repo (Aug 1), Size/Pack BQ (Oct 31), BAM Collab (Oct 31), BQ Enterprise (Oct 31)
     q4: ['oneitem-expanded-sources'],  // OneItem Expanded Sources (Jan 30, 2027)
@@ -8701,7 +8701,7 @@ function renderBigRockQuarter(rockId, quarter, quarterLabel) {
   return `
     <div class="bigrock-quarter-section">
       <div class="bigrock-quarter-header">
-        <div class="bigrock-quarter-label">Q${quarter} — ${quarterLabel}</div>
+        <div class="bigrock-quarter-label">${quarterLabel}</div>
         <div class="bigrock-quarter-summary">${summary}</div>
       </div>
       <div class="bigrock-quarter-content">

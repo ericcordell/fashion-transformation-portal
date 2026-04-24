@@ -1119,39 +1119,55 @@ span.wpr-doc-badge.brd-missing {
 }
 
 .bigrock-quarters {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
 }
 
 .bigrock-quarter-section {
   background: white;
-  border: 1px solid #d1d5db;
+  border: 2px solid #d1d5db;
   border-radius: 8px;
-  padding: 16px;
+  padding: 18px;
   transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  min-height: 240px;
 }
 
 .bigrock-quarter-section:hover {
   border-color: #0053e2;
-  box-shadow: 0 2px 8px rgba(0,83,226,0.1);
+  box-shadow: 0 4px 12px rgba(0,83,226,0.1);
+}
+
+.bigrock-quarter-header {
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid #ffc220;
 }
 
 .bigrock-quarter-label {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   color: #0053e2;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 2px solid #ffc220;
+  margin-bottom: 8px;
+}
+
+.bigrock-quarter-summary {
+  font-size: 13px;
+  font-weight: 500;
+  color: #4b5563;
+  line-height: 1.4;
+  font-style: italic;
 }
 
 .bigrock-quarter-content {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  flex: 1;
 }
 
 .bigrock-initiative {
@@ -1496,6 +1512,10 @@ span.wpr-doc-badge.brd-missing {
 
 @media (max-width: 640px) {
   .bigrock-timeline-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .bigrock-quarters {
     grid-template-columns: 1fr;
   }
   

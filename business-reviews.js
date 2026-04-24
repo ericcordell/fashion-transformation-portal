@@ -868,9 +868,32 @@ function getBigRockInitiatives(rockId, quarter) {
   }).filter(Boolean);
 }
 
+// Business problem summaries for each quarter of each Big Rock
+const BIG_ROCK_QUARTER_SUMMARIES = {
+  rock1: {
+    q1: 'Build foundations for real-time trend signals and rapid design cycles',
+    q2: 'Enable merchants to pivot assortments based on emerging trends',
+    q3: 'Connect strategy signals to buying decisions across workstreams',
+    q4: 'Automate trend-to-buy workflows for agile product rotation',
+  },
+  rock2: {
+    q1: 'Establish item setup automation and tagging infrastructure',
+    q2: 'Deploy AI-driven recommendations for smarter inventory placement',
+    q3: 'Launch in-season swap and wave planning capabilities',
+    q4: 'Enable dynamic redistribution and unified planning tools',
+  },
+  rock3: {
+    q1: 'Connect item repository and eliminate manual data re-entry',
+    q2: 'Deploy enterprise services for forecast and buy quantification',
+    q3: 'Automate supplier collaboration and size/pack workflows',
+    q4: 'Complete end-to-end item-to-PO pipeline with zero rekeys',
+  },
+};
+
 // Render quarterly initiatives for a Big Rock
 function renderBigRockQuarter(rockId, quarter, quarterLabel) {
   const initiatives = getBigRockInitiatives(rockId, quarter);
+  const summary = BIG_ROCK_QUARTER_SUMMARIES[rockId]?.[`q${quarter}`] || '';
   
   if (initiatives.length === 0) return '';
   
@@ -884,7 +907,10 @@ function renderBigRockQuarter(rockId, quarter, quarterLabel) {
   
   return `
     <div class="bigrock-quarter-section">
-      <div class="bigrock-quarter-label">Q${quarter} — ${quarterLabel}</div>
+      <div class="bigrock-quarter-header">
+        <div class="bigrock-quarter-label">Q${quarter} — ${quarterLabel}</div>
+        <div class="bigrock-quarter-summary">${summary}</div>
+      </div>
       <div class="bigrock-quarter-content">
         ${initiativesList}
       </div>

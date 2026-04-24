@@ -2884,6 +2884,7 @@ span.wpr-doc-badge.brd-missing {
 }
 
 </style>
+<link rel="stylesheet" href="card-modal.css">
 <style>
 /* gantt.css — Gantt Chart view styles */
 
@@ -4259,6 +4260,22 @@ span.wpr-doc-badge.brd-missing {
     <div id="sm-body"></div>
   </div>
 </div>
+
+<!-- Card Modal -->
+<div id="cm-overlay" class="modal-overlay">
+  <div class="cm-box">
+    <div class="cm-header">
+      <div style="display:flex;align-items:center;gap:14px;flex:1;">
+        <span id="cm-icon" style="font-size:2rem;"></span>
+        <h2 id="cm-title" style="color:#1f2937;font-weight:800;font-size:1.15rem;margin:0;flex:1;line-height:1.3;"></h2>
+        <button onclick="closeCardModal()" style="color:#64748b;font-size:2.2rem;line-height:1;cursor:pointer;background:none;border:none;padding:0;">&times;</button>
+      </div>
+      <div id="cm-metadata" class="cm-metadata"></div>
+    </div>
+    <div id="cm-body" class="cm-body"></div>
+  </div>
+</div>
+
 <script>
 // E2E Fashion Transformation Portal — Core Constants & Helpers
 // Walmart FY starts February:
@@ -6867,6 +6884,7 @@ const EXEC_NARRATIVES = {
 
 }());
 </script>
+<script src="card-modal.js"></script>
 <script>
 // phase-view.js — Workstream-first Phase Matrix + Filter Bar
 // Phase 1 = always expanded (full cards)  |  Phase 2 & 3 = collapsed by default

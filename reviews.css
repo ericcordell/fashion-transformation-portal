@@ -1196,7 +1196,7 @@ span.wpr-doc-badge.brd-missing {
   color: #1f2937;
 }
 
-.bigrock-init-opif {
+.bigrock-init-date {
   font-size: 11px;
   font-weight: 600;
   color: #6b7280;
@@ -1207,7 +1207,7 @@ span.wpr-doc-badge.brd-missing {
   flex-shrink: 0;
 }
 
-.bigrock-initiative:hover .bigrock-init-opif {
+.bigrock-initiative:hover .bigrock-init-date {
   background: #0053e2;
   color: white;
   border-color: #0053e2;
@@ -1297,6 +1297,25 @@ span.wpr-doc-badge.brd-missing {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
+}
+
+.bigrock-phase-section {
+  margin-bottom: 24px;
+}
+
+.bigrock-phase-section:last-child {
+  margin-bottom: 0;
+}
+
+.bigrock-phase-header {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #ffc220;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
 
 .bigrock-metric-card {

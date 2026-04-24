@@ -2128,7 +2128,7 @@ span.wpr-doc-badge.brd-missing {
   color: #1f2937;
 }
 
-.bigrock-init-opif {
+.bigrock-init-date {
   font-size: 11px;
   font-weight: 600;
   color: #6b7280;
@@ -2139,7 +2139,7 @@ span.wpr-doc-badge.brd-missing {
   flex-shrink: 0;
 }
 
-.bigrock-initiative:hover .bigrock-init-opif {
+.bigrock-initiative:hover .bigrock-init-date {
   background: #0053e2;
   color: white;
   border-color: #0053e2;
@@ -2229,6 +2229,25 @@ span.wpr-doc-badge.brd-missing {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
+}
+
+.bigrock-phase-section {
+  margin-bottom: 24px;
+}
+
+.bigrock-phase-section:last-child {
+  margin-bottom: 0;
+}
+
+.bigrock-phase-header {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #ffc220;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
 
 .bigrock-metric-card {
@@ -8568,24 +8587,25 @@ function renderReviewCard(card) {
 // └────────────────────────────────────────────────────────────────────────┘
 
 // Program mapping to Big Rocks by quarter
+// Using actual card IDs from portal data
 const BIG_ROCK_PROGRAM_MAP = {
   rock1: { // Trend Anticipation
-    q1: ['OPIF-329924', 'OPIF-329920'],  // Strategy Hub, Forecast Service
-    q2: ['OPIF-327330', 'OPIF-329925', 'OPIF-325568'],  // Design Hub, Shared Event Layer, AP Tool Line Plan
-    q3: ['OPIF-329923', 'OPIF-327331'],  // Shared Merch Strategy, Centric Visual Board
-    q4: ['OPIF-327330', 'OPIF-325568'],  // Design Hub Phase 2, AP Tool integration
+    q1: ['strategy-hub', 'forecast-enterprise-service'],  // Strategy Hub, Forecast Enterprise Service
+    q2: ['design-hub-centric', 'ap-tool-lineplan'],  // Design Hub (Centric PLM), AP Tool Line Plan
+    q3: ['shared-merch-strategy', 'visual-boards'],  // Shared Merch Strategy, Visual Boards
+    q4: ['ap-tool-shared-ideation', 'strategy-hub-data-inputs'],  // AP Tool Shared Ideation, Strategy Hub Data Inputs
   },
-  rock2: { // Proactive Allocation
-    q1: ['OPIF-324932', 'OPIF-324925'],  // AEX Stability Q1, Automated Item Setup
-    q2: ['OPIF-324932', 'OPIF-327329'],  // AEX Stability Q2, Fashion Fixture Allocation
-    q3: ['OPIF-327726', 'OPIF-327333', 'OPIF-325568'],  // Enterprise Wave Planning, Tagging Pilot, AP Tool
-    q4: ['OPIF-327334', 'OPIF-327726'],  // Tag-Based Recommendations, Advanced Allocation
+  rock2: { // Proactive Allocation  
+    q1: ['aex-stability-q1', 'auto-item-setup'],  // AEX Stability Q1, Automated Item Setup
+    q2: ['fashion-fixture-allocation-buying', 'ai-item-repository'],  // Fashion Fixture Allocation, AI Item Repository
+    q3: ['enterprise-wave-planning', 'tagging-pilot'],  // Enterprise Wave Planning, Tagging Pilot
+    q4: ['tag-based-recommendations', 'unified-planning'],  // Tag-based Recommendations, Unified Planning
   },
   rock3: { // Connected Systems
-    q1: ['OPIF-324932', 'OPIF-324926'],  // AEX Stability, Shared Item Repository
-    q2: ['OPIF-324925', 'OPIF-324928', 'OPIF-329922'],  // Automated Item Setup, AI Repository, BQ Enterprise
-    q3: ['OPIF-327327', 'OPIF-327328'],  // BAM/Collab Integration, Automated Size/Pack
-    q4: ['OPIF-324925', 'OPIF-327327'],  // Full convergence, API integrations
+    q1: ['aex-stability-q1', 'shared-item-repository'],  // AEX Stability, Shared Item Repository
+    q2: ['auto-item-setup', 'ai-item-repository', 'bq-enterprise-service'],  // Item Setup, AI Repo, BQ Enterprise
+    q3: ['bam-collab-intent', 'size-pack-bq'],  // BAM/Collab Integration, Automated Size/Pack
+    q4: ['global-buying-platform', 'oneitem-expanded-sources'],  // Global Buying Platform, OneItem Expanded Sources
   },
 };
 
@@ -8610,11 +8630,11 @@ function toggleBigRockQuarter(rockId, quarter) {
 
 // Get initiatives for a specific rock + quarter
 function getBigRockInitiatives(rockId, quarter) {
-  const opifs = BIG_ROCK_PROGRAM_MAP[rockId]?.[`q${quarter}`] || [];
+  const cardIds = BIG_ROCK_PROGRAM_MAP[rockId]?.[`q${quarter}`] || [];
   const allCards = window.PILLARS ? window.PILLARS.flatMap(p => p.cards || []) : [];
   
-  return opifs.map(opif => {
-    const card = allCards.find(c => c.opif === opif);
+  return cardIds.map(cardId => {
+    const card = allCards.find(c => c.id === cardId);
     if (!card) return null;
     
     const statusDot = {
@@ -8630,7 +8650,7 @@ function getBigRockInitiatives(rockId, quarter) {
       status: card.status || 'roadmap',
       statusDot,
       id: card.id,
-      opif: card.opif,
+      targetDate: card.targetDate || 'TBD',
     };
   }).filter(Boolean);
 }
@@ -8645,7 +8665,7 @@ function renderBigRockQuarter(rockId, quarter, quarterLabel) {
     <div class="bigrock-initiative" onclick="openCardModal('${init.id}')">
       <span class="bigrock-init-dot">${init.statusDot}</span>
       <span class="bigrock-init-title">${init.title}</span>
-      <span class="bigrock-init-opif">${init.opif}</span>
+      <span class="bigrock-init-date">${init.targetDate}</span>
     </div>
   `).join('');
   
@@ -8663,32 +8683,42 @@ function renderBigRockQuarter(rockId, quarter, quarterLabel) {
 
 // Render metrics box for a Big Rock
 function renderBigRockMetrics(rockId) {
+  // Phase-aligned goals from data-phases.js PHASE_DEFS
   const metrics = {
     rock1: {
-      title: 'Trend Anticipation Metrics',
-      items: [
-        { label: 'Current Trend-to-Shelf Cycle', current: '12 months', target: '6 months', targetDate: 'Q3 FY27' },
-        { label: 'Trend Signal Timeliness', current: 'Historical only (12+ mo lag)', target: 'Real-time + 6-9 mo forward', targetDate: 'Q2 FY27' },
-        { label: 'Design-to-Sample Cycle', current: '8 weeks', target: '2 weeks', targetDate: 'Q3 FY27' },
-        { label: 'Line Plan Refresh Frequency', current: 'Annual', target: 'Quarterly', targetDate: 'Q4 FY27' },
+      title: 'Trend Anticipation Goals — Phase Progression',
+      goals: [
+        // Phase 1: Setup foundations
+        { id: '4', phase: 1, label: 'Reduce Merchant Hours', icon: '⏱️' },
+        { id: '1', phase: 1, label: '90% of Buys on Happy Path', icon: '🛳️' },
+        // Phase 2: Optimize forecasting
+        { id: '6', phase: 2, label: '85% Shop In-Stock Rate', icon: '🛒' },
+        { id: '8', phase: 2, label: 'Increase Sell-Through Rate', icon: '📈' },
       ]
     },
     rock2: {
-      title: 'Proactive Allocation Metrics',
-      items: [
-        { label: 'Purchase Order Lead Time', current: '12+ months (fixed)', target: 'Quarterly refresh capability', targetDate: 'Q4 FY27' },
-        { label: 'Manual Variant Setup Time', current: '5+ hours per group', target: '<30 min (automated)', targetDate: 'Q2 FY27' },
-        { label: 'Annual Hours Saved', current: 'Baseline', target: '43,000 hours', targetDate: 'Q2 FY27' },
-        { label: 'Allocation Error Rate', current: '38% (manual process)', target: '<5% (validated upfront)', targetDate: 'Q3 FY27' },
+      title: 'Proactive Allocation Goals — Phase Progression',
+      goals: [
+        // Phase 1: Build tagging foundations
+        { id: '1', phase: 1, label: '90% of Buys on Happy Path', icon: '🛳️' },
+        // Phase 2: Enable redistribution
+        { id: '5', phase: 2, label: 'Reduce Trapped Inventory', icon: '📦' },
+        { id: '7', phase: 2, label: '90% PO Redistribution Coverage', icon: '🔄' },
+        { id: '8', phase: 2, label: 'Increase Sell-Through Rate', icon: '📈' },
+        // Phase 3: Full automation
+        { id: '6', phase: 3, label: '85% Shop In-Stock Rate', icon: '🛒' },
       ]
     },
     rock3: {
-      title: 'Connected Systems Metrics',
-      items: [
-        { label: 'Time Spent on Data Entry', current: '40-60% of work time', target: '10-20% (50-70% reduction)', targetDate: 'Q4 FY27' },
-        { label: 'Manual Re-entry Instances', current: '4+ systems per workflow', target: 'Single entry, auto-flow', targetDate: 'Q3 FY27' },
-        { label: 'Data Handoff Errors', current: 'Frequent (cascading failures)', target: 'Near-zero (validated at source)', targetDate: 'Q3 FY27' },
-        { label: 'Cross-functional Visibility', current: 'Siloed (email/meetings)', target: 'Real-time (shared workspace)', targetDate: 'Q4 FY27' },
+      title: 'Connected Systems Goals — Phase Progression',
+      goals: [
+        // Phase 1: Core integration
+        { id: '1', phase: 1, label: '90% of Buys on Happy Path', icon: '🛳️' },
+        { id: '2', phase: 1, label: 'Zero Rekeys Across E2E Workflow', icon: '⌧' },
+        { id: '3', phase: 1, label: 'Happy Path Buying Execution', icon: '✅' },
+        { id: '4', phase: 1, label: 'Reduce Merchant Hours', icon: '⏱️' },
+        // Phase 2: Enterprise services
+        { id: '6', phase: 2, label: '85% Shop In-Stock Rate', icon: '🛒' },
       ]
     },
   };
@@ -8696,27 +8726,50 @@ function renderBigRockMetrics(rockId) {
   const metricData = metrics[rockId];
   if (!metricData) return '';
   
+  // Access actual goals from window.GOALS (loaded from data-goals.js)
+  const goalsData = window.GOALS || {};
+  
+  // Group goals by phase
+  const goalsByPhase = {};
+  metricData.goals.forEach(goalRef => {
+    const phase = goalRef.phase || 1;
+    if (!goalsByPhase[phase]) goalsByPhase[phase] = [];
+    goalsByPhase[phase].push(goalRef);
+  });
+  
   return `
     <div class="bigrock-metrics-box">
-      <h3 class="bigrock-metrics-title">📊 ${metricData.title}</h3>
-      <div class="bigrock-metrics-grid">
-        ${metricData.items.map(metric => `
-          <div class="bigrock-metric-card">
-            <div class="bigrock-metric-label">${metric.label}</div>
-            <div class="bigrock-metric-values">
-              <div class="bigrock-metric-current">
-                <span class="bigrock-metric-tag">Current</span>
-                <span class="bigrock-metric-value">${metric.current}</span>
-              </div>
-              <div class="bigrock-metric-arrow">→</div>
-              <div class="bigrock-metric-target">
-                <span class="bigrock-metric-tag">Target</span>
-                <span class="bigrock-metric-value">${metric.target}</span>
-              </div>
-            </div>
-            <div class="bigrock-metric-date">🎯 ${metric.targetDate}</div>
+      <h3 class="bigrock-metrics-title">🎯 ${metricData.title}</h3>
+      ${Object.keys(goalsByPhase).sort().map(phase => `
+        <div class="bigrock-phase-section">
+          <div class="bigrock-phase-header">Phase ${phase}: ${phase == 1 ? 'Setup & Integration' : phase == 2 ? 'Recommend & Optimize' : 'Automate'}</div>
+          <div class="bigrock-metrics-grid">
+            ${goalsByPhase[phase].map(goalRef => {
+              const goal = goalsData[goalRef.id];
+              if (!goal) return '';
+              
+              return `
+                <div class="bigrock-metric-card" onclick="openGoalModal('${goal.id}')" style="cursor: pointer;">
+                  <div class="bigrock-metric-header">
+                    <span class="bigrock-metric-icon">${goalRef.icon}</span>
+                    <span class="bigrock-metric-label">${goal.label}</span>
+                  </div>
+                  <div class="bigrock-metric-target">
+                    <div class="bigrock-metric-tag">Target</div>
+                    <div class="bigrock-metric-value-text">${goal.target}</div>
+                  </div>
+                  <div class="bigrock-metric-baseline">
+                    <div class="bigrock-metric-tag">Current State</div>
+                    <div class="bigrock-metric-value-text">${goal.baseline}</div>
+                  </div>
+                </div>
+              `;
+            }).join('')}
           </div>
-        `).join('')}
+        </div>
+      `).join('')}
+      <div class="bigrock-metrics-footer">
+        Click any goal to see detailed programs and metrics
       </div>
     </div>
   `;

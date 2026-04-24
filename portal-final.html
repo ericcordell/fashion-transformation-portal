@@ -1758,7 +1758,7 @@ font-size: 13px;
 font-weight: 600;
 color: #1f2937;
 }
-.bigrock-init-opif {
+.bigrock-init-date {
 font-size: 11px;
 font-weight: 600;
 color: #6b7280;
@@ -1768,7 +1768,7 @@ border-radius: 4px;
 border: 1px solid #d1d5db;
 flex-shrink: 0;
 }
-.bigrock-initiative:hover .bigrock-init-opif {
+.bigrock-initiative:hover .bigrock-init-date {
 background: #0053e2;
 color: white;
 border-color: #0053e2;
@@ -1838,6 +1838,22 @@ letter-spacing: 0.5px;
 display: grid;
 grid-template-columns: repeat(2, 1fr);
 gap: 16px;
+}
+.bigrock-phase-section {
+margin-bottom: 24px;
+}
+.bigrock-phase-section:last-child {
+margin-bottom: 0;
+}
+.bigrock-phase-header {
+font-size: 14px;
+font-weight: 700;
+color: #1f2937;
+margin-bottom: 12px;
+padding-bottom: 6px;
+border-bottom: 2px solid #ffc220;
+text-transform: uppercase;
+letter-spacing: 0.3px;
 }
 .bigrock-metric-card {
 background: white;
@@ -3641,11 +3657,11 @@ function renderReviewCard(card){const owner=card.owners?.productLead?.name||card
       <div class="review-card-owner"><strong>Owner:</strong> ${owner}
       </div></div>
   `;}
-const BIG_ROCK_PROGRAM_MAP={rock1:{q1:['OPIF-329924','OPIF-329920'],q2:['OPIF-327330','OPIF-329925','OPIF-325568'],q3:['OPIF-329923','OPIF-327331'],q4:['OPIF-327330','OPIF-325568'],},rock2:{q1:['OPIF-324932','OPIF-324925'],q2:['OPIF-324932','OPIF-327329'],q3:['OPIF-327726','OPIF-327333','OPIF-325568'],q4:['OPIF-327334','OPIF-327726'],},rock3:{q1:['OPIF-324932','OPIF-324926'],q2:['OPIF-324925','OPIF-324928','OPIF-329922'],q3:['OPIF-327327','OPIF-327328'],q4:['OPIF-324925','OPIF-327327'],},};function printBigRocks(){window.print();}
+const BIG_ROCK_PROGRAM_MAP={rock1:{q1:['strategy-hub','forecast-enterprise-service'],q2:['design-hub-centric','ap-tool-lineplan'],q3:['shared-merch-strategy','visual-boards'],q4:['ap-tool-shared-ideation','strategy-hub-data-inputs'],},rock2:{q1:['aex-stability-q1','auto-item-setup'],q2:['fashion-fixture-allocation-buying','ai-item-repository'],q3:['enterprise-wave-planning','tagging-pilot'],q4:['tag-based-recommendations','unified-planning'],},rock3:{q1:['aex-stability-q1','shared-item-repository'],q2:['auto-item-setup','ai-item-repository','bq-enterprise-service'],q3:['bam-collab-intent','size-pack-bq'],q4:['global-buying-platform','oneitem-expanded-sources'],},};function printBigRocks(){window.print();}
 function toggleBigRockQuarter(rockId,quarter){const contentId=`bigrock-q-${rockId}-${quarter}`;const btnId=`bigrock-q-btn-${rockId}-${quarter}`;const content=document.getElementById(contentId);const btn=document.getElementById(btnId);if(content&&btn){const isHidden=content.style.display==='none';content.style.display=isHidden?'block':'none';btn.textContent=isHidden?`Q${quarter} ▲`:`Q${quarter} ▼`;}}
-function getBigRockInitiatives(rockId,quarter){const opifs=BIG_ROCK_PROGRAM_MAP[rockId]?.[`q${quarter}`]||[];const allCards=window.PILLARS?window.PILLARS.flatMap(p=>p.cards||[]):[];return opifs.map(opif=>{const card=allCards.find(c=>c.opif===opif);if(!card)return null;const statusDot={'green':'✅','yellow':'🟡','red':'🔴','completed':'✔️','roadmap':'📅',}[card.status||'roadmap']||'📅';return{title:card.title,status:card.status||'roadmap',statusDot,id:card.id,opif:card.opif,};}).filter(Boolean);}
+function getBigRockInitiatives(rockId,quarter){const cardIds=BIG_ROCK_PROGRAM_MAP[rockId]?.[`q${quarter}`]||[];const allCards=window.PILLARS?window.PILLARS.flatMap(p=>p.cards||[]):[];return cardIds.map(cardId=>{const card=allCards.find(c=>c.id===cardId);if(!card)return null;const statusDot={'green':'✅','yellow':'🟡','red':'🔴','completed':'✔️','roadmap':'📅',}[card.status||'roadmap']||'📅';return{title:card.title,status:card.status||'roadmap',statusDot,id:card.id,targetDate:card.targetDate||'TBD',};}).filter(Boolean);}
 function renderBigRockQuarter(rockId,quarter,quarterLabel){const initiatives=getBigRockInitiatives(rockId,quarter);if(initiatives.length===0)return'';const initiativesList=initiatives.map(init=>`
-    <div class="bigrock-initiative" onclick="openCardModal('${init.id}')"><span class="bigrock-init-dot">${init.statusDot}</span><span class="bigrock-init-title">${init.title}</span><span class="bigrock-init-opif">${init.opif}</span></div>
+    <div class="bigrock-initiative" onclick="openCardModal('${init.id}')"><span class="bigrock-init-dot">${init.statusDot}</span><span class="bigrock-init-title">${init.title}</span><span class="bigrock-init-date">${init.targetDate}</span></div>
   `).join('');return`
     <button class="bigrock-quarter-btn" id="bigrock-q-btn-${rockId}-${quarter}" 
             onclick="toggleBigRockQuarter('${rockId}', ${quarter})">
@@ -3654,9 +3670,13 @@ function renderBigRockQuarter(rockId,quarter,quarterLabel){const initiatives=get
       ${initiativesList}
     </div>
   `;}
-function renderBigRockMetrics(rockId){const metrics={rock1:{title:'Trend Anticipation Metrics',items:[{label:'Current Trend-to-Shelf Cycle',current:'12 months',target:'6 months',targetDate:'Q3 FY27'},{label:'Trend Signal Timeliness',current:'Historical only (12+ mo lag)',target:'Real-time + 6-9 mo forward',targetDate:'Q2 FY27'},{label:'Design-to-Sample Cycle',current:'8 weeks',target:'2 weeks',targetDate:'Q3 FY27'},{label:'Line Plan Refresh Frequency',current:'Annual',target:'Quarterly',targetDate:'Q4 FY27'},]},rock2:{title:'Proactive Allocation Metrics',items:[{label:'Purchase Order Lead Time',current:'12+ months (fixed)',target:'Quarterly refresh capability',targetDate:'Q4 FY27'},{label:'Manual Variant Setup Time',current:'5+ hours per group',target:'<30 min (automated)',targetDate:'Q2 FY27'},{label:'Annual Hours Saved',current:'Baseline',target:'43,000 hours',targetDate:'Q2 FY27'},{label:'Allocation Error Rate',current:'38% (manual process)',target:'<5% (validated upfront)',targetDate:'Q3 FY27'},]},rock3:{title:'Connected Systems Metrics',items:[{label:'Time Spent on Data Entry',current:'40-60% of work time',target:'10-20% (50-70% reduction)',targetDate:'Q4 FY27'},{label:'Manual Re-entry Instances',current:'4+ systems per workflow',target:'Single entry, auto-flow',targetDate:'Q3 FY27'},{label:'Data Handoff Errors',current:'Frequent (cascading failures)',target:'Near-zero (validated at source)',targetDate:'Q3 FY27'},{label:'Cross-functional Visibility',current:'Siloed (email/meetings)',target:'Real-time (shared workspace)',targetDate:'Q4 FY27'},]},};const metricData=metrics[rockId];if(!metricData)return'';return`
-    <div class="bigrock-metrics-box"><h3 class="bigrock-metrics-title">📊 ${metricData.title}</h3><div class="bigrock-metrics-grid">
-        ${metricData.items.map(metric => `<div class="bigrock-metric-card"><div class="bigrock-metric-label">${metric.label}</div><div class="bigrock-metric-values"><div class="bigrock-metric-current"><span class="bigrock-metric-tag">Current</span><span class="bigrock-metric-value">${metric.current}</span></div><div class="bigrock-metric-arrow">→</div><div class="bigrock-metric-target"><span class="bigrock-metric-tag">Target</span><span class="bigrock-metric-value">${metric.target}</span></div></div><div class="bigrock-metric-date">🎯 ${metric.targetDate}</div></div>`).join('')}
+function renderBigRockMetrics(rockId){const metrics={rock1:{title:'Trend Anticipation Goals — Phase Progression',goals:[{id:'4',phase:1,label:'Reduce Merchant Hours',icon:'⏱️'},{id:'1',phase:1,label:'90% of Buys on Happy Path',icon:'🛳️'},{id:'6',phase:2,label:'85% Shop In-Stock Rate',icon:'🛒'},{id:'8',phase:2,label:'Increase Sell-Through Rate',icon:'📈'},]},rock2:{title:'Proactive Allocation Goals — Phase Progression',goals:[{id:'1',phase:1,label:'90% of Buys on Happy Path',icon:'🛳️'},{id:'5',phase:2,label:'Reduce Trapped Inventory',icon:'📦'},{id:'7',phase:2,label:'90% PO Redistribution Coverage',icon:'🔄'},{id:'8',phase:2,label:'Increase Sell-Through Rate',icon:'📈'},{id:'6',phase:3,label:'85% Shop In-Stock Rate',icon:'🛒'},]},rock3:{title:'Connected Systems Goals — Phase Progression',goals:[{id:'1',phase:1,label:'90% of Buys on Happy Path',icon:'🛳️'},{id:'2',phase:1,label:'Zero Rekeys Across E2E Workflow',icon:'⌧'},{id:'3',phase:1,label:'Happy Path Buying Execution',icon:'✅'},{id:'4',phase:1,label:'Reduce Merchant Hours',icon:'⏱️'},{id:'6',phase:2,label:'85% Shop In-Stock Rate',icon:'🛒'},]},};const metricData=metrics[rockId];if(!metricData)return'';const goalsData=window.GOALS||{};const goalsByPhase={};metricData.goals.forEach(goalRef=>{const phase=goalRef.phase||1;if(!goalsByPhase[phase])goalsByPhase[phase]=[];goalsByPhase[phase].push(goalRef);});return`
+    <div class="bigrock-metrics-box"><h3 class="bigrock-metrics-title">🎯 ${metricData.title}</h3>
+      ${Object.keys(goalsByPhase).sort().map(phase => `<div class="bigrock-phase-section"><div class="bigrock-phase-header">Phase ${phase}:${phase==1?'Setup & Integration':phase==2?'Recommend & Optimize':'Automate'}</div><div class="bigrock-metrics-grid">${goalsByPhase[phase].map(goalRef=>{const goal=goalsData[goalRef.id];if(!goal)return'';return`
+                <div class="bigrock-metric-card" onclick="openGoalModal('${goal.id}')" style="cursor: pointer;"><div class="bigrock-metric-header"><span class="bigrock-metric-icon">${goalRef.icon}</span><span class="bigrock-metric-label">${goal.label}</span></div><div class="bigrock-metric-target"><div class="bigrock-metric-tag">Target</div><div class="bigrock-metric-value-text">${goal.target}</div></div><div class="bigrock-metric-baseline"><div class="bigrock-metric-tag">Current State</div><div class="bigrock-metric-value-text">${goal.baseline}</div></div></div>
+              `;}).join('')}</div></div>`).join('')}
+      <div class="bigrock-metrics-footer">
+        Click any goal to see detailed programs and metrics
       </div></div>
   `;}
 function renderBigRockTimeline(rockId){const timelines={rock1:{title:'Trend Anticipation Delivery Timeline',quarters:[{q:'Q1',label:'Foundation',items:['Strategy Hub Launch','Forecast Service Kickoff']},{q:'Q2',label:'Design Acceleration',items:['Design Hub Phase 1','Event Layer Integration']},{q:'Q3',label:'Trend Intelligence',items:['Shared Merch Strategy','Visual Board MVP']},{q:'Q4',label:'Full Integration',items:['Design Hub Complete','AP Tool Quarterly Refresh']},]},rock2:{title:'Proactive Allocation Delivery Timeline',quarters:[{q:'Q1',label:'Foundation',items:['AEX Stability Phase 1','Item Setup Automation Starts']},{q:'Q2',label:'Automation',items:['Automated Setup Live','Visual Fixture Allocation']},{q:'Q3',label:'Intelligence',items:['Enterprise Wave Planning','Tag-Based Pilot']},{q:'Q4',label:'Advanced Capabilities',items:['Affinity Models','Dynamic Allocation']},]},rock3:{title:'Connected Systems Delivery Timeline',quarters:[{q:'Q1',label:'Stability',items:['AEX Foundations','Shared Repository']},{q:'Q2',label:'Automation',items:['AI Item Repository','BQ Enterprise Service']},{q:'Q3',label:'Integration',items:['BAM/Collab Connect','Automated Size/Pack']},{q:'Q4',label:'Convergence',items:['Full API Integration','Single Data Flow']},]},};const timelineData=timelines[rockId];if(!timelineData)return'';return`

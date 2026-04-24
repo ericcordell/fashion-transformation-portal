@@ -899,24 +899,23 @@ function renderBigRockMetrics(rockId) {
     rock1: {
       title: 'Trend Anticipation Goals — Phase Progression',
       goals: [
-        // Phase 1: Setup foundations
-        { id: '4', phase: 1, label: 'Reduce Merchant Hours', icon: '⏱️' },
-        { id: '1', phase: 1, label: '90% of Buys on Happy Path', icon: '🛳️' },
-        // Phase 2: Optimize forecasting
-        { id: '6', phase: 2, label: '85% Shop In-Stock Rate', icon: '🛒' },
+        // Phase 2: Predict trends, reduce wrong buys
+        { id: '5', phase: 2, label: 'Reduce Trapped Inventory', icon: '📦' },
         { id: '8', phase: 2, label: 'Increase Sell-Through Rate', icon: '📈' },
+        // Phase 3: Automate trend-to-buy
+        { id: '5', phase: 3, label: 'Reduce Trapped Inventory', icon: '📦' },
+        { id: '8', phase: 3, label: 'Increase Sell-Through Rate', icon: '📈' },
       ]
     },
     rock2: {
       title: 'Proactive Allocation Goals — Phase Progression',
       goals: [
-        // Phase 1: Build tagging foundations
-        { id: '1', phase: 1, label: '90% of Buys on Happy Path', icon: '🛳️' },
         // Phase 2: Enable redistribution
         { id: '5', phase: 2, label: 'Reduce Trapped Inventory', icon: '📦' },
+        { id: '6', phase: 2, label: '85% Shop In-Stock Rate', icon: '🛒' },
         { id: '7', phase: 2, label: '90% PO Redistribution Coverage', icon: '🔄' },
-        { id: '8', phase: 2, label: 'Increase Sell-Through Rate', icon: '📈' },
         // Phase 3: Full automation
+        { id: '5', phase: 3, label: 'Reduce Trapped Inventory', icon: '📦' },
         { id: '6', phase: 3, label: '85% Shop In-Stock Rate', icon: '🛒' },
       ]
     },
@@ -926,10 +925,9 @@ function renderBigRockMetrics(rockId) {
         // Phase 1: Core integration
         { id: '1', phase: 1, label: '90% of Buys on Happy Path', icon: '🛳️' },
         { id: '2', phase: 1, label: 'Zero Rekeys Across E2E Workflow', icon: '⌧' },
-        { id: '3', phase: 1, label: 'Happy Path Buying Execution', icon: '✅' },
         { id: '4', phase: 1, label: 'Reduce Merchant Hours', icon: '⏱️' },
-        // Phase 2: Enterprise services
-        { id: '6', phase: 2, label: '85% Shop In-Stock Rate', icon: '🛒' },
+        // Phase 3: Strategy automation
+        { id: '4', phase: 3, label: 'Reduce Merchant Hours', icon: '⏱️' },
       ]
     },
   };

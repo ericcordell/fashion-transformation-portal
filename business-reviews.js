@@ -1100,7 +1100,6 @@ function renderBigRocksNarrative() {
         </div>
         
         ${renderBigRockMetrics('rock1')}
-        ${renderBigRockTimeline('rock1')}
         
         <div class="bigrock-subsection">
           <h3 class="bigrock-subsection-title">WHAT WE'RE BUILDING</h3>
@@ -1167,7 +1166,6 @@ function renderBigRocksNarrative() {
         </div>
         
         ${renderBigRockMetrics('rock2')}
-        ${renderBigRockTimeline('rock2')}
         
         <div class="bigrock-subsection">
           <h3 class="bigrock-subsection-title">WHAT WE'RE BUILDING</h3>
@@ -1236,7 +1234,6 @@ function renderBigRocksNarrative() {
         </div>
         
         ${renderBigRockMetrics('rock3')}
-        ${renderBigRockTimeline('rock3')}
         
         <div class="bigrock-subsection">
           <h3 class="bigrock-subsection-title">WHAT WE'RE BUILDING</h3>

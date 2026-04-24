@@ -97,10 +97,6 @@
       sections.push(_section('🔔 Recent Updates', '<ul class="cm-updates">' + updates + '</ul>'));
     }
 
-    if (card.owners) {
-      sections.push(_section('👥 Ownership', _ownersHTML(card.owners)));
-    }
-
     if (card.relatedOpifs && card.relatedOpifs.length > 0) {
       sections.push(_section('🔗 Related OPIFs', _opifHTML(card.relatedOpifs)));
     }
@@ -119,18 +115,6 @@
   function _section(heading, contentHTML) {
     return '<div class="cm-section"><div class="cm-section-title">' +
       heading + '</div>' + contentHTML + '</div>';
-  }
-
-  function _ownersHTML(owners) {
-    if (!owners) return '';
-    var html = '<div class="cm-owners-grid">';
-    if (owners.ppt)      html += '<div><strong>PPT:</strong> ' + _esc(owners.ppt) + '</div>';
-    if (owners.eng)      html += '<div><strong>Engineering:</strong> ' + _esc(owners.eng) + '</div>';
-    if (owners.product)  html += '<div><strong>Product:</strong> ' + _esc(owners.product) + '</div>';
-    if (owners.design)   html += '<div><strong>Design:</strong> ' + _esc(owners.design) + '</div>';
-    if (owners.merchant) html += '<div><strong>Merchant:</strong> ' + _esc(owners.merchant) + '</div>';
-    html += '</div>';
-    return html;
   }
 
   function _opifHTML(opifs) {

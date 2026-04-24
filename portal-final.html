@@ -2470,18 +2470,6 @@ color: #4b5563;
 .cm-updates li:last-child {
 margin-bottom: 0;
 }
-.cm-owners-grid {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-gap: 12px;
-font-size: 0.85rem;
-line-height: 1.5;
-color: #4b5563;
-}
-.cm-owners-grid strong {
-color: #1f2937;
-font-weight: 700;
-}
 .cm-opifs {
 display: flex;
 flex-direction: column;
@@ -2559,9 +2547,6 @@ padding: 18px 20px;
 .cm-metadata {
 flex-direction: column;
 align-items: flex-start;
-}
-.cm-owners-grid {
-grid-template-columns: 1fr;
 }
 }</style>
 <style>.gantt-toolbar {
@@ -3686,14 +3671,12 @@ if(card.businessBenefit||card.businessImpact){var text=card.businessBenefit||car
 if(card.techIntegration){sections.push(_section('⚙️ Technical Integration','<p class="cm-text">'+_esc(card.techIntegration)+'</p>'));}
 if(card.successMetrics){sections.push(_section('🎯 Success Metrics','<p class="cm-text">'+_esc(card.successMetrics)+'</p>'));}
 if(card.recentUpdate){var updates=card.recentUpdate.split(' | ').map(function(u){return'<li>'+_esc(u.trim())+'</li>';}).join('');sections.push(_section('🔔 Recent Updates','<ul class="cm-updates">'+updates+'</ul>'));}
-if(card.owners){sections.push(_section('👥 Ownership',_ownersHTML(card.owners)));}
 if(card.relatedOpifs&&card.relatedOpifs.length>0){sections.push(_section('🔗 Related OPIFs',_opifHTML(card.relatedOpifs)));}
 if(card.resources&&card.resources.links&&card.resources.links.length>0){sections.push(_section('📚 Resources',_resourcesHTML(card.resources.links)));}
 if(card.workstreams&&card.workstreams.length>0){sections.push(_section('🏭 Workstreams',_workstreamsHTML(card.workstreams)));}
 return sections.join('');}
 function _section(heading,contentHTML){return'<div class="cm-section"><div class="cm-section-title">'+
 heading+'</div>'+contentHTML+'</div>';}
-function _ownersHTML(owners){if(!owners)return'';var html='<div class="cm-owners-grid">';if(owners.ppt)html+='<div><strong>PPT:</strong> '+_esc(owners.ppt)+'</div>';if(owners.eng)html+='<div><strong>Engineering:</strong> '+_esc(owners.eng)+'</div>';if(owners.product)html+='<div><strong>Product:</strong> '+_esc(owners.product)+'</div>';if(owners.design)html+='<div><strong>Design:</strong> '+_esc(owners.design)+'</div>';if(owners.merchant)html+='<div><strong>Merchant:</strong> '+_esc(owners.merchant)+'</div>';html+='</div>';return html;}
 function _opifHTML(opifs){return'<div class="cm-opifs">'+opifs.map(function(o){return'<div class="cm-opif-item">'+'<a href="https://jira.walmart.com/browse/'+_esc(o.key)+'" target="_blank" rel="noopener">'+'<strong>'+_esc(o.key)+'</strong></a> — '+_esc(o.label)+
 (o.quarter?' <span class="cm-opif-meta">('+_esc(o.quarter)+')</span>':'')+'</div>';}).join('')+'</div>';}
 function _resourcesHTML(links){return'<ul class="cm-resources">'+links.map(function(r){return'<li><a href="'+_esc(r.url)+'" target="_blank" rel="noopener">'+_esc(r.label)+'</a></li>';}).join('')+'</ul>';}

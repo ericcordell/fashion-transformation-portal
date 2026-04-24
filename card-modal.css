@@ -116,20 +116,6 @@
   margin-bottom: 0;
 }
 
-.cm-owners-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 12px;
-  font-size: 0.85rem;
-  line-height: 1.5;
-  color: #4b5563;
-}
-
-.cm-owners-grid strong {
-  color: #1f2937;
-  font-weight: 700;
-}
-
 .cm-opifs {
   display: flex;
   flex-direction: column;
@@ -222,9 +208,5 @@
   .cm-metadata {
     flex-direction: column;
     align-items: flex-start;
-  }
-
-  .cm-owners-grid {
-    grid-template-columns: 1fr;
   }
 }

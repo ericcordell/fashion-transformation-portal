@@ -1238,3 +1238,329 @@ span.wpr-doc-badge.brd-missing {
     text-align: left;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════════════════ */
+/* BIG ROCKS: PRINT BUTTON                                                    */
+/* ══════════════════════════════════════════════════════════════════════════ */
+
+.review-back-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.bigrock-print-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: #0053e2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-left: auto;
+}
+
+.bigrock-print-btn:hover {
+  background: #0066ff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,83,226,0.3);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════ */
+/* BIG ROCKS: METRICS BOX                                                     */
+/* ══════════════════════════════════════════════════════════════════════════ */
+
+.bigrock-metrics-box {
+  margin: 28px 0;
+  padding: 24px;
+  background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 100%);
+  border: 2px solid #0053e2;
+  border-radius: 10px;
+}
+
+.bigrock-metrics-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #0053e2;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.bigrock-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.bigrock-metric-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.bigrock-metric-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 10px;
+}
+
+.bigrock-metric-values {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.bigrock-metric-current,
+.bigrock-metric-target {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.bigrock-metric-tag {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #6b7280;
+}
+
+.bigrock-metric-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.bigrock-metric-current .bigrock-metric-value {
+  color: #ea1100;
+}
+
+.bigrock-metric-target .bigrock-metric-value {
+  color: #2a8703;
+}
+
+.bigrock-metric-arrow {
+  font-size: 20px;
+  color: #0053e2;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+
+.bigrock-metric-date {
+  font-size: 11px;
+  font-weight: 600;
+  color: #0053e2;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════ */
+/* BIG ROCKS: TIMELINE VISUALIZATION                                          */
+/* ══════════════════════════════════════════════════════════════════════════ */
+
+.bigrock-timeline-box {
+  margin: 28px 0;
+  padding: 24px;
+  background: linear-gradient(135deg, #fef3c7 0%, #fef9e7 100%);
+  border: 2px solid #ffc220;
+  border-radius: 10px;
+}
+
+.bigrock-timeline-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #995213;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.bigrock-timeline-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  position: relative;
+}
+
+.bigrock-timeline-quarter {
+  background: white;
+  border: 2px solid #ffc220;
+  border-radius: 8px;
+  padding: 14px;
+  position: relative;
+}
+
+.bigrock-timeline-q-header {
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #ffc220;
+}
+
+.bigrock-timeline-q-num {
+  font-size: 18px;
+  font-weight: 900;
+  color: #0053e2;
+  margin-bottom: 4px;
+}
+
+.bigrock-timeline-q-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #995213;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.bigrock-timeline-items {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bigrock-timeline-item {
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+  line-height: 1.4;
+}
+
+.bigrock-timeline-connector {
+  position: absolute;
+  top: 50%;
+  right: -18px;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #ffc220;
+  font-weight: 900;
+  z-index: 1;
+}
+
+/* Responsive - Metrics & Timeline */
+@media (max-width: 1024px) {
+  .bigrock-metrics-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .bigrock-timeline-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .bigrock-timeline-connector {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .bigrock-timeline-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .bigrock-metrics-box,
+  .bigrock-timeline-box {
+    padding: 16px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════ */
+/* PRINT STYLES FOR BIG ROCKS                                                 */
+/* ══════════════════════════════════════════════════════════════════════════ */
+
+@media print {
+  /* Hide navigation and controls */
+  header,
+  .control-panel-wrap,
+  .review-back-bar,
+  .bigrock-print-btn,
+  #business-reviews-wrap > div:not(.review-content),
+  .phase-bar,
+  .exec-bar {
+    display: none !important;
+  }
+  
+  /* Optimize page breaks */
+  .bigrock-section {
+    page-break-inside: avoid;
+    page-break-after: auto;
+    margin-bottom: 40px;
+  }
+  
+  .bigrock-subsection {
+    page-break-inside: avoid;
+  }
+  
+  /* Ensure metrics and timeline don't break across pages */
+  .bigrock-metrics-box,
+  .bigrock-timeline-box {
+    page-break-inside: avoid;
+  }
+  
+  /* Adjust colors for print */
+  .bigrock-metrics-box {
+    background: #f9fafb !important;
+    border: 2px solid #0053e2 !important;
+  }
+  
+  .bigrock-timeline-box {
+    background: #fffef5 !important;
+    border: 2px solid #ffc220 !important;
+  }
+  
+  /* Hide interactive elements */
+  .bigrock-quarterly-wrap {
+    display: none !important;
+  }
+  
+  /* Optimize text for print */
+  .bigrock-text {
+    text-align: left;
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+  
+  /* Add page header */
+  @page {
+    margin: 0.75in;
+  }
+  
+  .review-header {
+    margin-bottom: 30px;
+    border-bottom: 3px solid #0053e2;
+    padding-bottom: 15px;
+  }
+  
+  /* Timeline: Print all quarters side-by-side if possible */
+  .bigrock-timeline-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  
+  .bigrock-timeline-connector {
+    display: block;
+  }
+  
+  /* Metrics: Print 2 columns */
+  .bigrock-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
+
+/* Print: Force landscape for better timeline view (optional) */
+@page {
+  size: letter portrait;
+}

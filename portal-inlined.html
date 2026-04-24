@@ -2171,6 +2171,332 @@ span.wpr-doc-badge.brd-missing {
   }
 }
 
+/* ══════════════════════════════════════════════════════════════════════════ */
+/* BIG ROCKS: PRINT BUTTON                                                    */
+/* ══════════════════════════════════════════════════════════════════════════ */
+
+.review-back-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.bigrock-print-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: #0053e2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-left: auto;
+}
+
+.bigrock-print-btn:hover {
+  background: #0066ff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,83,226,0.3);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════ */
+/* BIG ROCKS: METRICS BOX                                                     */
+/* ══════════════════════════════════════════════════════════════════════════ */
+
+.bigrock-metrics-box {
+  margin: 28px 0;
+  padding: 24px;
+  background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 100%);
+  border: 2px solid #0053e2;
+  border-radius: 10px;
+}
+
+.bigrock-metrics-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #0053e2;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.bigrock-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.bigrock-metric-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.bigrock-metric-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 10px;
+}
+
+.bigrock-metric-values {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.bigrock-metric-current,
+.bigrock-metric-target {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.bigrock-metric-tag {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #6b7280;
+}
+
+.bigrock-metric-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.bigrock-metric-current .bigrock-metric-value {
+  color: #ea1100;
+}
+
+.bigrock-metric-target .bigrock-metric-value {
+  color: #2a8703;
+}
+
+.bigrock-metric-arrow {
+  font-size: 20px;
+  color: #0053e2;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+
+.bigrock-metric-date {
+  font-size: 11px;
+  font-weight: 600;
+  color: #0053e2;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════ */
+/* BIG ROCKS: TIMELINE VISUALIZATION                                          */
+/* ══════════════════════════════════════════════════════════════════════════ */
+
+.bigrock-timeline-box {
+  margin: 28px 0;
+  padding: 24px;
+  background: linear-gradient(135deg, #fef3c7 0%, #fef9e7 100%);
+  border: 2px solid #ffc220;
+  border-radius: 10px;
+}
+
+.bigrock-timeline-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #995213;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.bigrock-timeline-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  position: relative;
+}
+
+.bigrock-timeline-quarter {
+  background: white;
+  border: 2px solid #ffc220;
+  border-radius: 8px;
+  padding: 14px;
+  position: relative;
+}
+
+.bigrock-timeline-q-header {
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #ffc220;
+}
+
+.bigrock-timeline-q-num {
+  font-size: 18px;
+  font-weight: 900;
+  color: #0053e2;
+  margin-bottom: 4px;
+}
+
+.bigrock-timeline-q-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #995213;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.bigrock-timeline-items {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bigrock-timeline-item {
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+  line-height: 1.4;
+}
+
+.bigrock-timeline-connector {
+  position: absolute;
+  top: 50%;
+  right: -18px;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #ffc220;
+  font-weight: 900;
+  z-index: 1;
+}
+
+/* Responsive - Metrics & Timeline */
+@media (max-width: 1024px) {
+  .bigrock-metrics-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .bigrock-timeline-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .bigrock-timeline-connector {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .bigrock-timeline-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .bigrock-metrics-box,
+  .bigrock-timeline-box {
+    padding: 16px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════ */
+/* PRINT STYLES FOR BIG ROCKS                                                 */
+/* ══════════════════════════════════════════════════════════════════════════ */
+
+@media print {
+  /* Hide navigation and controls */
+  header,
+  .control-panel-wrap,
+  .review-back-bar,
+  .bigrock-print-btn,
+  #business-reviews-wrap > div:not(.review-content),
+  .phase-bar,
+  .exec-bar {
+    display: none !important;
+  }
+  
+  /* Optimize page breaks */
+  .bigrock-section {
+    page-break-inside: avoid;
+    page-break-after: auto;
+    margin-bottom: 40px;
+  }
+  
+  .bigrock-subsection {
+    page-break-inside: avoid;
+  }
+  
+  /* Ensure metrics and timeline don't break across pages */
+  .bigrock-metrics-box,
+  .bigrock-timeline-box {
+    page-break-inside: avoid;
+  }
+  
+  /* Adjust colors for print */
+  .bigrock-metrics-box {
+    background: #f9fafb !important;
+    border: 2px solid #0053e2 !important;
+  }
+  
+  .bigrock-timeline-box {
+    background: #fffef5 !important;
+    border: 2px solid #ffc220 !important;
+  }
+  
+  /* Hide interactive elements */
+  .bigrock-quarterly-wrap {
+    display: none !important;
+  }
+  
+  /* Optimize text for print */
+  .bigrock-text {
+    text-align: left;
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+  
+  /* Add page header */
+  @page {
+    margin: 0.75in;
+  }
+  
+  .review-header {
+    margin-bottom: 30px;
+    border-bottom: 3px solid #0053e2;
+    padding-bottom: 15px;
+  }
+  
+  /* Timeline: Print all quarters side-by-side if possible */
+  .bigrock-timeline-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  
+  .bigrock-timeline-connector {
+    display: block;
+  }
+  
+  /* Metrics: Print 2 columns */
+  .bigrock-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
+
+/* Print: Force landscape for better timeline view (optional) */
+@page {
+  size: letter portrait;
+}
+
 </style>
 <style>
 /* Unified Control Panel - Business Reviews + Status + Filters */
@@ -8263,6 +8589,11 @@ const BIG_ROCK_PROGRAM_MAP = {
   },
 };
 
+// Print Big Rocks to PDF
+function printBigRocks() {
+  window.print();
+}
+
 // Toggle quarterly view for a Big Rock
 function toggleBigRockQuarter(rockId, quarter) {
   const contentId = `bigrock-q-${rockId}-${quarter}`;
@@ -8330,12 +8661,134 @@ function renderBigRockQuarter(rockId, quarter, quarterLabel) {
   `;
 }
 
+// Render metrics box for a Big Rock
+function renderBigRockMetrics(rockId) {
+  const metrics = {
+    rock1: {
+      title: 'Trend Anticipation Metrics',
+      items: [
+        { label: 'Current Trend-to-Shelf Cycle', current: '12 months', target: '6 months', targetDate: 'Q3 FY27' },
+        { label: 'Trend Signal Timeliness', current: 'Historical only (12+ mo lag)', target: 'Real-time + 6-9 mo forward', targetDate: 'Q2 FY27' },
+        { label: 'Design-to-Sample Cycle', current: '8 weeks', target: '2 weeks', targetDate: 'Q3 FY27' },
+        { label: 'Line Plan Refresh Frequency', current: 'Annual', target: 'Quarterly', targetDate: 'Q4 FY27' },
+      ]
+    },
+    rock2: {
+      title: 'Proactive Allocation Metrics',
+      items: [
+        { label: 'Purchase Order Lead Time', current: '12+ months (fixed)', target: 'Quarterly refresh capability', targetDate: 'Q4 FY27' },
+        { label: 'Manual Variant Setup Time', current: '5+ hours per group', target: '<30 min (automated)', targetDate: 'Q2 FY27' },
+        { label: 'Annual Hours Saved', current: 'Baseline', target: '43,000 hours', targetDate: 'Q2 FY27' },
+        { label: 'Allocation Error Rate', current: '38% (manual process)', target: '<5% (validated upfront)', targetDate: 'Q3 FY27' },
+      ]
+    },
+    rock3: {
+      title: 'Connected Systems Metrics',
+      items: [
+        { label: 'Time Spent on Data Entry', current: '40-60% of work time', target: '10-20% (50-70% reduction)', targetDate: 'Q4 FY27' },
+        { label: 'Manual Re-entry Instances', current: '4+ systems per workflow', target: 'Single entry, auto-flow', targetDate: 'Q3 FY27' },
+        { label: 'Data Handoff Errors', current: 'Frequent (cascading failures)', target: 'Near-zero (validated at source)', targetDate: 'Q3 FY27' },
+        { label: 'Cross-functional Visibility', current: 'Siloed (email/meetings)', target: 'Real-time (shared workspace)', targetDate: 'Q4 FY27' },
+      ]
+    },
+  };
+  
+  const metricData = metrics[rockId];
+  if (!metricData) return '';
+  
+  return `
+    <div class="bigrock-metrics-box">
+      <h3 class="bigrock-metrics-title">📊 ${metricData.title}</h3>
+      <div class="bigrock-metrics-grid">
+        ${metricData.items.map(metric => `
+          <div class="bigrock-metric-card">
+            <div class="bigrock-metric-label">${metric.label}</div>
+            <div class="bigrock-metric-values">
+              <div class="bigrock-metric-current">
+                <span class="bigrock-metric-tag">Current</span>
+                <span class="bigrock-metric-value">${metric.current}</span>
+              </div>
+              <div class="bigrock-metric-arrow">→</div>
+              <div class="bigrock-metric-target">
+                <span class="bigrock-metric-tag">Target</span>
+                <span class="bigrock-metric-value">${metric.target}</span>
+              </div>
+            </div>
+            <div class="bigrock-metric-date">🎯 ${metric.targetDate}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+// Render timeline visualization for a Big Rock
+function renderBigRockTimeline(rockId) {
+  const timelines = {
+    rock1: {
+      title: 'Trend Anticipation Delivery Timeline',
+      quarters: [
+        { q: 'Q1', label: 'Foundation', items: ['Strategy Hub Launch', 'Forecast Service Kickoff'] },
+        { q: 'Q2', label: 'Design Acceleration', items: ['Design Hub Phase 1', 'Event Layer Integration'] },
+        { q: 'Q3', label: 'Trend Intelligence', items: ['Shared Merch Strategy', 'Visual Board MVP'] },
+        { q: 'Q4', label: 'Full Integration', items: ['Design Hub Complete', 'AP Tool Quarterly Refresh'] },
+      ]
+    },
+    rock2: {
+      title: 'Proactive Allocation Delivery Timeline',
+      quarters: [
+        { q: 'Q1', label: 'Foundation', items: ['AEX Stability Phase 1', 'Item Setup Automation Starts'] },
+        { q: 'Q2', label: 'Automation', items: ['Automated Setup Live', 'Visual Fixture Allocation'] },
+        { q: 'Q3', label: 'Intelligence', items: ['Enterprise Wave Planning', 'Tag-Based Pilot'] },
+        { q: 'Q4', label: 'Advanced Capabilities', items: ['Affinity Models', 'Dynamic Allocation'] },
+      ]
+    },
+    rock3: {
+      title: 'Connected Systems Delivery Timeline',
+      quarters: [
+        { q: 'Q1', label: 'Stability', items: ['AEX Foundations', 'Shared Repository'] },
+        { q: 'Q2', label: 'Automation', items: ['AI Item Repository', 'BQ Enterprise Service'] },
+        { q: 'Q3', label: 'Integration', items: ['BAM/Collab Connect', 'Automated Size/Pack'] },
+        { q: 'Q4', label: 'Convergence', items: ['Full API Integration', 'Single Data Flow'] },
+      ]
+    },
+  };
+  
+  const timelineData = timelines[rockId];
+  if (!timelineData) return '';
+  
+  return `
+    <div class="bigrock-timeline-box">
+      <h3 class="bigrock-timeline-title">📅 ${timelineData.title}</h3>
+      <div class="bigrock-timeline-grid">
+        ${timelineData.quarters.map((q, idx) => `
+          <div class="bigrock-timeline-quarter">
+            <div class="bigrock-timeline-q-header">
+              <div class="bigrock-timeline-q-num">${q.q}</div>
+              <div class="bigrock-timeline-q-label">${q.label}</div>
+            </div>
+            <div class="bigrock-timeline-items">
+              ${q.items.map(item => `
+                <div class="bigrock-timeline-item">• ${item}</div>
+              `).join('')}
+            </div>
+            ${idx < timelineData.quarters.length - 1 ? '<div class="bigrock-timeline-connector">→</div>' : ''}
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
 // Render full Big Rocks narrative
 function renderBigRocksNarrative() {
   return `
     <div class="review-back-bar">
       <button class="review-back-button" onclick="clearBusinessReview()">
         ← Back
+      </button>
+      <button class="bigrock-print-btn" onclick="printBigRocks()">
+        🖨️ Print to PDF
       </button>
     </div>
     
@@ -8379,6 +8832,9 @@ function renderBigRocksNarrative() {
             as a follower in fast fashion rather than a leader, and our customers notice.
           </p>
         </div>
+        
+        ${renderBigRockMetrics('rock1')}
+        ${renderBigRockTimeline('rock1')}
         
         <div class="bigrock-subsection">
           <h3 class="bigrock-subsection-title">WHAT WE'RE BUILDING</h3>
@@ -8443,6 +8899,9 @@ function renderBigRocksNarrative() {
             frustration as they fight legacy tools instead of optimizing for customer demand.
           </p>
         </div>
+        
+        ${renderBigRockMetrics('rock2')}
+        ${renderBigRockTimeline('rock2')}
         
         <div class="bigrock-subsection">
           <h3 class="bigrock-subsection-title">WHAT WE'RE BUILDING</h3>
@@ -8509,6 +8968,9 @@ function renderBigRocksNarrative() {
             best people spend their days re-entering data instead of solving business problems.
           </p>
         </div>
+        
+        ${renderBigRockMetrics('rock3')}
+        ${renderBigRockTimeline('rock3')}
         
         <div class="bigrock-subsection">
           <h3 class="bigrock-subsection-title">WHAT WE'RE BUILDING</h3>

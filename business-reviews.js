@@ -833,6 +833,11 @@ const BIG_ROCK_PROGRAM_MAP = {
   },
 };
 
+// Print Big Rocks to PDF
+function printBigRocks() {
+  window.print();
+}
+
 // Toggle quarterly view for a Big Rock
 function toggleBigRockQuarter(rockId, quarter) {
   const contentId = `bigrock-q-${rockId}-${quarter}`;
@@ -900,12 +905,134 @@ function renderBigRockQuarter(rockId, quarter, quarterLabel) {
   `;
 }
 
+// Render metrics box for a Big Rock
+function renderBigRockMetrics(rockId) {
+  const metrics = {
+    rock1: {
+      title: 'Trend Anticipation Metrics',
+      items: [
+        { label: 'Current Trend-to-Shelf Cycle', current: '12 months', target: '6 months', targetDate: 'Q3 FY27' },
+        { label: 'Trend Signal Timeliness', current: 'Historical only (12+ mo lag)', target: 'Real-time + 6-9 mo forward', targetDate: 'Q2 FY27' },
+        { label: 'Design-to-Sample Cycle', current: '8 weeks', target: '2 weeks', targetDate: 'Q3 FY27' },
+        { label: 'Line Plan Refresh Frequency', current: 'Annual', target: 'Quarterly', targetDate: 'Q4 FY27' },
+      ]
+    },
+    rock2: {
+      title: 'Proactive Allocation Metrics',
+      items: [
+        { label: 'Purchase Order Lead Time', current: '12+ months (fixed)', target: 'Quarterly refresh capability', targetDate: 'Q4 FY27' },
+        { label: 'Manual Variant Setup Time', current: '5+ hours per group', target: '<30 min (automated)', targetDate: 'Q2 FY27' },
+        { label: 'Annual Hours Saved', current: 'Baseline', target: '43,000 hours', targetDate: 'Q2 FY27' },
+        { label: 'Allocation Error Rate', current: '38% (manual process)', target: '<5% (validated upfront)', targetDate: 'Q3 FY27' },
+      ]
+    },
+    rock3: {
+      title: 'Connected Systems Metrics',
+      items: [
+        { label: 'Time Spent on Data Entry', current: '40-60% of work time', target: '10-20% (50-70% reduction)', targetDate: 'Q4 FY27' },
+        { label: 'Manual Re-entry Instances', current: '4+ systems per workflow', target: 'Single entry, auto-flow', targetDate: 'Q3 FY27' },
+        { label: 'Data Handoff Errors', current: 'Frequent (cascading failures)', target: 'Near-zero (validated at source)', targetDate: 'Q3 FY27' },
+        { label: 'Cross-functional Visibility', current: 'Siloed (email/meetings)', target: 'Real-time (shared workspace)', targetDate: 'Q4 FY27' },
+      ]
+    },
+  };
+  
+  const metricData = metrics[rockId];
+  if (!metricData) return '';
+  
+  return `
+    <div class="bigrock-metrics-box">
+      <h3 class="bigrock-metrics-title">📊 ${metricData.title}</h3>
+      <div class="bigrock-metrics-grid">
+        ${metricData.items.map(metric => `
+          <div class="bigrock-metric-card">
+            <div class="bigrock-metric-label">${metric.label}</div>
+            <div class="bigrock-metric-values">
+              <div class="bigrock-metric-current">
+                <span class="bigrock-metric-tag">Current</span>
+                <span class="bigrock-metric-value">${metric.current}</span>
+              </div>
+              <div class="bigrock-metric-arrow">→</div>
+              <div class="bigrock-metric-target">
+                <span class="bigrock-metric-tag">Target</span>
+                <span class="bigrock-metric-value">${metric.target}</span>
+              </div>
+            </div>
+            <div class="bigrock-metric-date">🎯 ${metric.targetDate}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+// Render timeline visualization for a Big Rock
+function renderBigRockTimeline(rockId) {
+  const timelines = {
+    rock1: {
+      title: 'Trend Anticipation Delivery Timeline',
+      quarters: [
+        { q: 'Q1', label: 'Foundation', items: ['Strategy Hub Launch', 'Forecast Service Kickoff'] },
+        { q: 'Q2', label: 'Design Acceleration', items: ['Design Hub Phase 1', 'Event Layer Integration'] },
+        { q: 'Q3', label: 'Trend Intelligence', items: ['Shared Merch Strategy', 'Visual Board MVP'] },
+        { q: 'Q4', label: 'Full Integration', items: ['Design Hub Complete', 'AP Tool Quarterly Refresh'] },
+      ]
+    },
+    rock2: {
+      title: 'Proactive Allocation Delivery Timeline',
+      quarters: [
+        { q: 'Q1', label: 'Foundation', items: ['AEX Stability Phase 1', 'Item Setup Automation Starts'] },
+        { q: 'Q2', label: 'Automation', items: ['Automated Setup Live', 'Visual Fixture Allocation'] },
+        { q: 'Q3', label: 'Intelligence', items: ['Enterprise Wave Planning', 'Tag-Based Pilot'] },
+        { q: 'Q4', label: 'Advanced Capabilities', items: ['Affinity Models', 'Dynamic Allocation'] },
+      ]
+    },
+    rock3: {
+      title: 'Connected Systems Delivery Timeline',
+      quarters: [
+        { q: 'Q1', label: 'Stability', items: ['AEX Foundations', 'Shared Repository'] },
+        { q: 'Q2', label: 'Automation', items: ['AI Item Repository', 'BQ Enterprise Service'] },
+        { q: 'Q3', label: 'Integration', items: ['BAM/Collab Connect', 'Automated Size/Pack'] },
+        { q: 'Q4', label: 'Convergence', items: ['Full API Integration', 'Single Data Flow'] },
+      ]
+    },
+  };
+  
+  const timelineData = timelines[rockId];
+  if (!timelineData) return '';
+  
+  return `
+    <div class="bigrock-timeline-box">
+      <h3 class="bigrock-timeline-title">📅 ${timelineData.title}</h3>
+      <div class="bigrock-timeline-grid">
+        ${timelineData.quarters.map((q, idx) => `
+          <div class="bigrock-timeline-quarter">
+            <div class="bigrock-timeline-q-header">
+              <div class="bigrock-timeline-q-num">${q.q}</div>
+              <div class="bigrock-timeline-q-label">${q.label}</div>
+            </div>
+            <div class="bigrock-timeline-items">
+              ${q.items.map(item => `
+                <div class="bigrock-timeline-item">• ${item}</div>
+              `).join('')}
+            </div>
+            ${idx < timelineData.quarters.length - 1 ? '<div class="bigrock-timeline-connector">→</div>' : ''}
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
 // Render full Big Rocks narrative
 function renderBigRocksNarrative() {
   return `
     <div class="review-back-bar">
       <button class="review-back-button" onclick="clearBusinessReview()">
         ← Back
+      </button>
+      <button class="bigrock-print-btn" onclick="printBigRocks()">
+        🖨️ Print to PDF
       </button>
     </div>
     
@@ -949,6 +1076,9 @@ function renderBigRocksNarrative() {
             as a follower in fast fashion rather than a leader, and our customers notice.
           </p>
         </div>
+        
+        ${renderBigRockMetrics('rock1')}
+        ${renderBigRockTimeline('rock1')}
         
         <div class="bigrock-subsection">
           <h3 class="bigrock-subsection-title">WHAT WE'RE BUILDING</h3>
@@ -1013,6 +1143,9 @@ function renderBigRocksNarrative() {
             frustration as they fight legacy tools instead of optimizing for customer demand.
           </p>
         </div>
+        
+        ${renderBigRockMetrics('rock2')}
+        ${renderBigRockTimeline('rock2')}
         
         <div class="bigrock-subsection">
           <h3 class="bigrock-subsection-title">WHAT WE'RE BUILDING</h3>
@@ -1079,6 +1212,9 @@ function renderBigRocksNarrative() {
             best people spend their days re-entering data instead of solving business problems.
           </p>
         </div>
+        
+        ${renderBigRockMetrics('rock3')}
+        ${renderBigRockTimeline('rock3')}
         
         <div class="bigrock-subsection">
           <h3 class="bigrock-subsection-title">WHAT WE'RE BUILDING</h3>

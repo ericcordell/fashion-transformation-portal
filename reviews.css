@@ -1119,50 +1119,39 @@ span.wpr-doc-badge.brd-missing {
 }
 
 .bigrock-quarters {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.bigrock-quarter-btn {
+.bigrock-quarter-section {
   background: white;
-  border: 2px solid #d1d5db;
-  border-radius: 6px;
-  padding: 10px 14px;
-  font-size: 13px;
-  font-weight: 700;
-  color: #374151;
-  cursor: pointer;
-  transition: all 0.2s;
-  text-align: center;
-}
-
-.bigrock-quarter-btn:hover {
-  background: #0053e2;
-  color: white;
-  border-color: #0053e2;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,83,226,0.2);
-}
-
-.bigrock-quarter-content {
-  grid-column: 1 / -1;
-  margin-top: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
   padding: 16px;
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.bigrock-quarter-section:hover {
+  border-color: #0053e2;
+  box-shadow: 0 2px 8px rgba(0,83,226,0.1);
 }
 
 .bigrock-quarter-label {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
-  color: #6b7280;
+  color: #0053e2;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 12px;
   padding-bottom: 8px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 2px solid #ffc220;
+}
+
+.bigrock-quarter-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .bigrock-initiative {

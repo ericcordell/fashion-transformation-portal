@@ -1690,46 +1690,35 @@ letter-spacing: 0.5px;
 margin-bottom: 12px;
 }
 .bigrock-quarters {
-display: grid;
-grid-template-columns: repeat(4, 1fr);
-gap: 12px;
+display: flex;
+flex-direction: column;
+gap: 16px;
 }
-.bigrock-quarter-btn {
+.bigrock-quarter-section {
 background: white;
-border: 2px solid #d1d5db;
-border-radius: 6px;
-padding: 10px 14px;
-font-size: 13px;
-font-weight: 700;
-color: #374151;
-cursor: pointer;
-transition: all 0.2s;
-text-align: center;
-}
-.bigrock-quarter-btn:hover {
-background: #0053e2;
-color: white;
-border-color: #0053e2;
-transform: translateY(-2px);
-box-shadow: 0 4px 8px rgba(0,83,226,0.2);
-}
-.bigrock-quarter-content {
-grid-column: 1 / -1;
-margin-top: 8px;
+border: 1px solid #d1d5db;
+border-radius: 8px;
 padding: 16px;
-background: white;
-border: 1px solid #e5e7eb;
-border-radius: 6px;
+transition: all 0.2s;
+}
+.bigrock-quarter-section:hover {
+border-color: #0053e2;
+box-shadow: 0 2px 8px rgba(0,83,226,0.1);
 }
 .bigrock-quarter-label {
-font-size: 12px;
+font-size: 13px;
 font-weight: 700;
-color: #6b7280;
+color: #0053e2;
 text-transform: uppercase;
 letter-spacing: 0.5px;
 margin-bottom: 12px;
 padding-bottom: 8px;
-border-bottom: 1px solid #e5e7eb;
+border-bottom: 2px solid #ffc220;
+}
+.bigrock-quarter-content {
+display: flex;
+flex-direction: column;
+gap: 8px;
 }
 .bigrock-initiative {
 display: flex;
@@ -3658,19 +3647,16 @@ function renderReviewCard(card){const owner=card.owners?.productLead?.name||card
       </div></div>
   `;}
 const BIG_ROCK_PROGRAM_MAP={rock1:{q1:['strategy-hub','forecast-enterprise-service'],q2:['design-hub-centric','ap-tool-lineplan'],q3:['shared-merch-strategy','visual-boards'],q4:['ap-tool-shared-ideation','strategy-hub-data-inputs'],},rock2:{q1:['aex-stability-q1','auto-item-setup'],q2:['fashion-fixture-allocation-buying','ai-item-repository'],q3:['enterprise-wave-planning','tagging-pilot'],q4:['tag-based-recommendations','unified-planning'],},rock3:{q1:['aex-stability-q1','shared-item-repository'],q2:['auto-item-setup','ai-item-repository','bq-enterprise-service'],q3:['bam-collab-intent','size-pack-bq'],q4:['global-buying-platform','oneitem-expanded-sources'],},};function printBigRocks(){window.print();}
-function toggleBigRockQuarter(rockId,quarter){const contentId=`bigrock-q-${rockId}-${quarter}`;const btnId=`bigrock-q-btn-${rockId}-${quarter}`;const content=document.getElementById(contentId);const btn=document.getElementById(btnId);if(content&&btn){const isHidden=content.style.display==='none';content.style.display=isHidden?'block':'none';btn.textContent=isHidden?`Q${quarter} ▲`:`Q${quarter} ▼`;}}
 function getBigRockInitiatives(rockId,quarter){const cardIds=BIG_ROCK_PROGRAM_MAP[rockId]?.[`q${quarter}`]||[];const allCards=window.PILLARS?window.PILLARS.flatMap(p=>p.cards||[]):[];return cardIds.map(cardId=>{const card=allCards.find(c=>c.id===cardId);if(!card)return null;const statusDot={'green':'✅','yellow':'🟡','red':'🔴','completed':'✔️','roadmap':'📅',}[card.status||'roadmap']||'📅';return{title:card.title,status:card.status||'roadmap',statusDot,id:card.id,targetDate:card.targetDate||'TBD',};}).filter(Boolean);}
 function renderBigRockQuarter(rockId,quarter,quarterLabel){const initiatives=getBigRockInitiatives(rockId,quarter);if(initiatives.length===0)return'';const initiativesList=initiatives.map(init=>`
     <div class="bigrock-initiative" onclick="openCardModal('${init.id}')"><span class="bigrock-init-dot">${init.statusDot}</span><span class="bigrock-init-title">${init.title}</span><span class="bigrock-init-date">${init.targetDate}</span></div>
   `).join('');return`
-    <button class="bigrock-quarter-btn" id="bigrock-q-btn-${rockId}-${quarter}" 
-            onclick="toggleBigRockQuarter('${rockId}', ${quarter})">
-      Q${quarter} ▼
-    </button><div class="bigrock-quarter-content" id="bigrock-q-${rockId}-${quarter}" style="display:none;"><div class="bigrock-quarter-label">${quarterLabel}</div>
-      ${initiativesList}
-    </div>
+    <div class="bigrock-quarter-section"><div class="bigrock-quarter-label">Q${quarter} — ${quarterLabel}</div><div class="bigrock-quarter-content">
+        ${initiativesList}
+      </div></div>
   `;}
-function renderBigRockMetrics(rockId){const metrics={rock1:{title:'Trend Anticipation Goals — Phase Progression',goals:[{id:'4',phase:1,label:'Reduce Merchant Hours',icon:'⏱️'},{id:'1',phase:1,label:'90% of Buys on Happy Path',icon:'🛳️'},{id:'6',phase:2,label:'85% Shop In-Stock Rate',icon:'🛒'},{id:'8',phase:2,label:'Increase Sell-Through Rate',icon:'📈'},]},rock2:{title:'Proactive Allocation Goals — Phase Progression',goals:[{id:'1',phase:1,label:'90% of Buys on Happy Path',icon:'🛳️'},{id:'5',phase:2,label:'Reduce Trapped Inventory',icon:'📦'},{id:'7',phase:2,label:'90% PO Redistribution Coverage',icon:'🔄'},{id:'8',phase:2,label:'Increase Sell-Through Rate',icon:'📈'},{id:'6',phase:3,label:'85% Shop In-Stock Rate',icon:'🛒'},]},rock3:{title:'Connected Systems Goals — Phase Progression',goals:[{id:'1',phase:1,label:'90% of Buys on Happy Path',icon:'🛳️'},{id:'2',phase:1,label:'Zero Rekeys Across E2E Workflow',icon:'⌧'},{id:'3',phase:1,label:'Happy Path Buying Execution',icon:'✅'},{id:'4',phase:1,label:'Reduce Merchant Hours',icon:'⏱️'},{id:'6',phase:2,label:'85% Shop In-Stock Rate',icon:'🛒'},]},};const metricData=metrics[rockId];if(!metricData)return'';const goalsData=window.GOALS||{};const goalsByPhase={};metricData.goals.forEach(goalRef=>{const phase=goalRef.phase||1;if(!goalsByPhase[phase])goalsByPhase[phase]=[];goalsByPhase[phase].push(goalRef);});return`
+function renderBigRockMetrics(rockId){const metrics={rock1:{title:'Trend Anticipation Goals — Phase Progression',goals:[{id:'4',phase:1,label:'Reduce Merchant Hours',icon:'⏱️'},{id:'1',phase:1,label:'90% of Buys on Happy Path',icon:'🛳️'},{id:'6',phase:2,label:'85% Shop In-Stock Rate',icon:'🛒'},{id:'8',phase:2,label:'Increase Sell-Through Rate',icon:'📈'},]},rock2:{title:'Proactive Allocation Goals — Phase Progression',goals:[{id:'1',phase:1,label:'90% of Buys on Happy Path',icon:'🛳️'},{id:'5',phase:2,label:'Reduce Trapped Inventory',icon:'📦'},{id:'7',phase:2,label:'90% PO Redistribution Coverage',icon:'🔄'},{id:'8',phase:2,label:'Increase Sell-Through Rate',icon:'📈'},{id:'6',phase:3,label:'85% Shop In-Stock Rate',icon:'🛒'},]},rock3:{title:'Connected Systems Goals — Phase Progression',goals:[{id:'1',phase:1,label:'90% of Buys on Happy Path',icon:'🛳️'},{id:'2',phase:1,label:'Zero Rekeys Across E2E Workflow',icon:'⌧'},{id:'3',phase:1,label:'Happy Path Buying Execution',icon:'✅'},{id:'4',phase:1,label:'Reduce Merchant Hours',icon:'⏱️'},{id:'6',phase:2,label:'85% Shop In-Stock Rate',icon:'🛒'},]},};const metricData=metrics[rockId];if(!metricData){console.warn('Big Rocks: No metric data found for',rockId);return'';}
+const goalsData=(typeof GOALS!=='undefined')?GOALS:{};console.log('Big Rocks Metrics Debug:',{rockId,goalsDataExists:typeof GOALS!=='undefined',goalCount:Object.keys(goalsData).length,metricGoalIds:metricData.goals.map(g=>g.id)});const goalsByPhase={};metricData.goals.forEach(goalRef=>{const phase=goalRef.phase||1;if(!goalsByPhase[phase])goalsByPhase[phase]=[];goalsByPhase[phase].push(goalRef);});return`
     <div class="bigrock-metrics-box"><h3 class="bigrock-metrics-title">🎯 ${metricData.title}</h3>
       ${Object.keys(goalsByPhase).sort().map(phase => `<div class="bigrock-phase-section"><div class="bigrock-phase-header">Phase ${phase}:${phase==1?'Setup & Integration':phase==2?'Recommend & Optimize':'Automate'}</div><div class="bigrock-metrics-grid">${goalsByPhase[phase].map(goalRef=>{const goal=goalsData[goalRef.id];if(!goal)return'';return`
                 <div class="bigrock-metric-card" onclick="openGoalModal('${goal.id}')" style="cursor: pointer;"><div class="bigrock-metric-header"><span class="bigrock-metric-icon">${goalRef.icon}</span><span class="bigrock-metric-label">${goal.label}</span></div><div class="bigrock-metric-target"><div class="bigrock-metric-tag">Target</div><div class="bigrock-metric-value-text">${goal.target}</div></div><div class="bigrock-metric-baseline"><div class="bigrock-metric-tag">Current State</div><div class="bigrock-metric-value-text">${goal.baseline}</div></div></div>
@@ -3717,7 +3703,7 @@ function renderBigRocksNarrative(){return`
             8 weeks to 2 weeks, enabling rapid prototyping when we spot emerging trends. AP Tool integration moves line planning from rigid 
             annual commitments to quarterly refresh cycles, giving merchants the flexibility to pivot assortments mid-season. Together, these 
             tools create a continuous feedback loop: identify trends early, design quickly, and adjust buys before commitments lock us in.
-          </p><div class="bigrock-quarterly-wrap"><div class="bigrock-quarterly-label">Quarterly Roadmap (Click to Expand)</div><div class="bigrock-quarters">
+          </p><div class="bigrock-quarterly-wrap"><div class="bigrock-quarterly-label">Quarterly Roadmap</div><div class="bigrock-quarters">
               ${renderBigRockQuarter('rock1', 1, 'Q1 Feb–Apr')}
               ${renderBigRockQuarter('rock1', 2, 'Q2 May–Jul')}
               ${renderBigRockQuarter('rock1', 3, 'Q3 Aug–Oct')}

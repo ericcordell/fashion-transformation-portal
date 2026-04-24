@@ -840,18 +840,6 @@ function printBigRocks() {
 }
 
 // Toggle quarterly view for a Big Rock
-function toggleBigRockQuarter(rockId, quarter) {
-  const contentId = `bigrock-q-${rockId}-${quarter}`;
-  const btnId = `bigrock-q-btn-${rockId}-${quarter}`;
-  const content = document.getElementById(contentId);
-  const btn = document.getElementById(btnId);
-  
-  if (content && btn) {
-    const isHidden = content.style.display === 'none';
-    content.style.display = isHidden ? 'block' : 'none';
-    btn.textContent = isHidden ? `Q${quarter} ▲` : `Q${quarter} ▼`;
-  }
-}
 
 // Get initiatives for a specific rock + quarter
 function getBigRockInitiatives(rockId, quarter) {
@@ -895,13 +883,11 @@ function renderBigRockQuarter(rockId, quarter, quarterLabel) {
   `).join('');
   
   return `
-    <button class="bigrock-quarter-btn" id="bigrock-q-btn-${rockId}-${quarter}" 
-            onclick="toggleBigRockQuarter('${rockId}', ${quarter})">
-      Q${quarter} ▼
-    </button>
-    <div class="bigrock-quarter-content" id="bigrock-q-${rockId}-${quarter}" style="display:none;">
-      <div class="bigrock-quarter-label">${quarterLabel}</div>
-      ${initiativesList}
+    <div class="bigrock-quarter-section">
+      <div class="bigrock-quarter-label">Q${quarter} — ${quarterLabel}</div>
+      <div class="bigrock-quarter-content">
+        ${initiativesList}
+      </div>
     </div>
   `;
 }
@@ -949,10 +935,19 @@ function renderBigRockMetrics(rockId) {
   };
   
   const metricData = metrics[rockId];
-  if (!metricData) return '';
+  if (!metricData) {
+    console.warn('Big Rocks: No metric data found for', rockId);
+    return '';
+  }
   
-  // Access actual goals from window.GOALS (loaded from data-goals.js)
-  const goalsData = window.GOALS || {};
+  // Access actual goals from GOALS (loaded from data-goals.js)
+  const goalsData = (typeof GOALS !== 'undefined') ? GOALS : {};
+  console.log('Big Rocks Metrics Debug:', {
+    rockId,
+    goalsDataExists: typeof GOALS !== 'undefined',
+    goalCount: Object.keys(goalsData).length,
+    metricGoalIds: metricData.goals.map(g => g.id)
+  });
   
   // Group goals by phase
   const goalsByPhase = {};
@@ -1126,7 +1121,7 @@ function renderBigRocksNarrative() {
           </p>
           
           <div class="bigrock-quarterly-wrap">
-            <div class="bigrock-quarterly-label">Quarterly Roadmap (Click to Expand)</div>
+            <div class="bigrock-quarterly-label">Quarterly Roadmap</div>
             <div class="bigrock-quarters">
               ${renderBigRockQuarter('rock1', 1, 'Q1 Feb–Apr')}
               ${renderBigRockQuarter('rock1', 2, 'Q2 May–Jul')}

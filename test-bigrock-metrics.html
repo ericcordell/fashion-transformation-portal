@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Big Rocks Metrics Debug</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+    .debug-section { background: white; padding: 20px; margin: 20px 0; border-radius: 8px; }
+    pre { background: #f0f0f0; padding: 10px; border-radius: 4px; overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <h1>Big Rocks Metrics Rendering Debug</h1>
+  
+  <div class="debug-section">
+    <h2>1. Check if GOALS is loaded</h2>
+    <div id="goals-check"></div>
+  </div>
+  
+  <div class="debug-section">
+    <h2>2. Rendered Metrics HTML (Rock 1)</h2>
+    <div id="metrics-rock1"></div>
+  </div>
+  
+  <div class="debug-section">
+    <h2>3. Console Output</h2>
+    <pre id="console-output"></pre>
+  </div>
+
+  <!-- Load data files in correct order -->
+  <script src="data-goals.js"></script>
+  <script src="business-reviews.js"></script>
+  
+  <script>
+    const consoleLog = [];
+    const originalLog = console.log;
+    const originalWarn = console.warn;
+    console.log = (...args) => {
+      consoleLog.push(['LOG', ...args]);
+      originalLog.apply(console, args);
+    };
+    console.warn = (...args) => {
+      consoleLog.push(['WARN', ...args]);
+      originalWarn.apply(console, args);
+    };
+    
+    // Check GOALS
+    const goalsCheck = document.getElementById('goals-check');
+    if (typeof GOALS !== 'undefined') {
+      goalsCheck.innerHTML = `
+        <p>✅ GOALS is loaded</p>
+        <p>Goal count: ${Object.keys(GOALS).length}</p>
+        <p>Goal IDs: ${Object.keys(GOALS).join(', ')}</p>
+      `;
+    } else {
+      goalsCheck.innerHTML = '<p>❌ GOALS is NOT loaded</p>';
+    }
+    
+    // Try to render metrics
+    const metricsDiv = document.getElementById('metrics-rock1');
+    try {
+      if (typeof renderBigRockMetrics === 'function') {
+        const html = renderBigRockMetrics('rock1');
+        if (html) {
+          metricsDiv.innerHTML = '<h3>Rendered HTML:</h3>' + html;
+        } else {
+          metricsDiv.innerHTML = '<p>❌ renderBigRockMetrics returned empty string</p>';
+        }
+      } else {
+        metricsDiv.innerHTML = '<p>❌ renderBigRockMetrics function not found</p>';
+      }
+    } catch (e) {
+      metricsDiv.innerHTML = `<p>❌ Error: ${e.message}</p><pre>${e.stack}</pre>`;
+    }
+    
+    // Show console output
+    setTimeout(() => {
+      const consoleOutput = document.getElementById('console-output');
+      consoleOutput.textContent = consoleLog.map(args => args.join(' ')).join('\n');
+    }, 100);
+  </script>
+</body>
+</html>

@@ -101,8 +101,8 @@ const CARDS_BUYING = [
   {
     id: 'auto-item-setup', title: 'Automated Item Setup', icon: '⚙️',
     critical: true,
-    status: 'red', statusLabel: 'Red — Blocked',
-    quarter: 'Q1', targetDate: 'Apr 30, 2026', tag: 'Critical Program',
+    status: 'red', statusLabel: 'Red — Late (orig: Apr 30)',
+    quarter: 'Q2', targetDate: 'May 7, 2026', tag: 'Critical Program',
     jiraStatus: 'Work in Progress',
     priority: 'P1',
     techRank: 1,

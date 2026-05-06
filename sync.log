@@ -3938,3 +3938,88 @@ Traceback (most recent call last):
 [2026-04-22 08:02:00]   Found 0 OPIF IDs on dashboard: []...
 [2026-04-22 08:02:00] ERROR: No OPIF IDs found — Confluence may require re-authentication
 [2026-04-22 08:02:00]   Open Chrome, visit confluence.walmart.com, then re-run this script
+[16:16:27] 
+┌──────────────────────────────────────────────────────────────┐
+[16:16:28] │  E2E Fashion Portal — Full Refresh    2026-05-06 16:16       │
+[16:16:28] └──────────────────────────────────────────────────────────────┘
+[16:16:28] Portal dir : /Users/e0c0lzr/Downloads/fashion-portal
+[16:16:28] Mode       : LIVE
+[16:16:28] 
+[16:16:28] [1/7] Pull Confluence data
+[16:16:28] Fetching via Confluence REST API…
+[16:16:58] ✅ REST API — 513 rows from 38 tables ✨
+[16:16:58] ✅ Parsed 57 OPIF records, 30 timeline rows  [live Confluence (REST API)]
+[16:16:58] [2/7] Detect + apply Program Card changes
+[16:16:58]   Portal has 65 OPIF-linked cards
+[16:16:59] ✅ 20 status/date field(s) updated
+[16:16:59]   OPIF-325598  status: 'yellow' → 'Green — In Progress'
+[16:16:59]   OPIF-325569  status: 'yellow' → 'Green — In Progress'
+[16:16:59]   OPIF-325373  status: 'yellow' → 'Green — In Progress'
+[16:16:59]   OPIF-325221  status: 'yellow' → 'Green — In Progress'
+[16:16:59]   OPIF-325565  targetDate: 'Aug 1, 2026' → 'May 11, 2026'
+[16:16:59]   OPIF-347500  targetDate: 'May 31, 2026' → 'Mar 20, 2026'
+[16:16:59]   OPIF-325203  targetDate: 'May 1, 2026' → 'Aug 3, 2026'
+[16:16:59]   OPIF-325208  status: 'green' → 'Red — Blocked'
+[16:16:59]   OPIF-325208  targetDate: 'May 31, 2026' → 'Jul 31, 2026'
+[16:16:59]   OPIF-325188  targetDate: 'May 1, 2026' → 'Aug 3, 2026'
+[16:16:59]   OPIF-347498  targetDate: 'May 31, 2026' → 'Mar 5, 2026'
+[16:16:59]   OPIF-325206  status: 'red' → 'Roadmap — Initial Requirements'
+[16:16:59]   OPIF-325206  targetDate: 'Jul 31, 2026' → 'Aug 3, 2026'
+[16:16:59]   OPIF-349684  status: 'yellow' → 'Red — Blocked'
+[16:16:59]   OPIF-374141  targetDate: 'Oct 31, 2026' → 'Aug 1, 2026'
+[16:16:59]   OPIF-344926  status: 'yellow' → 'Red — Blocked'
+[16:16:59]   OPIF-325568  status: 'roadmap' → 'Green — In Progress'
+[16:16:59]   OPIF-325568  targetDate: 'Aug 1, 2026' → 'Jul 31, 2026'
+[16:16:59]   OPIF-311623  status: 'yellow' → 'Green — In Progress'
+[16:16:59]   OPIF-89047  status: 'red' → 'Green — In Progress'
+[16:16:59]   ↳ Updating WPR Status Remarks for Critical Program cards…
+[16:16:59]   ◌ design-hub-centric: all OPIFs have empty remarks — skipping
+[16:16:59]   ⚠ sample-mgmt-fit-eval: no OPIFs mapped — skipping remarks
+[16:16:59]   ◌ visual-boards: all OPIFs have empty remarks — skipping
+[16:16:59]   ✔ aex-stability-q1: recentUpdate written (from 17 OPIF(s))
+[16:16:59]   ✔ aex-stability-q2: recentUpdate unchanged
+[16:16:59]   ✔ auto-item-setup: recentUpdate written (from 15 OPIF(s))
+[16:16:59]   ✔ ap-tool-lineplan: recentUpdate unchanged
+[16:16:59] ✅ 2 Critical card(s) recentUpdate written
+[16:16:59]   aex-stability-q1 (data-buying.js)
+[16:16:59]     OPIFs : ['OPIF-89047', 'OPIF-204306', 'OPIF-275091', 'OPIF-311914', 'OPIF-338113', 'OPIF-339277', 'OPIF-343680', 'OPIF-309823', 'OPIF-343441', 'OPIF-343407', 'OPIF-343416', 'OPIF-343549', 'OPIF-343404', 'OPIF-368017', 'OPIF-343397', 'OPIF-304863', 'OPIF-204381']
+[16:16:59]     before: 'Lock All Modules After a FL if Bridged (OPIF-89047): Dev underway.  |  Systemati…'
+[16:16:59]     after : 'Lock All Modules After a FL if Bridged (OPIF-89047): Dev underway.'
+[16:16:59]   auto-item-setup (data-buying.js)
+[16:16:59]     OPIFs : ['OPIF-344926', 'OPIF-349684', 'OPIF-362771', 'OPIF-354515', 'OPIF-353608', 'OPIF-354516', 'OPIF-352554', 'OPIF-354518', 'OPIF-354517', 'OPIF-354514', 'OPIF-353609', 'OPIF-353607', 'OPIF-352556', 'OPIF-352555', 'OPIF-208928']
+[16:16:59]     before: 'AEX - Automated Item Set Up (OPIF-344926): Design underway.'
+[16:16:59]     after : 'AEX - Automated Item Set Up (OPIF-344926): Testing underway.'
+[16:16:59] [3/7] Stamp changelog → May 6, 2026
+[16:16:59] ✅ data-changelog.js updated
+[16:16:59] [4/7] Build portal-inlined.html + portal-final.html
+[16:17:00]   Written portal-inlined.html (553.5 KB)
+[16:17:00]     ✓ Syntax check: all 24 script blocks clean
+[16:17:00]   Written portal-final.html (435.0 KB) — ready for puppy publish
+[16:17:00] ✅ build-inlined.py
+[16:17:00] [5/7] Inject OPIF Field Guide
+[16:17:00]   ✓ Header button injected
+[16:17:00]   ✅ Successfully injected OPIF Field Mapping Guide
+[16:17:00]      CSS: 13365 characters
+[16:17:00]      HTML: 28174 characters
+[16:17:00]      Updated: portal-final.html
+[16:17:00] ✅ add-opif-guide.py
+[16:17:00] [6/7] Publish
+[16:17:00]   → TEST (canary preflight)…
+[16:17:04]   📦 Publishing to TEST → e2e-fashion-portal-test
+[16:17:04]      File  : portal-final.html (554 KB)
+[16:17:04]      URL   : https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
+[16:17:04]   
+[16:17:04]     [canary] uploading preflight probe...
+[16:17:04]     [canary] ✅ v214 — pipeline is alive
+[16:17:04]     Uploading 556 KB...  [access: business]
+[16:17:04]     ✅ Published! v215
+[16:17:04]     ✅ Version check passed: canary=v214 → real=v215 (consecutive ✓)
+[16:17:04]   
+[16:17:04]   🔗 https://puppy.walmart.com/sharing/e0c0lzr/e2e-fashion-portal-test
+[16:17:04]   💡 To see changes: hard-refresh in browser (⌘+Shift+R on Mac / Ctrl+Shift+R on Win)
+[16:17:04]      Or open in Incognito to bypass any cached session state.
+[16:17:04] ✅ Published TEST
+[16:17:04]   → PROD…
+[16:17:04] ❌ Published PROD failed:
+
+[16:17:04] [7/7] Git commit
